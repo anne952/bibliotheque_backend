@@ -2,7 +2,12 @@
 
 ## Base URL
 - Development: `http://localhost:4000/api`
-- Production: (configured via env variables)
+- Production (Render): `https://votre-app.onrender.com/api`
+
+### Exemples d'appels complets
+- Health (local): `http://localhost:4000/api/init/health`
+- Health (Render): `https://votre-app.onrender.com/api/init/health`
+- Register status (Render): `https://votre-app.onrender.com/api/auth/register-status`
 
 ---
 
@@ -135,6 +140,26 @@
 - **DELETE** `/materials/:id`
 - Response: 204 No Content
 
+### Alias Module Bibliotheque (meme CRUD)
+- **GET** `/bibliotheque`
+- **GET** `/bibliotheque/low-stock`
+- **GET** `/bibliotheque/:id`
+- **GET** `/bibliotheque/:id/transactions`
+- **POST** `/bibliotheque`
+- **PUT** `/bibliotheque/:id`
+- **DELETE** `/bibliotheque/:id`
+- Notes: cet alias pointe sur la meme logique que `/materials` et couvre bien les actions modifier/supprimer.
+
+### Alias Module Materiel (meme CRUD)
+- **GET** `/materiel`
+- **GET** `/materiel/low-stock`
+- **GET** `/materiel/:id`
+- **GET** `/materiel/:id/transactions`
+- **POST** `/materiel`
+- **PUT** `/materiel/:id`
+- **DELETE** `/materiel/:id`
+- Notes: cet alias pointe sur la meme logique que `/materials`.
+
 ---
 
 ## 5. TRANSACTIONS (Stock Movements)
@@ -244,6 +269,14 @@
 - **GET** `/accounting/cash-journal?fiscalYearId=<id>`
 - Response: All cash transactions (JOURNAL_TYPE = CASH)
 
+### Alias Module Comptabilite (meme endpoints)
+- Base alias: `/comptabilite`
+- Exemples:
+  - **PUT** `/comptabilite/entries/:id` (modifier une ecriture)
+  - **DELETE** `/comptabilite/entries/:id` (supprimer une ecriture non validee)
+  - **GET** `/comptabilite/trial-balance?fiscalYearId=<id>`
+- Notes: cet alias pointe sur la meme logique que `/accounting`.
+
 ---
 
 ## 7. REPORTS
@@ -252,6 +285,13 @@
 - **GET** `/reports/daily?date=<YYYY-MM-DD>`
 - Shows all transactions for a specific date (defaults to today)
 - Response: Sales, purchases, donations, loans, returns counts + details
+
+### Alias Module Rapport (meme endpoints)
+- **GET** `/rapport/daily?date=<YYYY-MM-DD>`
+- **GET** `/rapport/donors`
+- **GET** `/rapport/most-borrowed?limit=10`
+- **GET** `/rapport/inventory`
+- Notes: cet alias pointe sur la meme logique que `/reports`.
 
 ### Donors Report
 - **GET** `/reports/donors`

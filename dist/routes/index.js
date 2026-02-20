@@ -13,6 +13,7 @@ exports.apiRoutes = (0, express_1.Router)();
 exports.apiRoutes.use("/init", init_routes_1.initRoutes);
 exports.apiRoutes.use("/auth", auth_routes_1.authRoutes);
 exports.apiRoutes.use("/materials", materials_routes_1.materialsRoutes);
+exports.apiRoutes.use("/bibliotheque", materials_routes_1.materialsRoutes);
 exports.apiRoutes.use("/transactions", transactions_routes_1.transactionsRoutes);
 exports.apiRoutes.use("/persons", persons_routes_1.personsRoutes);
 exports.apiRoutes.use("/accounting", accounting_routes_1.accountingRoutes);
