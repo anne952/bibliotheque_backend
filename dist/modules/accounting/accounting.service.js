@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AccountingService = void 0;
-const client_1 = require("@prisma/client");
+const client_1 = require("../../generated/prisma/client");
 const prisma_1 = require("../../config/prisma");
 const http_1 = require("../../common/http");
 class AccountingService {

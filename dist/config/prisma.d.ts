@@ -1,6 +1,7 @@
-import { PrismaClient } from "@prisma/client";
+import "dotenv/config";
+import { PrismaClient } from "../generated/prisma/client";
 declare global {
     var prisma: PrismaClient | undefined;
 }
-export declare const prisma: PrismaClient<import(".prisma/client").Prisma.PrismaClientOptions, never, import("@prisma/client/runtime/client").DefaultArgs>;
+export declare const prisma: PrismaClient;
 //# sourceMappingURL=prisma.d.ts.map

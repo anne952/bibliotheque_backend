@@ -1,4 +1,3 @@
-import { Prisma } from "@prisma/client";
 export interface AccountBalance {
     accountId: string;
     accountNumber: string;
@@ -61,7 +60,7 @@ export declare class AccountingService {
             id: string;
             number: string;
             name: string;
-            type: import(".prisma/client").$Enums.AccountType;
+            type: import("../../generated/prisma/enums").AccountType;
         };
         entries: {
             date: Date;
@@ -77,12 +76,12 @@ export declare class AccountingService {
     static getCashJournal(fiscalYearId?: string): Promise<({
         lines: ({
             account: {
-                name: string;
                 id: string;
-                isActive: boolean;
                 createdAt: Date;
+                name: string;
+                isActive: boolean;
                 updatedAt: Date;
-                type: import(".prisma/client").$Enums.AccountType;
+                type: import("../../generated/prisma/enums").AccountType;
                 accountNumber: string;
                 accountClass: number;
                 isAnalytic: boolean;
@@ -94,21 +93,21 @@ export declare class AccountingService {
             description: string | null;
             entryId: string;
             accountId: string;
-            debit: Prisma.Decimal;
-            credit: Prisma.Decimal;
+            debit: import("@prisma/client-runtime-utils").Decimal;
+            credit: import("@prisma/client-runtime-utils").Decimal;
         })[];
     } & {
         id: string;
         createdAt: Date;
         updatedAt: Date;
+        description: string;
+        sourceType: import("../../generated/prisma/enums").SourceType | null;
+        sourceId: string | null;
         entryNumber: string;
         fiscalYearId: string;
         date: Date;
-        journalType: import(".prisma/client").$Enums.JournalType;
+        journalType: import("../../generated/prisma/enums").JournalType;
         pieceNumber: string | null;
-        description: string;
-        sourceType: import(".prisma/client").$Enums.SourceType | null;
-        sourceId: string | null;
         isValidated: boolean;
         validatedAt: Date | null;
         validatedById: string | null;

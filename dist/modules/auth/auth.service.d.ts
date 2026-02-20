@@ -69,11 +69,11 @@ export declare class AuthService {
      */
     static getProfile(userId: string): Promise<{
         id: string;
+        createdAt: Date;
         email: string;
         companyName: string | null;
         profilePicture: string | null;
         isActive: boolean;
-        createdAt: Date;
     }>;
     /**
      * Update user profile

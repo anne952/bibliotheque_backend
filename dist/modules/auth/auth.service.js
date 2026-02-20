@@ -7,6 +7,8 @@ exports.generateRefreshToken = generateRefreshToken;
 const crypto_1 = require("crypto");
 const prisma_1 = require("../../config/prisma");
 const http_1 = require("../../common/http");
+const REFRESH_TOKEN_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+const REFRESH_TOKEN_ROTATION_GRACE_MS = 60 * 1000;
 /**
  * Hash a password using SHA-256 + salt
  */
@@ -90,7 +92,7 @@ class AuthService {
         }
         // Create a refresh token
         const refreshToken = generateRefreshToken();
-        const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+        const expiresAt = new Date(Date.now() + REFRESH_TOKEN_TTL_MS); // 7 days
         await prisma_1.prisma.session.create({
             data: {
                 userId: user.id,
@@ -117,7 +119,10 @@ class AuthService {
             where: { refreshToken },
             include: { user: true },
         });
-        if (!session || session.revokedAt || session.expiresAt < new Date()) {
+        const now = new Date();
+        if (!session ||
+            (session.revokedAt !== null && session.revokedAt <= now) ||
+            session.expiresAt < now) {
             throw new http_1.AppError("Token invalide ou expire", 401);
         }
         if (!session.user.isActive) {
@@ -125,12 +130,19 @@ class AuthService {
         }
         // Generate new refresh token
         const newRefreshToken = generateRefreshToken();
-        const newExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+        const newExpiresAt = new Date(Date.now() + REFRESH_TOKEN_TTL_MS);
+        const oldTokenRevokedAt = new Date(Date.now() + REFRESH_TOKEN_ROTATION_GRACE_MS);
+        await prisma_1.prisma.session.create({
+            data: {
+                userId: session.userId,
+                refreshToken: newRefreshToken,
+                expiresAt: newExpiresAt,
+            },
+        });
         await prisma_1.prisma.session.update({
             where: { id: session.id },
             data: {
-                refreshToken: newRefreshToken,
-                expiresAt: newExpiresAt,
+                revokedAt: oldTokenRevokedAt,
             },
         });
         return {

@@ -36,12 +36,12 @@ export declare class PersonService {
         isVisitor?: boolean;
     }): Promise<{
         id: string;
-        email: string | null;
-        firstName: string;
-        lastName: string;
         createdAt: Date;
+        email: string | null;
         updatedAt: Date;
         deletedAt: Date | null;
+        firstName: string;
+        lastName: string;
         phone: string | null;
         address: string | null;
         church: string | null;
@@ -56,12 +56,12 @@ export declare class PersonService {
      */
     static getById(id: string): Promise<{
         id: string;
-        email: string | null;
-        firstName: string;
-        lastName: string;
         createdAt: Date;
+        email: string | null;
         updatedAt: Date;
         deletedAt: Date | null;
+        firstName: string;
+        lastName: string;
         phone: string | null;
         address: string | null;
         church: string | null;
@@ -77,24 +77,24 @@ export declare class PersonService {
     static getLoans(personId: string): Promise<({
         items: ({
             material: {
-                name: string;
                 id: string;
                 createdAt: Date;
+                name: string;
                 updatedAt: Date;
                 deletedAt: Date | null;
-                description: string | null;
-                type: import(".prisma/client").$Enums.MaterialType;
+                type: import("../../generated/prisma/enums").MaterialType;
                 reference: string | null;
                 serialNumber: string | null;
                 category: string | null;
                 language: string | null;
                 volume: string | null;
-                status: import(".prisma/client").$Enums.MaterialStatus;
+                status: import("../../generated/prisma/enums").MaterialStatus;
                 currentStock: number;
                 minStockAlert: number;
                 unitPrice: import("@prisma/client-runtime-utils").Decimal | null;
                 sellingPrice: import("@prisma/client-runtime-utils").Decimal | null;
                 location: string | null;
+                description: string | null;
             };
         } & {
             id: string;
@@ -107,7 +107,7 @@ export declare class PersonService {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        status: import(".prisma/client").$Enums.LoanStatus;
+        status: import("../../generated/prisma/enums").LoanStatus;
         notes: string | null;
         personId: string;
         borrowedAt: Date;
@@ -120,24 +120,24 @@ export declare class PersonService {
     static getPurchases(personId: string): Promise<({
         items: ({
             material: {
-                name: string;
                 id: string;
                 createdAt: Date;
+                name: string;
                 updatedAt: Date;
                 deletedAt: Date | null;
-                description: string | null;
-                type: import(".prisma/client").$Enums.MaterialType;
+                type: import("../../generated/prisma/enums").MaterialType;
                 reference: string | null;
                 serialNumber: string | null;
                 category: string | null;
                 language: string | null;
                 volume: string | null;
-                status: import(".prisma/client").$Enums.MaterialStatus;
+                status: import("../../generated/prisma/enums").MaterialStatus;
                 currentStock: number;
                 minStockAlert: number;
                 unitPrice: import("@prisma/client-runtime-utils").Decimal | null;
                 sellingPrice: import("@prisma/client-runtime-utils").Decimal | null;
                 location: string | null;
+                description: string | null;
             };
         } & {
             id: string;
@@ -153,8 +153,8 @@ export declare class PersonService {
         createdAt: Date;
         updatedAt: Date;
         purchaseDate: Date;
-        paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        paymentStatus: import(".prisma/client").$Enums.PaymentStatus;
+        paymentMethod: import("../../generated/prisma/enums").PaymentMethod;
+        paymentStatus: import("../../generated/prisma/enums").PaymentStatus;
         invoiceNumber: string | null;
         notes: string | null;
         supplierId: string | null;
@@ -165,24 +165,24 @@ export declare class PersonService {
     static getSales(personId: string): Promise<({
         items: ({
             material: {
-                name: string;
                 id: string;
                 createdAt: Date;
+                name: string;
                 updatedAt: Date;
                 deletedAt: Date | null;
-                description: string | null;
-                type: import(".prisma/client").$Enums.MaterialType;
+                type: import("../../generated/prisma/enums").MaterialType;
                 reference: string | null;
                 serialNumber: string | null;
                 category: string | null;
                 language: string | null;
                 volume: string | null;
-                status: import(".prisma/client").$Enums.MaterialStatus;
+                status: import("../../generated/prisma/enums").MaterialStatus;
                 currentStock: number;
                 minStockAlert: number;
                 unitPrice: import("@prisma/client-runtime-utils").Decimal | null;
                 sellingPrice: import("@prisma/client-runtime-utils").Decimal | null;
                 location: string | null;
+                description: string | null;
             };
         } & {
             id: string;
@@ -197,8 +197,8 @@ export declare class PersonService {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-        paymentStatus: import(".prisma/client").$Enums.PaymentStatus;
+        paymentMethod: import("../../generated/prisma/enums").PaymentMethod;
+        paymentStatus: import("../../generated/prisma/enums").PaymentStatus;
         invoiceNumber: string | null;
         notes: string | null;
         saleDate: Date;
@@ -209,12 +209,12 @@ export declare class PersonService {
      */
     static create(input: CreatePersonInput): Promise<{
         id: string;
-        email: string | null;
-        firstName: string;
-        lastName: string;
         createdAt: Date;
+        email: string | null;
         updatedAt: Date;
         deletedAt: Date | null;
+        firstName: string;
+        lastName: string;
         phone: string | null;
         address: string | null;
         church: string | null;
@@ -229,12 +229,12 @@ export declare class PersonService {
      */
     static update(id: string, input: UpdatePersonInput): Promise<{
         id: string;
-        email: string | null;
-        firstName: string;
-        lastName: string;
         createdAt: Date;
+        email: string | null;
         updatedAt: Date;
         deletedAt: Date | null;
+        firstName: string;
+        lastName: string;
         phone: string | null;
         address: string | null;
         church: string | null;

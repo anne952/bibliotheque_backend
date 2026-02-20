@@ -13,12 +13,12 @@ export declare class ReportsService {
             sales: ({
                 person: {
                     id: string;
-                    email: string | null;
-                    firstName: string;
-                    lastName: string;
                     createdAt: Date;
+                    email: string | null;
                     updatedAt: Date;
                     deletedAt: Date | null;
+                    firstName: string;
+                    lastName: string;
                     phone: string | null;
                     address: string | null;
                     church: string | null;
@@ -30,24 +30,24 @@ export declare class ReportsService {
                 } | null;
                 items: ({
                     material: {
-                        name: string;
                         id: string;
                         createdAt: Date;
+                        name: string;
                         updatedAt: Date;
                         deletedAt: Date | null;
-                        description: string | null;
-                        type: import(".prisma/client").$Enums.MaterialType;
+                        type: import("../../generated/prisma/enums").MaterialType;
                         reference: string | null;
                         serialNumber: string | null;
                         category: string | null;
                         language: string | null;
                         volume: string | null;
-                        status: import(".prisma/client").$Enums.MaterialStatus;
+                        status: import("../../generated/prisma/enums").MaterialStatus;
                         currentStock: number;
                         minStockAlert: number;
                         unitPrice: import("@prisma/client-runtime-utils").Decimal | null;
                         sellingPrice: import("@prisma/client-runtime-utils").Decimal | null;
                         location: string | null;
+                        description: string | null;
                     };
                 } & {
                     id: string;
@@ -62,8 +62,8 @@ export declare class ReportsService {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-                paymentStatus: import(".prisma/client").$Enums.PaymentStatus;
+                paymentMethod: import("../../generated/prisma/enums").PaymentMethod;
+                paymentStatus: import("../../generated/prisma/enums").PaymentStatus;
                 invoiceNumber: string | null;
                 notes: string | null;
                 saleDate: Date;
@@ -72,12 +72,12 @@ export declare class ReportsService {
             purchases: ({
                 supplier: {
                     id: string;
-                    email: string | null;
-                    firstName: string;
-                    lastName: string;
                     createdAt: Date;
+                    email: string | null;
                     updatedAt: Date;
                     deletedAt: Date | null;
+                    firstName: string;
+                    lastName: string;
                     phone: string | null;
                     address: string | null;
                     church: string | null;
@@ -89,24 +89,24 @@ export declare class ReportsService {
                 } | null;
                 items: ({
                     material: {
-                        name: string;
                         id: string;
                         createdAt: Date;
+                        name: string;
                         updatedAt: Date;
                         deletedAt: Date | null;
-                        description: string | null;
-                        type: import(".prisma/client").$Enums.MaterialType;
+                        type: import("../../generated/prisma/enums").MaterialType;
                         reference: string | null;
                         serialNumber: string | null;
                         category: string | null;
                         language: string | null;
                         volume: string | null;
-                        status: import(".prisma/client").$Enums.MaterialStatus;
+                        status: import("../../generated/prisma/enums").MaterialStatus;
                         currentStock: number;
                         minStockAlert: number;
                         unitPrice: import("@prisma/client-runtime-utils").Decimal | null;
                         sellingPrice: import("@prisma/client-runtime-utils").Decimal | null;
                         location: string | null;
+                        description: string | null;
                     };
                 } & {
                     id: string;
@@ -122,8 +122,8 @@ export declare class ReportsService {
                 createdAt: Date;
                 updatedAt: Date;
                 purchaseDate: Date;
-                paymentMethod: import(".prisma/client").$Enums.PaymentMethod;
-                paymentStatus: import(".prisma/client").$Enums.PaymentStatus;
+                paymentMethod: import("../../generated/prisma/enums").PaymentMethod;
+                paymentStatus: import("../../generated/prisma/enums").PaymentStatus;
                 invoiceNumber: string | null;
                 notes: string | null;
                 supplierId: string | null;
@@ -131,24 +131,24 @@ export declare class ReportsService {
             donations: ({
                 items: ({
                     material: {
-                        name: string;
                         id: string;
                         createdAt: Date;
+                        name: string;
                         updatedAt: Date;
                         deletedAt: Date | null;
-                        description: string | null;
-                        type: import(".prisma/client").$Enums.MaterialType;
+                        type: import("../../generated/prisma/enums").MaterialType;
                         reference: string | null;
                         serialNumber: string | null;
                         category: string | null;
                         language: string | null;
                         volume: string | null;
-                        status: import(".prisma/client").$Enums.MaterialStatus;
+                        status: import("../../generated/prisma/enums").MaterialStatus;
                         currentStock: number;
                         minStockAlert: number;
                         unitPrice: import("@prisma/client-runtime-utils").Decimal | null;
                         sellingPrice: import("@prisma/client-runtime-utils").Decimal | null;
                         location: string | null;
+                        description: string | null;
                     };
                 } & {
                     id: string;
@@ -159,12 +159,12 @@ export declare class ReportsService {
                 })[];
                 donor: {
                     id: string;
-                    email: string | null;
-                    firstName: string;
-                    lastName: string;
                     createdAt: Date;
+                    email: string | null;
                     updatedAt: Date;
                     deletedAt: Date | null;
+                    firstName: string;
+                    lastName: string;
                     phone: string | null;
                     address: string | null;
                     church: string | null;
@@ -179,12 +179,12 @@ export declare class ReportsService {
                 createdAt: Date;
                 updatedAt: Date;
                 description: string | null;
-                paymentMethod: import(".prisma/client").$Enums.PaymentMethod | null;
+                paymentMethod: import("../../generated/prisma/enums").PaymentMethod | null;
                 donorId: string | null;
                 donorName: string | null;
-                donorType: import(".prisma/client").$Enums.DonorType;
-                donationKind: import(".prisma/client").$Enums.DonationKind;
-                direction: import(".prisma/client").$Enums.DonationDirection;
+                donorType: import("../../generated/prisma/enums").DonorType;
+                donationKind: import("../../generated/prisma/enums").DonationKind;
+                direction: import("../../generated/prisma/enums").DonationDirection;
                 amount: import("@prisma/client-runtime-utils").Decimal | null;
                 donationDate: Date;
                 institution: string | null;
@@ -192,12 +192,12 @@ export declare class ReportsService {
             loans: ({
                 person: {
                     id: string;
-                    email: string | null;
-                    firstName: string;
-                    lastName: string;
                     createdAt: Date;
+                    email: string | null;
                     updatedAt: Date;
                     deletedAt: Date | null;
+                    firstName: string;
+                    lastName: string;
                     phone: string | null;
                     address: string | null;
                     church: string | null;
@@ -209,24 +209,24 @@ export declare class ReportsService {
                 };
                 items: ({
                     material: {
-                        name: string;
                         id: string;
                         createdAt: Date;
+                        name: string;
                         updatedAt: Date;
                         deletedAt: Date | null;
-                        description: string | null;
-                        type: import(".prisma/client").$Enums.MaterialType;
+                        type: import("../../generated/prisma/enums").MaterialType;
                         reference: string | null;
                         serialNumber: string | null;
                         category: string | null;
                         language: string | null;
                         volume: string | null;
-                        status: import(".prisma/client").$Enums.MaterialStatus;
+                        status: import("../../generated/prisma/enums").MaterialStatus;
                         currentStock: number;
                         minStockAlert: number;
                         unitPrice: import("@prisma/client-runtime-utils").Decimal | null;
                         sellingPrice: import("@prisma/client-runtime-utils").Decimal | null;
                         location: string | null;
+                        description: string | null;
                     };
                 } & {
                     id: string;
@@ -239,7 +239,7 @@ export declare class ReportsService {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                status: import(".prisma/client").$Enums.LoanStatus;
+                status: import("../../generated/prisma/enums").LoanStatus;
                 notes: string | null;
                 personId: string;
                 borrowedAt: Date;
@@ -249,12 +249,12 @@ export declare class ReportsService {
             returns: ({
                 person: {
                     id: string;
-                    email: string | null;
-                    firstName: string;
-                    lastName: string;
                     createdAt: Date;
+                    email: string | null;
                     updatedAt: Date;
                     deletedAt: Date | null;
+                    firstName: string;
+                    lastName: string;
                     phone: string | null;
                     address: string | null;
                     church: string | null;
@@ -266,24 +266,24 @@ export declare class ReportsService {
                 };
                 items: ({
                     material: {
-                        name: string;
                         id: string;
                         createdAt: Date;
+                        name: string;
                         updatedAt: Date;
                         deletedAt: Date | null;
-                        description: string | null;
-                        type: import(".prisma/client").$Enums.MaterialType;
+                        type: import("../../generated/prisma/enums").MaterialType;
                         reference: string | null;
                         serialNumber: string | null;
                         category: string | null;
                         language: string | null;
                         volume: string | null;
-                        status: import(".prisma/client").$Enums.MaterialStatus;
+                        status: import("../../generated/prisma/enums").MaterialStatus;
                         currentStock: number;
                         minStockAlert: number;
                         unitPrice: import("@prisma/client-runtime-utils").Decimal | null;
                         sellingPrice: import("@prisma/client-runtime-utils").Decimal | null;
                         location: string | null;
+                        description: string | null;
                     };
                 } & {
                     id: string;
@@ -296,7 +296,7 @@ export declare class ReportsService {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                status: import(".prisma/client").$Enums.LoanStatus;
+                status: import("../../generated/prisma/enums").LoanStatus;
                 notes: string | null;
                 personId: string;
                 borrowedAt: Date;
@@ -328,7 +328,7 @@ export declare class ReportsService {
         material: {
             id: string;
             name: string;
-            type: import(".prisma/client").$Enums.MaterialType;
+            type: import("../../generated/prisma/enums").MaterialType;
             reference: string | null;
             currentStock: number;
         };
@@ -353,7 +353,7 @@ export declare class ReportsService {
         items: {
             id: string;
             name: string;
-            type: import(".prisma/client").$Enums.MaterialType;
+            type: import("../../generated/prisma/enums").MaterialType;
             reference: string | null;
             currentStock: number;
             minStockAlert: number;

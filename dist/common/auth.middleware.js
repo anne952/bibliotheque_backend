@@ -14,7 +14,10 @@ async function authMiddleware(req, _res, next) {
             where: { refreshToken },
             include: { user: true },
         });
-        if (!session || session.revokedAt || session.expiresAt < new Date()) {
+        const now = new Date();
+        if (!session ||
+            (session.revokedAt !== null && session.revokedAt <= now) ||
+            session.expiresAt < now) {
             throw new http_1.AppError("Token invalide ou expire", 401);
         }
         if (!session.user.isActive) {
