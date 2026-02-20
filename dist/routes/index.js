@@ -1,0 +1,20 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.apiRoutes = void 0;
+const express_1 = require("express");
+const auth_routes_1 = require("../modules/auth/auth.routes");
+const materials_routes_1 = require("../modules/materials/materials.routes");
+const transactions_routes_1 = require("../modules/transactions/transactions.routes");
+const persons_routes_1 = require("../modules/persons/persons.routes");
+const accounting_routes_1 = require("../modules/accounting/accounting.routes");
+const reports_routes_1 = require("../modules/reports/reports.routes");
+const init_routes_1 = require("../modules/init/init.routes");
+exports.apiRoutes = (0, express_1.Router)();
+exports.apiRoutes.use("/init", init_routes_1.initRoutes);
+exports.apiRoutes.use("/auth", auth_routes_1.authRoutes);
+exports.apiRoutes.use("/materials", materials_routes_1.materialsRoutes);
+exports.apiRoutes.use("/transactions", transactions_routes_1.transactionsRoutes);
+exports.apiRoutes.use("/persons", persons_routes_1.personsRoutes);
+exports.apiRoutes.use("/accounting", accounting_routes_1.accountingRoutes);
+exports.apiRoutes.use("/reports", reports_routes_1.reportsRoutes);
+//# sourceMappingURL=index.js.map

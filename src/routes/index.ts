@@ -1,0 +1,18 @@
+﻿import { Router } from "express";
+import { authRoutes } from "../modules/auth/auth.routes";
+import { materialsRoutes } from "../modules/materials/materials.routes";
+import { transactionsRoutes } from "../modules/transactions/transactions.routes";
+import { personsRoutes } from "../modules/persons/persons.routes";
+import { accountingRoutes } from "../modules/accounting/accounting.routes";
+import { reportsRoutes } from "../modules/reports/reports.routes";
+import { initRoutes } from "../modules/init/init.routes";
+
+export const apiRoutes = Router();
+
+apiRoutes.use("/init", initRoutes);
+apiRoutes.use("/auth", authRoutes);
+apiRoutes.use("/materials", materialsRoutes);
+apiRoutes.use("/transactions", transactionsRoutes);
+apiRoutes.use("/persons", personsRoutes);
+apiRoutes.use("/accounting", accountingRoutes);
+apiRoutes.use("/reports", reportsRoutes);

@@ -1,0 +1,1624 @@
+LA LOGIQUE DU BACKEND
+
+C’est un logicie pour un entreprise que tout les utilisateur se connect avec les meme identification
+
+S’inscrire :
+-	Nom de l’entreprise
+-	L’email de l’entreprise
+-	Créer un mot de passe
+-	Confirmer le mot de passe
+Bouton enregistrer
+NOTES : cette page n’apparait qu’a la première connexion
+
+Connecter :
+-	Le mot de passe
+-	nom
+
+Note : le mot de passe n’est pas visible dans la base de donnée (token, crypté)
+
+Page du slidebar : tableau de bord, la bibliotheque, le materiel, la comptabilité, le rapport journalier, le parametre , se deconnecté
+
+Tableau de bord :
+Cart :
+-	Nombre total de visiteurs
+-	Livres actuellement emprunté 
+-	Montant total des dons financier
+-	Nombre de livres vendus
+
+Statiques mensuelles :
+-	Montant des dons par mois 
+-	Nombre de livres offert par mois
+
+Bibliothèque :
+Action : modifier , supprimé
+Emprunt :
+-	Nom
+-	Prenom
+-	Telephone
+-	Email (si possible)
+-	Reference de livre 
+-	Quantité
+-	Date
+-	Duré
+-	Date de retour
+-	Eglise de provenance
+
+Notes : on peut prêter jusqu’à trois ouvrage , donc  3 titre, référence, de livre
+
+Visiteur :
+-	Nom
+-	Prenom
+-	Adresse (pas obligatoire)
+-	Eglise de provenance
+-	Telephone
+-	Email
+-	Date de visite
+
+Ventes :
+-	Titre
+-	Référence
+-	Montant
+-	Date 
+-	Nom
+-	Prénom
+-	Adresse
+NOTES : on peut ventre plusieurs livres
+
+Dons financiers :
+-	Nom
+-	Type : physique, morale
+-	Montant
+-	Mode de payement : espèce, cheque, virement, nature
+-	Date
+-	Description
+
+Dons matériels :
+-	Type :  livres, carte sd, tablette , ou autre chose
+-	Nom
+-	Quantité 
+-	Intitution destinataire
+-	Date
+-	Description
+NOTES :  ces dons sont des matériels offerts au par la bibliothèque a une institution
+
+Achats :
+-	Intitulé
+-	Montant
+-	Date
+-	Fournisseur (pas obligatoire)
+
+Matériels :  livres, carte sd, tablettes, photocopieuse, imprimantes, chaise, autre matériel
+Action : supprimé
+Tous les matériels on au niveau de leur détail :
+Ajouter une nouvelle opération
+-	Quantité 
+-	Raison : achat, dons, retour, transfert
+-	Description
+ 
+Livre :
+	Formulaire :
+-	Titre
+-	Reference
+-	Volume (pas pour toute les livre)
+-	Catégorie
+-	Langue
+-	Etat : fonctionnel, défectueux en réparation, non utilisable 
+Après :
+-	Date d’ajout
+-	Stock actuel
+
+
+NOTES : les emprunts et les ventes font diminuer le stock. Les opérations d’ajout font augmenter le stock 
+Cartes sd : 
+-	Catégorie : basique, Android
+-	Etat : fonctionnel, défectueux en réparation, non utilisable 
+Après :
+-	Date d’ajout 
+-	Stock actuel
+
+Tablette Agapao
+-	Nom : tablette Agapao
+-	Numero de serie
+-	Etat : fonctionnel, défectueux en réparation, non utilisable 
+Après :
+-	Date d’ajout 
+-	Stock
+
+Photocopieuse
+-	Nom
+-	Type
+-	Date d’ajout
+-	Etat : fonctionnel, défectueux en réparation, non utilisable 
+Après :
+-	Stock actuel
+Imprimantes
+-	Nom
+-	Type
+-	Date d’ajout
+-	Etat : fonctionnel, défectueux en réparation, non utilisable 
+Après :
+-	Stock actuel
+
+Chaise
+-	Nom
+-	Type
+-	Date d’ajout
+-	Etat : fonctionnel, défectueux en réparation, non utilisable 
+Après :
+-	Stock actuel
+
+Autre matériel 
+-	Nom
+-	Type
+-	Date d’ajout
+-	Etat : fonctionnel, défectueux en réparation, non utilisable 
+Après :
+-	Stock actuel
+ NOTES : tout autre matériel que l’utilisateur veux suivre 
+
+Comptabilité :
+-les entête sont ce qu’il faut prendre en compte sur les images
+-tout les element de ici son telechargable en fichier excel, selon le mois pour certaine , le jour ou l’année pour d’autre , selon se que l’utilisateur veux telecharger 
+
+- journal comptable, journal de caisse, donateurs, bilan, compte resultat, balance, grand livre
+NOTES : le grand livre, le compte resultat, le bilan , balance est generé automatique grace au donné enregistrer dans le journal comptable , journal de caisse , donateur, 
+Rangé :
+durée	jours	mois	années
+module	Donnateurs, journal de caisse , 	Journal comptable	Bilan, compte resultat, grand livre, balance
+			
+
+
+Journal comptable : 
+Action : Modifier , supprimé
+Image représentant la forme après l’export Excel
+ 
+Formulaire :
+-	Date
+-	Piece
+-	N compte
+-	Journal
+-	Libellé
+-	Debit
+-	Credit
+
+Entête : numero, numero de compte, libellé,debit,credit
+Journal de caisse :
+ Action : supprimé
+Image représentant la forme après l’export Excel
+ 
+Entête : date , description , reference, entrée , sortie
+
+NOTES : le journal de caisse est enregistrer automatiquement grace au enregistrement faite dans la bibliotheque comme : emprunt , vente, achat, 
+
+Donateurs :
+Action : supprimé
+NOTE : vient des enregistrement faite dans la bibliotheque 
+Image représentant la forme après l’export Excel
+ 
+Entête : date, nom complet, type, montant, mode, description, 
+NOTES : est ajouter automatique grâce à l’enregistrement dans la bibliothèque, le comptable peut aussi enregistrer des donateurs
+
+Bilan :
+Action :
+Image représentant la forme après l’export Excel
+ 
+Entête : reference, actif, note, exercice au {date} /(brut, AMORT et DEPREC, net), exercice au {date}/net, reference , exercice au {date} N/net , exercice au {date} N-1/net
+
+NOTES : 
+
+Compte résultat :
+Action :
+Image représentant la forme après l’export Excel
+ 
+Entête : reference, libellé, note, exercice au {date} N/net , exercice au {date} N-1/net
+
+Balance :
+Action : modifier , supprimé
+Image représentant la forme après l’export Excel
+ 
+Entête : numero de compte , intitulé/nom du compte, sommes/debit, credit, soldes/debit, credit
+
+Grand livre : 
+Action : modifier , supprimmé
+Image représentant la forme après l’export Excel
+ 
+Entête : date , intitulé, debit, credit, solde 
+
+
+
+ Rapport journalier :
+Permet de télécharger en PDF le rapport journalier. Elle est présentée comme suit :
+ 
+Paramètre :
+-	La photo de profil (peut etre changé) logo de l’entreprise
+-	Nom de l’entreprise
+-	Email de l’entreprise
+-	Mot de passe (modifiable)
+-	Les suppression recente (chaque element supprimé par l’utilisateur sera sauvegarder pendant trente jours avant d’être definitivement supprimé , elle peuvent etre restaurer ou definitivement supprimé par l’utilisateur)
+
+
+ API ENDPOINTS PRINCIPAUX
+
+ Authentification
+POST   /api/auth/register
+POST   /api/auth/login
+POST   /api/auth/refresh
+POST   /api/auth/logout
+GET    /api/auth/profile
+PUT    /api/auth/profile
+
+Stock
+GET    /api/materials
+GET    /api/materials/:id
+POST   /api/materials
+PUT    /api/materials/:id
+DELETE /api/materials/:id (soft delete)
+GET    /api/materials/:id/transactions
+GET    /api/materials/low-stock (alertes)
+
+Transactions
+GET    /api/transactions
+GET    /api/transactions/:id
+POST   /api/transactions/purchase (achat)
+POST   /api/transactions/sale (vente)
+POST   /api/transactions/loan (prêt)
+POST   /api/transactions/return (retour)
+POST   /api/transactions/donation (don)
+POST   /api/transactions/adjustment (ajustement)
+
+Personnes
+GET    /api/persons
+GET    /api/persons/:id
+POST   /api/persons
+PUT    /api/persons/:id
+DELETE /api/persons/:id
+GET    /api/persons/:id/loans
+GET    /api/persons/:id/purchases
+GET    /api/persons/:id/sales
+
+Comptabilité
+// Écritures
+GET    /api/accounting/entries
+GET    /api/accounting/entries/:id
+POST   /api/accounting/entries (écriture manuelle)
+PUT    /api/accounting/entries/:id/validate
+DELETE /api/accounting/entries/:id (soft delete)
+
+// États financiers
+GET    /api/accounting/balance-sheet (Bilan)
+GET    /api/accounting/income-statement (Compte résultat)
+GET    /api/accounting/trial-balance (Balance)
+GET    /api/accounting/general-ledger (Grand livre)
+GET    /api/accounting/cash-journal (Journal de caisse)
+
+// Export
+GET    /api/accounting/export/excel?type=...&startDate=...&endDate=...
+GET    /api/accounting/export/pdf?type=...
+
+ Rapports
+GET    /api/reports/daily (Rapport journalier PDF)
+GET    /api/reports/donors
+GET    /api/reports/most-borrowed
+GET    /api/reports/inventory
+
+Ajout : 
+•	Nous allons utilisé sql lite pour sauvegarder les données hors connection 
+•	Nous utilisons , node js, prisma 
+
+Se référer au SYSCOHADA (droit commun)
+Catégorie de bien	Durée d'usage courante	Taux linéaire
+Constructions / Bâtiments	20 à 50 ans	2% à 5%
+Agencements / Aménagements	10 à 20 ans	5% à 10%
+Mobilier de bureau	5 à 10 ans	10% à 20%
+Matériel informatique	3 à 5 ans	20% à 33,33%
+Photocopieuse / Imprimante	3 à 5 ans	20% à 33,33%
+Véhicules	5 ans	20%
+Équipements divers	5 à 10 ans	10% à 20%
+En l'absence de dispositions SYCEBNL, on applique les usages du SYSCOHADA :
+
+
+ Quelque definition
+Colonne	Rôle	Obligation SYCEBNL
+REF	Lien vers les annexes	Recommandé
+LIBELLÉS	Nom du poste comptable	Obligatoire
+NOTE	Renvoi à l’annexe détaillée	Obligatoire (car annexes obligatoires)
+EXERCICE N	Montant de l’exercice en cours	Obligatoire
+EXERCICE N-1	Montant de l’exercice précédent	Obligatoire (Art. 16-7)
+NET	Valeur réelle du poste	Obligatoire
+
+
+Colonne	Signification	Exemple bibliothèque
+REF	Lien vers les notes annexes (détails)	"Voir note 5"
+ACTIF/PASSIF	Nom du poste	"Photocopieuse", "Fonds propres"
+Note	Numéro de l'annexe	"5"
+BRUT	Prix d'achat (jamais modifié)	500 000 FCFA
+AMORT./DÉPR.	Cumul des pertes de valeur	(300 000) FCFA
+NET N	Valeur actuelle (Brut - Amort)	200 000 FCFA
+NET N-1	Valeur il y a 1 an	300 000 FCFA
+
+NOTE : le N-1 est =0 si dans la base de donnée il n’y a pas de donnée sur l’année precedente
+-sugerer les numero de compte pour les enregistrement sans , mais dont on a besion quelque part ou il y’a des numero de compte 
+
+
+Quelques petite précision :
+
+expliquer chaque concept de base de la comptabilité SYCEBNL, avec leur définition, leur rôle dans le système, et la logique derrière leur écriture, le tout adapté à votre bibliothèque.
+
+---
+
+# 📘 **LES FONDAMENTAUX DE LA COMPTABILITÉ SYCEBNL**
+
+## 1️⃣ LE JOURNAL COMPTABLE
+
+### 📌 **Définition**
+Le **journal comptable** est un **livre obligatoire** où sont enregistrées **chronologiquement** (jour par jour) toutes les opérations de l'entité.
+
+### 📌 **Rôle**
+- Garantir la **traçabilité** de toutes les opérations
+- Servir de **source unique** pour tous les autres documents comptables
+- Permettre le **contrôle** et la **vérification**
+
+### 📌 **Logique d'écriture**
+```
+Chaque opération = au moins 2 lignes (partie double) :
+   - Une ligne au DÉBIT
+   - Une ligne au CRÉDIT
+```
+
+### ✅ **Exemple bibliothèque**
+Vous encaissez 50 000 FCFA de cotisation en espèces :
+
+| Date | Compte | Libellé | Débit | Crédit |
+|------|--------|---------|-------|--------|
+| 15/03 | 521 - Caisse | Encaissement cotisation | 50 000 | |
+| 15/03 | 711 - Cotisations | Encaissement cotisation | | 50 000 |
+
+👉 **Principe** : Ce qui entre en caisse (Débit) = ce qui est gagné (Crédit)
+
+---
+
+## 2️⃣ LE JOURNAL DE CAISSE
+
+### 📌 **Définition**
+C'est un **journal spécialisé** qui enregistre **uniquement** les mouvements d'**espèces** (argent liquide).
+
+### 📌 **Rôle**
+- Suivre **quotidiennement** la trésorerie disponible
+- Faciliter le **pointage** et le **rapprochement**
+- Prévenir les **erreurs** et les **fraudes**
+
+### 📌 **Logique d'écriture**
+```
+Entrée d'argent → DÉBIT de la caisse
+Sortie d'argent → CRÉDIT de la caisse
+```
+
+### ✅ **Exemple bibliothèque**
+
+| Date | Pièce | Libellé | Entrée | Sortie | Solde |
+|------|-------|---------|--------|--------|-------|
+| 15/03 | R001 | Don M. Dupont | 100 000 | | 100 000 |
+| 16/03 | F012 | Achat fournitures | | 25 000 | 75 000 |
+| 17/03 | V003 | Vente livres | 30 000 | | 105 000 |
+
+👉 **Principe** : Le solde final doit correspondre à l'argent **physiquement** dans la caisse.
+
+---
+
+## 3️⃣ LE BILAN
+
+### 📌 **Définition**
+Le **bilan** est une **photographie** du patrimoine de l'entité à un moment donné (généralement au 31 décembre).
+
+### 📌 **Équation fondamentale**
+```
+ACTIF = PASSIF
+(Ce qu'on possède) = (Ce qu'on doit + Ce qu'on a comme ressources)
+```
+
+### 📌 **Logique**
+| ACTIF | PASSIF |
+|-------|--------|
+| Ce que la bibliothèque **possède** | Ce que la bibliothèque **doit** |
+| Ce qui va **rapporter** de l'argent | Ce qui a **financé** l'actif |
+| Bâtiment, matériel, stock, caisse | Fonds propres, subventions, dettes |
+
+### ✅ **Exemple simplifié bibliothèque**
+
+| ACTIF | Montant | PASSIF | Montant |
+|-------|---------|--------|---------|
+| Bâtiment | 15 000 000 | Fonds propres | 9 530 000 |
+| Matériel | 5 500 000 | Subventions | 2 620 000 |
+| Stocks | 450 000 | Dettes fournisseurs | 320 000 |
+| Caisse | 300 000 | Résultat | 450 000 |
+| Banque | 1 300 000 | | |
+| **TOTAL** | **22 550 000** | **TOTAL** | **22 550 000** |
+
+---
+
+## 4️⃣ L'ACTIF
+
+### 📌 **Définition**
+L'**actif** regroupe **tout ce que l'entité possède** et qui a une **valeur économique**.
+
+### 📌 **Trois catégories**
+| Catégorie | Définition | Exemples bibliothèque |
+|-----------|------------|----------------------|
+| **Actif immobilisé** | Biens durables (>1 an) | Bâtiment, étagères, ordinateurs |
+| **Actif circulant** | Biens non durables ou créances | Stocks de livres, argent dû par usagers |
+| **Trésorerie** | Argent disponible | Caisse, compte bancaire |
+
+### 📌 **Logique d'écriture**
+```
+Un actif AUGMENTE → on le DÉBITE
+Un actif DIMINUE → on le CRÉDITE
+```
+
+---
+
+## 5️⃣ LE PASSIF
+
+### 📌 **Définition**
+Le **passif** regroupe **les ressources** qui ont permis de financer l'actif.
+
+### 📌 **Trois catégories**
+| Catégorie | Définition | Exemples bibliothèque |
+|-----------|------------|----------------------|
+| **Fonds propres** | Ressources stables, apports | Fonds des fondateurs, réserves |
+| **Dotations et fonds affectés** | Financements avec conditions | Subventions spécifiques |
+| **Dettes** | Ce qu'on doit payer | Fournisseurs, emprunts |
+
+### 📌 **Logique d'écriture**
+```
+Un passif AUGMENTE → on le CRÉDITE
+Un passif DIMINUE → on le DÉBITE
+```
+
+---
+
+## 6️⃣ LES PRODUITS
+
+### 📌 **Définition**
+Les **produits** sont les **ressources générées** par l'activité de l'entité.
+
+### 📌 **Exemples bibliothèque**
+| Compte | Intitulé | Exemple |
+|--------|----------|---------|
+| 701 | Ventes de livres | Recettes des ventes |
+| 706 | Prestations | Photocopies payantes |
+| 711 | Cotisations | Adhésions des membres |
+| 731 | Dons | Dons financiers reçus |
+
+### 📌 **Logique d'écriture**
+```
+Un produit est ENREGISTRÉ → on le CRÉDITE
+(il augmente le résultat, donc le passif)
+```
+
+---
+
+## 7️⃣ LES CHARGES
+
+### 📌 **Définition**
+Les **charges** sont les **dépenses** engagées pour faire fonctionner l'entité.
+
+### 📌 **Exemples bibliothèque**
+| Compte | Intitulé | Exemple |
+|--------|----------|---------|
+| 606 | Achats divers | Fournitures de bureau |
+| 607 | Achats de livres | Livres achetés pour la vente |
+| 614 | Services extérieurs | Électricité, eau |
+| 641 | Salaires | Rémunération du personnel |
+
+### 📌 **Logique d'écriture**
+```
+Une charge est ENREGISTRÉE → on la DÉBITE
+(elle diminue le résultat)
+```
+
+---
+
+## 8️⃣ LE COMPTE DE RÉSULTAT
+
+### 📌 **Définition**
+Le **compte de résultat** est un **film** qui montre **toutes les charges et tous les produits** de l'année.
+
+### 📌 **Formule**
+```
+RÉSULTAT = PRODUITS - CHARGES
+Si Produits > Charges = EXCÉDENT
+Si Produits < Charges = DÉFICIT
+```
+
+### 📌 **Structure**
+| PRODUITS | MONTANT | CHARGES | MONTANT |
+|----------|---------|---------|---------|
+| Ventes de livres | 540 000 | Achats de livres | 620 000 |
+| Cotisations | 620 000 | Salaires | 1 500 000 |
+| Dons | 1 100 000 | Électricité | 280 000 |
+| Subventions | 500 000 | Amortissements | 350 000 |
+| **TOTAL PRODUITS** | **2 760 000** | **TOTAL CHARGES** | **2 750 000** |
+| | | **RÉSULTAT** | **+10 000** |
+
+👉 **Logique** : Le résultat va ensuite dans le **bilan** (au passif, dans les fonds propres).
+
+---
+
+## 9️⃣ LA BALANCE
+
+### 📌 **Définition**
+La **balance** est un **tableau récapitulatif** de **tous les comptes** avec leurs totaux et soldes.
+
+### 📌 **Rôle**
+- Vérifier que **total des débits = total des crédits**
+- Préparer le bilan et le compte de résultat
+- Détecter d'éventuelles erreurs
+
+### 📌 **Structure**
+
+| Compte | Intitulé | Total Débit | Total Crédit | Solde Débiteur | Solde Créditeur |
+|--------|----------|-------------|--------------|----------------|-----------------|
+| 521 | Caisse | 1 280 000 | 980 000 | 300 000 | |
+| 711 | Cotisations | | 620 000 | | 620 000 |
+| 641 | Salaires | 1 500 000 | | 1 500 000 | |
+| **TOTAL** | | **2 780 000** | **1 600 000** | **1 800 000** | **620 000** |
+
+👉 **Vérification** : Total Débit = Total Crédit ? Oui ✅  
+👉 **Logique** : La balance doit toujours être **équilibrée**.
+
+---
+
+## 🔟 LE GRAND LIVRE
+
+### 📌 **Définition**
+Le **grand livre** est l'ensemble des **fiches individuelles de chaque compte**. Il reprend **toutes les écritures** du journal, mais **regroupées par compte**.
+
+### 📌 **Rôle**
+- Voir l'**historique** d'un compte spécifique
+- Calculer le **solde** d'un compte à tout moment
+- Faciliter les **analyses** et les **contrôles**
+
+### 📌 **Structure**
+**Compte 521 - Caisse**
+
+| Date | Libellé | Journal | Débit | Crédit | Solde |
+|------|--------|---------|-------|--------|-------|
+| 01/01 | Solde initial | | | | 200 000 |
+| 15/03 | Encaissement cotisation | J5 | 50 000 | | 250 000 |
+| 20/03 | Paiement fournisseur | J5 | | 30 000 | 220 000 |
+| **TOTAUX** | | | **50 000** | **30 000** | **220 000** |
+
+👉 **Logique** : Chaque compte a sa propre "histoire" dans le grand livre.
+
+---
+
+# 🧠 **RÉSUMÉ DES LOGIQUES CLÉS**
+
+| Concept | Logique fondamentale |
+|---------|----------------------|
+| **Partie double** | Chaque opération a **au moins 2 lignes** (1 débit + 1 crédit) |
+| **Journal** | Enregistrement **chronologique** de toutes les opérations |
+| **Grand livre** | Regroupement des opérations **par compte** |
+| **Balance** | Vérification que **total débits = total crédits** |
+| **Bilan** | **ACTIF = PASSIF** (ce qu'on possède = ce qu'on doit + ressources) |
+| **Compte de résultat** | **RÉSULTAT = PRODUITS - CHARGES** |
+| **Produits** | Se **créditent** (augmentent le résultat) |
+| **Charges** | Se **débirent** (diminuent le résultat) |
+| **Actif** | Augmente au **débit**, diminue au **crédit** |
+| **Passif** | Augmente au **crédit**, diminue au **débit** |
+
+---
+
+# 📊 **LE CYCLE COMPTABLE COMPLET**
+
+```plaintext
+             ┌─────────────────┐
+             │   OPÉRATION     │
+             │  (facture, don, │
+             │   vente, achat) │
+             └────────┬────────┘
+                      ↓
+             ┌─────────────────┐
+             │    JOURNAL      │ ← Enregistrement chronologique
+             │  (toutes les    │
+             │   opérations)   │
+             └────────┬────────┘
+                      ↓
+        ┌─────────────┴─────────────┐
+        ↓                           ↓
+┌─────────────────┐       ┌─────────────────┐
+│  GRAND LIVRE    │       │ JOURNAL CAISSE  │
+│ (par compte)    │       │ (espèces)       │
+└────────┬────────┘       └────────┬────────┘
+         ↓                         ↓
+┌─────────────────┐       ┌─────────────────┐
+│    BALANCE      │◄───── │   VÉRIFICATION  │
+│ (total débits = │       │ (caisse physique│
+│  total crédits) │       │  = solde)       │
+└────────┬────────┘       └─────────────────┘
+         ↓
+┌─────────────────┐
+│   BILAN +       │
+│ COMPTE RÉSULTAT │
+│ (états annuels) │
+└─────────────────┘
+```
+
+---
+
+## ✅ **CE QUE VOUS DEVEZ RETENIR POUR VOTRE SYSTÈME**
+
+1. **Journal** = la source de tout
+2. **Grand livre** = la vue par compte
+3. **Balance** = la vérification
+4. **Bilan** = la photo du patrimoine
+5. **Compte de résultat** = le film de l'année
+
+Liste des numero de compte comptable 
+
+**20** - **IMMOBILISATIONS INCORPORELLES** (début de la classe 2, implicite)
+
+**23** - **BÂTIMENTS, INSTALLATIONS TECHNIQUES ET AGENCEMENTS**
+- **231** BÂTIMENTS INDUSTRIELS, AGRICOLES, ADMINISTRATIFS ET COMMERCIAUX SUR SOL PROPRE
+    - 2311 Bâtiments industriels
+    - 2312 Bâtiments agricoles
+    - 2313 Bâtiments administratifs et commerciaux
+    - 2314 Bâtiments affectés au logement du personnel
+    - 2315 Bâtiments - immeubles de placement
+    - 2316 Bâtiments de location - acquisition
+- **232** BÂTIMENTS INDUSTRIELS, AGRICOLES, ADMINISTRATIFS ET COMMERCIAUX SUR SOL D'AUTRUI
+    - 2321 Bâtiments industriels
+    - 2322 Bâtiments agricoles
+    - 2323 Bâtiments administratifs et commerciaux
+    - 2324 Bâtiments affectés au logement du personnel
+    - 2325 Bâtiments - immeubles de placement
+    - 2326 Bâtiments de location - acquisition
+- **233** OUVRAGES D'INFRASTRUCTURE
+    - 2331 Voies de terre
+    - 2332 Voies de fer
+    - 2333 Voies d'eau
+    - 2334 Barrages, Digues
+    - 2335 Pistes d'aérodrome
+    - 2336 Autres ouvrages d'infrastructure
+- **234** AMÉNAGEMENTS, AGENCEMENTS ET INSTALLATIONS TECHNIQUES
+    - 2341 Installations complexes spécialisées sur sol propre
+    - 2342 Installations complexes spécialisées sur sol d'autrui
+    - 2343 Installations à caractère spécifique sur sol propre
+    - 2344 Installations à caractère spécifique sur sol d'autrui
+    - 2345 Aménagements et agencements des bâtiments
+- **235** AMÉNAGEMENTS, AGENCEMENTS ET INSTALLATIONS EN COURS
+    - 2351 Installations complexes en cours
+    - 2352 Installations spécifiques en cours
+    - 2353 Aménagements et agencements des bâtiments en cours
+    - 2358 Autres installations et agencements en cours
+
+**24** - **MATÉRIEL, MOBILIER ET ACTIFS BIOLOGIQUES**
+- **241** MATÉRIEL ET OUTILLAGE INDUSTRIEL ET COMMERCIAL
+    - 2411 Matériel industriel
+    - 2412 Outillage industriel
+    - 2413 Matériel commercial
+    - 2414 Outillage commercial
+    - 2416 Matériel et outillage industriel et commercial de location - acquisition
+- **242** MATÉRIEL ET OUTILLAGE AGRICOLE
+    - 2421 Matériel agricole
+    - 2422 Outillage agricole
+    - 2426 Matériel et outillage agricole de location - acquisition
+- **243** MATÉRIEL D'EMBALLAGE RÉCUPÉRABLE ET IDENTIFIABLE
+- **244** MATÉRIEL ET MOBILIER
+    - 2441 Matériel de bureau
+    - 2442 Matériel informatique
+    - 2443 Matériel bureautique
+    - 2444 Mobilier de bureau
+    - 2445 Matériel et mobilier - immeubles de placement
+    - 2446 Matériel et mobilier de location - acquisition
+    - 2447 Matériel et mobilier des logements du personnel
+- **245** MATÉRIEL DE TRANSPORT
+    - 2451 Matériel automobile
+    - 2452 Matériel ferroviaire
+    - 2453 Matériel fluvial, lagunaire
+    - 2454 Matériel naval
+    - 2455 Matériel aérien
+    - 2456 Matériel de transport de location - acquisition
+    - 2457 Matériel hippomobile
+    - 2458 Autres matériels de transport
+- **246** ACTIFS BIOLOGIQUES
+    - 2461 Cheptel, animaux de trait
+    - 2462 Cheptel, animaux reproducteurs
+    - 2463 Animaux de garde
+    - 2465 Plantations agricoles
+    - 2468 Autres actifs biologiques
+- **247** AGENCEMENTS, AMÉNAGEMENTS DU MATÉRIEL ET ACTIFS BIOLOGIQUES
+    - 2471 Agencements et aménagements du matériel
+    - 2472 Agencements et aménagements des actifs biologiques
+    - 2478 Autres agencements, aménagements du matériel et actifs biologiques
+- **248** AUTRES MATÉRIELS ET MOBILIERS
+    - 2481 Collections et œuvres d'art
+    - 2488 Divers matériels mobiliers
+- **249** AUTRES MATÉRIELS ET ACTIFS BIOLOGIQUES
+    - 2491 Matériel et outillage industriel et commercial
+    - 2492 Matériel et outillage agricole
+    - 2493 Matériel d'emballage récupérable et identifiable
+    - 2494 Matériel et mobilier de bureau
+    - 2495 Matériel de transport
+    - 2496 Actifs biologiques
+    - 2497 Agencements et aménagements du matériel et des actifs biologiques
+    - 2498 Autres matériels et actifs biologiques en cours
+
+**25** - **AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS**
+- **251** AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS INCORPORELLES
+- **252** AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS CORPORELLES
+
+**26** - **TITRES DE PARTICIPATION**
+- **261** TITRES DE PARTICIPATION DANS DES SOCIÉTÉS SOUS CONTRÔLE EXCLUSIF
+- **262** TITRES DE PARTICIPATION DANS DES SOCIÉTÉS SOUS CONTRÔLE CONJOINT
+- **263** TITRES DE PARTICIPATION DANS DES SOCIÉTÉS CONFÉRANT UNE INFLUENCE NOTABLE
+- **265** PARTICIPATIONS DANS DES ORGANISMES PROFESSIONNELS
+- **266** PARTS DANS DES GROUPEMENTS D'INTÉRÊT ÉCONOMIQUE (G.I.E.)
+- **268** AUTRES TITRES DE PARTICIPATION
+
+**27** - **AUTRES IMMOBILISATIONS FINANCIÈRES**
+- **271** PRÊTS ET CRÉANCES
+    - 2711 Prêts participatifs
+    - 2712 Prêts aux associés
+    - 2713 Billets de fonds
+    - 2714 Créances de location financement
+    - 2715 Titres prêtés
+    - 2718 Autres prêts et créances
+- **273** PRÊTS AU PERSONNEL
+    - 2731 PRÊTS immobiliers
+    - 2732 PRÊTS mobiliers et d'installation
+    - 2733 Autres prêts au personnel
+- **274** CRÉANCES SUR L'ÉTAT
+- **275** CRÉANCES RATTACHÉES À DES PARTICIPATIONS ET AVANCES À DES G.I.E.
+    - 2751 CRÉANCES RATTACHÉES À DES PARTICIPATIONS (groupe)
+    - 2752 CRÉANCES RATTACHÉES à des participations (hors groupe)
+    - 2753 CRÉANCES RATTACHÉES à des sociétés en participation
+    - 2754 CRÉANCES RATTACHÉES à des Groupements d'intérêt économique (G.I.E.)
+- **276** IMMOBILISATIONS FINANCIÈRES DIVERSES
+    - 2761 CRÉANCES diverses groupe
+    - 2762 CRÉANCES diverses hors groupe
+    - 2763 Banques dépôts à terme
+    - 2765 Or et métaux précieux
+    - 2768 Autres immobilisations financières
+
+**28** - **AMORTISSEMENTS**
+- **281** AMORTISSEMENTS DES IMMOBILISATIONS INCORPORELLES
+    - 2811 Amortissements des frais de développement
+    - 2812 Amortissements des brevets, licences, concessions et droits similaires
+    - 2813 Amortissements des logiciels et sites internet
+    - 2814 Amortissements des marques
+    - 2815 Amortissements du fonds commercial
+    - 2816 Amortissements du droit au bail
+    - 2817 Amortissements des investissements de création
+    - 2818 Amortissements des autres droits et valeurs incorporels
+- **282** AMORTISSEMENTS DES TERRAINS
+    - 2824 Amortissements des travaux de mise en valeur des terrains
+- **283** AMORTISSEMENTS DES BÂTIMENTS, INSTALLATIONS TECHNIQUES ET AGENCEMENTS
+    - 2831 Amortissements des bâtiments industriels, agricoles, administratifs et commerciaux sur sol propre
+    - 2832 Amortissements des bâtiments industriels, agricoles, administratifs et commerciaux sur sol d'autrui
+    - 2833 Amortissements des ouvrages d'infrastructure
+    - 2834 Amortissements des aménagements, agencements et installations techniques
+    - 2835 Amortissements des aménagements de bureaux
+    - 2837 Amortissements des bâtiments industriels, agricoles et commerciaux mis en concession
+    - 2838 Amortissements des autres installations et agencements
+- **284** AMORTISSEMENTS DU MATÉRIEL
+    - 2841 Amortissements du matériel et outillage industriel et commercial
+    - 2842 Amortissements du matériel et outillage agricole
+    - 2843 Amortissements du matériel d'emballage récupérable et identifiable
+    - 2844 Amortissements du matériel et mobilier de bureau
+    - 2845 Amortissements du matériel de transport
+    - 2846 Amortissements des actifs biologiques
+    - 2847 Amortissements des agencements et aménagements du matériel et des actifs biologiques
+    - 2848 Amortissements des autres matériels
+
+**29** - **DÉPRÉCIATIONS DES IMMOBILISATIONS**
+- **291** DÉPRÉCIATIONS DES IMMOBILISATIONS INCORPORELLES
+    - 2911 Dépréciations des frais de développement
+    - 2912 Dépréciations des brevets, licences, concessions et droits similaires
+    - 2913 Dépréciations des logiciels et sites internet
+    - 2914 Dépréciations des marques
+    - 2915 Dépréciations du fonds commercial
+    - 2916 Dépréciations du droit au bail
+    - 2917 Dépréciations des investissements de création
+    - 2918 Dépréciations des autres droits et valeurs incorporels
+    - 2919 Dépréciations des immobilisations incorporelles en cours
+- **292** DÉPRÉCIATIONS DES TERRAINS
+    - 2921 Dépréciations des terrains agricoles et forestiers
+    - 2922 Dépréciations des terrains nus
+    - 2923 Dépréciations des terrains bâtis
+    - 2924 Dépréciations des travaux de mise en valeur des terrains
+    - 2925 Dépréciations des terrains de gisement
+    - 2926 Dépréciations des terrains aménagés
+    - 2927 Dépréciations des terrains mis en concession
+    - 2928 Dépréciations des autres terrains
+    - 2929 Dépréciations des aménagements de terrains en cours
+- **293** DÉPRÉCIATIONS DES BÂTIMENTS, INSTALLATIONS TECHNIQUES ET AGENCEMENTS
+    - 2931 Dépréciations des bâtiments industriels, agricoles, administratifs et commerciaux sur sol propre
+    - 2932 Dépréciations des bâtiments industriels, agricoles, administratifs et commerciaux, sur sol d'autrui
+    - 2933 Dépréciations des ouvrages d'infrastructure
+    - 2934 Dépréciations des aménagements, agencements et installations techniques
+    - 2935 Dépréciations des aménagements de bureaux
+    - 2937 Dépréciations des bâtiments industriels, agricoles et commerciaux mis en concession
+    - 2938 Dépréciations des autres installations et agencements
+    - 2939 Dépréciations des bâtiments et installations en cours
+- **294** DÉPRÉCIATIONS DU MATÉRIEL, DU MOBILIER ET DES ACTIFS BIOLOGIQUES
+    - 2941 Dépréciations du matériel et outillage industriel et commercial
+    - 2942 Dépréciations du matériel et outillage agricole
+    - 2943 Dépréciations du matériel d'emballage récupérable et identifiable
+    - 2944 Dépréciations du matériel et mobilier de bureau
+    - 2945 Dépréciations du matériel de transport
+    - 2946 Dépréciations des actifs biologiques
+    - 2947 Dépréciations des agencements et aménagements du matériel et des actifs biologiques
+    - 2948 Dépréciations des autres matériels
+    - 2949 Dépréciations de matériel en cours
+- **295** DÉPRÉCIATIONS DES AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS
+    - 2951 Dépréciations des avances et acomptes versés sur immobilisations incorporelles
+    - 2952 Dépréciations des avances et acomptes versés sur immobilisations corporelles
+- **296** DÉPRÉCIATIONS DES TITRES DE PARTICIPATION
+    - 2961 Dépréciations des titres de participation dans sociétés sous contrôle exclusif
+    - 2962 Dépréciations des titres de participation dans sociétés sous contrôle conjoint
+    - 2963 Dépréciations des titres de participation dans sociétés conférant une influence notable
+    - 2965 Dépréciations des participations dans des organismes professionnels
+    - 2966 Dépréciations des parts dans des GIE
+    - 2968 Dépréciations des autres titres de participation
+- **297** DÉPRÉCIATIONS DES AUTRES IMMOBILISATIONS FINANCIÈRES
+    - 2971 Dépréciations des prêts et créances
+    - 2972 Dépréciations des prêts au personnel
+    - 2973 Dépréciations des créances sur l'Etat
+    - 2975 Dépréciations des dépôts et cautionnements versés
+    - 2977 Dépréciations des créances rattachées à des participations et avances à des GIE
+    - 2978 Dépréciations des créances financières diverses
+
+**31** - **MARCHANDISES**
+- **311** MARCHANDISES A
+    - 3111 Marchandises A1
+    - 3112 Marchandises A2
+- **312** MARCHANDISES B
+    - 3121 Marchandises B1
+    - 3122 Marchandises B2
+- **313** ACTIFS BIOLOGIQUES
+    - 3131 Animaux
+    - 3132 Végétaux
+- **318** MARCHANDISES HORS ACTIVITÉS ORDINAIRES (H.A.O.)
+
+**32** - **MATIÈRES PREMIÈRES ET FOURNITURES LIÉES**
+- **321** MATIÈRES A
+- **322** MATIÈRES B
+- **323** FOURNITURES (A, B)
+
+**33** - **AUTRES APPROVISIONNEMENTS**
+- **331** MATIÈRES CONSOMMABLES
+- **332** FOURNITURES D'ATELIER ET D'USINE
+- **333** FOURNITURES DE MAGASIN
+- **334** FOURNITURES DE BUREAU
+- **335** EMBALLAGES
+    - 3351 Emballages perdus
+    - 3352 Emballages récupérables non identifiables
+    - 3353 Emballages à usage mixte
+    - 3358 Autres emballages
+- **338** AUTRES MATIÈRES
+
+**34** - **PRODUITS EN COURS**
+- **341** PRODUITS EN COURS
+    - 3411 Produits en cours P1
+    - 3412 Produits en cours P2
+- **342** TRAVAUX EN COURS
+    - 3421 Travaux en cours T1
+    - 3422 Travaux en cours T2
+- **343** PRODUITS INTERMÉDIAIRES EN COURS
+    - 3431 Produits intermédiaires A
+    - 3432 Produits intermédiaires B
+- **344** PRODUITS RÉSIDUELS EN COURS
+    - 3441 Produits résiduels A
+    - 3442 Produits résiduels B
+- **345** ACTIFS BIOLOGIQUES EN COURS
+    - 3451 Animaux
+    - 3452 Végétaux
+
+**35** - **SERVICES EN COURS**
+- **351** ÉTUDES EN COURS
+    - 3511 Études en cours E1
+    - 3512 Études en cours E2
+- **352** PRESTATIONS DE SERVICES EN COURS
+    - 3521 Prestations de services S1
+    - 3522 Prestations de services S2
+
+**36** - **PRODUITS FINIS**
+- **361** PRODUITS FINIS A
+- **362** PRODUITS FINIS B
+- **363** ACTIFS BIOLOGIQUES
+    - 3631 Animaux
+    - 3632 Végétaux
+    - 3638 Autres stocks (activités annexes)
+
+**37** - **PRODUITS INTERMÉDIAIRES ET RÉSIDUELS**
+- **371** PRODUITS INTERMÉDIAIRES
+    - 3711 Produits intermédiaires A
+    - 3712 Produits intermédiaires B
+- **372** PRODUITS RÉSIDUELS
+    - 3721 Déchets
+    - 3722 Rebuts
+    - 3723 Matières de Récupération
+- **373** ACTIFS BIOLOGIQUES
+    - 3731 Animaux
+    - 3732 Végétaux
+    - 3738 Autres stocks (activités annexes)
+
+**39** - **DÉPRÉCIATIONS DES STOCKS ET ENCOURS DE PRODUCTION**
+- **391** DÉPRÉCIATIONS DES STOCKS DE MARCHANDISES
+- **392** DÉPRÉCIATIONS DES STOCKS DE MATIÈRES PREMIÈRES ET FOURNITURES LIÉES
+- **393** DÉPRÉCIATIONS DES STOCKS D'AUTRES APPROVISIONNEMENTS
+- **394** DÉPRÉCIATIONS DES PRODUCTIONS EN COURS
+- **395** DÉPRÉCIATIONS DES SERVICES EN COURS
+- **396** DÉPRÉCIATIONS DES STOCKS DE PRODUITS FINIS
+- **397** DÉPRÉCIATIONS DES STOCKS DE PRODUITS INTERMÉDIAIRES ET RÉSIDUELS
+- **398** DÉPRÉCIATIONS DES STOCKS EN COURS DE ROUTE, EN CONSIGNATION OU EN DÉPÔT
+
+**50** - **VALEURS MOBILIERES DE PLACEMENT**
+- **501** TITRES DU TRESOR ET BONS DE CAISSE A COURT TERME
+    - 5011 Titres du Tresor a court terme
+    - 5012 Titres d'organismes financiers
+    - 5013 Bons de caisse a court terme
+    - 5016 Frais d'acquisition des titres de tresor
+- **502** ACTIONS
+    - 5021 Actions ou parts propres
+    - 5022 Actions cotées
+    - 5023 Actions non cotées
+    - 5024 Actions demembrees (certificats d'investissement, droits de vote)
+    - 5025 Autres actions
+    - 5026 Frais d'acquisition des actions
+- **503** OBLIGATIONS
+    - 5031 Obligations emises par la societe et rachetees par elle
+    - 5032 Obligations cotées
+    - 5033 Obligations non cotées
+    - 5035 Autres obligations
+    - 5036 Frais d'acquisition des obligations
+- **504** BONS DE SOUSCRIPTION
+    - 5042 Bons de souscription d'actions
+    - 5043 Bons de souscription d'obligations
+- **505** TITRES NEGOCIABLES HORS REGION
+- **506** INTERETS COURUS
+    - 5061 Titres du Tresor et bons de caisse a court terme
+    - 5062 Actions
+    - 5063 Obligations
+- **508** AUTRES TITRES DE PLACEMENT ET CREANCES ASSIMILEES
+
+**54** - **INSTRUMENTS DE TRÉSORERIE**
+- **541** OPTIONS DE TAUX D'INTERÊT
+- **542** OPTIONS DE TAUX DE CHANGE
+- **543** OPTIONS DE TAUX BOURSIERS
+- **544** INSTRUMENTS DE MARCHES À TERME
+- **545** AVOIRS D'OR ET AUTRES MÉTAUX PRECIEUX
+
+**55** - **INSTRUMENTS DE MONNAIE ELECTRONIQUE**
+- **551** MONNAIE ELECTRONIQUE - CARTE
+- **552** MONNAIE ELECTRONIQUE - TELEPHONE PORTABLE
+- **553** MONNAIE ELECTRONIQUE - CARTE PEAGE
+- **554** PORTE-MONNAIE ELECTRONIQUE
+- **558** AUTRES INSTRUMENTS MONNAIE ELECTRONIQUE
+
+**56** - **BANQUES, CRÉDITS DE TRÉSORERIE ET D'ESCOMPTE**
+- **561** CRÉDITS DE TRÉSORERIE
+- **564** ESCOMPTE DE CRÉDITS DE CAMPAGNE
+- **565** ESCOMPTE DE CRÉDITS ORDINAIRES
+- **566** BANQUES, CRÉDITS DE TRÉSORERIE, INTERETS COURUS
+
+**57** - **CAISSE**
+- **571** CAISSE SIEGE SOCIAL
+    - 5711 Caisse en monnaie nationale
+    - 5712 Caisse en devises
+- **572** CAISSE SUCCURSALE A
+    - 5721 en monnaie nationale
+    - 5722 en devises
+- **573** CAISSE SUCCURSALE B
+    - 5731 en monnaie nationale
+    - 5732 en devises
+
+**62** - **AUTRES SERVICES EXTÉRIEURS**
+- **621** SOUS-TRAITANCE GENERALE
+- **622** LOCATIONS, CHARGES LOCATIVES
+    - 6221 Locations de terrains
+    - 6222 Locations de bâtiments
+    - 6223 Locations de matériels et outillages
+    - 6224 Malis sur emballages
+    - 6225 Locations d'emballages
+    - 6226 Fermages et loyers du foncier
+    - 6228 Locations et charges locatives diverses
+- **623** REDEVANCES DE LOCATION ACQUISITION
+    - 6232 Crédit-bail immobilier
+    - 6233 Crédit-bail mobilier
+    - 6234 Location vente
+    - 6238 Autres contrats de location acquisition
+- **624** ENTRETIENS, REPARATIONS, REMISE EN ETAT, MAINTENANCE
+    - 6241 Entretien et réparations des biens immobiliers
+    - 6242 Entretien et réparations des biens mobiliers
+    - 6243 Maintenance
+    - 6244 Charges de démantèlement et remise en état
+    - 6248 Autres entretiens et réparations
+- **625** PRIMES D'ASSURANCE
+    - 6251 Assurances multirisques
+    - 6252 Assurances matériel de transport
+    - 6253 Assurances risques d'exploitation
+    - 6254 Assurances responsabilité du producteur
+    - 6255 Assurances insolvabilité clients
+    - 6257 Assurances transport sur ventes
+    - 6258 Autres primes d'assurances
+- **626** ETUDES, RECHERCHES ET DOCUMENTATION
+    - 6261 Études et recherches
+    - 6265 Documentation générale
+    - 626 Documentation technique
+- **627** PUBLICITE, PUBLICATIONS, RELATIONS PUBLIQUES
+    - 6271 Annonces, insertions
+    - 6272 Catalogues, imprimés publicitaires
+    - 6273 Echantillons
+    - 6274 Foires et expositions
+    - 6275 Publications
+    - 6276 Cadeaux à la clientèle
+    - 6277 Frais de colloques, séminaires, conférences
+    - 6278 Autres charges de publicité et relations publiques
+- **628** FRAIS DE TÉLÉCOMMUNICATIONS
+    - 6281 Frais de téléphone
+    - 6282 Frais de télex
+    - 6283 Frais de télécopie
+    - 6288 Autres frais de télécommunications
+
+**63** - **AUTRES SERVICES EXTÉRIEURS** (SUITE)
+- **631** FRAIS BANCAIRES
+    - 6311 Frais sur titres (vente, garde)
+    - 6312 Frais sur effets
+    - 6313 Location de coffres
+    - 6314 Commissions d'affacturage
+    - 6315 Commissions sur cartes de crédit
+    - 6316 Frais d'émission d'emprunts
+    - 6317 Frais sur instruments monnaie électronique
+    - 6318 Autres frais bancaires
+- **632** AUTRES FRAIS
+    - 6322 Commissions et courtages sur ventes
+    - 6324 Honoraires des professions réglementées
+    - 6326 Frais d'actes et de contentieux
+    - 6327 Rémunérations d'affacturage
+    - 6328 Rémunérations des autres prestataires de services
+- **633** FRAIS DE FORMATION DU PERSONNEL
+- **634** REDEVANCES POUR BREVETS, LICENCES, VALEURS SIMILAIRES
+    - 6342 Redevances pour brevets, licences
+    - 6343 Redevances pour logiciels
+    - 6344 Redevances pour marques
+    - 6345 Redevances pour sites internet
+- **635** COTISATIONS
+    - 6351 Cotisations
+    - 6358 Concours divers
+- **637** REMUNERATIONS DE PERSONNEL EXTÉRIEUR
+    - 6371 Personnel intérimaire
+    - 6372 Personnel détaché ou prêté à l'entité
+- **638** AUTRES CHARGES EXTERNES
+    - 6381 Frais de recrutement du personnel
+    - 6382 Frais de déménagement
+    - 6383 Réceptions
+    - 6384 Missions
+    - 6385 Charges de copropriété
+    - 6388 Charges externes diverses
+
+**64** - **IMPÔTS ET TAXES**
+- **641** IMPÔTS ET TAXES DIRECTS
+    - 6411 Impôts fonciers et taxes annexes
+    - 6412 Patentes, licences et taxes annexes
+    - 6413 Taxes sur appointements et salaires
+    - 6414 Taxes d'apprentissage
+    - 6415 Formation professionnelle continue
+    - 6418 Autres impôts et taxes directs
+
+**65** - **AUTRES CHARGES**
+- **651** PERTES SUR CRÉANCES CLIENTS ET AUTRES DÉBITEURS
+    - 6511 Clients
+    - 6515 Autres débiteurs
+- **652** QUOTE-PART DE RÉSULTAT SUR OPERATIONS FAITES EN COMMUN
+    - 6521 Quote-part transférée de bénéfices (comptabilité du gérant)
+    - 6525 Pertes imputées par transfert (comptabilité des associés non gérants)
+- **654** VALEURS COMPTABLES DES CESSIONS COURANTES D'IMMOBILISATIONS
+    - 6541 Immobilisations incorporelles
+    - 6542 Immobilisations corporelles
+- **656** PERTE DE CHANGE SUR CRÉANCES ET DETTES COMMERCIALES
+- **657** PENALITES ET AMENDES PENALES
+- **658** CHARGES DIVERSES
+    - 6581 Indemnités de fonction et autres rémunérations d'administrateurs
+    - 6582 Dons
+    - 6583 Mécénat
+    - 6588 Autres charges diverses
+- **659** CHARGES POUR DEPRECIATIONS ET PROVISIONS POUR RISQUES A COURT TERME D'EXPLOITATION
+    - 6591 sur risques à court terme
+    - 6593 sur stocks
+    - 6594 sur créances
+    - 6598 Autres charges pour dépréciations et provisions pour risques à court terme
+
+**66** - **CHARGES DE PERSONNEL**
+- **661** RÉMUNÉRATIONS DIRECTES VERSÉES AU PERSONNEL NATIONAL
+    - 6611 Appointements salaires et commissions
+    - 6612 Primes et gratifications
+    - 6613 Congés payés
+    - 6614 Indemnités de préavis, de licenciement et de recherche d'embauche
+    - 6615 Indemnités de maladie versées aux travailleurs
+    - 6616 Supplément familial
+    - 6617 Avantages en nature
+    - 6618 Autres rémunérations directes
+- **662** RÉMUNÉRATIONS DIRECTES VERSÉES AU PERSONNEL NON NATIONAL
+    - 6621 Appointements salaires et commissions
+    - 6622 Primes et gratifications
+    - 6623 Congés payés
+    - 6624 Indemnités de préavis, de licenciement et de recherche d'embauche
+    - 6625 Indemnités de maladie versées aux travailleurs
+- **663** INDEMNITÉS FORFAITAIRES VERSÉES AU PERSONNEL
+    - 6631 Indemnités de logement
+    - 6632 Indemnités de représentation
+    - 6633 Indemnités d'expatriation
+    - 6634 Indemnités de transport
+    - 6638 Autres indemnités et avantages divers
+- **664** CHARGES SOCIALES
+    - 6641 Charges sociales sur rémunération du personnel national
+    - 6642 Charges sociales sur rémunération du personnel non national
+- **666** RÉMUNÉRATIONS ET CHARGES SOCIALES DE L'EXPLOITANT INDIVIDUEL
+    - 6661 Rémunération du travail de l'exploitant
+    - 6662 Charges sociales
+- **667** RÉMUNÉRATION TRANSFÉRÉE DE PERSONNEL EXTÉRIEUR
+    - 6671 Personnel intérimaire
+    - 6672 Personnel détaché ou prêté à l'entité
+- **668** AUTRES CHARGES SOCIALES
+    - 6681 Versements aux Syndicats et Comités d'entreprise, d'établissement
+    - 6682 Versements aux Comités d'hygiène et de sécurité
+    - 6683 Versements et contributions aux autres œuvres sociales
+    - 6684 Médecine du travail et pharmacie
+    - 6685 Assurances et organismes de santé
+    - 6686 Assurances retraite et fonds de pension
+    - 6687 Majorations et pénalités sociales
+    - 6688 Charges sociales diverses
+
+**67** - **FRAIS FINANCIERS ET CHARGES**
+- **671** INTERETS DES EMPRUNTS
+    - 6711 Emprunts obligataires
+    - 6712 Emprunts auprès des établissements de crédit
+    - 6713 Dettes liées à des participations
+    - 6714 Primes de remboursement des obligations
+- **672** INTERETS DANS LOYERS DE LOCATION ACQUISITION
+    - 6722 Intérêts dans loyer de location crédit-bail immobilier
+    - 6723 Intérêts dans loyer de location crédit-bail mobilier
+    - 6724 Intérêts dans loyer de location location vente
+    - 6728 Intérêts dans loyer des autres locations acquisition
+- **673** ESCOMPTES ACCORDÉS
+- **674** AUTRES INTERETS
+    - 6741 Avances reçues et dépôts créditeurs
+    - 6742 Comptes courants bloqués
+    - 6743 Intérêts sur obligations cautionnées
+    - 6744 Intérêts sur dettes commerciales
+    - 6745 Intérêts bancaires et sur opérations de financement (escomptes ...)
+    - 6748 Intérêts sur dettes diverses
+- **675** ESCOMPTES DES EFFETS DE COMMERCE
+- **676** PERTES DE CHANGE FINANCIERES
+- **677** PERTES SUR TITRES DE PLACEMENT
+    - 6771 Pertes sur cessions de titres de placement
+    - 6772 Malis provenant d'attribution gratuite d'actions au personnel salarié et aux dirigeants
+- **678** PERTES ET CHARGES SUR RISQUES FINANCIERS
+    - 6781 sur rentes viagères
+    - 6782 sur opérations financières
+    - 6784 sur instruments de trésorerie
+- **679** CHARGES POUR DEPRECIATIONS ET PROVISIONS POUR RISQUES A COURT TERME FINANCIERES
+    - 6791 sur risques financiers
+    - 6795 sur titres de placement
+    - 6798 Autres charges pour dépréciations et provisions pour risques à court terme financières
+
+**68** - **DOTATIONS AUX AMORTISSEMENTS**
+- **681** DOTATIONS AUX AMORTISSEMENTS D'EXPLOITATION
+    - 6812 Dotations aux amortissements des immobilisations incorporelles
+    - 6813 Dotations aux amortissements des immobilisations corporelles
+
+**69** - **DOTATIONS AUX PROVISIONS ET AUX DEPRECIATIONS**
+- **691** DOTATIONS AUX PROVISIONS ET AUX DEPRECIATIONS D'EXPLOITATION
+    - 6911 Dotations aux provisions pour risques et charges
+    - 6913 Dotations aux dépréciations des immobilisations incorporelles
+    - 6914 Dotations aux dépréciations des immobilisations corporelles
+- **697** DOTATIONS AUX PROVISIONS ET AUX DEPRECIATIONS FINANCIERES
+    - 6971 Dotations aux provisions pour risques et charges
+    - 6972 Dotations aux dépréciations des immobilisations financières
+
+**70** - **VENTES**
+- **701** VENTES DE MARCHANDISES
+    - 7011 dans la Région
+    - 7012 hors Région
+    - 7013 aux entités du groupe dans la Région
+    - 7014 aux entités du groupe hors Région
+    - 7015 sur internet
+    - 7019 Rabais, remises, ristournes, accords (non ventilés)
+- **702** VENTES DE PRODUITS FINIS
+    - 7021 dans la Région
+    - 7022 hors Région
+    - 7023 aux entités du groupe dans la Région
+    - 7024 aux entités du groupe hors Région
+    - 7025 sur internet
+    - 7029 Rabais, remises, ristournes, accords (non ventilés)
+- **703** VENTES DE PRODUITS INTERMÉDIAIRES
+    - 7031 dans la Région
+    - 7032 hors Région
+    - 7033 aux entités du groupe dans la Région
+    - 7034 aux entités du groupe hors Région
+    - 7035 sur internet
+    - 7039 Rabais, remises, ristournes, accords (non ventilés)
+- **704** VENTES DE PRODUITS RÉSIDUELS
+    - 7041 dans la Région
+    - 7042 hors Région
+    - 7043 aux entités du groupe dans la Région
+    - 7044 aux entités du groupe hors Région
+    - 7045 sur internet
+    - 7049 Rabais, remises, ristournes, accords (non ventilés)
+- **705** TRAVAUX FACTURES
+    - 7051 dans la Région
+    - 7052 hors Région
+    - 7053 aux entités du groupe dans la Région
+    - 7054 aux entités du groupe hors Région
+    - 7055 sur internet
+    - 7059 Rabais, remises, ristournes, accordés (non ventilés)
+- **706** SERVICES VENDUS
+    - 7061 dans la Région
+    - 7062 hors Région
+    - 7063 aux entités du groupe dans la Région
+    - 7064 aux entités du groupe hors Région
+    - 7065 sur internet
+    - 7069 Rabais, remises, ristournes, accordés (non ventilés)
+- **707** PRODUITS ACCESSOIRES
+    - 7071 Ports, emballages perdus et autres frais facturés
+    - 7072 Commissions et courtages
+    - 7073 Locations
+    - 7074 Bonis sur reprises et cessions d'emballages
+    - 7075 Mise à disposition de personnel
+    - 7076 Redevances pour brevets, logiciels, marques et droits similaires
+    - 7077 Services exploités dans l'intérêt du personnel
+    - 7078 Autres produits accessoires
+
+**71** - **SUBVENTIONS D'EXPLOITATION**
+- **711** SUR PRODUITS À L'EXPORTATION
+- **712** SUR PRODUITS À L'IMPORTATION
+- **713** SUR PRODUITS DE PÉRÉQUATION
+- **714** INDEMNITES ET SUBVENTIONS D'EXPLOITATION (entité agricole)
+- **718** AUTRES SUBVENTIONS D'EXPLOITATION
+    - 7181 Versées par l'État et les collectivités publiques
+    - 7182 Versées par les organismes internationaux
+    - 7183 Versées par des tiers
+
+**72** - **PRODUCTION IMMOBILISÉE**
+- **721** IMMOBILISATIONS INCORPORELLES
+- **722** IMMOBILISATIONS CORPORELLES
+    - 7221 immobilisations corporelles (hors actifs biologiques)
+    - 7222 immobilisations corporelles (actifs biologiques)
+- **724** PRODUCTION AUTO-CONSOMMEE
+- **726** IMMOBILISATIONS FINANCIÈRES
+
+**73** - **VARIATIONS DES STOCKS DE BIENS ET DE SERVICES PRODUITS**
+- **734** VARIATIONS DES STOCKS DE PRODUITS EN COURS
+    - 7341 Produits en cours
+    - 7342 Travaux en cours
+- **735** VARIATIONS DES EN-COURS DE SERVICES
+    - 7351 Études en cours
+    - 7352 Prestations de services en cours
+- **736** VARIATIONS DES STOCKS DE PRODUITS FINIS
+- **737** VARIATIONS DES STOCKS DE PRODUITS INTERMÉDIAIRES ET RÉSIDUELS
+    - 7371 Produits intermédiaires
+    - 7372 Produits résiduels
+
+**77** - **REVENUS FINANCIERS ET PRODUITS ASSIMILES**
+- **771** REVENUS FINANCIERS (partiel)
+    - 7711
+    - 7712
+- **772** REVENUS FINANCIERS (partiel)
+    - 7721
+    - 7722
+- **773** ESCOMPTES OBTENUS
+- **774** REVENUS DE PLACEMENT
+    - 7745 Revenus des obligations
+    - 7746 Revenus des titres de placement
+- **775** INTERETS DANS LOYERS DE LOCATION ACQUISITION
+- **776** GAINS DE CHANGE FINANCIERS
+- **777** GAINS SUR CESSIONS DE TITRES DE PLACEMENT
+- **778** GAINS SUR RISQUES FINANCIERS
+    - 7781 sur rentes viagères
+    - 7782 sur opérations financières
+    - 7784 sur instruments de trésorerie
+- **779** REPRISES DE CHARGES POUR DEPRECIATIONS ET PROVISIONS A COURT TERME FINANCIERES
+    - 7791 sur risques financiers
+    - 7795 sur titres de placement
+    - 7798 sur autres charges pour dépréciations et provisions pour risques à court terme financiers
+
+**78** - **TRANSFERTS DE CHARGES**
+- **781** TRANSFERTS DE CHARGES D'EXPLOITATION
+- **787** TRANSFERTS DE CHARGES FINANCIERES
+
+**79** - **REPRISES DE PROVISIONS, DE DEPRECIATIONS ET AUTRES**
+- **791** REPRISES DE PROVISIONS ET DEPRECIATIONS D'EXPLOITATION
+    - 7911 pour risques et charges
+    - 7913 des immobilisations incorporelles
+    - 7914 des immobilisations corporelles
+- **797** REPRISES DE PROVISIONS ET DEPRECIATIONS FINANCIERES
+    - 7971 pour risques et charges
+    - 7972 des immobilisations financières
+- **798** REPRISES D'AMORTISSEMENTS
+- **799** REPRISES DE SUBVENTIONS D'INVESTISSEMENT
+
+**81** - **VALEURS COMPTABLES DES CESSIONS D'IMMOBILISATIONS**
+- **811** IMMOBILISATIONS INCORPORELLES
+- **812** IMMOBILISATIONS CORPORELLES
+- **816** IMMOBILISATIONS FINANCIÈRES
+
+**82** - **PRODUITS DES CESSIONS D'IMMOBILISATIONS**
+- **821** IMMOBILISATIONS INCORPORELLES
+- **822** IMMOBILISATIONS CORPORELLES
+- **826** IMMOBILISATIONS FINANCIÈRES
+
+**83** - **CHARGES HORS ACTIVITÉS ORDINAIRES**
+- **831** CHARGES H.A.O. CONSTATÉES
+- **833** CHARGES LIEES AUX OPERATIONS DE RESTRUCTURATION
+- **834** PERTES SUR CRÉANCES H.A.O.
+- **835** DONS ET LIBÉRALITÉS ACCORDÉS
+- **836** ABANDONS DE CRÉANCES CONSENTIS
+- **837** CHARGES LIEES AUX OPERATIONS DE LIQUIDATION
+- **839** CHARGES POUR DEPRECIATIONS ET PROVISIONS POUR RISQUES A COURT TERME H.A.O
+
+**84** - **PRODUITS HORS ACTIVITÉS ORDINAIRES**
+- **841** PRODUITS H.A.O CONSTATÉS
+- **843** PRODUITS LIES AUX OPERATIONS DE RESTRUCTURATION
+- **844** INDEMNITES ET SUBVENTIONS H.A.O (entité agricole)
+- **845** DONS ET LIBÉRALITÉS OBTENUS
+- **846** ABANDONS DE CRÉANCES OBTENUS
+- **847** PRODUITS LIES AUX OPERATIONS DE LIQUIDATION
+- **848** TRANSFERTS DE CHARGES H.A.O
+- **849** REPRISES DE CHARGES POUR DEPRECIATIONS ET PROVISIONS POUR RISQUES A COURT TERME H.A.O
+
+**85** - **DOTATIONS HORS ACTIVITÉS ORDINAIRES**
+- **851** DOTATIONS AUX PROVISIONS RÉGLEMENTÉES
+- **852** DOTATIONS AUX AMORTISSEMENTS H.A.O.
+- **853** DOTATIONS AUX DÉPRÉCIATIONS H.A.O.
+- **854** DOTATIONS AUX PROVISIONS POUR RISQUES ET CHARGES H.A.O.
+- **858** AUTRES DOTATIONS H.A.O.
+
+**86** - **REPRISES HORS ACTIVITES ORDINAIRES**
+- **861** REPRISES DE PROVISIONS RÉGLEMENTÉES
+- **862** REPRISES D'AMORTISSEMENTS HAO
+- **863** REPRISES DE DÉPRÉCIATIONS H.A.O.
+- **864** REPRISES DE PROVISIONS POUR RISQUES ET CHARGES H.A.O.
+- **868** AUTRES REPRISES H.A.O.
+
+**87** - **PARTICIPATION DES TRAVAILLEURS**
+- **871** PARTICIPATION LÉGALE AUX BÉNÉFICES
+- **874** PARTICIPATION CONTRACTUELLE AUX BÉNÉFICES
+- **878** AUTRES PARTICIPATIONS
+
+**88** - **SUBVENTIONS D'ÉQUILIBRE**
+- **881** ÉTAT
+- **884** COLLECTIVITÉS PUBLIQUES
+- **886** GROUPE
+- **888** AUTRES
+
+**89** - **IMPÔTS SUR LE RÉSULTAT**
+- **891** IMPÔTS SUR LES BÉNÉFICES DE L'EXERCICE
+    - 8911 Activités exercées dans l'État
+    - 8912 Activités exercées dans les autres États de la Région
+    - 8913 Activités exercées hors Région
+- **892** RAPPEL D'IMPÔTS SUR RÉSULTATS ANTÉRIEURS
+- **895** IMPÔT MINIMUM FORFAITAIRE (I.M.F.)
+- **899** DÉGRÈVEMENTS ET ANNULATIONS D'IMPÔTS SUR RÉSULTATS ANTÉRIEURS
+    - 8991 Dégrèvements
+    - 8994 Annulations pour pertes rétroactives
+
+**90** - **ENGAGEMENTS HORS BILAN**
+- **901** ENGAGEMENTS DE FINANCEMENT OBTENUS
+    - 9011 Crédits confirmés obtenus
+    - 9012 Emprunts restant à encaisser
+    - 9013 Facilités de financement renouvelables
+    - 9014 Facilités d'émission
+    - 9018 Autres engagements de financement obtenus
+- **902** ENGAGEMENTS DE GARANTIE OBTENUS
+    - 9021 Avals obtenus
+    - 9022 Cautions, garanties obtenues
+    - 9023 Hypothèques obtenues
+    - 9024 Effets endossés par des tiers
+    - 9028 Autres garanties obtenues
+- **903** ENGAGEMENTS RÉCIPROQUES
+    - 9031 Achats de marchandises à terme
+    - 9032 Achats à terme de devises
+    - 9033 Commandes fermes des clients
+    - 9038 Autres engagements réciproques
+- **904** AUTRES ENGAGEMENTS OBTENUS
+    - 9041 Abandons de créances conditionnels
+    - 9043 Ventes avec clause de réserve de propriété
+    - 9048 Divers engagements obtenus
+- **905** ENGAGEMENTS DE FINANCEMENT ACCORDÉS
+    - 9051 Crédits accordés non décaissés
+    - 9058 Autres engagements de financement accordés
+- **906** ENGAGEMENTS DE GARANTIE ACCORDÉS
+    - 9061 Avals accordés
+    - 9062 Cautions, garanties accordées
+    - 9063 Hypothèques accordées
+    - 9064 Effets endossés par l'entité
+    - 9068 Autres garanties accordées
+- **907** ENGAGEMENTS RÉCIPROQUES
+    - 9071 Ventes de marchandises à terme
+    - 9072 Ventes à terme de devises
+    - 9073 Commandes fermes aux fournisseurs
+    - 9078 Autres engagements réciproques
+- **908** AUTRES ENGAGEMENTS ACCORDÉS
+    - 9081 Annulations conditionnelles de dettes
+    - 9082 Engagements de retraite
+    - 9083 Achats avec clause de réserve de propriété
+    - 9088 Divers engagements accordés
+- **91** CONTREPARTIES DES ENGAGEMENTS
+    - 911 à 914 CONTREPARTIE DES ENGAGEMENTS OBTENUS (901 à 904)
+    - 915 à 918 CONTREPARTIE DES ENGAGEMENTS ACCORDÉS (905 à 908)
+
+**13** - **RÉSULTAT NET** (Comptes de capitaux propres, classe 1)
+- **1381** Résultat de fusion
+- **1382** Résultat d'apport partiel d'actif
+- **1383** Résultat de scission
+- **1384** Résultat de liquidation
+- **139** RESULTAT NET : PERTE
+
+**14** - **SUBVENTIONS D'INVESTISSEMENT**
+- **141** SUBVENTIONS D'EQUIPEMENT
+    - 1411 Etat
+    - 1412 Régions
+    - 1413 Départements
+    - 1414 Communes et collectivités publiques
+    - 1415 Entités publiques ou mixtes
+    - 1416 Entités et organismes privés
+    - 1417 Organismes internationaux
+    - 1418 Autres
+- **148** AUTRES SUBVENTIONS D'INVESTISSEMENT
+
+**15** - **PROVISIONS REGLEMENTEES ET FONDS ASSIMILES**
+- **151** AMORTISSEMENTS DEROGATOIRES
+- **152** PLUS-VALUES DE CESSION A REINVESTIR
+- **153** FONDS REGLEMENTES
+    - 1531 Fonds National
+    - 1532 Prélèvement pour le Budget
+- **154** PROVISIONS SPECIALES DE REVALUATION
+- **155** PROVISIONS REGLEMENTEES RELATIVES AUX IMMOBILISATIONS
+    - 1551 Reconstitution des gisements miniers et pétroliers
+- **156** PROVISIONS REGLEMENTEES RELATIVES AUX STOCKS
+    - 1561 Hausse de prix
+    - 1562 Fluctuation des cours
+- **157** PROVISIONS POUR INVESTISSEMENT
+- **158** AUTRES PROVISIONS ET FONDS REGLEMENTES
+
+**16** - **EMPRUNTS ET DETTES ASSIMILEES**
+- **161** EMPRUNTS OBLIGATAIRES
+    - 1611 Emprunts obligataires ordinaires
+    - 1612 Emprunts obligataires convertibles en actions
+    - 1613 Emprunts obligataires remboursables en actions
+    - 1618 Autres emprunts obligataires
+- **162** EMPRUNTS ET DETTES AUPRES DES ETABLISSEMENTS DE CREDIT
+- **163** AVANCES RECUES DE L'ETAT
+- **164** AVANCES RECUES ET COMPTES COURANTS BLOQUES
+- **165** DEPOTS ET CAUTIONNEMENTS RECUS
+    - 1651 Dépôts
+    - 1652 Cautionnements
+- **166** INTERETS COURUS
+    - 1661 sur emprunts obligataires
+    - 1662 sur emprunts et dettes auprès des établissements de crédit
+    - 1663 sur avances reçues de l'État
+    - 1664 sur avances reçues et comptes courants bloqués
+    - 1665 sur dépôts et cautionnements reçus
+    - 1667 sur avances assorties de conditions particulières
+    - 1668 sur autres emprunts et dettes
+- **167** AVANCES ASSORTIES DE CONDITIONS PARTICULIERES
+    - 1671 Avances bloquées pour augmentation du capital
+    - 1672 Avances conditionnées par l'État
+    - 1673 Avances conditionnées par les autres organismes publics
+    - 1674 Avances conditionnées par les organismes privés
+- **168** AUTRES EMPRUNTS ET DETTES
+    - 1681 Rentes viagères capitalisées
+    - 1682 Billets de fonds
+    - 1683 Dettes consécutives à des titres empruntés
+    - 1684 Emprunts participatifs
+
+**17** - **DETTES DE LOCATION ACQUISITION**
+- **171** DETTES DE LOCATION ACQUISITION
+- **172** DETTES DE LOCATION ACQUISITION/CREDIT-BAIL IMMOBILIER
+- **173** DETTES DE LOCATION ACQUISITION/CREDIT-BAIL MOBILIER
+- **174** DETTES DE LOCATION ACQUISITION/LOCATION VENTE
+- **176** INTERETS COURUS
+    - 1762 sur dettes de location acquisition/credit-bail immobilier
+    - 1763 sur dettes de location acquisition/credit-bail mobilier
+    - 1764 sur dettes de location acquisition/location vente
+    - 1768 sur autres dettes de location acquisition
+- **178** AUTRES DETTES DE LOCATION ACQUISITION
+
+**18** - **DETTES LIEES A DES PARTICIPATIONS ET COMPTES DE LIAISON**
+- **181** DETTES LIEES A DES PARTICIPATIONS
+    - 1811 Dettes liées à des participations (groupe)
+    - 1812 Dettes liées à des participations (hors groupe)
+- **182** DETTES LIEES A DES SOCIETES EN PARTICIPATION
+- **183** INTERETS COURUS SUR DETTES LIEES A DES PARTICIPATIONS
+- **184** COMPTES PERMANENTS BLOQUES DES ETABLISSEMENTS ET SUCCURSALES
+- **185** COMPTES PERMANENTS NON BLOQUES DES ETABLISSEMENTS ET SUCCURSALES
+- **186** COMPTES DE LIAISON CHARGES
+- **187** COMPTES DE LIAISON PRODUITS
+- **188** COMPTES DE LIAISON DES SOCIETES EN PARTICIPATION
+
+**19** - **PROVISIONS POUR RISQUES ET CHARGES**
+- **192** PROVISIONS POUR LITIGES
+- **193** PROVISIONS POUR GARANTIES DONNEES AUX CLIENTS
+- **194** PROVISIONS POUR PERTES SUR MARCHES A TERME
+- **195** PROVISIONS POUR PERTES DE CHANGE
+- **196** PROVISIONS POUR PENSIONS ET OBLIGATIONS SIMILAIRES
+    - 1961 Provisions pour pensions et obligations similaires
+    - 1962 Actif du régime de retraite
+- **197** PROVISIONS POUR RESTRUCTURATION
+- **198** AUTRES PROVISIONS POUR RISQUES ET CHARGES
+    - 1981 Provisions pour amendes et pénalités
+    - 1983 Provisions pour propre assureur
+    - 1984 Provisions pour démantèlement et remise en état
+    - 1985 Provisions pour droits à réduction ou avantages en nature (chèques cadeau, cartes de fidélité...)
+    - 1988 Provisions pour divers risques et charges
+
+
+  11 RÉSERVES  
+   111 RÉSERVE LÉGALE  
+   112 RÉSERVES STATUTAIRES OU CONTRACTUELLES  
+   113 RÉSERVES RÉGLEMENTÉES  
+    1131 Réserves de plus-values nettes à long terme  
+    1132 Réserves d'attribution gratuite d'actions au personnel salarié et aux dirigeants  
+    1133 Réserves consécutives à l'octroi de subventions d'investissement  
+    1134 Réserves des valeurs mobilières donnant accès au capital  
+    1138 Autres réserves réglementées  
+   118 AUTRES RÉSERVES  
+    1181 Réserves facultatives  
+    1188 Réserves diverses  
+ 
+  12 REPORT À NOUVEAU  
+   121 REPORT À NOUVEAU CRÉDITEUR  
+   129 REPORT À NOUVEAU DÉBITEUR  
+    1291 Perte nette à reporter  
+    1292 Perte - Amortissements réputés différés  
+ 
+  13 RÉSULTAT NET DE L'EXERCICE  
+   130 RÉSULTAT EN INSTANCE D'AFFECTATION  
+    1301 Résultat en instance d'affectation : Bénéfice  
+    1309 Résultat en instance d'affectation : Perte  
+   131 RÉSULTAT NET : BÉNÉFICE  
+    132 MARGE COMMERCIALE (M. C)  
+   133 VALEUR AJOUTÉE (V.A.)  
+   134 EXCÉDENT BRUT D'EXPLOITATION (E.B.E.)  
+   135 RÉSULTAT D'EXPLOITATION
+Voici le texte extrait de l'image :  
+ 
+  10 CAPITAL  
+ 
+   101 CAPITAL SOCIAL  
+    1011 Capital souscrit, non appelé  
+    1012 Capital souscrit, appelé, non versé  
+    1013 Capital souscrit, appelé, versé, non amorti  
+    1014 Capital souscrit, appelé, versé, amorti  
+    1018 Capital souscrit, soumis à des conditions particulières  
+ 
+   102 CAPITAL PAR DOTATION  
+    1021 Dotation initiale  
+    1022 Dotations complémentaires  
+    1028 Autres dotations  
+ 
+   103 CAPITAL PERSONNEL  
+   104 COMPTE DE L'EXPLOITANT  
+    1041 Apports temporaires  
+    1042 Opérations courantes  
+    1043 Rémunérations, impôts et autres charges personnelles  
+    1047 Prélèvements d'autoconsommation  
+    1048 Autres prélèvements  
+ 
+   105 PRIMES LIÉES AU CAPITAL SOCIAL  
+  1051 Primes d'émission  
+    1052 Primes d'apport  
+    1053 Primes de fusion  
+    1054 Primes de conversion  
+    1058 Autres primes  
+ 
+   106 ÉCARTS DE RÉÉVALUATION  
+    1061 Écarts de réévaluation légale  
+    1062 Écarts de réévaluation libre  
+ 
+   109 APPORTEURS, CAPITAL SOUSCRIT, NON APPELÉ
+
+	
+
