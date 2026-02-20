@@ -178,11 +178,33 @@
 - Creates Purchase record + StockMovement (PURCHASE_IN) + updates Material stock
 - Response: Created purchase object
 
+### Update Purchase
+- **PUT** `/transactions/purchase/:id`
+- Body: `{ supplierId?, paymentMethod?, paymentStatus?, invoiceNumber?, notes?, purchaseDate?, unitPrice?/montant? }`
+- Updates purchase metadata and optional item pricing
+- Response: Updated purchase object
+
+### Delete Purchase
+- **DELETE** `/transactions/purchase/:id`
+- Reverts PURCHASE_IN stock impact, removes related stock movements, then deletes purchase
+- Response: 204 No Content
+
 ### Create Sale
 - **POST** `/transactions/sale`
 - Body: `{ materialId, quantity, unitPrice, personId?, paymentMethod?, paymentStatus?, invoiceNumber?, notes?, reference? }`
 - Creates Sale record + StockMovement (SALE_OUT) + updates Material stock
 - Response: Created sale object
+
+### Update Sale
+- **PUT** `/transactions/sale/:id`
+- Body: `{ personId?, paymentMethod?, paymentStatus?, invoiceNumber?, notes?, saleDate?, unitPrice?/montant? }`
+- Updates sale metadata and optional item pricing
+- Response: Updated sale object
+
+### Delete Sale
+- **DELETE** `/transactions/sale/:id`
+- Reverts SALE_OUT stock impact, removes related stock movements, then deletes sale
+- Response: 204 No Content
 
 ### Create Loan
 - **POST** `/transactions/loan`
@@ -190,6 +212,17 @@
 - Constraint: Max 3 books per loan, only BOOK type materials
 - Creates Loan record + LoanItems + StockMovements (LOAN_OUT) + updates Material stock
 - Response: Created loan object with items
+
+### Update Loan
+- **PUT** `/transactions/loan/:id`
+- Body: `{ personId?, expectedReturnAt?, notes? }`
+- Updates loan metadata
+- Response: Updated loan object
+
+### Delete Loan
+- **DELETE** `/transactions/loan/:id`
+- If ACTIVE/OVERDUE: restores stock for loaned items, removes LOAN/RETURN stock movements, then deletes loan
+- Response: 204 No Content
 
 ### Return Loan
 - **POST** `/transactions/return`
@@ -203,6 +236,20 @@
 - For material donations: requires items array
 - For financial donations: requires amount
 - Response: Created donation object
+
+### Update Donation
+- **PUT** `/transactions/donation/:id`
+- Body: `{ donorId?, donorName?, donorType?, paymentMethod?, donationDate?, description?, institution?, amount? }`
+- Updates donation metadata
+- Response: Updated donation object
+
+### Delete Donation
+- **DELETE** `/transactions/donation/:id`
+- For material donations: reverts stock impact before deletion, then removes related stock movements
+- Response: 204 No Content
+
+### Enum tolerance (transactions)
+- `paymentMethod`, `paymentStatus`, `donationKind`, `direction`, `donorType` accept uppercase values and common lowercase/FR aliases (e.g. `cash`/`espece`, `materiel`, `moral`, `physique`)
 
 ### Stock Adjustment
 - **POST** `/transactions/adjustment`

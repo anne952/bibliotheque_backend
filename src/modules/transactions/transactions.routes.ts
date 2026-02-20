@@ -1,4 +1,4 @@
-import { DonationDirection, DonationKind, MaterialType, PaymentMethod, PaymentStatus, Prisma, StockMovementType } from "../../generated/prisma/client";
+import { DonationDirection, DonationKind, DonorType, LoanStatus, MaterialType, PaymentMethod, PaymentStatus, Prisma, SourceType, StockMovementType } from "../../generated/prisma/client";
 import { Router } from "express";
 import { AppError, asyncHandler } from "../../common/http";
 import { prisma } from "../../config/prisma";
@@ -11,6 +11,110 @@ function assertPositiveInt(value: unknown, field: string): number {
   }
 
   return value;
+}
+
+function normalizeEnumToken(value: string): string {
+  return value.trim().toUpperCase().replace(/[\s-]+/g, "_");
+}
+
+function parsePaymentMethod(value: unknown): PaymentMethod | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+  const token = normalizeEnumToken(String(value));
+  const mapped: Record<string, PaymentMethod> = {
+    CASH: PaymentMethod.CASH,
+    ESPECE: PaymentMethod.CASH,
+    CHECK: PaymentMethod.CHECK,
+    CHEQUE: PaymentMethod.CHECK,
+    BANK_TRANSFER: PaymentMethod.BANK_TRANSFER,
+    VIREMENT: PaymentMethod.BANK_TRANSFER,
+    CREDIT_CARD: PaymentMethod.CREDIT_CARD,
+    CARTE: PaymentMethod.CREDIT_CARD,
+    MOBILE_MONEY: PaymentMethod.MOBILE_MONEY,
+    IN_KIND: PaymentMethod.IN_KIND,
+    NATURE: PaymentMethod.IN_KIND,
+  };
+
+  const parsed = mapped[token];
+  if (!parsed) throw new AppError("paymentMethod invalide", 400);
+  return parsed;
+}
+
+function parsePaymentStatus(value: unknown): PaymentStatus | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+  const token = normalizeEnumToken(String(value));
+  const mapped: Record<string, PaymentStatus> = {
+    PENDING: PaymentStatus.PENDING,
+    EN_ATTENTE: PaymentStatus.PENDING,
+    PAID: PaymentStatus.PAID,
+    PAYE: PaymentStatus.PAID,
+    PARTIALLY_PAID: PaymentStatus.PARTIALLY_PAID,
+    PARTIELLEMENT_PAYE: PaymentStatus.PARTIALLY_PAID,
+    CANCELLED: PaymentStatus.CANCELLED,
+    ANNULE: PaymentStatus.CANCELLED,
+    REFUNDED: PaymentStatus.REFUNDED,
+    REMBOURSE: PaymentStatus.REFUNDED,
+  };
+
+  const parsed = mapped[token];
+  if (!parsed) throw new AppError("paymentStatus invalide", 400);
+  return parsed;
+}
+
+function parseDonationKind(value: unknown): DonationKind | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+  const token = normalizeEnumToken(String(value));
+  const mapped: Record<string, DonationKind> = {
+    FINANCIAL: DonationKind.FINANCIAL,
+    FINANCIER: DonationKind.FINANCIAL,
+    MATERIAL: DonationKind.MATERIAL,
+    MATERIEL: DonationKind.MATERIAL,
+  };
+
+  const parsed = mapped[token];
+  if (!parsed) throw new AppError("donationKind invalide", 400);
+  return parsed;
+}
+
+function parseDonationDirection(value: unknown): DonationDirection | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+  const token = normalizeEnumToken(String(value));
+  const mapped: Record<string, DonationDirection> = {
+    IN: DonationDirection.IN,
+    ENTREE: DonationDirection.IN,
+    ENTRANT: DonationDirection.IN,
+    OUT: DonationDirection.OUT,
+    SORTIE: DonationDirection.OUT,
+    SORTANT: DonationDirection.OUT,
+  };
+
+  const parsed = mapped[token];
+  if (!parsed) throw new AppError("direction invalide", 400);
+  return parsed;
+}
+
+function parseDonorType(value: unknown): DonorType | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+  const token = normalizeEnumToken(String(value));
+  const mapped: Record<string, DonorType> = {
+    INDIVIDUAL: DonorType.INDIVIDUAL,
+    PHYSIQUE: DonorType.INDIVIDUAL,
+    CORPORATE: DonorType.CORPORATE,
+    MORAL: DonorType.CORPORATE,
+    ASSOCIATION: DonorType.ASSOCIATION,
+    CHURCH: DonorType.CHURCH,
+    EGLISE: DonorType.CHURCH,
+  };
+
+  const parsed = mapped[token];
+  if (!parsed) throw new AppError("donorType invalide", 400);
+  return parsed;
+}
+
+function parseDate(value: unknown, field: string): Date | undefined {
+  if (value === undefined || value === null || value === "") return undefined;
+  const date = new Date(String(value));
+  if (Number.isNaN(date.getTime())) throw new AppError(`${field} invalide`, 400);
+  return date;
 }
 
 transactionsRoutes.get(
@@ -62,8 +166,8 @@ transactionsRoutes.post(
       const purchase = await tx.purchase.create({
         data: {
           supplierId: body.supplierId,
-          paymentMethod: body.paymentMethod ?? PaymentMethod.CASH,
-          paymentStatus: body.paymentStatus ?? PaymentStatus.PAID,
+          paymentMethod: parsePaymentMethod(body.paymentMethod) ?? PaymentMethod.CASH,
+          paymentStatus: parsePaymentStatus(body.paymentStatus) ?? PaymentStatus.PAID,
           invoiceNumber: body.invoiceNumber,
           notes: body.notes,
           items: { create: { materialId, quantity, unitPrice: unitPriceDecimal, totalAmount } },
@@ -125,8 +229,8 @@ transactionsRoutes.post(
       const sale = await tx.sale.create({
         data: {
           personId: body.personId,
-          paymentMethod: body.paymentMethod ?? PaymentMethod.CASH,
-          paymentStatus: body.paymentStatus ?? PaymentStatus.PAID,
+          paymentMethod: parsePaymentMethod(body.paymentMethod) ?? PaymentMethod.CASH,
+          paymentStatus: parsePaymentStatus(body.paymentStatus) ?? PaymentStatus.PAID,
           invoiceNumber: body.invoiceNumber,
           notes: body.notes,
           items: { create: { materialId, quantity, unitPrice: unitPriceDecimal, totalAmount } },
@@ -217,6 +321,72 @@ transactionsRoutes.post(
   }),
 );
 
+transactionsRoutes.put(
+  "/loan/:id",
+  asyncHandler(async (req, res) => {
+    const id = String(req.params.id);
+    const body = req.body as {
+      personId?: string;
+      expectedReturnAt?: string;
+      notes?: string;
+    };
+
+    const expectedReturnAt = parseDate(body.expectedReturnAt, "expectedReturnAt");
+
+    const result = await prisma.$transaction(async (tx) => {
+      const existing = await tx.loan.findUnique({ where: { id } });
+      if (!existing) throw new AppError("Emprunt introuvable", 404);
+
+      if (body.personId) {
+        const person = await tx.person.findFirst({ where: { id: body.personId, deletedAt: null } });
+        if (!person) throw new AppError("Personne introuvable", 404);
+      }
+
+      return tx.loan.update({
+        where: { id },
+        data: {
+          personId: body.personId,
+          expectedReturnAt,
+          notes: body.notes,
+        },
+        include: { items: true },
+      });
+    });
+
+    res.status(200).json(result);
+  }),
+);
+
+transactionsRoutes.delete(
+  "/loan/:id",
+  asyncHandler(async (req, res) => {
+    const id = String(req.params.id);
+
+    await prisma.$transaction(async (tx) => {
+      const loan = await tx.loan.findUnique({ where: { id }, include: { items: true } });
+      if (!loan) throw new AppError("Emprunt introuvable", 404);
+
+      const shouldRestoreStock = loan.status === LoanStatus.ACTIVE || loan.status === LoanStatus.OVERDUE;
+      if (shouldRestoreStock) {
+        for (const item of loan.items) {
+          await tx.material.update({ where: { id: item.materialId }, data: { currentStock: { increment: item.quantity } } });
+        }
+      }
+
+      await tx.stockMovement.deleteMany({
+        where: {
+          sourceId: id,
+          sourceType: { in: [SourceType.LOAN, SourceType.RETURN] },
+        },
+      });
+
+      await tx.loan.delete({ where: { id } });
+    });
+
+    res.status(204).send();
+  }),
+);
+
 transactionsRoutes.post(
   "/return",
   asyncHandler(async (req, res) => {
@@ -260,7 +430,7 @@ transactionsRoutes.post(
     const body = req.body as {
       donorId?: string;
       donorName?: string;
-      donorType?: "INDIVIDUAL" | "CORPORATE" | "ASSOCIATION" | "CHURCH" | "OTHER";
+      donorType?: string;
       donationKind?: DonationKind;
       direction?: DonationDirection;
       amount?: number;
@@ -271,19 +441,20 @@ transactionsRoutes.post(
     };
 
     if (!body.donationKind) throw new AppError("donationKind obligatoire", 400);
-    const donationKind = body.donationKind;
-    const direction = body.direction ?? DonationDirection.IN;
+    const donationKind = parseDonationKind(body.donationKind);
+    if (!donationKind) throw new AppError("donationKind obligatoire", 400);
+    const direction = parseDonationDirection(body.direction) ?? DonationDirection.IN;
 
     const result = await prisma.$transaction(async (tx) => {
       const donation = await tx.donation.create({
         data: {
           donorId: body.donorId,
           donorName: body.donorName,
-          donorType: body.donorType,
+          donorType: parseDonorType(body.donorType),
           donationKind,
           direction,
           amount: typeof body.amount === "number" ? new Prisma.Decimal(body.amount) : null,
-          paymentMethod: body.paymentMethod,
+          paymentMethod: parsePaymentMethod(body.paymentMethod),
           description: body.description,
           institution: body.institution,
         },
@@ -331,6 +502,271 @@ transactionsRoutes.post(
     });
 
     res.status(201).json(result);
+  }),
+);
+
+transactionsRoutes.put(
+  "/donation/:id",
+  asyncHandler(async (req, res) => {
+    const id = String(req.params.id);
+    const body = req.body as {
+      donorId?: string;
+      donorName?: string;
+      donorType?: string;
+      paymentMethod?: string;
+      donationDate?: string;
+      description?: string;
+      institution?: string;
+      amount?: number;
+    };
+
+    const donationDate = parseDate(body.donationDate, "donationDate");
+
+    const result = await prisma.$transaction(async (tx) => {
+      const existing = await tx.donation.findUnique({ where: { id } });
+      if (!existing) throw new AppError("Don introuvable", 404);
+
+      if (body.donorId) {
+        const donor = await tx.person.findFirst({ where: { id: body.donorId, deletedAt: null } });
+        if (!donor) throw new AppError("Donateur introuvable", 404);
+      }
+
+      if (existing.donationKind === DonationKind.FINANCIAL && body.amount !== undefined) {
+        if (typeof body.amount !== "number" || body.amount <= 0) {
+          throw new AppError("amount doit etre positif pour un don financier", 400);
+        }
+      }
+
+      return tx.donation.update({
+        where: { id },
+        data: {
+          donorId: body.donorId,
+          donorName: body.donorName,
+          donorType: parseDonorType(body.donorType),
+          paymentMethod: parsePaymentMethod(body.paymentMethod),
+          donationDate,
+          description: body.description,
+          institution: body.institution,
+          amount:
+            body.amount === undefined
+              ? undefined
+              : typeof body.amount === "number"
+                ? new Prisma.Decimal(body.amount)
+                : null,
+        },
+        include: { items: true },
+      });
+    });
+
+    res.status(200).json(result);
+  }),
+);
+
+transactionsRoutes.delete(
+  "/donation/:id",
+  asyncHandler(async (req, res) => {
+    const id = String(req.params.id);
+
+    await prisma.$transaction(async (tx) => {
+      const donation = await tx.donation.findUnique({ where: { id }, include: { items: true } });
+      if (!donation) throw new AppError("Don introuvable", 404);
+
+      if (donation.donationKind === DonationKind.MATERIAL) {
+        for (const item of donation.items) {
+          const material = await tx.material.findFirst({ where: { id: item.materialId, deletedAt: null } });
+          if (!material) throw new AppError("Materiel introuvable", 404);
+
+          if (donation.direction === DonationDirection.IN) {
+            if (material.currentStock < item.quantity) {
+              throw new AppError(`Suppression impossible: stock insuffisant pour ${material.name}`, 400);
+            }
+            await tx.material.update({ where: { id: item.materialId }, data: { currentStock: { decrement: item.quantity } } });
+          } else {
+            await tx.material.update({ where: { id: item.materialId }, data: { currentStock: { increment: item.quantity } } });
+          }
+        }
+      }
+
+      await tx.stockMovement.deleteMany({
+        where: {
+          sourceId: id,
+          sourceType: { in: [SourceType.DONATION_FINANCIAL, SourceType.DONATION_MATERIAL] },
+        },
+      });
+
+      await tx.donation.delete({ where: { id } });
+    });
+
+    res.status(204).send();
+  }),
+);
+
+transactionsRoutes.put(
+  "/purchase/:id",
+  asyncHandler(async (req, res) => {
+    const id = String(req.params.id);
+    const body = req.body as {
+      supplierId?: string;
+      paymentMethod?: string;
+      paymentStatus?: string;
+      invoiceNumber?: string;
+      notes?: string;
+      purchaseDate?: string;
+      unitPrice?: number;
+      montant?: number;
+    };
+
+    const purchaseDate = parseDate(body.purchaseDate, "purchaseDate");
+    const unitPrice = typeof body.unitPrice === "number" ? body.unitPrice : typeof body.montant === "number" ? body.montant : undefined;
+    if (unitPrice !== undefined && unitPrice <= 0) throw new AppError("unitPrice doit etre positif", 400);
+
+    const result = await prisma.$transaction(async (tx) => {
+      const existing = await tx.purchase.findUnique({ where: { id }, include: { items: true } });
+      if (!existing) throw new AppError("Achat introuvable", 404);
+
+      if (body.supplierId) {
+        const supplier = await tx.person.findFirst({ where: { id: body.supplierId, deletedAt: null } });
+        if (!supplier) throw new AppError("Fournisseur introuvable", 404);
+      }
+
+      const updated = await tx.purchase.update({
+        where: { id },
+        data: {
+          supplierId: body.supplierId,
+          paymentMethod: parsePaymentMethod(body.paymentMethod),
+          paymentStatus: parsePaymentStatus(body.paymentStatus),
+          invoiceNumber: body.invoiceNumber,
+          notes: body.notes,
+          purchaseDate,
+        },
+        include: { items: true },
+      });
+
+      if (unitPrice !== undefined) {
+        const unitPriceDecimal = new Prisma.Decimal(unitPrice);
+        for (const item of updated.items) {
+          await tx.purchaseItem.update({
+            where: { id: item.id },
+            data: {
+              unitPrice: unitPriceDecimal,
+              totalAmount: unitPriceDecimal.mul(item.quantity),
+            },
+          });
+        }
+      }
+
+      return tx.purchase.findUnique({ where: { id }, include: { items: true } });
+    });
+
+    res.status(200).json(result);
+  }),
+);
+
+transactionsRoutes.delete(
+  "/purchase/:id",
+  asyncHandler(async (req, res) => {
+    const id = String(req.params.id);
+
+    await prisma.$transaction(async (tx) => {
+      const purchase = await tx.purchase.findUnique({ where: { id }, include: { items: true } });
+      if (!purchase) throw new AppError("Achat introuvable", 404);
+
+      for (const item of purchase.items) {
+        const material = await tx.material.findFirst({ where: { id: item.materialId, deletedAt: null } });
+        if (!material) throw new AppError("Materiel introuvable", 404);
+        if (material.currentStock < item.quantity) {
+          throw new AppError(`Suppression impossible: stock insuffisant pour ${material.name}`, 400);
+        }
+        await tx.material.update({ where: { id: item.materialId }, data: { currentStock: { decrement: item.quantity } } });
+      }
+
+      await tx.stockMovement.deleteMany({ where: { sourceType: SourceType.PURCHASE, sourceId: id } });
+      await tx.purchase.delete({ where: { id } });
+    });
+
+    res.status(204).send();
+  }),
+);
+
+transactionsRoutes.put(
+  "/sale/:id",
+  asyncHandler(async (req, res) => {
+    const id = String(req.params.id);
+    const body = req.body as {
+      personId?: string;
+      paymentMethod?: string;
+      paymentStatus?: string;
+      invoiceNumber?: string;
+      notes?: string;
+      saleDate?: string;
+      unitPrice?: number;
+      montant?: number;
+    };
+
+    const saleDate = parseDate(body.saleDate, "saleDate");
+    const unitPrice = typeof body.unitPrice === "number" ? body.unitPrice : typeof body.montant === "number" ? body.montant : undefined;
+    if (unitPrice !== undefined && unitPrice <= 0) throw new AppError("unitPrice doit etre positif", 400);
+
+    const result = await prisma.$transaction(async (tx) => {
+      const existing = await tx.sale.findUnique({ where: { id }, include: { items: true } });
+      if (!existing) throw new AppError("Vente introuvable", 404);
+
+      if (body.personId) {
+        const person = await tx.person.findFirst({ where: { id: body.personId, deletedAt: null } });
+        if (!person) throw new AppError("Acheteur introuvable", 404);
+      }
+
+      const updated = await tx.sale.update({
+        where: { id },
+        data: {
+          personId: body.personId,
+          paymentMethod: parsePaymentMethod(body.paymentMethod),
+          paymentStatus: parsePaymentStatus(body.paymentStatus),
+          invoiceNumber: body.invoiceNumber,
+          notes: body.notes,
+          saleDate,
+        },
+        include: { items: true },
+      });
+
+      if (unitPrice !== undefined) {
+        const unitPriceDecimal = new Prisma.Decimal(unitPrice);
+        for (const item of updated.items) {
+          await tx.saleItem.update({
+            where: { id: item.id },
+            data: {
+              unitPrice: unitPriceDecimal,
+              totalAmount: unitPriceDecimal.mul(item.quantity),
+            },
+          });
+        }
+      }
+
+      return tx.sale.findUnique({ where: { id }, include: { items: true } });
+    });
+
+    res.status(200).json(result);
+  }),
+);
+
+transactionsRoutes.delete(
+  "/sale/:id",
+  asyncHandler(async (req, res) => {
+    const id = String(req.params.id);
+
+    await prisma.$transaction(async (tx) => {
+      const sale = await tx.sale.findUnique({ where: { id }, include: { items: true } });
+      if (!sale) throw new AppError("Vente introuvable", 404);
+
+      for (const item of sale.items) {
+        await tx.material.update({ where: { id: item.materialId }, data: { currentStock: { increment: item.quantity } } });
+      }
+
+      await tx.stockMovement.deleteMany({ where: { sourceType: SourceType.SALE, sourceId: id } });
+      await tx.sale.delete({ where: { id } });
+    });
+
+    res.status(204).send();
   }),
 );
 
