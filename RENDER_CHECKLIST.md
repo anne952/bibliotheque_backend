@@ -68,7 +68,7 @@ NODE_ENV = production
    b. npm run build (prisma generate + tsc)
    c. npm run deploy (prisma migrate deploy + node dist/server.js)
    ↓
-3. Service disponible sur https://votre-app.onrender.com
+3. Service disponible sur https://bibliotheque-backend-1.onrender.com
 ```
 
 ---
@@ -102,19 +102,19 @@ NODE_ENV = production
 ### Après déploiement réussi
 1. Tester l'endpoint health:
    ```bash
-   curl https://votre-app.onrender.com/api/init/health
+   curl https://bibliotheque-backend-1.onrender.com/api/init/health
    ```
    Attendu: `{"status":"ok","timestamp":"..."}`
 
 2. Tester la registration status:
    ```bash
-   curl https://votre-app.onrender.com/api/auth/register-status
+   curl https://bibliotheque-backend-1.onrender.com/api/auth/register-status
    ```
    Attendu: `{"canRegister":true,"usersCount":0}`
 
 3. Mettre à jour le frontend avec la nouvelle API URL:
    ```env
-   VITE_API_BASE_URL=https://votre-app.onrender.com/api
+   VITE_API_BASE_URL=https://bibliotheque-backend-1.onrender.com/api
    ```
 
 ### Mises à jour futures

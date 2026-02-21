@@ -32,6 +32,8 @@ Ajouter dans **Environment Variables**:
 ```
 DATABASE_URL = [coller l'Internal Database URL de votre PostgreSQL Render]
 NODE_ENV = production
+CORS_ALLOWED_ORIGINS = https://votre-frontend.exemple.com,http://localhost:5173
+CORS_ALLOW_NULL_ORIGIN = false
 ```
 
 **Note**: `PORT` est automatiquement défini par Render, ne pas l'ajouter manuellement.
@@ -47,7 +49,7 @@ NODE_ENV = production
 ### 5. Vérification
 Une fois déployé, tester:
 ```bash
-curl https://votre-app.onrender.com/api/init/health
+curl https://bibliotheque-backend-1.onrender.com/api/init/health
 ```
 
 Résultat attendu:
@@ -67,7 +69,7 @@ Résultat attendu:
 ## Mise à jour du CODE_URL
 Après déploiement, mettre à jour votre frontend avec la nouvelle URL:
 ```
-VITE_API_BASE_URL=https://votre-app.onrender.com/api
+VITE_API_BASE_URL=https://bibliotheque-backend-1.onrender.com/api
 ```
 
 ## Migrations futures

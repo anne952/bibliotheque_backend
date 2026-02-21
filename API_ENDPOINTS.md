@@ -2,12 +2,12 @@
 
 ## Base URL
 - Development: `http://localhost:4000/api`
-- Production (Render): `https://votre-app.onrender.com/api`
+- Production (Render): `https://bibliotheque-backend-1.onrender.com/api`
 
 ### Exemples d'appels complets
 - Health (local): `http://localhost:4000/api/init/health`
-- Health (Render): `https://votre-app.onrender.com/api/init/health`
-- Register status (Render): `https://votre-app.onrender.com/api/auth/register-status`
+- Health (Render): `https://bibliotheque-backend-1.onrender.com/api/init/health`
+- Register status (Render): `https://bibliotheque-backend-1.onrender.com/api/auth/register-status`
 
 ---
 
