@@ -139,16 +139,20 @@ export class AccountInitService {
 
   private static parseAccountsFromFile(): Array<{ number: string; name: string }> {
     const candidates = [
+      path.resolve(process.cwd(), "prisma/data/nCompte.txt"),
+      path.resolve(process.cwd(), "prisma/data/nCompte"),
       path.resolve(process.cwd(), "src/generated/prisma/models/nCompte"),
-      path.resolve(process.cwd(), "src/generated/prisma/models/nCompte.txt"),
+      path.resolve(__dirname, "../../../prisma/data/nCompte.txt"),
       path.resolve(__dirname, "../../generated/prisma/models/nCompte"),
     ];
 
     const accountsFilePath = candidates.find((candidate) => fs.existsSync(candidate));
     if (!accountsFilePath) {
-      console.warn("Accounts file not found. Checked:", candidates);
+      console.warn("⚠️  Accounts file not found. Checked:", candidates);
       return [];
     }
+
+    console.log("✅ Loading accounts from:", accountsFilePath);
 
     const raw = fs.readFileSync(accountsFilePath, "utf8");
     const lines = raw.split(/\r?\n/);
@@ -223,6 +227,7 @@ export class AccountInitService {
     ];
 
     const parsedAccounts = this.parseAccountsFromFile();
+    console.log(`📋 Parsed ${parsedAccounts.length} accounts from nCompte file`);
 
     const combined = new Map<string, { number: string; name: string; type: AccountType; class: number }>();
     for (const acc of baseAccounts) {
@@ -255,13 +260,13 @@ export class AccountInitService {
       }));
 
     if (toCreate.length === 0) {
-      console.log("No new accounts to create");
+      console.log("✅ No new accounts to create (all exist)");
       return;
     }
 
     await prisma.account.createMany({ data: toCreate, skipDuplicates: true });
 
-    console.log(`Added ${toCreate.length} account(s)`);
+    console.log(`✅ Added ${toCreate.length} account(s) to database`);
   }
 
   /**

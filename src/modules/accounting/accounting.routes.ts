@@ -59,7 +59,7 @@ function addWorksheetFromRows(
   autoFitColumns(ws);
 }
 
-function validateLines(lines: Array<{ accountId?: string; debit?: number; credit?: number }>): void {
+function validateLines(lines: Array<{ accountId?: string; accountNumber?: string; debit?: number; credit?: number }>): void {
   if (!Array.isArray(lines) || lines.length < 2) {
     throw new AppError("Une ecriture doit contenir au moins 2 lignes", 400);
   }
@@ -68,7 +68,7 @@ function validateLines(lines: Array<{ accountId?: string; debit?: number; credit
   let creditTotal = new Prisma.Decimal(0);
 
   for (const line of lines) {
-    if (!line.accountId) throw new AppError("accountId obligatoire sur chaque ligne", 400);
+    if (!line.accountId && !line.accountNumber) throw new AppError("accountId ou accountNumber obligatoire sur chaque ligne", 400);
 
     const debit = typeof line.debit === "number" ? line.debit : 0;
     const credit = typeof line.credit === "number" ? line.credit : 0;
@@ -120,7 +120,7 @@ accountingRoutes.post(
       description?: string;
       sourceType?: SourceType;
       sourceId?: string;
-      lines?: Array<{ accountId?: string; debit?: number; credit?: number; description?: string }>;
+      lines?: Array<{ accountId?: string; accountNumber?: string; debit?: number; credit?: number; description?: string }>;
     };
 
     if (!body.fiscalYearId) throw new AppError("fiscalYearId obligatoire", 400);
@@ -141,6 +141,32 @@ accountingRoutes.post(
       if (!fy) throw new AppError("Exercice comptable introuvable", 404);
       if (fy.isClosed) throw new AppError("Exercice comptable ferme", 400);
 
+      // Résoudre accountNumber en accountId si nécessaire
+      const resolvedLines = await Promise.all(
+        lines.map(async (line) => {
+          let accountId = line.accountId;
+          
+          // Si accountNumber est fourni au lieu de accountId, le résoudre
+          if (!accountId && line.accountNumber) {
+            const account = await tx.account.findFirst({
+              where: { accountNumber: line.accountNumber, isActive: true },
+              select: { id: true },
+            });
+            if (!account) {
+              throw new AppError(`Compte comptable introuvable: ${line.accountNumber}`, 400);
+            }
+            accountId = account.id;
+          }
+
+          return {
+            accountId: accountId as string,
+            debit: new Prisma.Decimal(typeof line.debit === "number" ? line.debit : 0),
+            credit: new Prisma.Decimal(typeof line.credit === "number" ? line.credit : 0),
+            description: line.description,
+          };
+        }),
+      );
+
       const count = await tx.journalEntry.count({ where: { fiscalYearId: fy.id } });
       const entryNumber = `${fy.name}-${String(count + 1).padStart(5, "0")}`;
 
@@ -155,12 +181,7 @@ accountingRoutes.post(
           sourceType: body.sourceType,
           sourceId: body.sourceId,
           lines: {
-            create: lines.map((line) => ({
-              accountId: line.accountId as string,
-              debit: new Prisma.Decimal(typeof line.debit === "number" ? line.debit : 0),
-              credit: new Prisma.Decimal(typeof line.credit === "number" ? line.credit : 0),
-              description: line.description,
-            })),
+            create: resolvedLines,
           },
         },
         include: { lines: true },

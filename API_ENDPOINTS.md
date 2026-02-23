@@ -294,9 +294,25 @@
 
 ### Create Journal Entry
 - **POST** `/accounting/entries`
-- Body: `{ fiscalYearId, date, journalType, description, pieceNumber?, sourceType?, sourceId?, lines: [{ accountId, debit?, credit?, description? }] }`
+- Body: `{ fiscalYearId, date, journalType, description, pieceNumber?, sourceType?, sourceId?, lines: [{ accountId OR accountNumber, debit?, credit?, description? }] }`
+- **Note**: Vous pouvez utiliser soit `accountId` (UUID) soit `accountNumber` (ex: "57", "521") dans les lignes
+- **journalType** valeurs possibles: `GENERAL`, `CASH`, `PURCHASE`, `SALES`, `DONATION`, `BANK`
 - Validation: Debit total must equal credit total, min 2 lines
 - Response: Created journal entry
+
+**Exemple avec accountNumber:**
+```json
+{
+  "fiscalYearId": "abc-123",
+  "date": "2026-02-23",
+  "journalType": "PURCHASE",
+  "description": "Achat de fournitures",
+  "lines": [
+    { "accountNumber": "601", "debit": 5000, "credit": 0, "description": "Achats de marchandises" },
+    { "accountNumber": "521", "debit": 0, "credit": 5000, "description": "Banque" }
+  ]
+}
+```
 
 ### Update Journal Entry
 - **PUT** `/accounting/entries/:id`
