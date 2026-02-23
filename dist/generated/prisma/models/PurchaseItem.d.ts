@@ -192,8 +192,8 @@ export type PurchaseItemWhereInput = {
     unitPrice?: Prisma.DecimalFilter<"PurchaseItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     totalAmount?: Prisma.DecimalFilter<"PurchaseItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Prisma.DateTimeFilter<"PurchaseItem"> | Date | string;
-    purchase?: Prisma.XOR<Prisma.PurchaseScalarRelationFilter, Prisma.PurchaseWhereInput>;
     material?: Prisma.XOR<Prisma.MaterialScalarRelationFilter, Prisma.MaterialWhereInput>;
+    purchase?: Prisma.XOR<Prisma.PurchaseScalarRelationFilter, Prisma.PurchaseWhereInput>;
 };
 export type PurchaseItemOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -203,8 +203,8 @@ export type PurchaseItemOrderByWithRelationInput = {
     unitPrice?: Prisma.SortOrder;
     totalAmount?: Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
-    purchase?: Prisma.PurchaseOrderByWithRelationInput;
     material?: Prisma.MaterialOrderByWithRelationInput;
+    purchase?: Prisma.PurchaseOrderByWithRelationInput;
 };
 export type PurchaseItemWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -217,8 +217,8 @@ export type PurchaseItemWhereUniqueInput = Prisma.AtLeast<{
     unitPrice?: Prisma.DecimalFilter<"PurchaseItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     totalAmount?: Prisma.DecimalFilter<"PurchaseItem"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Prisma.DateTimeFilter<"PurchaseItem"> | Date | string;
-    purchase?: Prisma.XOR<Prisma.PurchaseScalarRelationFilter, Prisma.PurchaseWhereInput>;
     material?: Prisma.XOR<Prisma.MaterialScalarRelationFilter, Prisma.MaterialWhereInput>;
+    purchase?: Prisma.XOR<Prisma.PurchaseScalarRelationFilter, Prisma.PurchaseWhereInput>;
 }, "id">;
 export type PurchaseItemOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -252,8 +252,8 @@ export type PurchaseItemCreateInput = {
     unitPrice: runtime.Decimal | runtime.DecimalJsLike | number | string;
     totalAmount: runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Date | string;
-    purchase: Prisma.PurchaseCreateNestedOneWithoutItemsInput;
     material: Prisma.MaterialCreateNestedOneWithoutPurchaseItemsInput;
+    purchase: Prisma.PurchaseCreateNestedOneWithoutItemsInput;
 };
 export type PurchaseItemUncheckedCreateInput = {
     id?: string;
@@ -270,8 +270,8 @@ export type PurchaseItemUpdateInput = {
     unitPrice?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     totalAmount?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    purchase?: Prisma.PurchaseUpdateOneRequiredWithoutItemsNestedInput;
     material?: Prisma.MaterialUpdateOneRequiredWithoutPurchaseItemsNestedInput;
+    purchase?: Prisma.PurchaseUpdateOneRequiredWithoutItemsNestedInput;
 };
 export type PurchaseItemUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -586,8 +586,8 @@ export type PurchaseItemSelect<ExtArgs extends runtime.Types.Extensions.Internal
     unitPrice?: boolean;
     totalAmount?: boolean;
     createdAt?: boolean;
-    purchase?: boolean | Prisma.PurchaseDefaultArgs<ExtArgs>;
     material?: boolean | Prisma.MaterialDefaultArgs<ExtArgs>;
+    purchase?: boolean | Prisma.PurchaseDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["purchaseItem"]>;
 export type PurchaseItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -597,8 +597,8 @@ export type PurchaseItemSelectCreateManyAndReturn<ExtArgs extends runtime.Types.
     unitPrice?: boolean;
     totalAmount?: boolean;
     createdAt?: boolean;
-    purchase?: boolean | Prisma.PurchaseDefaultArgs<ExtArgs>;
     material?: boolean | Prisma.MaterialDefaultArgs<ExtArgs>;
+    purchase?: boolean | Prisma.PurchaseDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["purchaseItem"]>;
 export type PurchaseItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -608,8 +608,8 @@ export type PurchaseItemSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.
     unitPrice?: boolean;
     totalAmount?: boolean;
     createdAt?: boolean;
-    purchase?: boolean | Prisma.PurchaseDefaultArgs<ExtArgs>;
     material?: boolean | Prisma.MaterialDefaultArgs<ExtArgs>;
+    purchase?: boolean | Prisma.PurchaseDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["purchaseItem"]>;
 export type PurchaseItemSelectScalar = {
     id?: boolean;
@@ -622,22 +622,22 @@ export type PurchaseItemSelectScalar = {
 };
 export type PurchaseItemOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "purchaseId" | "materialId" | "quantity" | "unitPrice" | "totalAmount" | "createdAt", ExtArgs["result"]["purchaseItem"]>;
 export type PurchaseItemInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    purchase?: boolean | Prisma.PurchaseDefaultArgs<ExtArgs>;
     material?: boolean | Prisma.MaterialDefaultArgs<ExtArgs>;
+    purchase?: boolean | Prisma.PurchaseDefaultArgs<ExtArgs>;
 };
 export type PurchaseItemIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    purchase?: boolean | Prisma.PurchaseDefaultArgs<ExtArgs>;
     material?: boolean | Prisma.MaterialDefaultArgs<ExtArgs>;
+    purchase?: boolean | Prisma.PurchaseDefaultArgs<ExtArgs>;
 };
 export type PurchaseItemIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    purchase?: boolean | Prisma.PurchaseDefaultArgs<ExtArgs>;
     material?: boolean | Prisma.MaterialDefaultArgs<ExtArgs>;
+    purchase?: boolean | Prisma.PurchaseDefaultArgs<ExtArgs>;
 };
 export type $PurchaseItemPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "PurchaseItem";
     objects: {
-        purchase: Prisma.$PurchasePayload<ExtArgs>;
         material: Prisma.$MaterialPayload<ExtArgs>;
+        purchase: Prisma.$PurchasePayload<ExtArgs>;
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
@@ -976,8 +976,8 @@ export interface PurchaseItemDelegate<ExtArgs extends runtime.Types.Extensions.I
  */
 export interface Prisma__PurchaseItemClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
-    purchase<T extends Prisma.PurchaseDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PurchaseDefaultArgs<ExtArgs>>): Prisma.Prisma__PurchaseClient<runtime.Types.Result.GetResult<Prisma.$PurchasePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
     material<T extends Prisma.MaterialDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MaterialDefaultArgs<ExtArgs>>): Prisma.Prisma__MaterialClient<runtime.Types.Result.GetResult<Prisma.$MaterialPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    purchase<T extends Prisma.PurchaseDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.PurchaseDefaultArgs<ExtArgs>>): Prisma.Prisma__PurchaseClient<runtime.Types.Result.GetResult<Prisma.$PurchasePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.

@@ -6,6 +6,7 @@ import { personsRoutes } from "../modules/persons/persons.routes";
 import { accountingRoutes } from "../modules/accounting/accounting.routes";
 import { reportsRoutes } from "../modules/reports/reports.routes";
 import { initRoutes } from "../modules/init/init.routes";
+import { deletedItemsRoutes } from "../modules/deleted-items/deleted-items.routes";
 
 export const apiRoutes = Router();
 
@@ -20,3 +21,5 @@ apiRoutes.use("/accounting", accountingRoutes);
 apiRoutes.use("/comptabilite", accountingRoutes);
 apiRoutes.use("/reports", reportsRoutes);
 apiRoutes.use("/rapport", reportsRoutes);
+apiRoutes.use("/deleted-items", deletedItemsRoutes);
+apiRoutes.use("/corbeille", deletedItemsRoutes);

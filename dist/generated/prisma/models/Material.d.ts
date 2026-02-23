@@ -285,11 +285,11 @@ export type MaterialWhereInput = {
     createdAt?: Prisma.DateTimeFilter<"Material"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Material"> | Date | string;
     deletedAt?: Prisma.DateTimeNullableFilter<"Material"> | Date | string | null;
-    stockMovements?: Prisma.StockMovementListRelationFilter;
-    loanItems?: Prisma.LoanItemListRelationFilter;
-    saleItems?: Prisma.SaleItemListRelationFilter;
-    purchaseItems?: Prisma.PurchaseItemListRelationFilter;
     donationItems?: Prisma.DonationItemListRelationFilter;
+    loanItems?: Prisma.LoanItemListRelationFilter;
+    purchaseItems?: Prisma.PurchaseItemListRelationFilter;
+    saleItems?: Prisma.SaleItemListRelationFilter;
+    stockMovements?: Prisma.StockMovementListRelationFilter;
 };
 export type MaterialOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -310,11 +310,11 @@ export type MaterialOrderByWithRelationInput = {
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
     deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
-    stockMovements?: Prisma.StockMovementOrderByRelationAggregateInput;
-    loanItems?: Prisma.LoanItemOrderByRelationAggregateInput;
-    saleItems?: Prisma.SaleItemOrderByRelationAggregateInput;
-    purchaseItems?: Prisma.PurchaseItemOrderByRelationAggregateInput;
     donationItems?: Prisma.DonationItemOrderByRelationAggregateInput;
+    loanItems?: Prisma.LoanItemOrderByRelationAggregateInput;
+    purchaseItems?: Prisma.PurchaseItemOrderByRelationAggregateInput;
+    saleItems?: Prisma.SaleItemOrderByRelationAggregateInput;
+    stockMovements?: Prisma.StockMovementOrderByRelationAggregateInput;
 };
 export type MaterialWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -338,11 +338,11 @@ export type MaterialWhereUniqueInput = Prisma.AtLeast<{
     createdAt?: Prisma.DateTimeFilter<"Material"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Material"> | Date | string;
     deletedAt?: Prisma.DateTimeNullableFilter<"Material"> | Date | string | null;
-    stockMovements?: Prisma.StockMovementListRelationFilter;
-    loanItems?: Prisma.LoanItemListRelationFilter;
-    saleItems?: Prisma.SaleItemListRelationFilter;
-    purchaseItems?: Prisma.PurchaseItemListRelationFilter;
     donationItems?: Prisma.DonationItemListRelationFilter;
+    loanItems?: Prisma.LoanItemListRelationFilter;
+    purchaseItems?: Prisma.PurchaseItemListRelationFilter;
+    saleItems?: Prisma.SaleItemListRelationFilter;
+    stockMovements?: Prisma.StockMovementListRelationFilter;
 }, "id" | "reference" | "serialNumber">;
 export type MaterialOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -411,11 +411,11 @@ export type MaterialCreateInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    stockMovements?: Prisma.StockMovementCreateNestedManyWithoutMaterialInput;
-    loanItems?: Prisma.LoanItemCreateNestedManyWithoutMaterialInput;
-    saleItems?: Prisma.SaleItemCreateNestedManyWithoutMaterialInput;
-    purchaseItems?: Prisma.PurchaseItemCreateNestedManyWithoutMaterialInput;
     donationItems?: Prisma.DonationItemCreateNestedManyWithoutMaterialInput;
+    loanItems?: Prisma.LoanItemCreateNestedManyWithoutMaterialInput;
+    purchaseItems?: Prisma.PurchaseItemCreateNestedManyWithoutMaterialInput;
+    saleItems?: Prisma.SaleItemCreateNestedManyWithoutMaterialInput;
+    stockMovements?: Prisma.StockMovementCreateNestedManyWithoutMaterialInput;
 };
 export type MaterialUncheckedCreateInput = {
     id?: string;
@@ -436,11 +436,11 @@ export type MaterialUncheckedCreateInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutMaterialInput;
-    loanItems?: Prisma.LoanItemUncheckedCreateNestedManyWithoutMaterialInput;
-    saleItems?: Prisma.SaleItemUncheckedCreateNestedManyWithoutMaterialInput;
-    purchaseItems?: Prisma.PurchaseItemUncheckedCreateNestedManyWithoutMaterialInput;
     donationItems?: Prisma.DonationItemUncheckedCreateNestedManyWithoutMaterialInput;
+    loanItems?: Prisma.LoanItemUncheckedCreateNestedManyWithoutMaterialInput;
+    purchaseItems?: Prisma.PurchaseItemUncheckedCreateNestedManyWithoutMaterialInput;
+    saleItems?: Prisma.SaleItemUncheckedCreateNestedManyWithoutMaterialInput;
+    stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutMaterialInput;
 };
 export type MaterialUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -461,11 +461,11 @@ export type MaterialUpdateInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    stockMovements?: Prisma.StockMovementUpdateManyWithoutMaterialNestedInput;
-    loanItems?: Prisma.LoanItemUpdateManyWithoutMaterialNestedInput;
-    saleItems?: Prisma.SaleItemUpdateManyWithoutMaterialNestedInput;
-    purchaseItems?: Prisma.PurchaseItemUpdateManyWithoutMaterialNestedInput;
     donationItems?: Prisma.DonationItemUpdateManyWithoutMaterialNestedInput;
+    loanItems?: Prisma.LoanItemUpdateManyWithoutMaterialNestedInput;
+    purchaseItems?: Prisma.PurchaseItemUpdateManyWithoutMaterialNestedInput;
+    saleItems?: Prisma.SaleItemUpdateManyWithoutMaterialNestedInput;
+    stockMovements?: Prisma.StockMovementUpdateManyWithoutMaterialNestedInput;
 };
 export type MaterialUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -486,11 +486,11 @@ export type MaterialUncheckedUpdateInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutMaterialNestedInput;
-    loanItems?: Prisma.LoanItemUncheckedUpdateManyWithoutMaterialNestedInput;
-    saleItems?: Prisma.SaleItemUncheckedUpdateManyWithoutMaterialNestedInput;
-    purchaseItems?: Prisma.PurchaseItemUncheckedUpdateManyWithoutMaterialNestedInput;
     donationItems?: Prisma.DonationItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    loanItems?: Prisma.LoanItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    purchaseItems?: Prisma.PurchaseItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    saleItems?: Prisma.SaleItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutMaterialNestedInput;
 };
 export type MaterialCreateManyInput = {
     id?: string;
@@ -720,10 +720,10 @@ export type MaterialCreateWithoutStockMovementsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    loanItems?: Prisma.LoanItemCreateNestedManyWithoutMaterialInput;
-    saleItems?: Prisma.SaleItemCreateNestedManyWithoutMaterialInput;
-    purchaseItems?: Prisma.PurchaseItemCreateNestedManyWithoutMaterialInput;
     donationItems?: Prisma.DonationItemCreateNestedManyWithoutMaterialInput;
+    loanItems?: Prisma.LoanItemCreateNestedManyWithoutMaterialInput;
+    purchaseItems?: Prisma.PurchaseItemCreateNestedManyWithoutMaterialInput;
+    saleItems?: Prisma.SaleItemCreateNestedManyWithoutMaterialInput;
 };
 export type MaterialUncheckedCreateWithoutStockMovementsInput = {
     id?: string;
@@ -744,10 +744,10 @@ export type MaterialUncheckedCreateWithoutStockMovementsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    loanItems?: Prisma.LoanItemUncheckedCreateNestedManyWithoutMaterialInput;
-    saleItems?: Prisma.SaleItemUncheckedCreateNestedManyWithoutMaterialInput;
-    purchaseItems?: Prisma.PurchaseItemUncheckedCreateNestedManyWithoutMaterialInput;
     donationItems?: Prisma.DonationItemUncheckedCreateNestedManyWithoutMaterialInput;
+    loanItems?: Prisma.LoanItemUncheckedCreateNestedManyWithoutMaterialInput;
+    purchaseItems?: Prisma.PurchaseItemUncheckedCreateNestedManyWithoutMaterialInput;
+    saleItems?: Prisma.SaleItemUncheckedCreateNestedManyWithoutMaterialInput;
 };
 export type MaterialCreateOrConnectWithoutStockMovementsInput = {
     where: Prisma.MaterialWhereUniqueInput;
@@ -781,10 +781,10 @@ export type MaterialUpdateWithoutStockMovementsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    loanItems?: Prisma.LoanItemUpdateManyWithoutMaterialNestedInput;
-    saleItems?: Prisma.SaleItemUpdateManyWithoutMaterialNestedInput;
-    purchaseItems?: Prisma.PurchaseItemUpdateManyWithoutMaterialNestedInput;
     donationItems?: Prisma.DonationItemUpdateManyWithoutMaterialNestedInput;
+    loanItems?: Prisma.LoanItemUpdateManyWithoutMaterialNestedInput;
+    purchaseItems?: Prisma.PurchaseItemUpdateManyWithoutMaterialNestedInput;
+    saleItems?: Prisma.SaleItemUpdateManyWithoutMaterialNestedInput;
 };
 export type MaterialUncheckedUpdateWithoutStockMovementsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -805,10 +805,10 @@ export type MaterialUncheckedUpdateWithoutStockMovementsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    loanItems?: Prisma.LoanItemUncheckedUpdateManyWithoutMaterialNestedInput;
-    saleItems?: Prisma.SaleItemUncheckedUpdateManyWithoutMaterialNestedInput;
-    purchaseItems?: Prisma.PurchaseItemUncheckedUpdateManyWithoutMaterialNestedInput;
     donationItems?: Prisma.DonationItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    loanItems?: Prisma.LoanItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    purchaseItems?: Prisma.PurchaseItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    saleItems?: Prisma.SaleItemUncheckedUpdateManyWithoutMaterialNestedInput;
 };
 export type MaterialCreateWithoutLoanItemsInput = {
     id?: string;
@@ -829,10 +829,10 @@ export type MaterialCreateWithoutLoanItemsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    stockMovements?: Prisma.StockMovementCreateNestedManyWithoutMaterialInput;
-    saleItems?: Prisma.SaleItemCreateNestedManyWithoutMaterialInput;
-    purchaseItems?: Prisma.PurchaseItemCreateNestedManyWithoutMaterialInput;
     donationItems?: Prisma.DonationItemCreateNestedManyWithoutMaterialInput;
+    purchaseItems?: Prisma.PurchaseItemCreateNestedManyWithoutMaterialInput;
+    saleItems?: Prisma.SaleItemCreateNestedManyWithoutMaterialInput;
+    stockMovements?: Prisma.StockMovementCreateNestedManyWithoutMaterialInput;
 };
 export type MaterialUncheckedCreateWithoutLoanItemsInput = {
     id?: string;
@@ -853,10 +853,10 @@ export type MaterialUncheckedCreateWithoutLoanItemsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutMaterialInput;
-    saleItems?: Prisma.SaleItemUncheckedCreateNestedManyWithoutMaterialInput;
-    purchaseItems?: Prisma.PurchaseItemUncheckedCreateNestedManyWithoutMaterialInput;
     donationItems?: Prisma.DonationItemUncheckedCreateNestedManyWithoutMaterialInput;
+    purchaseItems?: Prisma.PurchaseItemUncheckedCreateNestedManyWithoutMaterialInput;
+    saleItems?: Prisma.SaleItemUncheckedCreateNestedManyWithoutMaterialInput;
+    stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutMaterialInput;
 };
 export type MaterialCreateOrConnectWithoutLoanItemsInput = {
     where: Prisma.MaterialWhereUniqueInput;
@@ -890,10 +890,10 @@ export type MaterialUpdateWithoutLoanItemsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    stockMovements?: Prisma.StockMovementUpdateManyWithoutMaterialNestedInput;
-    saleItems?: Prisma.SaleItemUpdateManyWithoutMaterialNestedInput;
-    purchaseItems?: Prisma.PurchaseItemUpdateManyWithoutMaterialNestedInput;
     donationItems?: Prisma.DonationItemUpdateManyWithoutMaterialNestedInput;
+    purchaseItems?: Prisma.PurchaseItemUpdateManyWithoutMaterialNestedInput;
+    saleItems?: Prisma.SaleItemUpdateManyWithoutMaterialNestedInput;
+    stockMovements?: Prisma.StockMovementUpdateManyWithoutMaterialNestedInput;
 };
 export type MaterialUncheckedUpdateWithoutLoanItemsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -914,10 +914,10 @@ export type MaterialUncheckedUpdateWithoutLoanItemsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutMaterialNestedInput;
-    saleItems?: Prisma.SaleItemUncheckedUpdateManyWithoutMaterialNestedInput;
-    purchaseItems?: Prisma.PurchaseItemUncheckedUpdateManyWithoutMaterialNestedInput;
     donationItems?: Prisma.DonationItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    purchaseItems?: Prisma.PurchaseItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    saleItems?: Prisma.SaleItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutMaterialNestedInput;
 };
 export type MaterialCreateWithoutSaleItemsInput = {
     id?: string;
@@ -938,10 +938,10 @@ export type MaterialCreateWithoutSaleItemsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    stockMovements?: Prisma.StockMovementCreateNestedManyWithoutMaterialInput;
+    donationItems?: Prisma.DonationItemCreateNestedManyWithoutMaterialInput;
     loanItems?: Prisma.LoanItemCreateNestedManyWithoutMaterialInput;
     purchaseItems?: Prisma.PurchaseItemCreateNestedManyWithoutMaterialInput;
-    donationItems?: Prisma.DonationItemCreateNestedManyWithoutMaterialInput;
+    stockMovements?: Prisma.StockMovementCreateNestedManyWithoutMaterialInput;
 };
 export type MaterialUncheckedCreateWithoutSaleItemsInput = {
     id?: string;
@@ -962,10 +962,10 @@ export type MaterialUncheckedCreateWithoutSaleItemsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutMaterialInput;
+    donationItems?: Prisma.DonationItemUncheckedCreateNestedManyWithoutMaterialInput;
     loanItems?: Prisma.LoanItemUncheckedCreateNestedManyWithoutMaterialInput;
     purchaseItems?: Prisma.PurchaseItemUncheckedCreateNestedManyWithoutMaterialInput;
-    donationItems?: Prisma.DonationItemUncheckedCreateNestedManyWithoutMaterialInput;
+    stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutMaterialInput;
 };
 export type MaterialCreateOrConnectWithoutSaleItemsInput = {
     where: Prisma.MaterialWhereUniqueInput;
@@ -999,10 +999,10 @@ export type MaterialUpdateWithoutSaleItemsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    stockMovements?: Prisma.StockMovementUpdateManyWithoutMaterialNestedInput;
+    donationItems?: Prisma.DonationItemUpdateManyWithoutMaterialNestedInput;
     loanItems?: Prisma.LoanItemUpdateManyWithoutMaterialNestedInput;
     purchaseItems?: Prisma.PurchaseItemUpdateManyWithoutMaterialNestedInput;
-    donationItems?: Prisma.DonationItemUpdateManyWithoutMaterialNestedInput;
+    stockMovements?: Prisma.StockMovementUpdateManyWithoutMaterialNestedInput;
 };
 export type MaterialUncheckedUpdateWithoutSaleItemsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1023,10 +1023,10 @@ export type MaterialUncheckedUpdateWithoutSaleItemsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutMaterialNestedInput;
+    donationItems?: Prisma.DonationItemUncheckedUpdateManyWithoutMaterialNestedInput;
     loanItems?: Prisma.LoanItemUncheckedUpdateManyWithoutMaterialNestedInput;
     purchaseItems?: Prisma.PurchaseItemUncheckedUpdateManyWithoutMaterialNestedInput;
-    donationItems?: Prisma.DonationItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutMaterialNestedInput;
 };
 export type MaterialCreateWithoutPurchaseItemsInput = {
     id?: string;
@@ -1047,10 +1047,10 @@ export type MaterialCreateWithoutPurchaseItemsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    stockMovements?: Prisma.StockMovementCreateNestedManyWithoutMaterialInput;
+    donationItems?: Prisma.DonationItemCreateNestedManyWithoutMaterialInput;
     loanItems?: Prisma.LoanItemCreateNestedManyWithoutMaterialInput;
     saleItems?: Prisma.SaleItemCreateNestedManyWithoutMaterialInput;
-    donationItems?: Prisma.DonationItemCreateNestedManyWithoutMaterialInput;
+    stockMovements?: Prisma.StockMovementCreateNestedManyWithoutMaterialInput;
 };
 export type MaterialUncheckedCreateWithoutPurchaseItemsInput = {
     id?: string;
@@ -1071,10 +1071,10 @@ export type MaterialUncheckedCreateWithoutPurchaseItemsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutMaterialInput;
+    donationItems?: Prisma.DonationItemUncheckedCreateNestedManyWithoutMaterialInput;
     loanItems?: Prisma.LoanItemUncheckedCreateNestedManyWithoutMaterialInput;
     saleItems?: Prisma.SaleItemUncheckedCreateNestedManyWithoutMaterialInput;
-    donationItems?: Prisma.DonationItemUncheckedCreateNestedManyWithoutMaterialInput;
+    stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutMaterialInput;
 };
 export type MaterialCreateOrConnectWithoutPurchaseItemsInput = {
     where: Prisma.MaterialWhereUniqueInput;
@@ -1108,10 +1108,10 @@ export type MaterialUpdateWithoutPurchaseItemsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    stockMovements?: Prisma.StockMovementUpdateManyWithoutMaterialNestedInput;
+    donationItems?: Prisma.DonationItemUpdateManyWithoutMaterialNestedInput;
     loanItems?: Prisma.LoanItemUpdateManyWithoutMaterialNestedInput;
     saleItems?: Prisma.SaleItemUpdateManyWithoutMaterialNestedInput;
-    donationItems?: Prisma.DonationItemUpdateManyWithoutMaterialNestedInput;
+    stockMovements?: Prisma.StockMovementUpdateManyWithoutMaterialNestedInput;
 };
 export type MaterialUncheckedUpdateWithoutPurchaseItemsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1132,10 +1132,10 @@ export type MaterialUncheckedUpdateWithoutPurchaseItemsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutMaterialNestedInput;
+    donationItems?: Prisma.DonationItemUncheckedUpdateManyWithoutMaterialNestedInput;
     loanItems?: Prisma.LoanItemUncheckedUpdateManyWithoutMaterialNestedInput;
     saleItems?: Prisma.SaleItemUncheckedUpdateManyWithoutMaterialNestedInput;
-    donationItems?: Prisma.DonationItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutMaterialNestedInput;
 };
 export type MaterialCreateWithoutDonationItemsInput = {
     id?: string;
@@ -1156,10 +1156,10 @@ export type MaterialCreateWithoutDonationItemsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    stockMovements?: Prisma.StockMovementCreateNestedManyWithoutMaterialInput;
     loanItems?: Prisma.LoanItemCreateNestedManyWithoutMaterialInput;
-    saleItems?: Prisma.SaleItemCreateNestedManyWithoutMaterialInput;
     purchaseItems?: Prisma.PurchaseItemCreateNestedManyWithoutMaterialInput;
+    saleItems?: Prisma.SaleItemCreateNestedManyWithoutMaterialInput;
+    stockMovements?: Prisma.StockMovementCreateNestedManyWithoutMaterialInput;
 };
 export type MaterialUncheckedCreateWithoutDonationItemsInput = {
     id?: string;
@@ -1180,10 +1180,10 @@ export type MaterialUncheckedCreateWithoutDonationItemsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutMaterialInput;
     loanItems?: Prisma.LoanItemUncheckedCreateNestedManyWithoutMaterialInput;
-    saleItems?: Prisma.SaleItemUncheckedCreateNestedManyWithoutMaterialInput;
     purchaseItems?: Prisma.PurchaseItemUncheckedCreateNestedManyWithoutMaterialInput;
+    saleItems?: Prisma.SaleItemUncheckedCreateNestedManyWithoutMaterialInput;
+    stockMovements?: Prisma.StockMovementUncheckedCreateNestedManyWithoutMaterialInput;
 };
 export type MaterialCreateOrConnectWithoutDonationItemsInput = {
     where: Prisma.MaterialWhereUniqueInput;
@@ -1217,10 +1217,10 @@ export type MaterialUpdateWithoutDonationItemsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    stockMovements?: Prisma.StockMovementUpdateManyWithoutMaterialNestedInput;
     loanItems?: Prisma.LoanItemUpdateManyWithoutMaterialNestedInput;
-    saleItems?: Prisma.SaleItemUpdateManyWithoutMaterialNestedInput;
     purchaseItems?: Prisma.PurchaseItemUpdateManyWithoutMaterialNestedInput;
+    saleItems?: Prisma.SaleItemUpdateManyWithoutMaterialNestedInput;
+    stockMovements?: Prisma.StockMovementUpdateManyWithoutMaterialNestedInput;
 };
 export type MaterialUncheckedUpdateWithoutDonationItemsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1241,27 +1241,27 @@ export type MaterialUncheckedUpdateWithoutDonationItemsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutMaterialNestedInput;
     loanItems?: Prisma.LoanItemUncheckedUpdateManyWithoutMaterialNestedInput;
-    saleItems?: Prisma.SaleItemUncheckedUpdateManyWithoutMaterialNestedInput;
     purchaseItems?: Prisma.PurchaseItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    saleItems?: Prisma.SaleItemUncheckedUpdateManyWithoutMaterialNestedInput;
+    stockMovements?: Prisma.StockMovementUncheckedUpdateManyWithoutMaterialNestedInput;
 };
 /**
  * Count Type MaterialCountOutputType
  */
 export type MaterialCountOutputType = {
-    stockMovements: number;
-    loanItems: number;
-    saleItems: number;
-    purchaseItems: number;
     donationItems: number;
+    loanItems: number;
+    purchaseItems: number;
+    saleItems: number;
+    stockMovements: number;
 };
 export type MaterialCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    stockMovements?: boolean | MaterialCountOutputTypeCountStockMovementsArgs;
-    loanItems?: boolean | MaterialCountOutputTypeCountLoanItemsArgs;
-    saleItems?: boolean | MaterialCountOutputTypeCountSaleItemsArgs;
-    purchaseItems?: boolean | MaterialCountOutputTypeCountPurchaseItemsArgs;
     donationItems?: boolean | MaterialCountOutputTypeCountDonationItemsArgs;
+    loanItems?: boolean | MaterialCountOutputTypeCountLoanItemsArgs;
+    purchaseItems?: boolean | MaterialCountOutputTypeCountPurchaseItemsArgs;
+    saleItems?: boolean | MaterialCountOutputTypeCountSaleItemsArgs;
+    stockMovements?: boolean | MaterialCountOutputTypeCountStockMovementsArgs;
 };
 /**
  * MaterialCountOutputType without action
@@ -1275,8 +1275,8 @@ export type MaterialCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Ext
 /**
  * MaterialCountOutputType without action
  */
-export type MaterialCountOutputTypeCountStockMovementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    where?: Prisma.StockMovementWhereInput;
+export type MaterialCountOutputTypeCountDonationItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.DonationItemWhereInput;
 };
 /**
  * MaterialCountOutputType without action
@@ -1287,20 +1287,20 @@ export type MaterialCountOutputTypeCountLoanItemsArgs<ExtArgs extends runtime.Ty
 /**
  * MaterialCountOutputType without action
  */
-export type MaterialCountOutputTypeCountSaleItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    where?: Prisma.SaleItemWhereInput;
-};
-/**
- * MaterialCountOutputType without action
- */
 export type MaterialCountOutputTypeCountPurchaseItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     where?: Prisma.PurchaseItemWhereInput;
 };
 /**
  * MaterialCountOutputType without action
  */
-export type MaterialCountOutputTypeCountDonationItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    where?: Prisma.DonationItemWhereInput;
+export type MaterialCountOutputTypeCountSaleItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.SaleItemWhereInput;
+};
+/**
+ * MaterialCountOutputType without action
+ */
+export type MaterialCountOutputTypeCountStockMovementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.StockMovementWhereInput;
 };
 export type MaterialSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -1321,11 +1321,11 @@ export type MaterialSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
     createdAt?: boolean;
     updatedAt?: boolean;
     deletedAt?: boolean;
-    stockMovements?: boolean | Prisma.Material$stockMovementsArgs<ExtArgs>;
-    loanItems?: boolean | Prisma.Material$loanItemsArgs<ExtArgs>;
-    saleItems?: boolean | Prisma.Material$saleItemsArgs<ExtArgs>;
-    purchaseItems?: boolean | Prisma.Material$purchaseItemsArgs<ExtArgs>;
     donationItems?: boolean | Prisma.Material$donationItemsArgs<ExtArgs>;
+    loanItems?: boolean | Prisma.Material$loanItemsArgs<ExtArgs>;
+    purchaseItems?: boolean | Prisma.Material$purchaseItemsArgs<ExtArgs>;
+    saleItems?: boolean | Prisma.Material$saleItemsArgs<ExtArgs>;
+    stockMovements?: boolean | Prisma.Material$stockMovementsArgs<ExtArgs>;
     _count?: boolean | Prisma.MaterialCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["material"]>;
 export type MaterialSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1390,11 +1390,11 @@ export type MaterialSelectScalar = {
 };
 export type MaterialOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "type" | "name" | "reference" | "serialNumber" | "category" | "language" | "volume" | "status" | "currentStock" | "minStockAlert" | "unitPrice" | "sellingPrice" | "location" | "description" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["material"]>;
 export type MaterialInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    stockMovements?: boolean | Prisma.Material$stockMovementsArgs<ExtArgs>;
-    loanItems?: boolean | Prisma.Material$loanItemsArgs<ExtArgs>;
-    saleItems?: boolean | Prisma.Material$saleItemsArgs<ExtArgs>;
-    purchaseItems?: boolean | Prisma.Material$purchaseItemsArgs<ExtArgs>;
     donationItems?: boolean | Prisma.Material$donationItemsArgs<ExtArgs>;
+    loanItems?: boolean | Prisma.Material$loanItemsArgs<ExtArgs>;
+    purchaseItems?: boolean | Prisma.Material$purchaseItemsArgs<ExtArgs>;
+    saleItems?: boolean | Prisma.Material$saleItemsArgs<ExtArgs>;
+    stockMovements?: boolean | Prisma.Material$stockMovementsArgs<ExtArgs>;
     _count?: boolean | Prisma.MaterialCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type MaterialIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
@@ -1402,11 +1402,11 @@ export type MaterialIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
 export type $MaterialPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "Material";
     objects: {
-        stockMovements: Prisma.$StockMovementPayload<ExtArgs>[];
-        loanItems: Prisma.$LoanItemPayload<ExtArgs>[];
-        saleItems: Prisma.$SaleItemPayload<ExtArgs>[];
-        purchaseItems: Prisma.$PurchaseItemPayload<ExtArgs>[];
         donationItems: Prisma.$DonationItemPayload<ExtArgs>[];
+        loanItems: Prisma.$LoanItemPayload<ExtArgs>[];
+        purchaseItems: Prisma.$PurchaseItemPayload<ExtArgs>[];
+        saleItems: Prisma.$SaleItemPayload<ExtArgs>[];
+        stockMovements: Prisma.$StockMovementPayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
@@ -1756,11 +1756,11 @@ export interface MaterialDelegate<ExtArgs extends runtime.Types.Extensions.Inter
  */
 export interface Prisma__MaterialClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
-    stockMovements<T extends Prisma.Material$stockMovementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Material$stockMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StockMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
-    loanItems<T extends Prisma.Material$loanItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Material$loanItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoanItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
-    saleItems<T extends Prisma.Material$saleItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Material$saleItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SaleItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
-    purchaseItems<T extends Prisma.Material$purchaseItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Material$purchaseItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PurchaseItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     donationItems<T extends Prisma.Material$donationItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Material$donationItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DonationItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    loanItems<T extends Prisma.Material$loanItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Material$loanItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoanItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    purchaseItems<T extends Prisma.Material$purchaseItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Material$purchaseItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PurchaseItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    saleItems<T extends Prisma.Material$saleItemsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Material$saleItemsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SaleItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    stockMovements<T extends Prisma.Material$stockMovementsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Material$stockMovementsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$StockMovementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2175,27 +2175,27 @@ export type MaterialDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inte
     limit?: number;
 };
 /**
- * Material.stockMovements
+ * Material.donationItems
  */
-export type Material$stockMovementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Material$donationItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the StockMovement
+     * Select specific fields to fetch from the DonationItem
      */
-    select?: Prisma.StockMovementSelect<ExtArgs> | null;
+    select?: Prisma.DonationItemSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the StockMovement
+     * Omit specific fields from the DonationItem
      */
-    omit?: Prisma.StockMovementOmit<ExtArgs> | null;
+    omit?: Prisma.DonationItemOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Prisma.StockMovementInclude<ExtArgs> | null;
-    where?: Prisma.StockMovementWhereInput;
-    orderBy?: Prisma.StockMovementOrderByWithRelationInput | Prisma.StockMovementOrderByWithRelationInput[];
-    cursor?: Prisma.StockMovementWhereUniqueInput;
+    include?: Prisma.DonationItemInclude<ExtArgs> | null;
+    where?: Prisma.DonationItemWhereInput;
+    orderBy?: Prisma.DonationItemOrderByWithRelationInput | Prisma.DonationItemOrderByWithRelationInput[];
+    cursor?: Prisma.DonationItemWhereUniqueInput;
     take?: number;
     skip?: number;
-    distinct?: Prisma.StockMovementScalarFieldEnum | Prisma.StockMovementScalarFieldEnum[];
+    distinct?: Prisma.DonationItemScalarFieldEnum | Prisma.DonationItemScalarFieldEnum[];
 };
 /**
  * Material.loanItems
@@ -2221,29 +2221,6 @@ export type Material$loanItemsArgs<ExtArgs extends runtime.Types.Extensions.Inte
     distinct?: Prisma.LoanItemScalarFieldEnum | Prisma.LoanItemScalarFieldEnum[];
 };
 /**
- * Material.saleItems
- */
-export type Material$saleItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the SaleItem
-     */
-    select?: Prisma.SaleItemSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the SaleItem
-     */
-    omit?: Prisma.SaleItemOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Prisma.SaleItemInclude<ExtArgs> | null;
-    where?: Prisma.SaleItemWhereInput;
-    orderBy?: Prisma.SaleItemOrderByWithRelationInput | Prisma.SaleItemOrderByWithRelationInput[];
-    cursor?: Prisma.SaleItemWhereUniqueInput;
-    take?: number;
-    skip?: number;
-    distinct?: Prisma.SaleItemScalarFieldEnum | Prisma.SaleItemScalarFieldEnum[];
-};
-/**
  * Material.purchaseItems
  */
 export type Material$purchaseItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2267,27 +2244,50 @@ export type Material$purchaseItemsArgs<ExtArgs extends runtime.Types.Extensions.
     distinct?: Prisma.PurchaseItemScalarFieldEnum | Prisma.PurchaseItemScalarFieldEnum[];
 };
 /**
- * Material.donationItems
+ * Material.saleItems
  */
-export type Material$donationItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Material$saleItemsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the DonationItem
+     * Select specific fields to fetch from the SaleItem
      */
-    select?: Prisma.DonationItemSelect<ExtArgs> | null;
+    select?: Prisma.SaleItemSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the DonationItem
+     * Omit specific fields from the SaleItem
      */
-    omit?: Prisma.DonationItemOmit<ExtArgs> | null;
+    omit?: Prisma.SaleItemOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Prisma.DonationItemInclude<ExtArgs> | null;
-    where?: Prisma.DonationItemWhereInput;
-    orderBy?: Prisma.DonationItemOrderByWithRelationInput | Prisma.DonationItemOrderByWithRelationInput[];
-    cursor?: Prisma.DonationItemWhereUniqueInput;
+    include?: Prisma.SaleItemInclude<ExtArgs> | null;
+    where?: Prisma.SaleItemWhereInput;
+    orderBy?: Prisma.SaleItemOrderByWithRelationInput | Prisma.SaleItemOrderByWithRelationInput[];
+    cursor?: Prisma.SaleItemWhereUniqueInput;
     take?: number;
     skip?: number;
-    distinct?: Prisma.DonationItemScalarFieldEnum | Prisma.DonationItemScalarFieldEnum[];
+    distinct?: Prisma.SaleItemScalarFieldEnum | Prisma.SaleItemScalarFieldEnum[];
+};
+/**
+ * Material.stockMovements
+ */
+export type Material$stockMovementsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the StockMovement
+     */
+    select?: Prisma.StockMovementSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the StockMovement
+     */
+    omit?: Prisma.StockMovementOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.StockMovementInclude<ExtArgs> | null;
+    where?: Prisma.StockMovementWhereInput;
+    orderBy?: Prisma.StockMovementOrderByWithRelationInput | Prisma.StockMovementOrderByWithRelationInput[];
+    cursor?: Prisma.StockMovementWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.StockMovementScalarFieldEnum | Prisma.StockMovementScalarFieldEnum[];
 };
 /**
  * Material without action

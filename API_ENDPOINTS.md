@@ -355,6 +355,51 @@
 
 ---
 
+## 8. DELETED ITEMS (Corbeille) - Protected
+
+Toutes les routes de cette section exigent:
+```
+Authorization: Bearer <refreshToken>
+```
+
+### List Deleted Items
+- **GET** `/deleted-items`
+- Query params:
+  - `includeRestored=true|false` (default: `false`)
+  - `includeExpired=true|false` (default: `false`)
+  - `table=<originalTable>` (ex: `Person`, `Material`, `JournalEntry`)
+  - `limit=<1..500>` (default: `100`)
+- Response: Array of DeletedItem records
+
+### Restore Deleted Item
+- **POST** `/deleted-items/:id/restore`
+- Restores supported records:
+  - `Person` (annule le soft delete)
+  - `Material` (annule le soft delete)
+  - `JournalEntry` (recreation de l'ecriture + lignes)
+- Constraints:
+  - Fails if item already restored
+  - Fails if item is expired (delai depasse)
+- Response: Updated DeletedItem (with `restoredAt`, `restoredById`)
+
+### Delete One Deleted Item (hard delete in audit table)
+- **DELETE** `/deleted-items/:id`
+- Removes one record from `DeletedItem`
+- Response: 204 No Content
+
+### Purge Expired Deleted Items
+- **DELETE** `/deleted-items/purge-expired`
+- Removes all `DeletedItem` with `expiresAt <= now`
+- Response: `{ deletedCount }`
+
+### Alias Module Corbeille (meme endpoints)
+- **GET** `/corbeille`
+- **POST** `/corbeille/:id/restore`
+- **DELETE** `/corbeille/:id`
+- **DELETE** `/corbeille/purge-expired`
+
+---
+
 ## Error Handling
 
 All endpoints return error responses in this format:

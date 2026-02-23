@@ -188,8 +188,8 @@ export type JournalLineWhereInput = {
     credit?: Prisma.DecimalFilter<"JournalLine"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     description?: Prisma.StringNullableFilter<"JournalLine"> | string | null;
     createdAt?: Prisma.DateTimeFilter<"JournalLine"> | Date | string;
-    entry?: Prisma.XOR<Prisma.JournalEntryScalarRelationFilter, Prisma.JournalEntryWhereInput>;
     account?: Prisma.XOR<Prisma.AccountScalarRelationFilter, Prisma.AccountWhereInput>;
+    entry?: Prisma.XOR<Prisma.JournalEntryScalarRelationFilter, Prisma.JournalEntryWhereInput>;
 };
 export type JournalLineOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -199,8 +199,8 @@ export type JournalLineOrderByWithRelationInput = {
     credit?: Prisma.SortOrder;
     description?: Prisma.SortOrderInput | Prisma.SortOrder;
     createdAt?: Prisma.SortOrder;
-    entry?: Prisma.JournalEntryOrderByWithRelationInput;
     account?: Prisma.AccountOrderByWithRelationInput;
+    entry?: Prisma.JournalEntryOrderByWithRelationInput;
 };
 export type JournalLineWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -213,8 +213,8 @@ export type JournalLineWhereUniqueInput = Prisma.AtLeast<{
     credit?: Prisma.DecimalFilter<"JournalLine"> | runtime.Decimal | runtime.DecimalJsLike | number | string;
     description?: Prisma.StringNullableFilter<"JournalLine"> | string | null;
     createdAt?: Prisma.DateTimeFilter<"JournalLine"> | Date | string;
-    entry?: Prisma.XOR<Prisma.JournalEntryScalarRelationFilter, Prisma.JournalEntryWhereInput>;
     account?: Prisma.XOR<Prisma.AccountScalarRelationFilter, Prisma.AccountWhereInput>;
+    entry?: Prisma.XOR<Prisma.JournalEntryScalarRelationFilter, Prisma.JournalEntryWhereInput>;
 }, "id">;
 export type JournalLineOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -248,8 +248,8 @@ export type JournalLineCreateInput = {
     credit?: runtime.Decimal | runtime.DecimalJsLike | number | string;
     description?: string | null;
     createdAt?: Date | string;
-    entry: Prisma.JournalEntryCreateNestedOneWithoutLinesInput;
     account: Prisma.AccountCreateNestedOneWithoutLinesInput;
+    entry: Prisma.JournalEntryCreateNestedOneWithoutLinesInput;
 };
 export type JournalLineUncheckedCreateInput = {
     id?: string;
@@ -266,8 +266,8 @@ export type JournalLineUpdateInput = {
     credit?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-    entry?: Prisma.JournalEntryUpdateOneRequiredWithoutLinesNestedInput;
     account?: Prisma.AccountUpdateOneRequiredWithoutLinesNestedInput;
+    entry?: Prisma.JournalEntryUpdateOneRequiredWithoutLinesNestedInput;
 };
 export type JournalLineUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -580,8 +580,8 @@ export type JournalLineSelect<ExtArgs extends runtime.Types.Extensions.InternalA
     credit?: boolean;
     description?: boolean;
     createdAt?: boolean;
-    entry?: boolean | Prisma.JournalEntryDefaultArgs<ExtArgs>;
     account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>;
+    entry?: boolean | Prisma.JournalEntryDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["journalLine"]>;
 export type JournalLineSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -591,8 +591,8 @@ export type JournalLineSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
     credit?: boolean;
     description?: boolean;
     createdAt?: boolean;
-    entry?: boolean | Prisma.JournalEntryDefaultArgs<ExtArgs>;
     account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>;
+    entry?: boolean | Prisma.JournalEntryDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["journalLine"]>;
 export type JournalLineSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -602,8 +602,8 @@ export type JournalLineSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
     credit?: boolean;
     description?: boolean;
     createdAt?: boolean;
-    entry?: boolean | Prisma.JournalEntryDefaultArgs<ExtArgs>;
     account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>;
+    entry?: boolean | Prisma.JournalEntryDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["journalLine"]>;
 export type JournalLineSelectScalar = {
     id?: boolean;
@@ -616,22 +616,22 @@ export type JournalLineSelectScalar = {
 };
 export type JournalLineOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "entryId" | "accountId" | "debit" | "credit" | "description" | "createdAt", ExtArgs["result"]["journalLine"]>;
 export type JournalLineInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    entry?: boolean | Prisma.JournalEntryDefaultArgs<ExtArgs>;
     account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>;
+    entry?: boolean | Prisma.JournalEntryDefaultArgs<ExtArgs>;
 };
 export type JournalLineIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    entry?: boolean | Prisma.JournalEntryDefaultArgs<ExtArgs>;
     account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>;
+    entry?: boolean | Prisma.JournalEntryDefaultArgs<ExtArgs>;
 };
 export type JournalLineIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    entry?: boolean | Prisma.JournalEntryDefaultArgs<ExtArgs>;
     account?: boolean | Prisma.AccountDefaultArgs<ExtArgs>;
+    entry?: boolean | Prisma.JournalEntryDefaultArgs<ExtArgs>;
 };
 export type $JournalLinePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "JournalLine";
     objects: {
-        entry: Prisma.$JournalEntryPayload<ExtArgs>;
         account: Prisma.$AccountPayload<ExtArgs>;
+        entry: Prisma.$JournalEntryPayload<ExtArgs>;
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
@@ -970,8 +970,8 @@ export interface JournalLineDelegate<ExtArgs extends runtime.Types.Extensions.In
  */
 export interface Prisma__JournalLineClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
-    entry<T extends Prisma.JournalEntryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JournalEntryDefaultArgs<ExtArgs>>): Prisma.Prisma__JournalEntryClient<runtime.Types.Result.GetResult<Prisma.$JournalEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
     account<T extends Prisma.AccountDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AccountDefaultArgs<ExtArgs>>): Prisma.Prisma__AccountClient<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
+    entry<T extends Prisma.JournalEntryDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.JournalEntryDefaultArgs<ExtArgs>>): Prisma.Prisma__JournalEntryClient<runtime.Types.Result.GetResult<Prisma.$JournalEntryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.

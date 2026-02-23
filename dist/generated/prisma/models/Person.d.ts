@@ -218,11 +218,11 @@ export type PersonWhereInput = {
     createdAt?: Prisma.DateTimeFilter<"Person"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Person"> | Date | string;
     deletedAt?: Prisma.DateTimeNullableFilter<"Person"> | Date | string | null;
-    visits?: Prisma.VisitorLogListRelationFilter;
-    loans?: Prisma.LoanListRelationFilter;
-    sales?: Prisma.SaleListRelationFilter;
-    purchases?: Prisma.PurchaseListRelationFilter;
     donations?: Prisma.DonationListRelationFilter;
+    loans?: Prisma.LoanListRelationFilter;
+    purchases?: Prisma.PurchaseListRelationFilter;
+    sales?: Prisma.SaleListRelationFilter;
+    visits?: Prisma.VisitorLogListRelationFilter;
 };
 export type PersonOrderByWithRelationInput = {
     id?: Prisma.SortOrder;
@@ -240,11 +240,11 @@ export type PersonOrderByWithRelationInput = {
     createdAt?: Prisma.SortOrder;
     updatedAt?: Prisma.SortOrder;
     deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder;
-    visits?: Prisma.VisitorLogOrderByRelationAggregateInput;
-    loans?: Prisma.LoanOrderByRelationAggregateInput;
-    sales?: Prisma.SaleOrderByRelationAggregateInput;
-    purchases?: Prisma.PurchaseOrderByRelationAggregateInput;
     donations?: Prisma.DonationOrderByRelationAggregateInput;
+    loans?: Prisma.LoanOrderByRelationAggregateInput;
+    purchases?: Prisma.PurchaseOrderByRelationAggregateInput;
+    sales?: Prisma.SaleOrderByRelationAggregateInput;
+    visits?: Prisma.VisitorLogOrderByRelationAggregateInput;
 };
 export type PersonWhereUniqueInput = Prisma.AtLeast<{
     id?: string;
@@ -265,11 +265,11 @@ export type PersonWhereUniqueInput = Prisma.AtLeast<{
     createdAt?: Prisma.DateTimeFilter<"Person"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Person"> | Date | string;
     deletedAt?: Prisma.DateTimeNullableFilter<"Person"> | Date | string | null;
-    visits?: Prisma.VisitorLogListRelationFilter;
-    loans?: Prisma.LoanListRelationFilter;
-    sales?: Prisma.SaleListRelationFilter;
-    purchases?: Prisma.PurchaseListRelationFilter;
     donations?: Prisma.DonationListRelationFilter;
+    loans?: Prisma.LoanListRelationFilter;
+    purchases?: Prisma.PurchaseListRelationFilter;
+    sales?: Prisma.SaleListRelationFilter;
+    visits?: Prisma.VisitorLogListRelationFilter;
 }, "id" | "email">;
 export type PersonOrderByWithAggregationInput = {
     id?: Prisma.SortOrder;
@@ -327,11 +327,11 @@ export type PersonCreateInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    visits?: Prisma.VisitorLogCreateNestedManyWithoutPersonInput;
-    loans?: Prisma.LoanCreateNestedManyWithoutPersonInput;
-    sales?: Prisma.SaleCreateNestedManyWithoutPersonInput;
-    purchases?: Prisma.PurchaseCreateNestedManyWithoutSupplierInput;
     donations?: Prisma.DonationCreateNestedManyWithoutDonorInput;
+    loans?: Prisma.LoanCreateNestedManyWithoutPersonInput;
+    purchases?: Prisma.PurchaseCreateNestedManyWithoutSupplierInput;
+    sales?: Prisma.SaleCreateNestedManyWithoutPersonInput;
+    visits?: Prisma.VisitorLogCreateNestedManyWithoutPersonInput;
 };
 export type PersonUncheckedCreateInput = {
     id?: string;
@@ -349,11 +349,11 @@ export type PersonUncheckedCreateInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    visits?: Prisma.VisitorLogUncheckedCreateNestedManyWithoutPersonInput;
-    loans?: Prisma.LoanUncheckedCreateNestedManyWithoutPersonInput;
-    sales?: Prisma.SaleUncheckedCreateNestedManyWithoutPersonInput;
-    purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutSupplierInput;
     donations?: Prisma.DonationUncheckedCreateNestedManyWithoutDonorInput;
+    loans?: Prisma.LoanUncheckedCreateNestedManyWithoutPersonInput;
+    purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutSupplierInput;
+    sales?: Prisma.SaleUncheckedCreateNestedManyWithoutPersonInput;
+    visits?: Prisma.VisitorLogUncheckedCreateNestedManyWithoutPersonInput;
 };
 export type PersonUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -371,11 +371,11 @@ export type PersonUpdateInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    visits?: Prisma.VisitorLogUpdateManyWithoutPersonNestedInput;
-    loans?: Prisma.LoanUpdateManyWithoutPersonNestedInput;
-    sales?: Prisma.SaleUpdateManyWithoutPersonNestedInput;
-    purchases?: Prisma.PurchaseUpdateManyWithoutSupplierNestedInput;
     donations?: Prisma.DonationUpdateManyWithoutDonorNestedInput;
+    loans?: Prisma.LoanUpdateManyWithoutPersonNestedInput;
+    purchases?: Prisma.PurchaseUpdateManyWithoutSupplierNestedInput;
+    sales?: Prisma.SaleUpdateManyWithoutPersonNestedInput;
+    visits?: Prisma.VisitorLogUpdateManyWithoutPersonNestedInput;
 };
 export type PersonUncheckedUpdateInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -393,11 +393,11 @@ export type PersonUncheckedUpdateInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    visits?: Prisma.VisitorLogUncheckedUpdateManyWithoutPersonNestedInput;
-    loans?: Prisma.LoanUncheckedUpdateManyWithoutPersonNestedInput;
-    sales?: Prisma.SaleUncheckedUpdateManyWithoutPersonNestedInput;
-    purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutSupplierNestedInput;
     donations?: Prisma.DonationUncheckedUpdateManyWithoutDonorNestedInput;
+    loans?: Prisma.LoanUncheckedUpdateManyWithoutPersonNestedInput;
+    purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutSupplierNestedInput;
+    sales?: Prisma.SaleUncheckedUpdateManyWithoutPersonNestedInput;
+    visits?: Prisma.VisitorLogUncheckedUpdateManyWithoutPersonNestedInput;
 };
 export type PersonCreateManyInput = {
     id?: string;
@@ -593,10 +593,10 @@ export type PersonCreateWithoutVisitsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    loans?: Prisma.LoanCreateNestedManyWithoutPersonInput;
-    sales?: Prisma.SaleCreateNestedManyWithoutPersonInput;
-    purchases?: Prisma.PurchaseCreateNestedManyWithoutSupplierInput;
     donations?: Prisma.DonationCreateNestedManyWithoutDonorInput;
+    loans?: Prisma.LoanCreateNestedManyWithoutPersonInput;
+    purchases?: Prisma.PurchaseCreateNestedManyWithoutSupplierInput;
+    sales?: Prisma.SaleCreateNestedManyWithoutPersonInput;
 };
 export type PersonUncheckedCreateWithoutVisitsInput = {
     id?: string;
@@ -614,10 +614,10 @@ export type PersonUncheckedCreateWithoutVisitsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    loans?: Prisma.LoanUncheckedCreateNestedManyWithoutPersonInput;
-    sales?: Prisma.SaleUncheckedCreateNestedManyWithoutPersonInput;
-    purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutSupplierInput;
     donations?: Prisma.DonationUncheckedCreateNestedManyWithoutDonorInput;
+    loans?: Prisma.LoanUncheckedCreateNestedManyWithoutPersonInput;
+    purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutSupplierInput;
+    sales?: Prisma.SaleUncheckedCreateNestedManyWithoutPersonInput;
 };
 export type PersonCreateOrConnectWithoutVisitsInput = {
     where: Prisma.PersonWhereUniqueInput;
@@ -648,10 +648,10 @@ export type PersonUpdateWithoutVisitsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    loans?: Prisma.LoanUpdateManyWithoutPersonNestedInput;
-    sales?: Prisma.SaleUpdateManyWithoutPersonNestedInput;
-    purchases?: Prisma.PurchaseUpdateManyWithoutSupplierNestedInput;
     donations?: Prisma.DonationUpdateManyWithoutDonorNestedInput;
+    loans?: Prisma.LoanUpdateManyWithoutPersonNestedInput;
+    purchases?: Prisma.PurchaseUpdateManyWithoutSupplierNestedInput;
+    sales?: Prisma.SaleUpdateManyWithoutPersonNestedInput;
 };
 export type PersonUncheckedUpdateWithoutVisitsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -669,10 +669,10 @@ export type PersonUncheckedUpdateWithoutVisitsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    loans?: Prisma.LoanUncheckedUpdateManyWithoutPersonNestedInput;
-    sales?: Prisma.SaleUncheckedUpdateManyWithoutPersonNestedInput;
-    purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutSupplierNestedInput;
     donations?: Prisma.DonationUncheckedUpdateManyWithoutDonorNestedInput;
+    loans?: Prisma.LoanUncheckedUpdateManyWithoutPersonNestedInput;
+    purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutSupplierNestedInput;
+    sales?: Prisma.SaleUncheckedUpdateManyWithoutPersonNestedInput;
 };
 export type PersonCreateWithoutLoansInput = {
     id?: string;
@@ -690,10 +690,10 @@ export type PersonCreateWithoutLoansInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    visits?: Prisma.VisitorLogCreateNestedManyWithoutPersonInput;
-    sales?: Prisma.SaleCreateNestedManyWithoutPersonInput;
-    purchases?: Prisma.PurchaseCreateNestedManyWithoutSupplierInput;
     donations?: Prisma.DonationCreateNestedManyWithoutDonorInput;
+    purchases?: Prisma.PurchaseCreateNestedManyWithoutSupplierInput;
+    sales?: Prisma.SaleCreateNestedManyWithoutPersonInput;
+    visits?: Prisma.VisitorLogCreateNestedManyWithoutPersonInput;
 };
 export type PersonUncheckedCreateWithoutLoansInput = {
     id?: string;
@@ -711,10 +711,10 @@ export type PersonUncheckedCreateWithoutLoansInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    visits?: Prisma.VisitorLogUncheckedCreateNestedManyWithoutPersonInput;
-    sales?: Prisma.SaleUncheckedCreateNestedManyWithoutPersonInput;
-    purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutSupplierInput;
     donations?: Prisma.DonationUncheckedCreateNestedManyWithoutDonorInput;
+    purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutSupplierInput;
+    sales?: Prisma.SaleUncheckedCreateNestedManyWithoutPersonInput;
+    visits?: Prisma.VisitorLogUncheckedCreateNestedManyWithoutPersonInput;
 };
 export type PersonCreateOrConnectWithoutLoansInput = {
     where: Prisma.PersonWhereUniqueInput;
@@ -745,10 +745,10 @@ export type PersonUpdateWithoutLoansInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    visits?: Prisma.VisitorLogUpdateManyWithoutPersonNestedInput;
-    sales?: Prisma.SaleUpdateManyWithoutPersonNestedInput;
-    purchases?: Prisma.PurchaseUpdateManyWithoutSupplierNestedInput;
     donations?: Prisma.DonationUpdateManyWithoutDonorNestedInput;
+    purchases?: Prisma.PurchaseUpdateManyWithoutSupplierNestedInput;
+    sales?: Prisma.SaleUpdateManyWithoutPersonNestedInput;
+    visits?: Prisma.VisitorLogUpdateManyWithoutPersonNestedInput;
 };
 export type PersonUncheckedUpdateWithoutLoansInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -766,10 +766,10 @@ export type PersonUncheckedUpdateWithoutLoansInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    visits?: Prisma.VisitorLogUncheckedUpdateManyWithoutPersonNestedInput;
-    sales?: Prisma.SaleUncheckedUpdateManyWithoutPersonNestedInput;
-    purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutSupplierNestedInput;
     donations?: Prisma.DonationUncheckedUpdateManyWithoutDonorNestedInput;
+    purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutSupplierNestedInput;
+    sales?: Prisma.SaleUncheckedUpdateManyWithoutPersonNestedInput;
+    visits?: Prisma.VisitorLogUncheckedUpdateManyWithoutPersonNestedInput;
 };
 export type PersonCreateWithoutSalesInput = {
     id?: string;
@@ -787,10 +787,10 @@ export type PersonCreateWithoutSalesInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    visits?: Prisma.VisitorLogCreateNestedManyWithoutPersonInput;
+    donations?: Prisma.DonationCreateNestedManyWithoutDonorInput;
     loans?: Prisma.LoanCreateNestedManyWithoutPersonInput;
     purchases?: Prisma.PurchaseCreateNestedManyWithoutSupplierInput;
-    donations?: Prisma.DonationCreateNestedManyWithoutDonorInput;
+    visits?: Prisma.VisitorLogCreateNestedManyWithoutPersonInput;
 };
 export type PersonUncheckedCreateWithoutSalesInput = {
     id?: string;
@@ -808,10 +808,10 @@ export type PersonUncheckedCreateWithoutSalesInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    visits?: Prisma.VisitorLogUncheckedCreateNestedManyWithoutPersonInput;
+    donations?: Prisma.DonationUncheckedCreateNestedManyWithoutDonorInput;
     loans?: Prisma.LoanUncheckedCreateNestedManyWithoutPersonInput;
     purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutSupplierInput;
-    donations?: Prisma.DonationUncheckedCreateNestedManyWithoutDonorInput;
+    visits?: Prisma.VisitorLogUncheckedCreateNestedManyWithoutPersonInput;
 };
 export type PersonCreateOrConnectWithoutSalesInput = {
     where: Prisma.PersonWhereUniqueInput;
@@ -842,10 +842,10 @@ export type PersonUpdateWithoutSalesInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    visits?: Prisma.VisitorLogUpdateManyWithoutPersonNestedInput;
+    donations?: Prisma.DonationUpdateManyWithoutDonorNestedInput;
     loans?: Prisma.LoanUpdateManyWithoutPersonNestedInput;
     purchases?: Prisma.PurchaseUpdateManyWithoutSupplierNestedInput;
-    donations?: Prisma.DonationUpdateManyWithoutDonorNestedInput;
+    visits?: Prisma.VisitorLogUpdateManyWithoutPersonNestedInput;
 };
 export type PersonUncheckedUpdateWithoutSalesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -863,10 +863,10 @@ export type PersonUncheckedUpdateWithoutSalesInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    visits?: Prisma.VisitorLogUncheckedUpdateManyWithoutPersonNestedInput;
+    donations?: Prisma.DonationUncheckedUpdateManyWithoutDonorNestedInput;
     loans?: Prisma.LoanUncheckedUpdateManyWithoutPersonNestedInput;
     purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutSupplierNestedInput;
-    donations?: Prisma.DonationUncheckedUpdateManyWithoutDonorNestedInput;
+    visits?: Prisma.VisitorLogUncheckedUpdateManyWithoutPersonNestedInput;
 };
 export type PersonCreateWithoutPurchasesInput = {
     id?: string;
@@ -884,10 +884,10 @@ export type PersonCreateWithoutPurchasesInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    visits?: Prisma.VisitorLogCreateNestedManyWithoutPersonInput;
+    donations?: Prisma.DonationCreateNestedManyWithoutDonorInput;
     loans?: Prisma.LoanCreateNestedManyWithoutPersonInput;
     sales?: Prisma.SaleCreateNestedManyWithoutPersonInput;
-    donations?: Prisma.DonationCreateNestedManyWithoutDonorInput;
+    visits?: Prisma.VisitorLogCreateNestedManyWithoutPersonInput;
 };
 export type PersonUncheckedCreateWithoutPurchasesInput = {
     id?: string;
@@ -905,10 +905,10 @@ export type PersonUncheckedCreateWithoutPurchasesInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    visits?: Prisma.VisitorLogUncheckedCreateNestedManyWithoutPersonInput;
+    donations?: Prisma.DonationUncheckedCreateNestedManyWithoutDonorInput;
     loans?: Prisma.LoanUncheckedCreateNestedManyWithoutPersonInput;
     sales?: Prisma.SaleUncheckedCreateNestedManyWithoutPersonInput;
-    donations?: Prisma.DonationUncheckedCreateNestedManyWithoutDonorInput;
+    visits?: Prisma.VisitorLogUncheckedCreateNestedManyWithoutPersonInput;
 };
 export type PersonCreateOrConnectWithoutPurchasesInput = {
     where: Prisma.PersonWhereUniqueInput;
@@ -939,10 +939,10 @@ export type PersonUpdateWithoutPurchasesInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    visits?: Prisma.VisitorLogUpdateManyWithoutPersonNestedInput;
+    donations?: Prisma.DonationUpdateManyWithoutDonorNestedInput;
     loans?: Prisma.LoanUpdateManyWithoutPersonNestedInput;
     sales?: Prisma.SaleUpdateManyWithoutPersonNestedInput;
-    donations?: Prisma.DonationUpdateManyWithoutDonorNestedInput;
+    visits?: Prisma.VisitorLogUpdateManyWithoutPersonNestedInput;
 };
 export type PersonUncheckedUpdateWithoutPurchasesInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -960,10 +960,10 @@ export type PersonUncheckedUpdateWithoutPurchasesInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    visits?: Prisma.VisitorLogUncheckedUpdateManyWithoutPersonNestedInput;
+    donations?: Prisma.DonationUncheckedUpdateManyWithoutDonorNestedInput;
     loans?: Prisma.LoanUncheckedUpdateManyWithoutPersonNestedInput;
     sales?: Prisma.SaleUncheckedUpdateManyWithoutPersonNestedInput;
-    donations?: Prisma.DonationUncheckedUpdateManyWithoutDonorNestedInput;
+    visits?: Prisma.VisitorLogUncheckedUpdateManyWithoutPersonNestedInput;
 };
 export type PersonCreateWithoutDonationsInput = {
     id?: string;
@@ -981,10 +981,10 @@ export type PersonCreateWithoutDonationsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    visits?: Prisma.VisitorLogCreateNestedManyWithoutPersonInput;
     loans?: Prisma.LoanCreateNestedManyWithoutPersonInput;
-    sales?: Prisma.SaleCreateNestedManyWithoutPersonInput;
     purchases?: Prisma.PurchaseCreateNestedManyWithoutSupplierInput;
+    sales?: Prisma.SaleCreateNestedManyWithoutPersonInput;
+    visits?: Prisma.VisitorLogCreateNestedManyWithoutPersonInput;
 };
 export type PersonUncheckedCreateWithoutDonationsInput = {
     id?: string;
@@ -1002,10 +1002,10 @@ export type PersonUncheckedCreateWithoutDonationsInput = {
     createdAt?: Date | string;
     updatedAt?: Date | string;
     deletedAt?: Date | string | null;
-    visits?: Prisma.VisitorLogUncheckedCreateNestedManyWithoutPersonInput;
     loans?: Prisma.LoanUncheckedCreateNestedManyWithoutPersonInput;
-    sales?: Prisma.SaleUncheckedCreateNestedManyWithoutPersonInput;
     purchases?: Prisma.PurchaseUncheckedCreateNestedManyWithoutSupplierInput;
+    sales?: Prisma.SaleUncheckedCreateNestedManyWithoutPersonInput;
+    visits?: Prisma.VisitorLogUncheckedCreateNestedManyWithoutPersonInput;
 };
 export type PersonCreateOrConnectWithoutDonationsInput = {
     where: Prisma.PersonWhereUniqueInput;
@@ -1036,10 +1036,10 @@ export type PersonUpdateWithoutDonationsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    visits?: Prisma.VisitorLogUpdateManyWithoutPersonNestedInput;
     loans?: Prisma.LoanUpdateManyWithoutPersonNestedInput;
-    sales?: Prisma.SaleUpdateManyWithoutPersonNestedInput;
     purchases?: Prisma.PurchaseUpdateManyWithoutSupplierNestedInput;
+    sales?: Prisma.SaleUpdateManyWithoutPersonNestedInput;
+    visits?: Prisma.VisitorLogUpdateManyWithoutPersonNestedInput;
 };
 export type PersonUncheckedUpdateWithoutDonationsInput = {
     id?: Prisma.StringFieldUpdateOperationsInput | string;
@@ -1057,27 +1057,27 @@ export type PersonUncheckedUpdateWithoutDonationsInput = {
     createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
     deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null;
-    visits?: Prisma.VisitorLogUncheckedUpdateManyWithoutPersonNestedInput;
     loans?: Prisma.LoanUncheckedUpdateManyWithoutPersonNestedInput;
-    sales?: Prisma.SaleUncheckedUpdateManyWithoutPersonNestedInput;
     purchases?: Prisma.PurchaseUncheckedUpdateManyWithoutSupplierNestedInput;
+    sales?: Prisma.SaleUncheckedUpdateManyWithoutPersonNestedInput;
+    visits?: Prisma.VisitorLogUncheckedUpdateManyWithoutPersonNestedInput;
 };
 /**
  * Count Type PersonCountOutputType
  */
 export type PersonCountOutputType = {
-    visits: number;
-    loans: number;
-    sales: number;
-    purchases: number;
     donations: number;
+    loans: number;
+    purchases: number;
+    sales: number;
+    visits: number;
 };
 export type PersonCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    visits?: boolean | PersonCountOutputTypeCountVisitsArgs;
-    loans?: boolean | PersonCountOutputTypeCountLoansArgs;
-    sales?: boolean | PersonCountOutputTypeCountSalesArgs;
-    purchases?: boolean | PersonCountOutputTypeCountPurchasesArgs;
     donations?: boolean | PersonCountOutputTypeCountDonationsArgs;
+    loans?: boolean | PersonCountOutputTypeCountLoansArgs;
+    purchases?: boolean | PersonCountOutputTypeCountPurchasesArgs;
+    sales?: boolean | PersonCountOutputTypeCountSalesArgs;
+    visits?: boolean | PersonCountOutputTypeCountVisitsArgs;
 };
 /**
  * PersonCountOutputType without action
@@ -1091,8 +1091,8 @@ export type PersonCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Exten
 /**
  * PersonCountOutputType without action
  */
-export type PersonCountOutputTypeCountVisitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    where?: Prisma.VisitorLogWhereInput;
+export type PersonCountOutputTypeCountDonationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.DonationWhereInput;
 };
 /**
  * PersonCountOutputType without action
@@ -1103,20 +1103,20 @@ export type PersonCountOutputTypeCountLoansArgs<ExtArgs extends runtime.Types.Ex
 /**
  * PersonCountOutputType without action
  */
-export type PersonCountOutputTypeCountSalesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    where?: Prisma.SaleWhereInput;
-};
-/**
- * PersonCountOutputType without action
- */
 export type PersonCountOutputTypeCountPurchasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     where?: Prisma.PurchaseWhereInput;
 };
 /**
  * PersonCountOutputType without action
  */
-export type PersonCountOutputTypeCountDonationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    where?: Prisma.DonationWhereInput;
+export type PersonCountOutputTypeCountSalesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.SaleWhereInput;
+};
+/**
+ * PersonCountOutputType without action
+ */
+export type PersonCountOutputTypeCountVisitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    where?: Prisma.VisitorLogWhereInput;
 };
 export type PersonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
     id?: boolean;
@@ -1134,11 +1134,11 @@ export type PersonSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     createdAt?: boolean;
     updatedAt?: boolean;
     deletedAt?: boolean;
-    visits?: boolean | Prisma.Person$visitsArgs<ExtArgs>;
-    loans?: boolean | Prisma.Person$loansArgs<ExtArgs>;
-    sales?: boolean | Prisma.Person$salesArgs<ExtArgs>;
-    purchases?: boolean | Prisma.Person$purchasesArgs<ExtArgs>;
     donations?: boolean | Prisma.Person$donationsArgs<ExtArgs>;
+    loans?: boolean | Prisma.Person$loansArgs<ExtArgs>;
+    purchases?: boolean | Prisma.Person$purchasesArgs<ExtArgs>;
+    sales?: boolean | Prisma.Person$salesArgs<ExtArgs>;
+    visits?: boolean | Prisma.Person$visitsArgs<ExtArgs>;
     _count?: boolean | Prisma.PersonCountOutputTypeDefaultArgs<ExtArgs>;
 }, ExtArgs["result"]["person"]>;
 export type PersonSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -1194,11 +1194,11 @@ export type PersonSelectScalar = {
 };
 export type PersonOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "firstName" | "lastName" | "phone" | "email" | "address" | "church" | "isVisitor" | "isBorrower" | "isBuyer" | "isDonor" | "isSupplier" | "createdAt" | "updatedAt" | "deletedAt", ExtArgs["result"]["person"]>;
 export type PersonInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    visits?: boolean | Prisma.Person$visitsArgs<ExtArgs>;
-    loans?: boolean | Prisma.Person$loansArgs<ExtArgs>;
-    sales?: boolean | Prisma.Person$salesArgs<ExtArgs>;
-    purchases?: boolean | Prisma.Person$purchasesArgs<ExtArgs>;
     donations?: boolean | Prisma.Person$donationsArgs<ExtArgs>;
+    loans?: boolean | Prisma.Person$loansArgs<ExtArgs>;
+    purchases?: boolean | Prisma.Person$purchasesArgs<ExtArgs>;
+    sales?: boolean | Prisma.Person$salesArgs<ExtArgs>;
+    visits?: boolean | Prisma.Person$visitsArgs<ExtArgs>;
     _count?: boolean | Prisma.PersonCountOutputTypeDefaultArgs<ExtArgs>;
 };
 export type PersonIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {};
@@ -1206,11 +1206,11 @@ export type PersonIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
 export type $PersonPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     name: "Person";
     objects: {
-        visits: Prisma.$VisitorLogPayload<ExtArgs>[];
-        loans: Prisma.$LoanPayload<ExtArgs>[];
-        sales: Prisma.$SalePayload<ExtArgs>[];
-        purchases: Prisma.$PurchasePayload<ExtArgs>[];
         donations: Prisma.$DonationPayload<ExtArgs>[];
+        loans: Prisma.$LoanPayload<ExtArgs>[];
+        purchases: Prisma.$PurchasePayload<ExtArgs>[];
+        sales: Prisma.$SalePayload<ExtArgs>[];
+        visits: Prisma.$VisitorLogPayload<ExtArgs>[];
     };
     scalars: runtime.Types.Extensions.GetPayloadResult<{
         id: string;
@@ -1557,11 +1557,11 @@ export interface PersonDelegate<ExtArgs extends runtime.Types.Extensions.Interna
  */
 export interface Prisma__PersonClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise";
-    visits<T extends Prisma.Person$visitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$visitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VisitorLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
-    loans<T extends Prisma.Person$loansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$loansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
-    sales<T extends Prisma.Person$salesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$salesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
-    purchases<T extends Prisma.Person$purchasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$purchasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     donations<T extends Prisma.Person$donationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$donationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DonationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    loans<T extends Prisma.Person$loansArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$loansArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoanPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    purchases<T extends Prisma.Person$purchasesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$purchasesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PurchasePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    sales<T extends Prisma.Person$salesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$salesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SalePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
+    visits<T extends Prisma.Person$visitsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Person$visitsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VisitorLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>;
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1973,27 +1973,27 @@ export type PersonDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Intern
     limit?: number;
 };
 /**
- * Person.visits
+ * Person.donations
  */
-export type Person$visitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Person$donationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the VisitorLog
+     * Select specific fields to fetch from the Donation
      */
-    select?: Prisma.VisitorLogSelect<ExtArgs> | null;
+    select?: Prisma.DonationSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the VisitorLog
+     * Omit specific fields from the Donation
      */
-    omit?: Prisma.VisitorLogOmit<ExtArgs> | null;
+    omit?: Prisma.DonationOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Prisma.VisitorLogInclude<ExtArgs> | null;
-    where?: Prisma.VisitorLogWhereInput;
-    orderBy?: Prisma.VisitorLogOrderByWithRelationInput | Prisma.VisitorLogOrderByWithRelationInput[];
-    cursor?: Prisma.VisitorLogWhereUniqueInput;
+    include?: Prisma.DonationInclude<ExtArgs> | null;
+    where?: Prisma.DonationWhereInput;
+    orderBy?: Prisma.DonationOrderByWithRelationInput | Prisma.DonationOrderByWithRelationInput[];
+    cursor?: Prisma.DonationWhereUniqueInput;
     take?: number;
     skip?: number;
-    distinct?: Prisma.VisitorLogScalarFieldEnum | Prisma.VisitorLogScalarFieldEnum[];
+    distinct?: Prisma.DonationScalarFieldEnum | Prisma.DonationScalarFieldEnum[];
 };
 /**
  * Person.loans
@@ -2019,29 +2019,6 @@ export type Person$loansArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
     distinct?: Prisma.LoanScalarFieldEnum | Prisma.LoanScalarFieldEnum[];
 };
 /**
- * Person.sales
- */
-export type Person$salesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Sale
-     */
-    select?: Prisma.SaleSelect<ExtArgs> | null;
-    /**
-     * Omit specific fields from the Sale
-     */
-    omit?: Prisma.SaleOmit<ExtArgs> | null;
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: Prisma.SaleInclude<ExtArgs> | null;
-    where?: Prisma.SaleWhereInput;
-    orderBy?: Prisma.SaleOrderByWithRelationInput | Prisma.SaleOrderByWithRelationInput[];
-    cursor?: Prisma.SaleWhereUniqueInput;
-    take?: number;
-    skip?: number;
-    distinct?: Prisma.SaleScalarFieldEnum | Prisma.SaleScalarFieldEnum[];
-};
-/**
  * Person.purchases
  */
 export type Person$purchasesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -2065,27 +2042,50 @@ export type Person$purchasesArgs<ExtArgs extends runtime.Types.Extensions.Intern
     distinct?: Prisma.PurchaseScalarFieldEnum | Prisma.PurchaseScalarFieldEnum[];
 };
 /**
- * Person.donations
+ * Person.sales
  */
-export type Person$donationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+export type Person$salesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     /**
-     * Select specific fields to fetch from the Donation
+     * Select specific fields to fetch from the Sale
      */
-    select?: Prisma.DonationSelect<ExtArgs> | null;
+    select?: Prisma.SaleSelect<ExtArgs> | null;
     /**
-     * Omit specific fields from the Donation
+     * Omit specific fields from the Sale
      */
-    omit?: Prisma.DonationOmit<ExtArgs> | null;
+    omit?: Prisma.SaleOmit<ExtArgs> | null;
     /**
      * Choose, which related nodes to fetch as well
      */
-    include?: Prisma.DonationInclude<ExtArgs> | null;
-    where?: Prisma.DonationWhereInput;
-    orderBy?: Prisma.DonationOrderByWithRelationInput | Prisma.DonationOrderByWithRelationInput[];
-    cursor?: Prisma.DonationWhereUniqueInput;
+    include?: Prisma.SaleInclude<ExtArgs> | null;
+    where?: Prisma.SaleWhereInput;
+    orderBy?: Prisma.SaleOrderByWithRelationInput | Prisma.SaleOrderByWithRelationInput[];
+    cursor?: Prisma.SaleWhereUniqueInput;
     take?: number;
     skip?: number;
-    distinct?: Prisma.DonationScalarFieldEnum | Prisma.DonationScalarFieldEnum[];
+    distinct?: Prisma.SaleScalarFieldEnum | Prisma.SaleScalarFieldEnum[];
+};
+/**
+ * Person.visits
+ */
+export type Person$visitsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the VisitorLog
+     */
+    select?: Prisma.VisitorLogSelect<ExtArgs> | null;
+    /**
+     * Omit specific fields from the VisitorLog
+     */
+    omit?: Prisma.VisitorLogOmit<ExtArgs> | null;
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: Prisma.VisitorLogInclude<ExtArgs> | null;
+    where?: Prisma.VisitorLogWhereInput;
+    orderBy?: Prisma.VisitorLogOrderByWithRelationInput | Prisma.VisitorLogOrderByWithRelationInput[];
+    cursor?: Prisma.VisitorLogWhereUniqueInput;
+    take?: number;
+    skip?: number;
+    distinct?: Prisma.VisitorLogScalarFieldEnum | Prisma.VisitorLogScalarFieldEnum[];
 };
 /**
  * Person without action

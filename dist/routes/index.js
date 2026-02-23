@@ -9,6 +9,7 @@ const persons_routes_1 = require("../modules/persons/persons.routes");
 const accounting_routes_1 = require("../modules/accounting/accounting.routes");
 const reports_routes_1 = require("../modules/reports/reports.routes");
 const init_routes_1 = require("../modules/init/init.routes");
+const deleted_items_routes_1 = require("../modules/deleted-items/deleted-items.routes");
 exports.apiRoutes = (0, express_1.Router)();
 exports.apiRoutes.use("/init", init_routes_1.initRoutes);
 exports.apiRoutes.use("/auth", auth_routes_1.authRoutes);
@@ -21,4 +22,6 @@ exports.apiRoutes.use("/accounting", accounting_routes_1.accountingRoutes);
 exports.apiRoutes.use("/comptabilite", accounting_routes_1.accountingRoutes);
 exports.apiRoutes.use("/reports", reports_routes_1.reportsRoutes);
 exports.apiRoutes.use("/rapport", reports_routes_1.reportsRoutes);
+exports.apiRoutes.use("/deleted-items", deleted_items_routes_1.deletedItemsRoutes);
+exports.apiRoutes.use("/corbeille", deleted_items_routes_1.deletedItemsRoutes);
 //# sourceMappingURL=index.js.map
