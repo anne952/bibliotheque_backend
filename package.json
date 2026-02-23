@@ -25,6 +25,7 @@
     "@prisma/adapter-pg": "^7.4.1",
     "@prisma/client": "^7.4.0",
     "dotenv": "^17.3.1",
+    "exceljs": "^4.4.0",
     "express": "^5.2.1",
     "morgan": "^1.10.1",
     "pg": "^8.18.0",

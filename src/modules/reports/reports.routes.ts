@@ -4,6 +4,45 @@ import { ReportsService } from "./reports.service";
 
 export const reportsRoutes = Router();
 
+// Dashboard overview (optimized KPIs)
+reportsRoutes.get(
+  "/dashboard/overview",
+  asyncHandler(async (req, res) => {
+    const from = req.query.from ? String(req.query.from) : undefined;
+    const to = req.query.to ? String(req.query.to) : undefined;
+    const fiscalYearId = req.query.fiscalYearId
+      ? String(req.query.fiscalYearId)
+      : undefined;
+
+    const report = await ReportsService.getDashboardOverview({
+      from,
+      to,
+      fiscalYearId,
+    });
+    res.status(200).json(report);
+  }),
+);
+
+// Dashboard activity feed (optimized)
+reportsRoutes.get(
+  "/dashboard/activity",
+  asyncHandler(async (req, res) => {
+    const limit = req.query.limit ? parseInt(String(req.query.limit), 10) : 20;
+    const report = await ReportsService.getDashboardActivity(limit);
+    res.status(200).json(report);
+  }),
+);
+
+// Dashboard stock alerts (optimized)
+reportsRoutes.get(
+  "/dashboard/stock-alerts",
+  asyncHandler(async (req, res) => {
+    const limit = req.query.limit ? parseInt(String(req.query.limit), 10) : 10;
+    const report = await ReportsService.getDashboardStockAlerts(limit);
+    res.status(200).json(report);
+  }),
+);
+
 // Daily report
 reportsRoutes.get(
   "/daily",

@@ -1,4 +1,103 @@
 export declare class ReportsService {
+    private static resolveDashboardRange;
+    static getDashboardOverview(options?: {
+        from?: string;
+        to?: string;
+        fiscalYearId?: string;
+    }): Promise<{
+        range: {
+            from: Date;
+            to: Date;
+        };
+        kpis: {
+            transactions: {
+                salesCount: number;
+                purchasesCount: number;
+                donationsCount: number;
+                loansCount: number;
+                returnsCount: number;
+            };
+            amounts: {
+                salesRevenue: number;
+                purchasesCost: number;
+                financialDonationsIn: number;
+            };
+            inventory: {
+                materialsTotal: number;
+                totalStock: number;
+                lowStockCount: number;
+                outOfStockCount: number;
+            };
+            persons: {
+                total: number;
+                donors: number;
+                suppliers: number;
+                buyers: number;
+                borrowers: number;
+            };
+            accounting: {
+                validatedEntries: number;
+                unvalidatedEntries: number;
+            };
+        };
+        top: {
+            mostBorrowed: {
+                materialId: string;
+                name: string;
+                type: import("../../generated/prisma/enums").MaterialType | null;
+                borrowEvents: number;
+                quantityBorrowed: number;
+            }[];
+            donorsFinancial: {
+                donorId: string | null;
+                fullName: string;
+                donationCount: number;
+                totalAmount: number;
+            }[];
+        };
+    }>;
+    static getDashboardActivity(limit?: number): Promise<{
+        limit: number;
+        count: number;
+        events: ({
+            id: string;
+            type: string;
+            date: Date;
+            amount: number;
+            paymentMethod: import("../../generated/prisma/enums").PaymentMethod;
+            paymentStatus: import("../../generated/prisma/enums").PaymentStatus;
+            actor: string | null;
+        } | {
+            id: string;
+            type: string;
+            date: Date;
+            amount: number | null;
+            donationKind: import("../../generated/prisma/enums").DonationKind;
+            direction: import("../../generated/prisma/enums").DonationDirection;
+            actor: string | null;
+        } | {
+            id: string;
+            type: string;
+            date: Date;
+            quantity: number;
+            status: import("../../generated/prisma/enums").LoanStatus;
+            expectedReturnAt: Date;
+            returnedAt: Date | null;
+            actor: string;
+        })[];
+    }>;
+    static getDashboardStockAlerts(limit?: number): Promise<{
+        limit: number;
+        count: number;
+        alerts: {
+            severity: string;
+            id: string;
+            name: string;
+            type: import("../../generated/prisma/enums").MaterialType;
+            currentStock: number;
+            minStockAlert: number;
+        }[];
+    }>;
     /**
      * Get daily report (transactions for a specific date)
      */

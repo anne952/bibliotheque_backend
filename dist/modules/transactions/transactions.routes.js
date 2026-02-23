@@ -522,6 +522,69 @@ exports.transactionsRoutes.post("/donation", (0, http_1.asyncHandler)(async (req
     });
     res.status(201).json(result);
 }));
+exports.transactionsRoutes.get("/donation/:id/audit", (0, http_1.asyncHandler)(async (req, res) => {
+    const id = String(req.params.id);
+    const donation = await prisma_1.prisma.donation.findUnique({
+        where: { id },
+        include: {
+            donor: {
+                select: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    isDonor: true,
+                },
+            },
+            items: {
+                select: {
+                    id: true,
+                    materialId: true,
+                    quantity: true,
+                },
+            },
+        },
+    });
+    if (!donation)
+        throw new http_1.AppError("Don introuvable", 404);
+    const accountingEntry = donation.donationKind === client_1.DonationKind.FINANCIAL
+        ? await prisma_1.prisma.journalEntry.findFirst({
+            where: {
+                sourceType: client_1.SourceType.DONATION_FINANCIAL,
+                sourceId: donation.id,
+            },
+            include: {
+                lines: {
+                    include: {
+                        account: {
+                            select: {
+                                id: true,
+                                accountNumber: true,
+                                name: true,
+                            },
+                        },
+                    },
+                },
+            },
+            orderBy: { createdAt: "desc" },
+        })
+        : null;
+    res.status(200).json({
+        donation,
+        sync: {
+            donor: {
+                donorId: donation.donorId,
+                isDonor: donation.donor?.isDonor ?? null,
+                synced: donation.donorId ? Boolean(donation.donor?.isDonor) : null,
+            },
+            accounting: {
+                expected: donation.donationKind === client_1.DonationKind.FINANCIAL &&
+                    donation.direction === client_1.DonationDirection.IN,
+                found: Boolean(accountingEntry),
+                entry: accountingEntry,
+            },
+        },
+    });
+}));
 exports.transactionsRoutes.put("/donation/:id", (0, http_1.asyncHandler)(async (req, res) => {
     const id = String(req.params.id);
     const body = req.body;

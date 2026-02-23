@@ -1,4 +1,7 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.accountingRoutes = void 0;
 const client_1 = require("../../generated/prisma/client");
@@ -6,7 +9,54 @@ const express_1 = require("express");
 const http_1 = require("../../common/http");
 const prisma_1 = require("../../config/prisma");
 const accounting_service_1 = require("./accounting.service");
+const reports_service_1 = require("../reports/reports.service");
+const exceljs_1 = __importDefault(require("exceljs"));
 exports.accountingRoutes = (0, express_1.Router)();
+function toNumeric(value) {
+    if (value === null || value === undefined)
+        return 0;
+    if (typeof value === "number")
+        return value;
+    if (typeof value === "string") {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed : 0;
+    }
+    if (typeof value === "object" && value !== null && "toNumber" in value && typeof value.toNumber === "function") {
+        return value.toNumber();
+    }
+    return 0;
+}
+function formatDate(value) {
+    if (!value)
+        return "";
+    const date = value instanceof Date ? value : new Date(String(value));
+    if (Number.isNaN(date.getTime()))
+        return "";
+    return date.toISOString().slice(0, 10);
+}
+function autoFitColumns(ws) {
+    ws.columns.forEach((column) => {
+        let maxLength = 10;
+        if (!column.eachCell)
+            return;
+        column.eachCell({ includeEmpty: true }, (cell) => {
+            const raw = cell.value;
+            const cellValue = raw === null || raw === undefined ? "" : String(raw);
+            if (cellValue.length > maxLength)
+                maxLength = cellValue.length;
+        });
+        column.width = Math.min(maxLength + 2, 40);
+    });
+}
+function addWorksheetFromRows(workbook, sheetName, headers, rows) {
+    const ws = workbook.addWorksheet(sheetName);
+    ws.addRow(headers);
+    ws.getRow(1).font = { bold: true };
+    for (const row of rows) {
+        ws.addRow(row.map((cell) => (cell === undefined ? "" : cell)));
+    }
+    autoFitColumns(ws);
+}
 function validateLines(lines) {
     if (!Array.isArray(lines) || lines.length < 2) {
         throw new http_1.AppError("Une ecriture doit contenir au moins 2 lignes", 400);
@@ -226,11 +276,253 @@ exports.accountingRoutes.get("/cash-journal", (0, http_1.asyncHandler)(async (re
     const journal = await accounting_service_1.AccountingService.getCashJournal(fiscalYearId);
     res.status(200).json(journal);
 }));
-exports.accountingRoutes.get("/export/excel", (req, res) => {
-    res.status(501).json({
-        message: "Export Excel non encore implémenté",
-    });
-});
+exports.accountingRoutes.get("/export/excel", (0, http_1.asyncHandler)(async (req, res) => {
+    const section = req.query.section ? String(req.query.section).toLowerCase() : "all";
+    const fiscalYearId = req.query.fiscalYearId ? String(req.query.fiscalYearId) : undefined;
+    const accountId = req.query.accountId ? String(req.query.accountId) : undefined;
+    const allowedSections = [
+        "all",
+        "journal",
+        "cash-journal",
+        "donors",
+        "general-ledger",
+        "balance-sheet",
+        "trial-balance",
+        "income-statement",
+    ];
+    if (!allowedSections.includes(section)) {
+        throw new http_1.AppError("section invalide", 400);
+    }
+    const needsFiscalYear = section === "all" ||
+        section === "general-ledger" ||
+        section === "balance-sheet" ||
+        section === "trial-balance" ||
+        section === "income-statement";
+    if (needsFiscalYear && !fiscalYearId) {
+        throw new http_1.AppError("fiscalYearId obligatoire pour cette section", 400);
+    }
+    const workbook = new exceljs_1.default.Workbook();
+    workbook.creator = "Backend Bibliotheque";
+    workbook.created = new Date();
+    if (section === "all" || section === "journal") {
+        const entries = await prisma_1.prisma.journalEntry.findMany({
+            where: {
+                ...(fiscalYearId ? { fiscalYearId } : {}),
+            },
+            include: {
+                lines: {
+                    include: {
+                        account: {
+                            select: { accountNumber: true, name: true },
+                        },
+                    },
+                },
+            },
+            orderBy: [{ date: "desc" }, { createdAt: "desc" }],
+        });
+        addWorksheetFromRows(workbook, "Journal Comptable", [
+            "Date",
+            "Numero Ecriture",
+            "Journal",
+            "Description",
+            "Piece",
+            "Validee",
+            "Source Type",
+            "Source ID",
+            "Compte",
+            "Libelle Compte",
+            "Debit",
+            "Credit",
+            "Libelle Ligne",
+        ], entries.flatMap((entry) => entry.lines.map((line) => [
+            formatDate(entry.date),
+            entry.entryNumber,
+            entry.journalType,
+            entry.description,
+            entry.pieceNumber,
+            entry.isValidated ? "Oui" : "Non",
+            entry.sourceType,
+            entry.sourceId,
+            line.account.accountNumber,
+            line.account.name,
+            toNumeric(line.debit),
+            toNumeric(line.credit),
+            line.description,
+        ])));
+    }
+    if (section === "all" || section === "cash-journal") {
+        const cashEntries = await accounting_service_1.AccountingService.getCashJournal(fiscalYearId);
+        addWorksheetFromRows(workbook, "Journal Caisse", [
+            "Date",
+            "Numero Ecriture",
+            "Description",
+            "Piece",
+            "Source Type",
+            "Source ID",
+            "Compte",
+            "Libelle Compte",
+            "Debit",
+            "Credit",
+        ], cashEntries.flatMap((entry) => entry.lines.map((line) => [
+            formatDate(entry.date),
+            entry.entryNumber,
+            entry.description,
+            entry.pieceNumber,
+            entry.sourceType,
+            entry.sourceId,
+            line.account.accountNumber,
+            line.account.name,
+            toNumeric(line.debit),
+            toNumeric(line.credit),
+        ])));
+    }
+    if (section === "all" || section === "donors") {
+        const donors = await reports_service_1.ReportsService.getDonorsReport();
+        addWorksheetFromRows(workbook, "Donateurs", [
+            "ID",
+            "Nom",
+            "Email",
+            "Telephone",
+            "Total Dons",
+            "Total Financier",
+            "Total Materiel",
+            "Dernier Don",
+        ], donors.map((donor) => [
+            donor.donor.id,
+            `${donor.donor.firstName} ${donor.donor.lastName}`,
+            donor.donor.email,
+            donor.donor.phone,
+            donor.totalDonations,
+            donor.totalFinancial,
+            donor.totalMaterial,
+            formatDate(donor.lastDonation),
+        ]));
+    }
+    if (section === "all" || section === "general-ledger") {
+        if (section === "general-ledger" && accountId) {
+            const ledger = await accounting_service_1.AccountingService.getGeneralLedger(accountId, fiscalYearId);
+            addWorksheetFromRows(workbook, "Grand Livre", ["Compte", "Nom Compte", "Date", "Description", "Debit", "Credit", "Solde"], ledger.entries.map((line) => [
+                ledger.account.number,
+                ledger.account.name,
+                formatDate(line.date),
+                line.description,
+                line.debit,
+                line.credit,
+                line.balance,
+            ]));
+        }
+        else {
+            const lines = await prisma_1.prisma.journalLine.findMany({
+                where: {
+                    entry: {
+                        fiscalYearId: fiscalYearId,
+                        isValidated: true,
+                    },
+                },
+                include: {
+                    account: {
+                        select: {
+                            accountNumber: true,
+                            name: true,
+                        },
+                    },
+                    entry: {
+                        select: {
+                            date: true,
+                            description: true,
+                            entryNumber: true,
+                        },
+                    },
+                },
+                orderBy: [
+                    { account: { accountNumber: "asc" } },
+                    { entry: { date: "asc" } },
+                    { createdAt: "asc" },
+                ],
+            });
+            addWorksheetFromRows(workbook, "Grand Livre", ["Compte", "Nom Compte", "Date", "Numero Ecriture", "Description", "Debit", "Credit"], lines.map((line) => [
+                line.account.accountNumber,
+                line.account.name,
+                formatDate(line.entry.date),
+                line.entry.entryNumber,
+                line.entry.description,
+                toNumeric(line.debit),
+                toNumeric(line.credit),
+            ]));
+        }
+    }
+    if (section === "all" || section === "balance-sheet") {
+        const balanceSheet = await accounting_service_1.AccountingService.getBalanceSheet(fiscalYearId);
+        addWorksheetFromRows(workbook, "Bilan", ["Section", "Compte", "Libelle", "Debit", "Credit", "Solde"], [
+            ...balanceSheet.assets.map((line) => [
+                "Actif",
+                line.accountNumber,
+                line.accountName,
+                line.debit,
+                line.credit,
+                line.balance,
+            ]),
+            ...balanceSheet.liabilities.map((line) => [
+                "Passif",
+                line.accountNumber,
+                line.accountName,
+                line.debit,
+                line.credit,
+                line.balance,
+            ]),
+            ...balanceSheet.equity.map((line) => [
+                "Capitaux",
+                line.accountNumber,
+                line.accountName,
+                line.debit,
+                line.credit,
+                line.balance,
+            ]),
+            ["TOTAL", "", "Actif", "", "", balanceSheet.totals.assets],
+            ["TOTAL", "", "Passif", "", "", balanceSheet.totals.liabilities],
+            ["TOTAL", "", "Capitaux", "", "", balanceSheet.totals.equity],
+        ]);
+    }
+    if (section === "all" || section === "trial-balance") {
+        const trialBalance = await accounting_service_1.AccountingService.getTrialBalance(fiscalYearId);
+        addWorksheetFromRows(workbook, "Balance", ["Compte", "Libelle", "Total Debit", "Total Credit"], trialBalance.map((line) => [
+            line.accountNumber,
+            line.accountName,
+            line.totalDebit,
+            line.totalCredit,
+        ]));
+    }
+    if (section === "all" || section === "income-statement") {
+        const incomeStatement = await accounting_service_1.AccountingService.getIncomeStatement(fiscalYearId);
+        addWorksheetFromRows(workbook, "Compte Resultat", ["Section", "Compte", "Libelle", "Debit", "Credit", "Solde"], [
+            ...incomeStatement.revenues.map((line) => [
+                "Produits",
+                line.accountNumber,
+                line.accountName,
+                line.debit,
+                line.credit,
+                line.balance,
+            ]),
+            ...incomeStatement.expenses.map((line) => [
+                "Charges",
+                line.accountNumber,
+                line.accountName,
+                line.debit,
+                line.credit,
+                line.balance,
+            ]),
+            ["TOTAL", "", "Produits", "", "", incomeStatement.totals.revenues],
+            ["TOTAL", "", "Charges", "", "", incomeStatement.totals.expenses],
+            ["RESULTAT", "", "Net", "", "", incomeStatement.totals.netIncome],
+        ]);
+    }
+    const fileLabel = section === "all" ? "comptable-complet" : section;
+    const fileName = `export-${fileLabel}-${new Date().toISOString().slice(0, 10)}.xlsx`;
+    const buffer = await workbook.xlsx.writeBuffer();
+    res.setHeader("Content-Type", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    res.setHeader("Content-Disposition", `attachment; filename=\"${fileName}\"`);
+    res.status(200).send(Buffer.from(buffer));
+}));
 exports.accountingRoutes.get("/export/pdf", (req, res) => {
     res.status(501).json({
         message: "Export PDF non encore implémenté",

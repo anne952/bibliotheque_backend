@@ -244,6 +244,14 @@
 - Updates donation metadata
 - Response: Updated donation object
 
+### Audit Donation Sync
+- **GET** `/transactions/donation/:id/audit`
+- Retourne en une réponse:
+  - le don (avec donateur + items)
+  - le statut de synchronisation donateur (`sync.donor`)
+  - le statut de synchronisation comptable (`sync.accounting`)
+- Règle comptable: `sync.accounting.expected=true` seulement pour un don financier entrant (`FINANCIAL` + `IN`)
+
 ### Delete Donation
 - **DELETE** `/transactions/donation/:id`
 - For material donations: reverts stock impact before deletion, then removes related stock movements
@@ -317,6 +325,22 @@
 - **GET** `/accounting/cash-journal?fiscalYearId=<id>`
 - Response: All cash transactions (JOURNAL_TYPE = CASH)
 
+### Export Excel (implémenté)
+- **GET** `/accounting/export/excel?section=<type>&fiscalYearId=<id>&accountId=<id>`
+- Retourne un fichier `.xlsx` téléchargeable
+- `section` possibles:
+  - `all` (défaut): journal comptable + journal caisse + donateurs + grand livre + bilan + balance + compte de résultat
+  - `journal`
+  - `cash-journal`
+  - `donors`
+  - `general-ledger`
+  - `balance-sheet`
+  - `trial-balance`
+  - `income-statement`
+- Règles paramètres:
+  - `fiscalYearId` obligatoire pour: `all`, `general-ledger`, `balance-sheet`, `trial-balance`, `income-statement`
+  - `accountId` optionnel pour `general-ledger` (si absent: export global de toutes les lignes du grand livre)
+
 ### Alias Module Comptabilite (meme endpoints)
 - Base alias: `/comptabilite`
 - Exemples:
@@ -329,12 +353,29 @@
 
 ## 7. REPORTS
 
+### Dashboard Overview (optimisé)
+- **GET** `/reports/dashboard/overview?from=<YYYY-MM-DD>&to=<YYYY-MM-DD>&fiscalYearId=<id>`
+- Retourne des KPI agrégés et légers pour le tableau de bord (transactions, montants, stock, personnes, comptabilité, tops)
+- Par défaut, la période est les 30 derniers jours si `from/to` ne sont pas fournis
+
+### Dashboard Activity Feed (optimisé)
+- **GET** `/reports/dashboard/activity?limit=20`
+- Retourne un flux d’évènements récents fusionnés (vente, achat, don, emprunt) avec payload minimal
+- Limite bornée côté serveur pour éviter les charges trop lourdes
+
+### Dashboard Stock Alerts (optimisé)
+- **GET** `/reports/dashboard/stock-alerts?limit=10`
+- Retourne uniquement les articles en alerte de stock (LOW/OUT) avec un payload compact
+
 ### Daily Report
 - **GET** `/reports/daily?date=<YYYY-MM-DD>`
 - Shows all transactions for a specific date (defaults to today)
 - Response: Sales, purchases, donations, loans, returns counts + details
 
 ### Alias Module Rapport (meme endpoints)
+- **GET** `/rapport/dashboard/overview?from=<YYYY-MM-DD>&to=<YYYY-MM-DD>&fiscalYearId=<id>`
+- **GET** `/rapport/dashboard/activity?limit=20`
+- **GET** `/rapport/dashboard/stock-alerts?limit=10`
 - **GET** `/rapport/daily?date=<YYYY-MM-DD>`
 - **GET** `/rapport/donors`
 - **GET** `/rapport/most-borrowed?limit=10`
@@ -353,6 +394,47 @@
 ### Inventory Report
 - **GET** `/reports/inventory`
 - Response: Inventory summary (by type, total, low stock, out of stock) + item details
+
+### Mapping Frontend Dashboard (recommandé)
+- Objectif: charger le tableau de bord rapidement avec 3 appels légers en parallèle.
+
+#### 1) Appels à lancer en parallèle
+- `GET /reports/dashboard/overview?from=<YYYY-MM-DD>&to=<YYYY-MM-DD>&fiscalYearId=<id>`
+- `GET /reports/dashboard/activity?limit=20`
+- `GET /reports/dashboard/stock-alerts?limit=10`
+
+#### 2) Mapping UI conseillé
+- Cartes KPI:
+  - `overview.kpis.transactions.salesCount`
+  - `overview.kpis.transactions.purchasesCount`
+  - `overview.kpis.transactions.donationsCount`
+  - `overview.kpis.amounts.salesRevenue`
+  - `overview.kpis.amounts.purchasesCost`
+  - `overview.kpis.amounts.financialDonationsIn`
+  - `overview.kpis.inventory.lowStockCount`
+  - `overview.kpis.inventory.outOfStockCount`
+  - `overview.kpis.accounting.validatedEntries`
+  - `overview.kpis.accounting.unvalidatedEntries`
+- Top listes:
+  - `overview.top.mostBorrowed`
+  - `overview.top.donorsFinancial`
+- Fil activité récente:
+  - `activity.events` (types: `SALE`, `PURCHASE`, `DONATION`, `LOAN`)
+- Alertes stock:
+  - `stockAlerts.alerts` (severity: `LOW` | `OUT`)
+
+#### 3) Stratégie de performance côté front
+- Lancer les 3 appels en `Promise.all`.
+- Afficher les KPI dès que `overview` est reçu (les autres widgets peuvent arriver ensuite).
+- Rafraîchissement recommandé:
+  - `overview`: toutes les 30 à 60 secondes
+  - `activity`: toutes les 15 à 30 secondes
+  - `stock-alerts`: toutes les 60 à 120 secondes
+
+#### 4) Fallback si un appel échoue
+- Si `activity` échoue: garder KPI + stock alerts.
+- Si `stock-alerts` échoue: garder KPI + activity.
+- Si `overview` échoue: afficher un état vide du dashboard + message d’erreur principal.
 
 ---
 

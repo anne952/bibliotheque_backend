@@ -643,6 +643,78 @@ transactionsRoutes.post(
   }),
 );
 
+transactionsRoutes.get(
+  "/donation/:id/audit",
+  asyncHandler(async (req, res) => {
+    const id = String(req.params.id);
+
+    const donation = await prisma.donation.findUnique({
+      where: { id },
+      include: {
+        donor: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            isDonor: true,
+          },
+        },
+        items: {
+          select: {
+            id: true,
+            materialId: true,
+            quantity: true,
+          },
+        },
+      },
+    });
+
+    if (!donation) throw new AppError("Don introuvable", 404);
+
+    const accountingEntry =
+      donation.donationKind === DonationKind.FINANCIAL
+        ? await prisma.journalEntry.findFirst({
+            where: {
+              sourceType: SourceType.DONATION_FINANCIAL,
+              sourceId: donation.id,
+            },
+            include: {
+              lines: {
+                include: {
+                  account: {
+                    select: {
+                      id: true,
+                      accountNumber: true,
+                      name: true,
+                    },
+                  },
+                },
+              },
+            },
+            orderBy: { createdAt: "desc" },
+          })
+        : null;
+
+    res.status(200).json({
+      donation,
+      sync: {
+        donor: {
+          donorId: donation.donorId,
+          isDonor: donation.donor?.isDonor ?? null,
+          synced: donation.donorId ? Boolean(donation.donor?.isDonor) : null,
+        },
+        accounting: {
+          expected:
+            donation.donationKind === DonationKind.FINANCIAL &&
+            donation.direction === DonationDirection.IN,
+          found: Boolean(accountingEntry),
+          entry: accountingEntry,
+        },
+      },
+    });
+  }),
+);
+
 transactionsRoutes.put(
   "/donation/:id",
   asyncHandler(async (req, res) => {
