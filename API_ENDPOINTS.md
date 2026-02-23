@@ -230,6 +230,19 @@
 - Updates Loan status to RETURNED + creates StockMovements (RETURN_IN) + restores Material stock
 - Response: Updated loan object
 
+### Get All Donations
+- **GET** `/transactions/donations`
+- Query params:
+  - `?donorId=<id>` — filter by donor
+  - `?kind=FINANCIAL|MATERIAL` — filter by donation type
+  - `?from=<YYYY-MM-DD>&to=<YYYY-MM-DD>` — filter by date range
+  - `?limit=50&offset=0` — pagination (max 500)
+- Response: `{ donations: [...], pagination: { total, limit, offset, hasMore } }`
+
+### Get Single Donation
+- **GET** `/transactions/donation/:id`
+- Response: Donation object with donor details and items (includes material info for material donations)
+
 ### Create Donation
 - **POST** `/transactions/donation`
 - Body: `{ donorId?, donorName?, donorType?, donationKind, direction?, amount?, paymentMethod?, description?, institution?, items? }`

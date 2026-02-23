@@ -537,6 +537,102 @@ transactionsRoutes.post(
   }),
 );
 
+// GET all donations with optional filters
+transactionsRoutes.get(
+  "/donations",
+  asyncHandler(async (req, res) => {
+    const limit = Math.min(parseInt(req.query.limit as string) || 50, 500);
+    const offset = parseInt(req.query.offset as string) || 0;
+    const donorId = req.query.donorId as string | undefined;
+    const kind = req.query.kind as string | undefined;
+    const from = req.query.from as string | undefined;
+    const to = req.query.to as string | undefined;
+
+    const where: Prisma.DonationWhereInput = {};
+
+    if (donorId) where.donorId = donorId;
+    if (kind) {
+      const parsedKind = kind.toUpperCase() === "FINANCIAL" ? DonationKind.FINANCIAL : 
+                          kind.toUpperCase() === "MATERIAL" ? DonationKind.MATERIAL : undefined;
+      if (parsedKind) where.donationKind = parsedKind;
+    }
+    if (from || to) {
+      where.donationDate = {};
+      if (from) where.donationDate!.gte = new Date(from);
+      if (to) where.donationDate!.lte = new Date(to);
+    }
+
+    const [donations, total] = await Promise.all([
+      prisma.donation.findMany({
+        where,
+        include: {
+          donor: {
+            select: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              isDonor: true,
+            },
+          },
+          items: true,
+        },
+        orderBy: { donationDate: "desc" },
+        take: limit,
+        skip: offset,
+      }),
+      prisma.donation.count({ where }),
+    ]);
+
+    res.status(200).json({
+      donations,
+      pagination: {
+        total,
+        limit,
+        offset,
+        hasMore: offset + limit < total,
+      },
+    });
+  }),
+);
+
+// GET single donation by ID
+transactionsRoutes.get(
+  "/donation/:id",
+  asyncHandler(async (req, res) => {
+    const id = String(req.params.id);
+
+    const donation = await prisma.donation.findUnique({
+      where: { id },
+      include: {
+        donor: {
+          select: {
+            id: true,
+            firstName: true,
+            lastName: true,
+            isDonor: true,
+          },
+        },
+        items: {
+          include: {
+            material: {
+              select: {
+                id: true,
+                name: true,
+                type: true,
+                currentStock: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!donation) throw new AppError("Don introuvable", 404);
+
+    res.status(200).json(donation);
+  }),
+);
+
 transactionsRoutes.post(
   "/donation",
   asyncHandler(async (req, res) => {
