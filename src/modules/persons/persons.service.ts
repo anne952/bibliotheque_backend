@@ -94,11 +94,7 @@ export class PersonService {
 
     return prisma.purchase.findMany({
       where: { supplierId: personId },
-      include: {
-        items: {
-          include: { material: true },
-        },
-      },
+      include: { items: true },
       orderBy: { purchaseDate: "desc" },
     });
   }

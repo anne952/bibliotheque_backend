@@ -288,8 +288,11 @@ accountingRoutes.get(
   asyncHandler(async (req, res) => {
     const accountId = String(req.query.accountId ?? "");
     if (!accountId) throw new AppError("accountId obligatoire", 400);
+    const fiscalYearId = req.query.fiscalYearId
+      ? String(req.query.fiscalYearId)
+      : undefined;
 
-    const ledger = await AccountingService.getGeneralLedger(accountId);
+    const ledger = await AccountingService.getGeneralLedger(accountId, fiscalYearId);
     res.status(200).json(ledger);
   }),
 );

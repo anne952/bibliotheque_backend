@@ -37,9 +37,7 @@ export class ReportsService {
           },
         },
         include: {
-          items: {
-            include: { material: true },
-          },
+          items: true,
           supplier: true,
         },
       }),

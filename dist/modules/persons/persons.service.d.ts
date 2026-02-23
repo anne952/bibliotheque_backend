@@ -118,36 +118,14 @@ export declare class PersonService {
      * Get purchases for a person
      */
     static getPurchases(personId: string): Promise<({
-        items: ({
-            material: {
-                id: string;
-                createdAt: Date;
-                name: string;
-                updatedAt: Date;
-                deletedAt: Date | null;
-                type: import("../../generated/prisma/enums").MaterialType;
-                reference: string | null;
-                serialNumber: string | null;
-                category: string | null;
-                language: string | null;
-                volume: string | null;
-                status: import("../../generated/prisma/enums").MaterialStatus;
-                currentStock: number;
-                minStockAlert: number;
-                unitPrice: import("@prisma/client-runtime-utils").Decimal | null;
-                sellingPrice: import("@prisma/client-runtime-utils").Decimal | null;
-                location: string | null;
-                description: string | null;
-            };
-        } & {
+        items: {
             id: string;
             createdAt: Date;
             unitPrice: import("@prisma/client-runtime-utils").Decimal;
-            materialId: string;
             quantity: number;
             totalAmount: import("@prisma/client-runtime-utils").Decimal;
             purchaseId: string;
-        })[];
+        }[];
     } & {
         id: string;
         createdAt: Date;

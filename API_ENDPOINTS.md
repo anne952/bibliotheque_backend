@@ -174,8 +174,8 @@
 
 ### Create Purchase
 - **POST** `/transactions/purchase`
-- Body: `{ materialId, quantity, unitPrice, paymentMethod?, paymentStatus?, supplierId?, invoiceNumber?, notes?, reference? }`
-- Creates Purchase record + StockMovement (PURCHASE_IN) + updates Material stock
+- Body: `{ quantity, unitPrice, paymentMethod?, paymentStatus?, supplierId?, invoiceNumber?, notes?, reference? }`
+- Creates Purchase record + synchronized accounting journal entry (source `PURCHASE`)
 - Response: Created purchase object
 
 ### Update Purchase
@@ -186,13 +186,13 @@
 
 ### Delete Purchase
 - **DELETE** `/transactions/purchase/:id`
-- Reverts PURCHASE_IN stock impact, removes related stock movements, then deletes purchase
+- Deletes purchase record (and removes legacy purchase stock movements if present)
 - Response: 204 No Content
 
 ### Create Sale
 - **POST** `/transactions/sale`
 - Body: `{ materialId, quantity, unitPrice, personId?, paymentMethod?, paymentStatus?, invoiceNumber?, notes?, reference? }`
-- Creates Sale record + StockMovement (SALE_OUT) + updates Material stock
+- Creates Sale record + StockMovement (SALE_OUT) + updates Material stock + synchronized accounting journal entry (source `SALE`)
 - Response: Created sale object
 
 ### Update Sale
@@ -235,6 +235,7 @@
 - Body: `{ donorId?, donorName?, donorType?, donationKind, direction?, amount?, paymentMethod?, description?, institution?, items? }`
 - For material donations: requires items array
 - For financial donations: requires amount
+- Financial donations (direction `IN`) create synchronized accounting journal entries (source `DONATION_FINANCIAL`)
 - Response: Created donation object
 
 ### Update Donation
@@ -442,6 +443,8 @@ The refresh token is obtained from login/register endpoints.
 4. **Soft Delete**: All deletions use soft delete with 30-day retention
 5. **Fiscal Year**: Must not be closed to accept new entries
 6. **Role-Based Access**: (Not implemented yet, can be added to auth middleware)
+7. **Comptabilite sync**: Transactions `purchase`, `sale`, and financial donations (`direction=IN`) generate accounting entries automatically
+8. **Etats comptables**: Trial balance, account balances, bilan, compte de resultat, grand livre are built progressively from validated entries
 
 ---
 

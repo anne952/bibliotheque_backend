@@ -6,6 +6,84 @@ const express_1 = require("express");
 const http_1 = require("../../common/http");
 const prisma_1 = require("../../config/prisma");
 exports.transactionsRoutes = (0, express_1.Router)();
+function resolvePaymentMethodAccountNumber(paymentMethod) {
+    switch (paymentMethod) {
+        case client_1.PaymentMethod.CASH:
+            return "101";
+        case client_1.PaymentMethod.CHECK:
+        case client_1.PaymentMethod.BANK_TRANSFER:
+        case client_1.PaymentMethod.CREDIT_CARD:
+        case client_1.PaymentMethod.MOBILE_MONEY:
+            return "102";
+        case client_1.PaymentMethod.IN_KIND:
+            return "101";
+        default:
+            return "101";
+    }
+}
+async function getOpenFiscalYearForDate(tx, date) {
+    const fiscalYear = await tx.fiscalYear.findFirst({
+        where: {
+            isClosed: false,
+            startDate: { lte: date },
+            endDate: { gte: date },
+        },
+        orderBy: { startDate: "desc" },
+    });
+    if (!fiscalYear) {
+        throw new http_1.AppError("Aucun exercice comptable ouvert pour cette date", 400);
+    }
+    return fiscalYear;
+}
+async function getAccountIdByNumber(tx, accountNumber) {
+    const account = await tx.account.findFirst({
+        where: { accountNumber, isActive: true },
+        select: { id: true },
+    });
+    if (!account) {
+        throw new http_1.AppError(`Compte comptable introuvable: ${accountNumber}`, 500);
+    }
+    return account.id;
+}
+async function createAutoJournalEntry(tx, params) {
+    if (params.amount.lte(0))
+        return;
+    const fiscalYear = await getOpenFiscalYearForDate(tx, params.date);
+    const existingCount = await tx.journalEntry.count({ where: { fiscalYearId: fiscalYear.id } });
+    const entryNumber = `${fiscalYear.name}-${String(existingCount + 1).padStart(5, "0")}`;
+    const debitAccountId = await getAccountIdByNumber(tx, params.debitAccountNumber);
+    const creditAccountId = await getAccountIdByNumber(tx, params.creditAccountNumber);
+    await tx.journalEntry.create({
+        data: {
+            entryNumber,
+            fiscalYearId: fiscalYear.id,
+            date: params.date,
+            journalType: params.journalType,
+            pieceNumber: params.pieceNumber,
+            description: params.description,
+            sourceType: params.sourceType,
+            sourceId: params.sourceId,
+            isValidated: true,
+            validatedAt: new Date(),
+            lines: {
+                create: [
+                    {
+                        accountId: debitAccountId,
+                        debit: params.amount,
+                        credit: new client_1.Prisma.Decimal(0),
+                        description: params.description,
+                    },
+                    {
+                        accountId: creditAccountId,
+                        debit: new client_1.Prisma.Decimal(0),
+                        credit: params.amount,
+                        description: params.description,
+                    },
+                ],
+            },
+        },
+    });
+}
 function assertPositiveInt(value, field) {
     if (typeof value !== "number" || !Number.isInteger(value) || value <= 0) {
         throw new http_1.AppError(`${field} doit etre un entier positif`, 400);
@@ -129,44 +207,39 @@ exports.transactionsRoutes.get("/:id", (0, http_1.asyncHandler)(async (req, res)
 }));
 exports.transactionsRoutes.post("/purchase", (0, http_1.asyncHandler)(async (req, res) => {
     const body = req.body;
-    if (!body.materialId)
-        throw new http_1.AppError("materialId obligatoire", 400);
-    const materialId = body.materialId;
     const quantity = assertPositiveInt(body.quantity, "quantity");
     const unitPrice = body.unitPrice;
     if (typeof unitPrice !== "number" || unitPrice <= 0)
         throw new http_1.AppError("unitPrice doit etre positif", 400);
+    const paymentMethod = parsePaymentMethod(body.paymentMethod) ?? client_1.PaymentMethod.CASH;
+    const paymentStatus = parsePaymentStatus(body.paymentStatus) ?? client_1.PaymentStatus.PAID;
     const result = await prisma_1.prisma.$transaction(async (tx) => {
-        const material = await tx.material.findFirst({ where: { id: materialId, deletedAt: null } });
-        if (!material)
-            throw new http_1.AppError("Materiel introuvable", 404);
         const totalAmount = new client_1.Prisma.Decimal(unitPrice).mul(quantity);
         const unitPriceDecimal = new client_1.Prisma.Decimal(unitPrice);
         const purchase = await tx.purchase.create({
             data: {
                 supplierId: body.supplierId,
-                paymentMethod: parsePaymentMethod(body.paymentMethod) ?? client_1.PaymentMethod.CASH,
-                paymentStatus: parsePaymentStatus(body.paymentStatus) ?? client_1.PaymentStatus.PAID,
+                paymentMethod,
+                paymentStatus,
                 invoiceNumber: body.invoiceNumber,
                 notes: body.notes,
-                items: { create: { materialId, quantity, unitPrice: unitPriceDecimal, totalAmount } },
+                items: { create: { quantity, unitPrice: unitPriceDecimal, totalAmount } },
             },
             include: { items: true },
         });
-        await tx.stockMovement.create({
-            data: {
-                materialId,
-                movementType: client_1.StockMovementType.PURCHASE_IN,
-                quantity,
-                unitPrice: unitPriceDecimal,
-                totalAmount,
-                reference: body.reference,
-                sourceType: "PURCHASE",
+        if (paymentStatus !== client_1.PaymentStatus.CANCELLED && paymentStatus !== client_1.PaymentStatus.REFUNDED) {
+            await createAutoJournalEntry(tx, {
+                date: purchase.purchaseDate,
+                journalType: "PURCHASE",
+                description: `Achat ${purchase.invoiceNumber ?? purchase.id}`,
+                sourceType: client_1.SourceType.PURCHASE,
                 sourceId: purchase.id,
-                description: body.notes,
-            },
-        });
-        await tx.material.update({ where: { id: materialId }, data: { currentStock: { increment: quantity } } });
+                debitAccountNumber: "601",
+                creditAccountNumber: paymentStatus === client_1.PaymentStatus.PENDING ? "201" : resolvePaymentMethodAccountNumber(paymentMethod),
+                amount: totalAmount,
+                pieceNumber: purchase.invoiceNumber ?? undefined,
+            });
+        }
         return purchase;
     });
     res.status(201).json(result);
@@ -180,6 +253,8 @@ exports.transactionsRoutes.post("/sale", (0, http_1.asyncHandler)(async (req, re
     const unitPrice = body.unitPrice;
     if (typeof unitPrice !== "number" || unitPrice <= 0)
         throw new http_1.AppError("unitPrice doit etre positif", 400);
+    const paymentMethod = parsePaymentMethod(body.paymentMethod) ?? client_1.PaymentMethod.CASH;
+    const paymentStatus = parsePaymentStatus(body.paymentStatus) ?? client_1.PaymentStatus.PAID;
     const result = await prisma_1.prisma.$transaction(async (tx) => {
         const material = await tx.material.findFirst({ where: { id: materialId, deletedAt: null } });
         if (!material)
@@ -191,8 +266,8 @@ exports.transactionsRoutes.post("/sale", (0, http_1.asyncHandler)(async (req, re
         const sale = await tx.sale.create({
             data: {
                 personId: body.personId,
-                paymentMethod: parsePaymentMethod(body.paymentMethod) ?? client_1.PaymentMethod.CASH,
-                paymentStatus: parsePaymentStatus(body.paymentStatus) ?? client_1.PaymentStatus.PAID,
+                paymentMethod,
+                paymentStatus,
                 invoiceNumber: body.invoiceNumber,
                 notes: body.notes,
                 items: { create: { materialId, quantity, unitPrice: unitPriceDecimal, totalAmount } },
@@ -213,6 +288,19 @@ exports.transactionsRoutes.post("/sale", (0, http_1.asyncHandler)(async (req, re
             },
         });
         await tx.material.update({ where: { id: materialId }, data: { currentStock: { decrement: quantity } } });
+        if (paymentStatus !== client_1.PaymentStatus.CANCELLED && paymentStatus !== client_1.PaymentStatus.REFUNDED) {
+            await createAutoJournalEntry(tx, {
+                date: sale.saleDate,
+                journalType: "SALES",
+                description: `Vente ${sale.invoiceNumber ?? sale.id}`,
+                sourceType: client_1.SourceType.SALE,
+                sourceId: sale.id,
+                debitAccountNumber: resolvePaymentMethodAccountNumber(paymentMethod),
+                creditAccountNumber: "701",
+                amount: totalAmount,
+                pieceNumber: sale.invoiceNumber ?? undefined,
+            });
+        }
         return sale;
     });
     res.status(201).json(result);
@@ -356,7 +444,16 @@ exports.transactionsRoutes.post("/donation", (0, http_1.asyncHandler)(async (req
     if (!donationKind)
         throw new http_1.AppError("donationKind obligatoire", 400);
     const direction = parseDonationDirection(body.direction) ?? client_1.DonationDirection.IN;
+    const paymentMethod = parsePaymentMethod(body.paymentMethod);
     const result = await prisma_1.prisma.$transaction(async (tx) => {
+        if (body.donorId) {
+            const donor = await tx.person.findFirst({ where: { id: body.donorId, deletedAt: null } });
+            if (!donor)
+                throw new http_1.AppError("Donateur introuvable", 404);
+            if (!donor.isDonor) {
+                await tx.person.update({ where: { id: donor.id }, data: { isDonor: true } });
+            }
+        }
         const donation = await tx.donation.create({
             data: {
                 donorId: body.donorId,
@@ -365,7 +462,7 @@ exports.transactionsRoutes.post("/donation", (0, http_1.asyncHandler)(async (req
                 donationKind,
                 direction,
                 amount: typeof body.amount === "number" ? new client_1.Prisma.Decimal(body.amount) : null,
-                paymentMethod: parsePaymentMethod(body.paymentMethod),
+                paymentMethod,
                 description: body.description,
                 institution: body.institution,
             },
@@ -405,6 +502,20 @@ exports.transactionsRoutes.post("/donation", (0, http_1.asyncHandler)(async (req
         else {
             if (typeof body.amount !== "number" || body.amount <= 0) {
                 throw new http_1.AppError("amount doit etre positif pour un don financier", 400);
+            }
+            if (direction === client_1.DonationDirection.IN) {
+                const donationAmount = new client_1.Prisma.Decimal(body.amount);
+                const methodForAccounting = paymentMethod ?? client_1.PaymentMethod.CASH;
+                await createAutoJournalEntry(tx, {
+                    date: donation.donationDate,
+                    journalType: "CASH",
+                    description: `Don financier ${donation.id}`,
+                    sourceType: client_1.SourceType.DONATION_FINANCIAL,
+                    sourceId: donation.id,
+                    debitAccountNumber: resolvePaymentMethodAccountNumber(methodForAccounting),
+                    creditAccountNumber: "702",
+                    amount: donationAmount,
+                });
             }
         }
         return tx.donation.findUnique({ where: { id: donation.id }, include: { items: true } });
@@ -532,15 +643,6 @@ exports.transactionsRoutes.delete("/purchase/:id", (0, http_1.asyncHandler)(asyn
         const purchase = await tx.purchase.findUnique({ where: { id }, include: { items: true } });
         if (!purchase)
             throw new http_1.AppError("Achat introuvable", 404);
-        for (const item of purchase.items) {
-            const material = await tx.material.findFirst({ where: { id: item.materialId, deletedAt: null } });
-            if (!material)
-                throw new http_1.AppError("Materiel introuvable", 404);
-            if (material.currentStock < item.quantity) {
-                throw new http_1.AppError(`Suppression impossible: stock insuffisant pour ${material.name}`, 400);
-            }
-            await tx.material.update({ where: { id: item.materialId }, data: { currentStock: { decrement: item.quantity } } });
-        }
         await tx.stockMovement.deleteMany({ where: { sourceType: client_1.SourceType.PURCHASE, sourceId: id } });
         await tx.purchase.delete({ where: { id } });
     });

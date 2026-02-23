@@ -213,7 +213,10 @@ exports.accountingRoutes.get("/general-ledger", (0, http_1.asyncHandler)(async (
     const accountId = String(req.query.accountId ?? "");
     if (!accountId)
         throw new http_1.AppError("accountId obligatoire", 400);
-    const ledger = await accounting_service_1.AccountingService.getGeneralLedger(accountId);
+    const fiscalYearId = req.query.fiscalYearId
+        ? String(req.query.fiscalYearId)
+        : undefined;
+    const ledger = await accounting_service_1.AccountingService.getGeneralLedger(accountId, fiscalYearId);
     res.status(200).json(ledger);
 }));
 exports.accountingRoutes.get("/cash-journal", (0, http_1.asyncHandler)(async (req, res) => {

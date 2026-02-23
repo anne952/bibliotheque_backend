@@ -58,11 +58,7 @@ class PersonService {
         await this.getById(personId); // Verify person exists
         return prisma_1.prisma.purchase.findMany({
             where: { supplierId: personId },
-            include: {
-                items: {
-                    include: { material: true },
-                },
-            },
+            include: { items: true },
             orderBy: { purchaseDate: "desc" },
         });
     }

@@ -91,10 +91,10 @@ export declare class AccountingService {
             id: string;
             createdAt: Date;
             description: string | null;
-            entryId: string;
-            accountId: string;
             debit: import("@prisma/client-runtime-utils").Decimal;
             credit: import("@prisma/client-runtime-utils").Decimal;
+            accountId: string;
+            entryId: string;
         })[];
     } & {
         id: string;
@@ -103,8 +103,8 @@ export declare class AccountingService {
         description: string;
         sourceType: import("../../generated/prisma/enums").SourceType | null;
         sourceId: string | null;
-        entryNumber: string;
         fiscalYearId: string;
+        entryNumber: string;
         date: Date;
         journalType: import("../../generated/prisma/enums").JournalType;
         pieceNumber: string | null;

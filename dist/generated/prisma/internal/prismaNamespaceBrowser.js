@@ -247,7 +247,6 @@ exports.PurchaseScalarFieldEnum = {
 exports.PurchaseItemScalarFieldEnum = {
     id: 'id',
     purchaseId: 'purchaseId',
-    materialId: 'materialId',
     quantity: 'quantity',
     unitPrice: 'unitPrice',
     totalAmount: 'totalAmount',

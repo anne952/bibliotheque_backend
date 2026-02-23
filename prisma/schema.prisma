@@ -103,7 +103,6 @@ model Material {
   deletedAt      DateTime?
   donationItems  DonationItem[]
   loanItems      LoanItem[]
-  purchaseItems  PurchaseItem[]
   saleItems      SaleItem[]
   stockMovements StockMovement[]
 }
@@ -210,16 +209,13 @@ model Purchase {
 model PurchaseItem {
   id          String   @id @default(uuid())
   purchaseId  String
-  materialId  String
   quantity    Int
   unitPrice   Decimal
   totalAmount Decimal
   createdAt   DateTime @default(now())
-  material    Material @relation(fields: [materialId], references: [id])
   purchase    Purchase @relation(fields: [purchaseId], references: [id], onDelete: Cascade)
 
   @@index([purchaseId])
-  @@index([materialId])
 }
 
 model Donation {

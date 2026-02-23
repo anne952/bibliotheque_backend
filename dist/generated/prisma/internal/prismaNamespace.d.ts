@@ -1935,7 +1935,6 @@ export type PurchaseScalarFieldEnum = (typeof PurchaseScalarFieldEnum)[keyof typ
 export declare const PurchaseItemScalarFieldEnum: {
     readonly id: "id";
     readonly purchaseId: "purchaseId";
-    readonly materialId: "materialId";
     readonly quantity: "quantity";
     readonly unitPrice: "unitPrice";
     readonly totalAmount: "totalAmount";
