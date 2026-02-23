@@ -247,6 +247,7 @@
 - **POST** `/transactions/donation`
 - Body: `{ donorId?, donorName?, donorType?, donationKind, direction?, amount?, paymentMethod?, description?, institution?, items? }`
 - For material donations: requires items array
+- For material donations: direction is always forced to `OUT`
 - For financial donations: requires amount
 - Financial donations (direction `IN`) create synchronized accounting journal entries (source `DONATION_FINANCIAL`)
 - Response: Created donation object

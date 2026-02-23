@@ -724,7 +724,8 @@ transactionsRoutes.post(
     if (!body.donationKind) throw new AppError("donationKind obligatoire", 400);
     const donationKind = parseDonationKind(body.donationKind);
     if (!donationKind) throw new AppError("donationKind obligatoire", 400);
-    const direction = parseDonationDirection(body.direction) ?? DonationDirection.IN;
+    const parsedDirection = parseDonationDirection(body.direction) ?? DonationDirection.IN;
+    const direction = donationKind === DonationKind.MATERIAL ? DonationDirection.OUT : parsedDirection;
     const paymentMethod = parsePaymentMethod(body.paymentMethod);
 
     const result = await prisma.$transaction(async (tx) => {
