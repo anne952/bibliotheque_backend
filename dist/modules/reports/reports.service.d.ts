@@ -169,6 +169,14 @@ export declare class ReportsService {
                 personId: string | null;
             })[];
             purchases: ({
+                items: {
+                    id: string;
+                    createdAt: Date;
+                    unitPrice: import("@prisma/client-runtime-utils").Decimal;
+                    quantity: number;
+                    totalAmount: import("@prisma/client-runtime-utils").Decimal;
+                    purchaseId: string;
+                }[];
                 supplier: {
                     id: string;
                     createdAt: Date;
@@ -186,26 +194,35 @@ export declare class ReportsService {
                     isDonor: boolean;
                     isSupplier: boolean;
                 } | null;
-                items: {
-                    id: string;
-                    createdAt: Date;
-                    unitPrice: import("@prisma/client-runtime-utils").Decimal;
-                    quantity: number;
-                    totalAmount: import("@prisma/client-runtime-utils").Decimal;
-                    purchaseId: string;
-                }[];
             } & {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
-                purchaseDate: Date;
                 paymentMethod: import("../../generated/prisma/enums").PaymentMethod;
+                purchaseDate: Date;
                 paymentStatus: import("../../generated/prisma/enums").PaymentStatus;
                 invoiceNumber: string | null;
                 notes: string | null;
                 supplierId: string | null;
             })[];
             donations: ({
+                donor: {
+                    id: string;
+                    createdAt: Date;
+                    email: string | null;
+                    updatedAt: Date;
+                    deletedAt: Date | null;
+                    firstName: string;
+                    lastName: string;
+                    phone: string | null;
+                    address: string | null;
+                    church: string | null;
+                    isVisitor: boolean;
+                    isBorrower: boolean;
+                    isBuyer: boolean;
+                    isDonor: boolean;
+                    isSupplier: boolean;
+                } | null;
                 items: ({
                     material: {
                         id: string;
@@ -234,35 +251,18 @@ export declare class ReportsService {
                     quantity: number;
                     donationId: string;
                 })[];
-                donor: {
-                    id: string;
-                    createdAt: Date;
-                    email: string | null;
-                    updatedAt: Date;
-                    deletedAt: Date | null;
-                    firstName: string;
-                    lastName: string;
-                    phone: string | null;
-                    address: string | null;
-                    church: string | null;
-                    isVisitor: boolean;
-                    isBorrower: boolean;
-                    isBuyer: boolean;
-                    isDonor: boolean;
-                    isSupplier: boolean;
-                } | null;
             } & {
                 id: string;
                 createdAt: Date;
                 updatedAt: Date;
                 description: string | null;
-                paymentMethod: import("../../generated/prisma/enums").PaymentMethod | null;
                 donorId: string | null;
                 donorName: string | null;
                 donorType: import("../../generated/prisma/enums").DonorType;
                 donationKind: import("../../generated/prisma/enums").DonationKind;
                 direction: import("../../generated/prisma/enums").DonationDirection;
                 amount: import("@prisma/client-runtime-utils").Decimal | null;
+                paymentMethod: import("../../generated/prisma/enums").PaymentMethod | null;
                 donationDate: Date;
                 institution: string | null;
             })[];

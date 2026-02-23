@@ -198,6 +198,155 @@ exports.transactionsRoutes.get("/", (0, http_1.asyncHandler)(async (_req, res) =
     const rows = await prisma_1.prisma.stockMovement.findMany({ orderBy: { movementDate: "desc" } });
     res.status(200).json(rows);
 }));
+// GET all donations with optional filters
+exports.transactionsRoutes.get("/donations", (0, http_1.asyncHandler)(async (req, res) => {
+    const limit = Math.min(parseInt(req.query.limit) || 50, 500);
+    const offset = parseInt(req.query.offset) || 0;
+    const donorId = req.query.donorId;
+    const kind = req.query.kind;
+    const from = req.query.from;
+    const to = req.query.to;
+    const where = {};
+    if (donorId)
+        where.donorId = donorId;
+    if (kind) {
+        const parsedKind = kind.toUpperCase() === "FINANCIAL" ? client_1.DonationKind.FINANCIAL :
+            kind.toUpperCase() === "MATERIAL" ? client_1.DonationKind.MATERIAL : undefined;
+        if (parsedKind)
+            where.donationKind = parsedKind;
+    }
+    if (from || to) {
+        where.donationDate = {};
+        if (from)
+            where.donationDate.gte = new Date(from);
+        if (to)
+            where.donationDate.lte = new Date(to);
+    }
+    const [donations, total] = await Promise.all([
+        prisma_1.prisma.donation.findMany({
+            where,
+            include: {
+                donor: {
+                    select: {
+                        id: true,
+                        firstName: true,
+                        lastName: true,
+                        isDonor: true,
+                    },
+                },
+                items: true,
+            },
+            orderBy: { donationDate: "desc" },
+            take: limit,
+            skip: offset,
+        }),
+        prisma_1.prisma.donation.count({ where }),
+    ]);
+    res.status(200).json({
+        donations,
+        pagination: {
+            total,
+            limit,
+            offset,
+            hasMore: offset + limit < total,
+        },
+    });
+}));
+// GET single donation by ID
+exports.transactionsRoutes.get("/donation/:id", (0, http_1.asyncHandler)(async (req, res) => {
+    const id = String(req.params.id);
+    const donation = await prisma_1.prisma.donation.findUnique({
+        where: { id },
+        include: {
+            donor: {
+                select: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    isDonor: true,
+                },
+            },
+            items: {
+                include: {
+                    material: {
+                        select: {
+                            id: true,
+                            name: true,
+                            type: true,
+                            currentStock: true,
+                        },
+                    },
+                },
+            },
+        },
+    });
+    if (!donation)
+        throw new http_1.AppError("Don introuvable", 404);
+    res.status(200).json(donation);
+}));
+exports.transactionsRoutes.get("/donation/:id/audit", (0, http_1.asyncHandler)(async (req, res) => {
+    const id = String(req.params.id);
+    const donation = await prisma_1.prisma.donation.findUnique({
+        where: { id },
+        include: {
+            donor: {
+                select: {
+                    id: true,
+                    firstName: true,
+                    lastName: true,
+                    isDonor: true,
+                },
+            },
+            items: {
+                select: {
+                    id: true,
+                    materialId: true,
+                    quantity: true,
+                },
+            },
+        },
+    });
+    if (!donation)
+        throw new http_1.AppError("Don introuvable", 404);
+    const accountingEntry = donation.donationKind === client_1.DonationKind.FINANCIAL
+        ? await prisma_1.prisma.journalEntry.findFirst({
+            where: {
+                sourceType: client_1.SourceType.DONATION_FINANCIAL,
+                sourceId: donation.id,
+            },
+            include: {
+                lines: {
+                    include: {
+                        account: {
+                            select: {
+                                id: true,
+                                accountNumber: true,
+                                name: true,
+                            },
+                        },
+                    },
+                },
+            },
+            orderBy: { createdAt: "desc" },
+        })
+        : null;
+    res.status(200).json({
+        donation,
+        sync: {
+            donor: {
+                donorId: donation.donorId,
+                isDonor: donation.donor?.isDonor ?? null,
+                synced: donation.donorId ? Boolean(donation.donor?.isDonor) : null,
+            },
+            accounting: {
+                expected: donation.donationKind === client_1.DonationKind.FINANCIAL &&
+                    donation.direction === client_1.DonationDirection.IN,
+                found: Boolean(accountingEntry),
+                entry: accountingEntry,
+            },
+        },
+    });
+}));
 exports.transactionsRoutes.get("/:id", (0, http_1.asyncHandler)(async (req, res) => {
     const id = String(req.params.id);
     const row = await prisma_1.prisma.stockMovement.findUnique({ where: { id } });
@@ -436,92 +585,6 @@ exports.transactionsRoutes.post("/return", (0, http_1.asyncHandler)(async (req, 
     });
     res.status(200).json(result);
 }));
-// GET all donations with optional filters
-exports.transactionsRoutes.get("/donations", (0, http_1.asyncHandler)(async (req, res) => {
-    const limit = Math.min(parseInt(req.query.limit) || 50, 500);
-    const offset = parseInt(req.query.offset) || 0;
-    const donorId = req.query.donorId;
-    const kind = req.query.kind;
-    const from = req.query.from;
-    const to = req.query.to;
-    const where = {};
-    if (donorId)
-        where.donorId = donorId;
-    if (kind) {
-        const parsedKind = kind.toUpperCase() === "FINANCIAL" ? client_1.DonationKind.FINANCIAL :
-            kind.toUpperCase() === "MATERIAL" ? client_1.DonationKind.MATERIAL : undefined;
-        if (parsedKind)
-            where.donationKind = parsedKind;
-    }
-    if (from || to) {
-        where.donationDate = {};
-        if (from)
-            where.donationDate.gte = new Date(from);
-        if (to)
-            where.donationDate.lte = new Date(to);
-    }
-    const [donations, total] = await Promise.all([
-        prisma_1.prisma.donation.findMany({
-            where,
-            include: {
-                donor: {
-                    select: {
-                        id: true,
-                        firstName: true,
-                        lastName: true,
-                        isDonor: true,
-                    },
-                },
-                items: true,
-            },
-            orderBy: { donationDate: "desc" },
-            take: limit,
-            skip: offset,
-        }),
-        prisma_1.prisma.donation.count({ where }),
-    ]);
-    res.status(200).json({
-        donations,
-        pagination: {
-            total,
-            limit,
-            offset,
-            hasMore: offset + limit < total,
-        },
-    });
-}));
-// GET single donation by ID
-exports.transactionsRoutes.get("/donation/:id", (0, http_1.asyncHandler)(async (req, res) => {
-    const id = String(req.params.id);
-    const donation = await prisma_1.prisma.donation.findUnique({
-        where: { id },
-        include: {
-            donor: {
-                select: {
-                    id: true,
-                    firstName: true,
-                    lastName: true,
-                    isDonor: true,
-                },
-            },
-            items: {
-                include: {
-                    material: {
-                        select: {
-                            id: true,
-                            name: true,
-                            type: true,
-                            currentStock: true,
-                        },
-                    },
-                },
-            },
-        },
-    });
-    if (!donation)
-        throw new http_1.AppError("Don introuvable", 404);
-    res.status(200).json(donation);
-}));
 exports.transactionsRoutes.post("/donation", (0, http_1.asyncHandler)(async (req, res) => {
     const body = req.body;
     if (!body.donationKind)
@@ -607,69 +670,6 @@ exports.transactionsRoutes.post("/donation", (0, http_1.asyncHandler)(async (req
         return tx.donation.findUnique({ where: { id: donation.id }, include: { items: true } });
     });
     res.status(201).json(result);
-}));
-exports.transactionsRoutes.get("/donation/:id/audit", (0, http_1.asyncHandler)(async (req, res) => {
-    const id = String(req.params.id);
-    const donation = await prisma_1.prisma.donation.findUnique({
-        where: { id },
-        include: {
-            donor: {
-                select: {
-                    id: true,
-                    firstName: true,
-                    lastName: true,
-                    isDonor: true,
-                },
-            },
-            items: {
-                select: {
-                    id: true,
-                    materialId: true,
-                    quantity: true,
-                },
-            },
-        },
-    });
-    if (!donation)
-        throw new http_1.AppError("Don introuvable", 404);
-    const accountingEntry = donation.donationKind === client_1.DonationKind.FINANCIAL
-        ? await prisma_1.prisma.journalEntry.findFirst({
-            where: {
-                sourceType: client_1.SourceType.DONATION_FINANCIAL,
-                sourceId: donation.id,
-            },
-            include: {
-                lines: {
-                    include: {
-                        account: {
-                            select: {
-                                id: true,
-                                accountNumber: true,
-                                name: true,
-                            },
-                        },
-                    },
-                },
-            },
-            orderBy: { createdAt: "desc" },
-        })
-        : null;
-    res.status(200).json({
-        donation,
-        sync: {
-            donor: {
-                donorId: donation.donorId,
-                isDonor: donation.donor?.isDonor ?? null,
-                synced: donation.donorId ? Boolean(donation.donor?.isDonor) : null,
-            },
-            accounting: {
-                expected: donation.donationKind === client_1.DonationKind.FINANCIAL &&
-                    donation.direction === client_1.DonationDirection.IN,
-                found: Boolean(accountingEntry),
-                entry: accountingEntry,
-            },
-        },
-    });
 }));
 exports.transactionsRoutes.put("/donation/:id", (0, http_1.asyncHandler)(async (req, res) => {
     const id = String(req.params.id);

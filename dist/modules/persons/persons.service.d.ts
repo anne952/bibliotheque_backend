@@ -130,8 +130,8 @@ export declare class PersonService {
         id: string;
         createdAt: Date;
         updatedAt: Date;
-        purchaseDate: Date;
         paymentMethod: import("../../generated/prisma/enums").PaymentMethod;
+        purchaseDate: Date;
         paymentStatus: import("../../generated/prisma/enums").PaymentStatus;
         invoiceNumber: string | null;
         notes: string | null;
