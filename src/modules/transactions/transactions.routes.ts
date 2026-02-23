@@ -55,7 +55,7 @@ async function createAutoJournalEntry(
   tx: Prisma.TransactionClient,
   params: {
     date: Date;
-    journalType: "PURCHASE" | "SALES" | "CASH";
+    journalType: "PURCHASE" | "SALES" | "CASH" | "DONATION";
     description: string;
     sourceType: SourceType;
     sourceId: string;
@@ -794,7 +794,7 @@ transactionsRoutes.post(
 
           await createAutoJournalEntry(tx, {
             date: donation.donationDate,
-            journalType: "CASH",
+            journalType: "DONATION",
             description: `Don financier ${donation.id}`,
             sourceType: SourceType.DONATION_FINANCIAL,
             sourceId: donation.id,

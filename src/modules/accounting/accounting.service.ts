@@ -275,7 +275,7 @@ export class AccountingService {
   static async getCashJournal(fiscalYearId?: string) {
     const entries = await prisma.journalEntry.findMany({
       where: {
-        journalType: "CASH",
+        journalType: { in: ["CASH", "PURCHASE", "SALES"] },
         isValidated: true,
         ...(fiscalYearId && { fiscalYearId }),
       },

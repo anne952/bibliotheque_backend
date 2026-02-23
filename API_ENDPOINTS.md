@@ -249,7 +249,7 @@
 - For material donations: requires items array
 - For material donations: direction is always forced to `OUT`
 - For financial donations: requires amount
-- Financial donations (direction `IN`) create synchronized accounting journal entries (source `DONATION_FINANCIAL`)
+- Financial donations (direction `IN`) create synchronized accounting journal entries (source `DONATION_FINANCIAL`, `journalType=DONATION`)
 - Response: Created donation object
 
 ### Update Donation
@@ -337,7 +337,22 @@
 
 ### Get Cash Journal
 - **GET** `/accounting/cash-journal?fiscalYearId=<id>`
-- Response: All cash transactions (JOURNAL_TYPE = CASH)
+- Response: All cash journal entries (JOURNAL_TYPE in `CASH`, `PURCHASE`, `SALES`)
+- Notes: financial donations use `journalType=DONATION` and are not included here
+
+### Etats comptables (pour le front)
+- **Compte de resultat**: `GET /accounting/income-statement?fiscalYearId=<id>`
+- **Bilan**: `GET /accounting/balance-sheet?fiscalYearId=<id>`
+- **Balance**: `GET /accounting/trial-balance?fiscalYearId=<id>`
+- **Grand livre**: `GET /accounting/general-ledger?accountId=<id>&fiscalYearId=<id>`
+- Notes:
+  - Tous ces endpoints filtrent par `fiscalYearId`.
+  - Seules les ecritures `isValidated=true` sont prises en compte.
+- Exemples (a titre indicatif):
+  - `GET /accounting/income-statement?fiscalYearId=fy_2025`
+  - `GET /accounting/balance-sheet?fiscalYearId=fy_2025`
+  - `GET /accounting/trial-balance?fiscalYearId=fy_2025`
+  - `GET /accounting/general-ledger?accountId=acc_101&fiscalYearId=fy_2025`
 
 ### Export Excel (implémenté)
 - **GET** `/accounting/export/excel?section=<type>&fiscalYearId=<id>&accountId=<id>`

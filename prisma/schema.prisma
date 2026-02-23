@@ -429,6 +429,7 @@ enum AccountType {
 enum JournalType {
   GENERAL
   CASH
+  DONATION
   PURCHASE
   SALES
   BANK
