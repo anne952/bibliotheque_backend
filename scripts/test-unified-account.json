@@ -1,8 +1,8 @@
-{
+﻿{
   "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
   "date": "2026-02-24",
   "journalType": "GENERAL",
-  "description": "Test avec champ 'account' unifié",
+  "description": "Test avec champ account unifié",
   "lines": [
     {
       "account": "57",
