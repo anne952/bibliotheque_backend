@@ -104,8 +104,11 @@ async function resolveAccountId(tx, line) {
     throw new http_1.AppError("Vous devez fournir un compte (account, accountId ou accountNumber)", 400);
 }
 function validateLines(lines) {
-    if (!Array.isArray(lines) || lines.length < 2) {
-        throw new http_1.AppError("Une ecriture doit contenir au moins 2 lignes", 400);
+    const received = Array.isArray(lines) ? lines.length : 0;
+    if (received < 2) {
+        throw new http_1.AppError(received === 0
+            ? "Une ecriture doit contenir au moins 2 lignes (partie double). Aucune ligne recue."
+            : "Une ecriture doit contenir au moins 2 lignes (partie double). Une seule ligne a ete envoyee.", 400);
     }
     let debitTotal = new client_1.Prisma.Decimal(0);
     let creditTotal = new client_1.Prisma.Decimal(0);
@@ -113,18 +116,24 @@ function validateLines(lines) {
         if (!line.account && !line.accountId && !line.accountNumber) {
             throw new http_1.AppError("Chaque ligne doit avoir un compte (account, accountId ou accountNumber)", 400);
         }
-        const debit = typeof line.debit === "number" ? line.debit : 0;
-        const credit = typeof line.credit === "number" ? line.credit : 0;
+        if (typeof line.debit !== "number" || !Number.isFinite(line.debit)) {
+            throw new http_1.AppError("Chaque ligne doit definir un montant debit numerique", 400);
+        }
+        if (typeof line.credit !== "number" || !Number.isFinite(line.credit)) {
+            throw new http_1.AppError("Chaque ligne doit definir un montant credit numerique", 400);
+        }
+        const debit = line.debit;
+        const credit = line.credit;
         if (debit < 0 || credit < 0)
             throw new http_1.AppError("debit/credit ne peuvent pas etre negatifs", 400);
         if ((debit === 0 && credit === 0) || (debit > 0 && credit > 0)) {
-            throw new http_1.AppError("Chaque ligne doit etre soit au debit, soit au credit", 400);
+            throw new http_1.AppError("Chaque ligne doit etre soit au debit, soit au credit (l'autre doit etre 0)", 400);
         }
         debitTotal = debitTotal.add(debit);
         creditTotal = creditTotal.add(credit);
     }
     if (!debitTotal.equals(creditTotal)) {
-        throw new http_1.AppError("Ecriture non equilibree: total debit different du total credit", 400);
+        throw new http_1.AppError("Le total debit doit etre egal au total credit.", 400);
     }
 }
 // Get all fiscal years
@@ -182,10 +191,12 @@ exports.accountingRoutes.post("/entries", (0, http_1.asyncHandler)(async (req, r
         // Résoudre chaque ligne (auto-detect UUID ou numéro de compte)
         const resolvedLines = await Promise.all(lines.map(async (line) => {
             const accountId = await resolveAccountId(tx, line);
+            const debit = line.debit;
+            const credit = line.credit;
             return {
                 accountId,
-                debit: new client_1.Prisma.Decimal(typeof line.debit === "number" ? line.debit : 0),
-                credit: new client_1.Prisma.Decimal(typeof line.credit === "number" ? line.credit : 0),
+                debit: new client_1.Prisma.Decimal(debit),
+                credit: new client_1.Prisma.Decimal(credit),
                 description: line.description,
             };
         }));
@@ -255,10 +266,12 @@ exports.accountingRoutes.put("/entries/:id", (0, http_1.asyncHandler)(async (req
             // Résoudre chaque ligne (auto-detect UUID ou numéro de compte)
             const resolvedLines = await Promise.all(body.lines.map(async (line) => {
                 const accountId = await resolveAccountId(tx, line);
+                const debit = line.debit;
+                const credit = line.credit;
                 return {
                     accountId,
-                    debit: new client_1.Prisma.Decimal(typeof line.debit === "number" ? line.debit : 0),
-                    credit: new client_1.Prisma.Decimal(typeof line.credit === "number" ? line.credit : 0),
+                    debit: new client_1.Prisma.Decimal(debit),
+                    credit: new client_1.Prisma.Decimal(credit),
                     description: line.description,
                 };
             }));

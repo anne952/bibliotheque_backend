@@ -144,8 +144,15 @@ function validateLines(lines: Array<{
       throw new AppError("Chaque ligne doit avoir un compte (account, accountId ou accountNumber)", 400);
     }
 
-    const debit = typeof line.debit === "number" ? line.debit : 0;
-    const credit = typeof line.credit === "number" ? line.credit : 0;
+    if (typeof line.debit !== "number" || !Number.isFinite(line.debit)) {
+      throw new AppError("Chaque ligne doit definir un montant debit numerique", 400);
+    }
+    if (typeof line.credit !== "number" || !Number.isFinite(line.credit)) {
+      throw new AppError("Chaque ligne doit definir un montant credit numerique", 400);
+    }
+
+    const debit = line.debit;
+    const credit = line.credit;
 
     if (debit < 0 || credit < 0) throw new AppError("debit/credit ne peuvent pas etre negatifs", 400);
     if ((debit === 0 && credit === 0) || (debit > 0 && credit > 0)) {
@@ -157,15 +164,8 @@ function validateLines(lines: Array<{
   }
 
   if (!debitTotal.equals(creditTotal)) {
-    throw new AppError("Ecriture non equilibree: total debit different du total credit", 400);
+    throw new AppError("Le total debit doit etre egal au total credit.", 400);
   }
-}
-
-/** Pour une ligne valide: si debit > 0 on met credit à 0, si credit > 0 on met debit à 0 (persistance claire). */
-function normalizeDebitCredit(debit: number, credit: number): { debit: number; credit: number } {
-  if (debit > 0) return { debit, credit: 0 };
-  if (credit > 0) return { debit: 0, credit };
-  return { debit: 0, credit: 0 };
 }
 
 // Get all fiscal years
@@ -257,9 +257,8 @@ accountingRoutes.post(
       const resolvedLines = await Promise.all(
         lines.map(async (line) => {
           const accountId = await resolveAccountId(tx, line);
-          const d = typeof line.debit === "number" ? line.debit : 0;
-          const c = typeof line.credit === "number" ? line.credit : 0;
-          const { debit, credit } = normalizeDebitCredit(d, c);
+          const debit = line.debit as number;
+          const credit = line.credit as number;
 
           return {
             accountId,
@@ -359,9 +358,8 @@ accountingRoutes.put(
         const resolvedLines = await Promise.all(
           body.lines.map(async (line) => {
             const accountId = await resolveAccountId(tx, line);
-            const d = typeof line.debit === "number" ? line.debit : 0;
-            const c = typeof line.credit === "number" ? line.credit : 0;
-            const { debit, credit } = normalizeDebitCredit(d, c);
+            const debit = line.debit as number;
+            const credit = line.credit as number;
 
             return {
               accountId,
