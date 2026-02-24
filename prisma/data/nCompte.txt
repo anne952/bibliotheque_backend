@@ -1240,3 +1240,126 @@ AUTRES CRÉANCES HORS ACTIVITÉS ORDINAIRE (H.A.O.)
 4093 Fournisseurs sous-traitants, avances et acomptes versés
 4094 Fournisseurs, créances pour emballages et matériels à rendre
 4098 Fournisseurs, Rabais, Remises, Ristournes et autres avoirs à obtenir
+
+
+
+DES À PAYER  RANTS  DU SUR CAPITALAS DIVERS  URS DIVERS  
+  4747 Compte de répartition périodique des produits  
+  475 COMPTE TRANSITOIRE, AJUSTEMENT SPECIAL  
+  LIE A LA REVISION DU SYSCOHADA  
+  4751 Compte actif  
+  4752 Compte passif  
+  476 CHARGES CONSTATÉES D'AVANCE  
+  477 PRODUITS CONSTATÉS D'AVANCE  
+  478 ÉCARTS DE CONVERSION - ACTIF  
+  4781 Diminution des créances d'exploitation et HAO  
+  4782 Diminution des créances financières  
+  4783 Augmentation des dettes d'exploitation et HAO  
+  4784 Augmentation des dettes financières  
+  4786 Différences d'évaluation sur instruments de trésorerie  
+  4788 Différences compensées par couverture de change  
+  479 ÉCARTS DE CONVERSION - PASSIF  
+  4791 Augmentation des créances d'exploitation et HAO  
+  4792 Augmentation des créances financières  
+  4793 Diminution des dettes d'exploitation et HAO  
+  4794 Diminution des dettes financières  
+  4797 Différences d'évaluation sur instruments de trésorerie  
+  4798 Différences compensées par couverture de change  
+  48 CRÉANCES ET DETTES HORS ACTIVITÉS ORDINAIRES (H.A.O.)  
+  481 FOURNISSEURS D'INVESTISSEMENTS  
+  4811 Immobilisations incorporelles  
+  4812 Immobilisations corporelles  
+  4813 Versements restant à effectuer sur titres de participation et titres immobilisés non libérés  
+  4816 Réserve de propriété (1)  
+  4817 Retenues de garantie (1)  
+  4818 Factures non parvenues (1)  
+
+ 
+ 
+   463 ASSOCIÉS (!), OPÉRATIONS FAITES EN COMMUN ET GIE  
+    4631 Opérations courantes  
+    4636 Intérêts courus  
+   465 ASSOCIÉS (!), DIVIDENDES À PAYER  
+   466 GROUPE, COMPTES COURANTS  
+   467 APPORTEURS, RESTANT DU SUR CAPITAL APPELÉ  
+   47 DÉBITEURS ET CRÉDITEURS DIVERS  
+    471 DÉBITEURS ET CRÉDITEURS DIVERS  
+    4711 Débiteurs divers  
+    4712 Créditeurs divers  
+    4713 Obligataires  
+  4715 Rémunérations d'administrateurs  
+  4716 Compte d'affacturage  
+    4717 Débiteurs divers - retenues de garantie  
+    4718 Apport, compte de fusion et opérations assimilées  
+    4719 Bons de souscription d'actions et d'obligations  
+    472 CRÉANCES ET DETTES SUR TITRES DE PLACEMENT  
+    4721 Créances sur cessions de titres de placement  
+    4726 Versements restant à effectuer sur titres de placement non libérés  
+    473 INTERMÉDIAIRES – OPÉRATIONS FAITES POUR COMPTE DE TIERS  
+    4731 Mandants  
+    4732 Mandataires  
+  4733 Commettants  
+    4734 Commissionnaires  
+    4739 Etat, collectivités publiques, fonds global d'allocation  
+    474 COMPTE DE RÉPARTITION PÉRIODIQUE DES CHARGES ET DES PRODUITS  
+    4746 Compte de répartition périodique des charges  
+ 
+ 
+  40 FOURNISSEURS ET COMPTES RATTACHÉS  
+ 
+   401 FOURNISSEURS, DETTES EN COMPTE  
+    4011 Fournisseurs  
+  4012 Fournisseurs-Groupe  
+    4013 Fournisseurs sous-traitants  
+    4016 Fournisseurs, réserve de propriété  
+    4017 Fournisseurs, retenues de garantie  
+   402 FOURNISSEURS, EFFETS À PAYER  
+    4021 Fournisseurs, Effets à payer  
+    4022 Fournisseurs - Groupe, Effets à payer  
+    4023 Fournisseurs sous-traitants, Effets à payer  
+   404 FOURNISSEURS, ACQUISITIONS COURANTES D'IMMOBILISATIONS  
+    4041 Fournisseurs dettes en compte, immobilisations incorporelles  
+    4042 Fournisseurs dettes en compte, immobilisations corporelles  
+    4046 Fournisseurs effets à payer, immobilisations incorporelles  
+     4047 Fournisseurs effets à payer, immobilisations corporelles  
+   408 FOURNISSEURS, FACTURES NON PARVENUES  
+    4081 Fournisseurs  
+    4082 Fournisseurs - Groupe  
+    4083 Fournisseurs sous-traitants  
+    4086 Fournisseurs, intérêts courus  
+   409 FOURNISSEURS DÉBITEURS  
+     4091 Fournisseurs, avances et acomptes versés  
+  4092 Fournisseurs - Groupe, avances et acomptes versés  
+    4093 Fournisseurs sous-traitants, avances et acomptes versés  
+    4094 Fournisseurs, créances pour emballages et matériels à rendre  
+    4098 Fournisseurs, Rabais, Remises, Ristournes et autres avoirs à obtenir  
+ 
+  41 CLIENTS ET COMPTES RATTACHÉS  
+ 
+   411 CLIENTS  
+     4111 Clients  
+    4112 Clients - Groupe  
+     4114 Clients, État et Collectivités publiques  
+  4115 Clients, organismes internationaux  
+    4116 Clients, réserve de propriété  
+    4117 Clients, retenues de garantie  
+    4118 Clients, dégrèvement de Taxes sur la Valeur Ajoutée (T.V.A.)  
+   412 CLIENTS, EFFETS À RECEVOIR EN PORTEFEUILLE  
+    4121 Clients, Effets à recevoir  
+  4122 Clients - Groupe, Effets à recevoir  
+    4124 État et Collectivités publiques, Effets à recevoir  
+    4125 Organismes Internationaux, Effets à recevoir  
+   413 CLIENTS, CHÈQUES, EFFETS ET AUTRES VALEURS IMPAYÉS  
+    4131 Clients, chèques impayés  
+    4132 Clients, effets impayés  
+    4133 Clients, cartes de crédit impayées  
+    4138 Clients, autres valeurs impayées  
+   414 CRÉANCES SUR CESSIONS COURANTES D'IMMOBILISATIONS  
+    4141 Créances en compte, immobilisations incorporelles  
+    4142 Créances en compte, immobilisations corporelles  
+    4146 Effets à recevoir, immobilisations incorporelles  
+  4147 Effets à recevoir, immobilisations corporelles  
+   415 CLIENTS, EFFETS ESCOMPTÉS NON ÉCHUS  
+   416 CRÉANCES CLIENTS LITIGIEUSES OU DOUTEUSES  
+    4161 Créances litigieuses  
+ 
