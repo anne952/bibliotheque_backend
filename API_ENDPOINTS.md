@@ -3,11 +3,20 @@
 ## Base URL
 - Development: `http://localhost:4000/api`
 - Production (Render): `https://bibliotheque-backend-1.onrender.com/api`
+- **Status**: ✅ **Production Active** (Port 10000, deployed 2026-02-24)
 
 ### Exemples d'appels complets
 - Health (local): `http://localhost:4000/api/init/health`
 - Health (Render): `https://bibliotheque-backend-1.onrender.com/api/init/health`
 - Register status (Render): `https://bibliotheque-backend-1.onrender.com/api/auth/register-status`
+- **Fiscal Years (Render)**: `https://bibliotheque-backend-1.onrender.com/api/accounting/fiscal-years` ✅
+- **Accounts (Render)**: `https://bibliotheque-backend-1.onrender.com/api/accounting/accounts` ✅
+
+### Production Validation (2026-02-24)
+- ✅ 901 SYSCOHADA accounts loaded and verified
+- ✅ Fiscal Year: `f21982f8-d776-43c0-a2b2-c4a8a2fda8d2` (FY 2026)
+- ✅ Test entry created: `FY 2026-00031` with unified `account` field
+- ✅ Account resolution: `"57"` → `5775c8f1-5a89-41bc-9e30-43ebdef32fb5` (CAISSE)
 
 ---
 
@@ -284,6 +293,34 @@
 
 ## 6. ACCOUNTING
 
+### Get Fiscal Years
+- **GET** `/accounting/fiscal-years`
+- Response: Array of fiscal year objects with id, name, startDate, endDate, isClosed
+- **Status**: ✅ **Production Ready** (Render + Local)
+- Example:
+```json
+[{
+  "id": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+  "name": "FY 2026",
+  "startDate": "2026-01-01T00:00:00.000Z",
+  "endDate": "2026-12-31T00:00:00.000Z",
+  "isClosed": false
+}]
+```
+
+### Get All Accounts
+- **GET** `/accounting/accounts`
+- Response: Array of 901 SYSCOHADA accounts with id, accountNumber, name, type
+- **Status**: ✅ **Production Ready** (Render + Local)
+- Filter: Only active accounts (`isActive: true`)
+- Example:
+```json
+[
+  {"id": "5775c8f1-5a89-41bc-9e30-43ebdef32fb5", "accountNumber": "57", "name": "CAISSE", "type": "ASSET"},
+  {"id": "85307468-040f-4e5f-818a-e216c028873a", "accountNumber": "701", "name": "Ventes de livres", "type": "REVENUE"}
+]
+```
+
 ### Get Journal Entries
 - **GET** `/accounting/entries`
 - Response: Array of journal entries with lines
@@ -295,10 +332,12 @@
 ### Create Journal Entry
 - **POST** `/accounting/entries`
 - Body: `{ fiscalYearId, date, journalType, description, pieceNumber?, sourceType?, sourceId?, lines: [{ account, debit?, credit?, description? }] }`
+- **Status**: ✅ **Production Ready** (Testé Render: Entry FY 2026-00031 créée avec succès)
 - **Champ unifié `account`**: Accepte automatiquement soit un UUID soit un numéro de compte (ex: "57", "521")
   - Détection UUID: Si le format correspond à un UUID, recherche directe par ID
   - Détection numéro: Sinon, recherche par numéro de compte
   - Rétrocompatibilité: Les champs `accountId` et `accountNumber` restent supportés
+  - **Validation Production**: `"account": "57"` → résolu en `5775c8f1-5a89-41bc-9e30-43ebdef32fb5` ✅
 - **journalType** valeurs possibles: `GENERAL`, `CASH`, `PURCHASE`, `SALES`, `DONATION`, `BANK`
 - Validation: Debit total must equal credit total, min 2 lines
 - Response: Created journal entry
@@ -316,22 +355,22 @@
 
 **Exemples:**
 ```json
-// Avec numéros de compte
+// Avec numéros de compte (Production Tested ✅)
 {
-  "fiscalYearId": "abc-123",
-  "date": "2026-02-23",
-  "journalType": "PURCHASE",
-  "description": "Achat de fournitures",
+  "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+  "date": "2026-02-24",
+  "journalType": "GENERAL",
+  "description": "Test production Render",
   "lines": [
-    { "account": "601", "debit": 5000, "credit": 0, "description": "Achats de marchandises" },
-    { "account": "521", "debit": 0, "credit": 5000, "description": "Banque" }
+    { "account": "57", "debit": 5000, "credit": 0, "description": "Caisse" },
+    { "account": "701", "debit": 0, "credit": 5000, "description": "Ventes" }
   ]
 }
 
-// Avec UUIDs
+// Avec UUIDs directs
 {
-  "fiscalYearId": "abc-123",
-  "date": "2026-02-23",
+  "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+  "date": "2026-02-24",
   "journalType": "GENERAL",
   "description": "Écriture mixte",
   "lines": [
@@ -340,6 +379,11 @@
   ]
 }
 ```
+
+**Workflow complet:**
+1. `GET /accounting/fiscal-years` → Récupérer le `fiscalYearId`
+2. `GET /accounting/accounts` → (Optionnel) Lister les comptes disponibles
+3. `POST /accounting/entries` → Créer une écriture avec numéros de compte ou UUID
 
 ### Update Journal Entry
 - **PUT** `/accounting/entries/:id`
