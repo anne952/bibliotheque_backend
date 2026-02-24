@@ -59,7 +59,72 @@ function addWorksheetFromRows(
   autoFitColumns(ws);
 }
 
-function validateLines(lines: Array<{ accountId?: string; accountNumber?: string; debit?: number; credit?: number }>): void {
+function isUUID(value: string): boolean {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
+}
+
+async function resolveAccountId(
+  tx: Prisma.TransactionClient,
+  line: { 
+    account?: string;
+    accountId?: string; 
+    accountNumber?: string;
+  }
+): Promise<string> {
+  // Priorité 1: champ 'account' (auto-detect UUID ou numéro)
+  if (line.account) {
+    const accountValue = line.account.trim();
+    
+    // Si c'est un UUID, le retourner directement
+    if (isUUID(accountValue)) {
+      const exists = await tx.account.findUnique({
+        where: { id: accountValue },
+        select: { id: true },
+      });
+      if (!exists) {
+        throw new AppError(`Compte introuvable avec l'ID: ${accountValue}`, 400);
+      }
+      return accountValue;
+    }
+    
+    // Sinon, c'est un numéro de compte
+    const account = await tx.account.findFirst({
+      where: { accountNumber: accountValue, isActive: true },
+      select: { id: true },
+    });
+    if (!account) {
+      throw new AppError(`Compte introuvable pour le numero: ${accountValue}`, 400);
+    }
+    return account.id;
+  }
+  
+  // Priorité 2: accountId explicite
+  if (line.accountId) {
+    return line.accountId;
+  }
+  
+  // Priorité 3: accountNumber explicite
+  if (line.accountNumber) {
+    const account = await tx.account.findFirst({
+      where: { accountNumber: line.accountNumber, isActive: true },
+      select: { id: true },
+    });
+    if (!account) {
+      throw new AppError(`Compte introuvable pour le numero: ${line.accountNumber}`, 400);
+    }
+    return account.id;
+  }
+  
+  throw new AppError("Vous devez fournir un compte (account, accountId ou accountNumber)", 400);
+}
+
+function validateLines(lines: Array<{ 
+  account?: string;
+  accountId?: string; 
+  accountNumber?: string; 
+  debit?: number; 
+  credit?: number;
+}>): void {
   if (!Array.isArray(lines) || lines.length < 2) {
     throw new AppError("Une ecriture doit contenir au moins 2 lignes", 400);
   }
@@ -68,7 +133,9 @@ function validateLines(lines: Array<{ accountId?: string; accountNumber?: string
   let creditTotal = new Prisma.Decimal(0);
 
   for (const line of lines) {
-    if (!line.accountId && !line.accountNumber) throw new AppError("accountId ou accountNumber obligatoire sur chaque ligne", 400);
+    if (!line.account && !line.accountId && !line.accountNumber) {
+      throw new AppError("Chaque ligne doit avoir un compte (account, accountId ou accountNumber)", 400);
+    }
 
     const debit = typeof line.debit === "number" ? line.debit : 0;
     const credit = typeof line.credit === "number" ? line.credit : 0;
@@ -120,7 +187,14 @@ accountingRoutes.post(
       description?: string;
       sourceType?: SourceType;
       sourceId?: string;
-      lines?: Array<{ accountId?: string; accountNumber?: string; debit?: number; credit?: number; description?: string }>;
+      lines?: Array<{ 
+        account?: string;
+        accountId?: string; 
+        accountNumber?: string; 
+        debit?: number; 
+        credit?: number; 
+        description?: string;
+      }>;
     };
 
     if (!body.fiscalYearId) throw new AppError("fiscalYearId obligatoire", 400);
@@ -141,25 +215,13 @@ accountingRoutes.post(
       if (!fy) throw new AppError("Exercice comptable introuvable", 404);
       if (fy.isClosed) throw new AppError("Exercice comptable ferme", 400);
 
-      // Résoudre accountNumber en accountId si nécessaire
+      // Résoudre chaque ligne (auto-detect UUID ou numéro de compte)
       const resolvedLines = await Promise.all(
         lines.map(async (line) => {
-          let accountId = line.accountId;
-          
-          // Si accountNumber est fourni au lieu de accountId, le résoudre
-          if (!accountId && line.accountNumber) {
-            const account = await tx.account.findFirst({
-              where: { accountNumber: line.accountNumber, isActive: true },
-              select: { id: true },
-            });
-            if (!account) {
-              throw new AppError(`Compte comptable introuvable: ${line.accountNumber}`, 400);
-            }
-            accountId = account.id;
-          }
+          const accountId = await resolveAccountId(tx, line);
 
           return {
-            accountId: accountId as string,
+            accountId,
             debit: new Prisma.Decimal(typeof line.debit === "number" ? line.debit : 0),
             credit: new Prisma.Decimal(typeof line.credit === "number" ? line.credit : 0),
             description: line.description,
@@ -204,7 +266,14 @@ accountingRoutes.put(
       description?: string;
       sourceType?: SourceType;
       sourceId?: string;
-      lines?: Array<{ accountId?: string; accountNumber?: string; debit?: number; credit?: number; description?: string }>;
+      lines?: Array<{ 
+        account?: string;
+        accountId?: string; 
+        accountNumber?: string; 
+        debit?: number; 
+        credit?: number; 
+        description?: string;
+      }>;
     };
 
     const updated = await prisma.$transaction(async (tx) => {
@@ -245,25 +314,13 @@ accountingRoutes.put(
       if (body.lines) {
         validateLines(body.lines);
         
-        // Résoudre accountNumber en accountId si nécessaire
+        // Résoudre chaque ligne (auto-detect UUID ou numéro de compte)
         const resolvedLines = await Promise.all(
           body.lines.map(async (line) => {
-            let accountId = line.accountId;
-            
-            // Si accountNumber est fourni au lieu de accountId, le résoudre
-            if (!accountId && line.accountNumber) {
-              const account = await tx.account.findFirst({
-                where: { accountNumber: line.accountNumber, isActive: true },
-                select: { id: true },
-              });
-              if (!account) {
-                throw new AppError(`Compte comptable introuvable: ${line.accountNumber}`, 400);
-              }
-              accountId = account.id;
-            }
+            const accountId = await resolveAccountId(tx, line);
 
             return {
-              accountId: accountId as string,
+              accountId,
               debit: new Prisma.Decimal(typeof line.debit === "number" ? line.debit : 0),
               credit: new Prisma.Decimal(typeof line.credit === "number" ? line.credit : 0),
               description: line.description,

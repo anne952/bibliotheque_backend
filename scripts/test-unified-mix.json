@@ -1,0 +1,20 @@
+{
+  "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+  "date": "2026-02-24",
+  "journalType": "GENERAL",
+  "description": "Test mix UUID et numéros",
+  "lines": [
+    {
+      "account": "57",
+      "debit": 25000,
+      "credit": 0,
+      "description": "Caisse (numéro)"
+    },
+    {
+      "account": "7dbdecaf-15b0-4fbc-b88c-46a2a54383e7",
+      "debit": 0,
+      "credit": 25000,
+      "description": "Dons (UUID)"
+    }
+  ]
+}
