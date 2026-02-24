@@ -340,6 +340,10 @@
   - **Validation Production**: `"account": "57"` → résolu en `5775c8f1-5a89-41bc-9e30-43ebdef32fb5` ✅
 - **journalType** valeurs possibles: `GENERAL`, `CASH`, `PURCHASE`, `SALES`, `DONATION`, `BANK`
 - Validation: Debit total must equal credit total, min 2 lines
+- **Contrepartie automatique**: **NON** sur cet endpoint.
+  - Le backend **ne complete pas** automatiquement une ligne manquante.
+  - Chaque ligne doit fournir explicitement `debit` et `credit` (un seul > 0 par ligne).
+  - L'ecriture est refusee si `lines.length < 2` ou si `sum(debit) !== sum(credit)`.
 - Response: Created journal entry
 
 **Comptes disponibles:**
@@ -390,6 +394,7 @@
 - Body: Any updatable fields from create payload (`fiscalYearId`, `date`, `journalType`, `description`, `pieceNumber`, `sourceType`, `sourceId`, `lines`)
 - **Note**: Les lignes utilisent le champ unifié `account` (UUID ou numéro) - rétrocompatible avec `accountId` et `accountNumber`
 - Validation: Cannot update validated entries; if `lines` are provided, debit total must equal credit total and min 2 lines
+- **Contrepartie automatique**: **NON** sur cet endpoint (mêmes règles strictes que la création).
 - Response: Updated journal entry
 
 ### Validate Journal Entry
@@ -476,6 +481,64 @@ Account 103 (Immobilisations corporelles): Tangible assets
 - **GET** `/accounting/cash-journal?fiscalYearId=<id>`
 - Response: All cash journal entries (JOURNAL_TYPE in `CASH`, `PURCHASE`, `SALES`)
 - Notes: financial donations use `journalType=DONATION` and are not included here
+- **Important**:
+  - Ce endpoint est un **journal de consultation** (lecture), il ne génère aucune contrepartie.
+  - Les écritures visibles ici sont créées soit manuellement via `/accounting/entries`, soit automatiquement via certains flux métiers.
+
+### Règle Contrepartie (important)
+- **Manuelle (pas auto)**: `/accounting/entries` et `/accounting/entries/:id`
+- **Automatique (générée par le backend)**: `/transactions/purchase`, `/transactions/sale`, `/transactions/donation` (financier entrant `direction=IN`)
+
+### Exemples validation (front)
+
+**Valide (201 Created)**
+```json
+{
+  "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+  "date": "2026-02-24",
+  "journalType": "CASH",
+  "description": "Encaissement vente",
+  "lines": [
+    { "account": "57", "debit": 15000, "credit": 0 },
+    { "account": "701", "debit": 0, "credit": 15000 }
+  ]
+}
+```
+
+**Invalide 1 (400 Bad Request: moins de 2 lignes)**
+```json
+{
+  "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+  "date": "2026-02-24",
+  "journalType": "GENERAL",
+  "description": "Ecriture incomplète",
+  "lines": [
+    { "account": "57", "debit": 15000, "credit": 0 }
+  ]
+}
+```
+Erreur attendue (`message`):
+```json
+{ "message": "Une ecriture doit contenir au moins 2 lignes (partie double). Une seule ligne a ete envoyee." }
+```
+
+**Invalide 2 (400 Bad Request: écriture non équilibrée)**
+```json
+{
+  "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+  "date": "2026-02-24",
+  "journalType": "GENERAL",
+  "description": "Ecriture non equilibree",
+  "lines": [
+    { "account": "57", "debit": 10000, "credit": 0 },
+    { "account": "701", "debit": 0, "credit": 9000 }
+  ]
+}
+```
+Erreur attendue (`message`):
+```json
+{ "message": "Le total debit doit etre egal au total credit." }
+```
 
 ### Etats comptables (pour le front)
 - **Compte de resultat**: `GET /accounting/income-statement?fiscalYearId=<id>`

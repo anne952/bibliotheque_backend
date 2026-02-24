@@ -963,3 +963,280 @@ Voici le texte extrait de l'image :
     1062 Écarts de réévaluation libre  
  
    109 APPORTEURS, CAPITAL SOUSCRIT, NON APPELÉ
+
+
+
+
+**61 - 69 COMPTES DE GESTION (suite)**
+
+601 Achats de marchandises
+602 Achats de matières premières
+603 Achats de matières consommables
+604 Achats d'études et de prestations de services
+605 Achats de fournitures consommables
+606 Achats de fournitures administratives
+607 Achats d'emballages
+608 Achats de petit outillage
+609 Achats de matériel et mobilier de bureau
+
+**61 SERVICES EXTERIEURS**
+
+611 Sous-traitance générale
+612 Locations
+613 Charges locatives
+614 Entretien et réparations
+615 Primes d'assurances
+616 Honoraires
+617 Publicité, relations publiques
+618 Transports
+619 Frais de mission
+620 Frais de déménagement
+621 Frais de réception
+622 Frais de télécommunications
+623 Frais postaux
+624 Frais bancaires
+625 Cotisations
+626 Documentation
+627 Concours divers
+628 Frais d'actes et de contentieux
+
+**63 IMPOTS ET TAXES**
+
+631 Impôts directs
+632 Impôts indirects
+633 Droits d'enregistrement
+634 Taxe sur la valeur ajoutée (TVA)
+635 Patentes
+636 Licences
+637 Vignettes
+638 Autres impôts et taxes
+
+---
+
+
+**70 VENTES**
+
+701 Ventes de marchandises
+702 Ventes de produits finis
+703 Ventes de produits intermédiaires
+704 Ventes de produits résiduels
+705 Ventes de services
+706 Ventes d'études
+707 Ventes de prestations administratives
+708 Ventes de transports
+709 Ventes d'emballages
+710 Ventes de produits accessoires
+711 Ventes de matières premières
+712 Ventes de fournitures
+713 Ventes de matériels
+714 Rabais, remises, ristournes accordés
+715 Escomptes accordés
+716 Ventes à l'exportation
+
+**71 PRODUCTION STOCKEE**
+
+711 Variation de stock de marchandises
+712 Variation de stock de matières premières
+713 Variation de stock de produits finis
+714 Variation de stock de produits intermédiaires
+715 Variation de stock d'emballages
+716 Variation de stock de fournitures
+717 Variation de stock de produits en cours
+
+**72 PRODUCTION IMMOBILISEE**
+
+721 Production immobilisée d'immobilisations incorporelles
+722 Production immobilisée d'immobilisations corporelles
+723 Production immobilisée d'immobilisations financières
+
+---
+
+
+**73 PRODUITS DE PRESTATIONS**
+
+731 Prestations de services
+732 Prestations administratives
+733 Prestations techniques
+734 Prestations informatiques
+735 Prestations de conseil
+736 Prestations de formation
+737 Prestations d'études
+738 Prestations diverses
+
+**74 SUBVENTIONS**
+
+741 Subventions d'exploitation
+742 Subventions d'équilibre
+743 Subventions d'investissement
+744 Subventions exceptionnelles
+745 Subventions de l'État
+746 Subventions des collectivités
+747 Subventions des organismes internationaux
+748 Subventions diverses
+
+**75 AUTRES PRODUITS**
+
+751 Produits accessoires
+752 Produits de gestion courante
+753 Produits financiers
+754 Produits exceptionnels
+755 Produits de cession d'éléments d'actif
+756 Quote-parts de subventions
+757 Transferts de charges
+758 Reprises sur provisions
+759 Produits divers
+
+---
+
+
+
+**51 VALEURS À ENCAISSER**
+511 EFFETS À ENCAISSER
+512 EFFETS À L'ENCAISSEMENT
+513 CHÈQUES À ENCAISSER
+514 CHÈQUES À L'ENCAISSEMENT
+515 CARTES DE CRÉDIT À ENCAISSER
+518 AUTRES VALEURS À L'ENCAISSEMENT
+5181 Warrants
+5182 Billets de fonds
+5185 Chèques de voyage
+5186 Coupons échus
+5187 Intérêts échus des obligations
+
+**52 BANQUES**
+521 BANQUES LOCALES
+5211 Banques en monnaie nationale
+5215 Banques en devises
+522 BANQUES AUTRES ÉTATS REGION
+523 BANQUES AUTRES ÉTATS ZONE MONETAIRE
+524 BANQUES HORS ZONE MONETAIRE
+525 BANQUES DEPÔT À TERME
+526 BANQUES, INTERETS COURUS
+5261 Banque, intérêts courus charges à payer
+5267 Banque, intérêts courus produits à recevoir
+
+**53 ÉTABLISSEMENTS FINANCIERS ET ASSIMILÉS**
+531 CHÈQUES POSTAUX
+532 TRÉSOR
+533 SOCIÉTÉS DE GESTION ET D'INTERMÉDIATION (S.G.I.)
+536 ETABLISSEMENTS FINANCIERS, INTERETS COURUS
+538 AUTRES ORGANISMES FINANCIERS
+
+---
+
+
+
+**54 INSTRUMENTS DE TRESORERIE**
+541 OPTIONS DE TAUX D'INTERET
+542 OPTIONS DE TAUX DE CHANGE
+543 OPTIONS DE TAUX BOURSIERS
+544 INSTRUMENTS DE MARCHES À TERME
+545 AVOIRS D'OR ET AUTRES METAUX PRECIEUS
+
+**55 INSTRUMENTS DE MONNAIE ELECTRONIQUE**
+551 MONNAIE ELECTRONIQUE - CARTE CARBONNE
+552 MONNAIE ELECTRONIQUE - TELEPHONE PORTABLE
+554 PORTE - MONNAIE ELECTRONIQUE
+558 AUTRES INSTRUMENTS MONNAIES ELECTRONIQUES
+
+**56 BANQUES, CRÉDITS DE TRÉSORERIE ET D'ESCOMPTE**
+561 CRÉDITS DE TRÉSORERIE
+564 ESCOMPTE DE CRÉDITS DE CAMPAGNE
+565 ESCOMPTE DE CRÉDITS ORDINAIRES
+566 BANQUES, CREDITS DE TRESORERIE, INTERETS COURUS
+
+**57 CAISSE**
+571 CAISSE SIÈGE SOCIAL
+5711 Caisse en monnaie nationale
+5712 Caisse en devises
+572 CAISSE SUCCURSALE A
+5721 en monnaie nationale
+5722 devises
+573 CAISSE SUCCURSALE B
+5731 En monnaie nationale
+5732 devises
+
+---
+
+
+
+**50 TITRES DE PLACEMENT**
+501 TITRES DU TRESOR ET BONS DE CAISSE
+5011 TITRES DU TRESOR ET BONS DE CAISSE
+5012 TITRES D'ORGANISMES FINANCES
+5013 BONS DE CAISSE A COURT TERME
+5016 Frais d'acquisition des titres de la BONS DE CAISSE
+502 ACTIONS
+5021 Actions ou parts propres
+5022 Actions cotées
+5023 Actions non cotées
+5024 Actions demembrées (certificats d'investissement droits de vote)
+5025 Autres actions
+5026 Frais d'acquisition des actions
+503 OBLIGATIONS
+5031 Obligations émises par la société et rachète par elle
+5032 Obligations cotées
+5033 Obligations non cotées
+5035 Autres obligations
+5036 Frais d'acquisition des obligations
+504 BONS DE SOUSCRIPTION
+5042 Bons de souscription d'actions
+5043 Bons de souscription d'obligations
+505 TITRES NÉGOCIABLES HORS REGION
+506 INTERÊTS COURUS
+5061 Titres du Trésor et bons de caisse à court terme
+5062 Actions
+5063 Obligations
+5064 AUTRES TITRES DE PLACEMENT ET CREANCES
+
+---
+
+
+
+43
+FOURNISSEURS D'INVESTISSEMENTS
+4821 IMMOBILISATIONS INCORPORÉES
+4822 AUTRES DETTES HORS ACTIVITÉS ORDINAIRE (H.A.O.)
+CREANCES SUR CESSIONS D'IMMOBILISATIONS
+4851 En compte, immobilitations incorporelles
+4852 En compte, immobilitations incorporelles
+4853 Effets à recevoir, immobilitations incorporelles
+4854 Effets à recevoir, immobilitations incorporelles
+4855 Effets escomptés non échus
+4856 Immobilisations financières
+4857 Retenues de garantie
+4858 Factures à établir
+AUTRES CRÉANCES HORS ACTIVITÉS ORDINAIRE (H.A.O.)
+488
+489
+...
+
+---
+
+
+**40 FOURNISSEURS ET COMPTES RATTACHES**
+401 FOURNISSEURS, DETTES EN COMPTE
+4011 Fournisseurs
+4012 Fournisseurs-Groupe
+4013 Fournisseurs sous-traitants
+4016 Fournisseurs, reserve de propriété
+402 FOURNISSEURS, EFFETS À PAYER
+4021 Fournisseurs, Effets à payer
+4022 Fournisseurs - Groupe, Effets à payer
+4023 Fournisseurs sous-traitants, Effets à payer
+404 FOURNISSEURS, ACQUISITIONS COURANTE D'IMMOBILISATIONS
+4041 Fournisseurs dettes en compte, immobilisation incorporelles
+4042 Fournisseurs dettes en compte, immobilisation incorporelles
+4046 Fournisseurs effets à payer, immobilisation incorporelles
+4047 Fournisseurs effets à payer, immobilisation incorporelles
+408 FOURNISSEURS, FACTURES NON PARVENUES
+4081 Fournisseurs
+4082 Fournisseurs - Groupe
+4083 Fournisseurs sous-traitants
+4086 Fournisseurs, intérêts courus
+409 FOURNISSEURS DÉBITEURS
+4091 Fournisseurs, avances et acomptes versés
+4092 Fournisseurs - Groupe, avances et acomptes versés
+4093 Fournisseurs sous-traitants, avances et acomptes versés
+4094 Fournisseurs, créances pour emballages et matériels à rendre
+4098 Fournisseurs, Rabais, Remises, Ristournes et autres avoirs à obtenir
