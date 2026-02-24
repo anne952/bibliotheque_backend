@@ -155,6 +155,30 @@ function validateLines(lines: Array<{
   }
 }
 
+// Get all fiscal years
+accountingRoutes.get(
+  "/fiscal-years",
+  asyncHandler(async (_req, res) => {
+    const fiscalYears = await prisma.fiscalYear.findMany({
+      orderBy: { startDate: "desc" },
+    });
+    res.status(200).json(fiscalYears);
+  }),
+);
+
+// Get all accounts with UUID mapping
+accountingRoutes.get(
+  "/accounts",
+  asyncHandler(async (_req, res) => {
+    const accounts = await prisma.account.findMany({
+      where: { isActive: true },
+      select: { id: true, accountNumber: true, name: true, type: true },
+      orderBy: { accountNumber: "asc" },
+    });
+    res.status(200).json(accounts);
+  }),
+);
+
 accountingRoutes.get(
   "/entries",
   asyncHandler(async (_req, res) => {
