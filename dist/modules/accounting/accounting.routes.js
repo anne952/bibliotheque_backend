@@ -57,6 +57,52 @@ function addWorksheetFromRows(workbook, sheetName, headers, rows) {
     }
     autoFitColumns(ws);
 }
+function isUUID(value) {
+    return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
+}
+// Resolve account ID from multiple possible input formats
+async function resolveAccountId(tx, line) {
+    // Priorité 1: champ 'account' (auto-detect UUID ou numéro)
+    if (line.account) {
+        const accountValue = line.account.trim();
+        // Si c'est un UUID, le retourner directement
+        if (isUUID(accountValue)) {
+            const exists = await tx.account.findUnique({
+                where: { id: accountValue },
+                select: { id: true },
+            });
+            if (!exists) {
+                throw new http_1.AppError(`Compte introuvable avec l'ID: ${accountValue}`, 400);
+            }
+            return accountValue;
+        }
+        // Sinon, c'est un numéro de compte
+        const account = await tx.account.findFirst({
+            where: { accountNumber: accountValue, isActive: true },
+            select: { id: true },
+        });
+        if (!account) {
+            throw new http_1.AppError(`Compte introuvable pour le numero: ${accountValue}`, 400);
+        }
+        return account.id;
+    }
+    // Priorité 2: accountId explicite
+    if (line.accountId) {
+        return line.accountId;
+    }
+    // Priorité 3: accountNumber explicite
+    if (line.accountNumber) {
+        const account = await tx.account.findFirst({
+            where: { accountNumber: line.accountNumber, isActive: true },
+            select: { id: true },
+        });
+        if (!account) {
+            throw new http_1.AppError(`Compte introuvable pour le numero: ${line.accountNumber}`, 400);
+        }
+        return account.id;
+    }
+    throw new http_1.AppError("Vous devez fournir un compte (account, accountId ou accountNumber)", 400);
+}
 function validateLines(lines) {
     if (!Array.isArray(lines) || lines.length < 2) {
         throw new http_1.AppError("Une ecriture doit contenir au moins 2 lignes", 400);
@@ -64,8 +110,9 @@ function validateLines(lines) {
     let debitTotal = new client_1.Prisma.Decimal(0);
     let creditTotal = new client_1.Prisma.Decimal(0);
     for (const line of lines) {
-        if (!line.accountId)
-            throw new http_1.AppError("accountId obligatoire sur chaque ligne", 400);
+        if (!line.account && !line.accountId && !line.accountNumber) {
+            throw new http_1.AppError("Chaque ligne doit avoir un compte (account, accountId ou accountNumber)", 400);
+        }
         const debit = typeof line.debit === "number" ? line.debit : 0;
         const credit = typeof line.credit === "number" ? line.credit : 0;
         if (debit < 0 || credit < 0)
@@ -80,6 +127,22 @@ function validateLines(lines) {
         throw new http_1.AppError("Ecriture non equilibree: total debit different du total credit", 400);
     }
 }
+// Get all fiscal years
+exports.accountingRoutes.get("/fiscal-years", (0, http_1.asyncHandler)(async (_req, res) => {
+    const fiscalYears = await prisma_1.prisma.fiscalYear.findMany({
+        orderBy: { startDate: "desc" },
+    });
+    res.status(200).json(fiscalYears);
+}));
+// Get all accounts with UUID mapping
+exports.accountingRoutes.get("/accounts", (0, http_1.asyncHandler)(async (_req, res) => {
+    const accounts = await prisma_1.prisma.account.findMany({
+        where: { isActive: true },
+        select: { id: true, accountNumber: true, name: true, type: true },
+        orderBy: { accountNumber: "asc" },
+    });
+    res.status(200).json(accounts);
+}));
 exports.accountingRoutes.get("/entries", (0, http_1.asyncHandler)(async (_req, res) => {
     const entries = await prisma_1.prisma.journalEntry.findMany({
         include: { lines: true },
@@ -116,6 +179,16 @@ exports.accountingRoutes.post("/entries", (0, http_1.asyncHandler)(async (req, r
             throw new http_1.AppError("Exercice comptable introuvable", 404);
         if (fy.isClosed)
             throw new http_1.AppError("Exercice comptable ferme", 400);
+        // Résoudre chaque ligne (auto-detect UUID ou numéro de compte)
+        const resolvedLines = await Promise.all(lines.map(async (line) => {
+            const accountId = await resolveAccountId(tx, line);
+            return {
+                accountId,
+                debit: new client_1.Prisma.Decimal(typeof line.debit === "number" ? line.debit : 0),
+                credit: new client_1.Prisma.Decimal(typeof line.credit === "number" ? line.credit : 0),
+                description: line.description,
+            };
+        }));
         const count = await tx.journalEntry.count({ where: { fiscalYearId: fy.id } });
         const entryNumber = `${fy.name}-${String(count + 1).padStart(5, "0")}`;
         return tx.journalEntry.create({
@@ -129,12 +202,7 @@ exports.accountingRoutes.post("/entries", (0, http_1.asyncHandler)(async (req, r
                 sourceType: body.sourceType,
                 sourceId: body.sourceId,
                 lines: {
-                    create: lines.map((line) => ({
-                        accountId: line.accountId,
-                        debit: new client_1.Prisma.Decimal(typeof line.debit === "number" ? line.debit : 0),
-                        credit: new client_1.Prisma.Decimal(typeof line.credit === "number" ? line.credit : 0),
-                        description: line.description,
-                    })),
+                    create: resolvedLines,
                 },
             },
             include: { lines: true },
@@ -184,14 +252,19 @@ exports.accountingRoutes.put("/entries/:id", (0, http_1.asyncHandler)(async (req
             data.sourceId = body.sourceId;
         if (body.lines) {
             validateLines(body.lines);
-            data.lines = {
-                deleteMany: {},
-                create: body.lines.map((line) => ({
-                    accountId: line.accountId,
+            // Résoudre chaque ligne (auto-detect UUID ou numéro de compte)
+            const resolvedLines = await Promise.all(body.lines.map(async (line) => {
+                const accountId = await resolveAccountId(tx, line);
+                return {
+                    accountId,
                     debit: new client_1.Prisma.Decimal(typeof line.debit === "number" ? line.debit : 0),
                     credit: new client_1.Prisma.Decimal(typeof line.credit === "number" ? line.credit : 0),
                     description: line.description,
-                })),
+                };
+            }));
+            data.lines = {
+                deleteMany: {},
+                create: resolvedLines,
             };
         }
         return tx.journalEntry.update({
@@ -275,6 +348,19 @@ exports.accountingRoutes.get("/cash-journal", (0, http_1.asyncHandler)(async (re
         : undefined;
     const journal = await accounting_service_1.AccountingService.getCashJournal(fiscalYearId);
     res.status(200).json(journal);
+}));
+exports.accountingRoutes.get("/accounts/resolve", (0, http_1.asyncHandler)(async (req, res) => {
+    const accountNumber = String(req.query.accountNumber ?? "");
+    if (!accountNumber)
+        throw new http_1.AppError("accountNumber obligatoire", 400);
+    const account = await prisma_1.prisma.account.findFirst({
+        where: { accountNumber, isActive: true },
+        select: { id: true, accountNumber: true, name: true, type: true },
+    });
+    if (!account) {
+        throw new http_1.AppError(`Compte introuvable pour le numero ${accountNumber}`, 404);
+    }
+    res.status(200).json(account);
 }));
 exports.accountingRoutes.get("/export/excel", (0, http_1.asyncHandler)(async (req, res) => {
     const section = req.query.section ? String(req.query.section).toLowerCase() : "all";

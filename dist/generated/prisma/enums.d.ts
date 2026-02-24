@@ -90,6 +90,7 @@ export type AccountType = (typeof AccountType)[keyof typeof AccountType];
 export declare const JournalType: {
     readonly GENERAL: "GENERAL";
     readonly CASH: "CASH";
+    readonly DONATION: "DONATION";
     readonly PURCHASE: "PURCHASE";
     readonly SALES: "SALES";
     readonly BANK: "BANK";

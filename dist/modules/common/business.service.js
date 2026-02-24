@@ -1,8 +1,14 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AccountInitService = exports.CalculationService = exports.ValidationService = void 0;
 const prisma_1 = require("../../config/prisma");
 const http_1 = require("../../common/http");
+const client_1 = require("../../generated/prisma/client");
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
 /**
  * Business validation service
  */
@@ -89,18 +95,84 @@ exports.CalculationService = CalculationService;
  * Use this to set up default chart of accounts
  */
 class AccountInitService {
+    static resolveAccountClass(accountNumber) {
+        const firstDigit = accountNumber.trim()[0];
+        const parsed = Number(firstDigit);
+        return Number.isFinite(parsed) ? parsed : 0;
+    }
+    static resolveAccountType(accountNumber) {
+        // Best-effort mapping from SYSCOHADA class numbers.
+        switch (accountNumber.trim()[0]) {
+            case "1":
+                return client_1.AccountType.EQUITY;
+            case "2":
+            case "3":
+            case "4":
+            case "5":
+                return client_1.AccountType.ASSET;
+            case "6":
+                return client_1.AccountType.EXPENSE;
+            case "7":
+                return client_1.AccountType.REVENUE;
+            case "8":
+                return client_1.AccountType.CONTINGENT;
+            default:
+                return client_1.AccountType.ASSET;
+        }
+    }
+    static parseAccountsFromFile() {
+        const candidates = [
+            path_1.default.resolve(process.cwd(), "prisma/data/nCompte.txt"),
+            path_1.default.resolve(process.cwd(), "prisma/data/nCompte"),
+            path_1.default.resolve(process.cwd(), "src/generated/prisma/models/nCompte"),
+            path_1.default.resolve(__dirname, "../../../prisma/data/nCompte.txt"),
+            path_1.default.resolve(__dirname, "../../generated/prisma/models/nCompte"),
+        ];
+        const accountsFilePath = candidates.find((candidate) => fs_1.default.existsSync(candidate));
+        if (!accountsFilePath) {
+            console.warn("⚠️  Accounts file not found. Checked:", candidates);
+            return [];
+        }
+        console.log("✅ Loading accounts from:", accountsFilePath);
+        const raw = fs_1.default.readFileSync(accountsFilePath, "utf8");
+        const lines = raw.split(/\r?\n/);
+        const startIndex = lines.findIndex((line) => line.toLowerCase().includes("liste des numero de compte comptable"));
+        const accounts = [];
+        if (startIndex === -1)
+            return accounts;
+        for (let i = startIndex + 1; i < lines.length; i += 1) {
+            const line = lines[i].trim();
+            if (!line)
+                continue;
+            const cleaned = line.replace(/\*\*/g, "").replace(/\s{2,}/g, " ").trim();
+            const candidate = cleaned.replace(/^[-•]\s*/, "");
+            let match = candidate.match(/^(\d{2,6})\s*[-–]\s*(.+)$/);
+            if (!match) {
+                match = candidate.match(/^(\d{2,6})\s+(.+)$/);
+            }
+            if (!match)
+                continue;
+            const number = match[1];
+            const name = match[2].trim();
+            if (!number || !name)
+                continue;
+            if (name.startsWith("|"))
+                continue;
+            if (name.includes("FCFA"))
+                continue;
+            accounts.push({ number, name });
+        }
+        return accounts;
+    }
     /**
      * Create default chart of accounts
      */
     static async createDefaultAccounts() {
-        // Check if accounts already exist
-        const existingCount = await prisma_1.prisma.account.count();
-        if (existingCount > 0) {
-            console.log("Chart of accounts already exists");
-            return;
-        }
-        // Define chart of accounts structure
-        const accounts = [
+        const existingAccounts = await prisma_1.prisma.account.findMany({
+            select: { accountNumber: true },
+        });
+        const existingNumbers = new Set(existingAccounts.map((acc) => acc.accountNumber));
+        const baseAccounts = [
             // Assets (1xx)
             { number: "101", name: "Caisse", type: "ASSET", class: 1 },
             { number: "102", name: "Banque", type: "ASSET", class: 1 },
@@ -122,17 +194,42 @@ class AccountInitService {
             { number: "702", name: "Dons financiers", type: "REVENUE", class: 7 },
             { number: "703", name: "Services", type: "REVENUE", class: 7 },
         ];
-        for (const acc of accounts) {
-            await prisma_1.prisma.account.create({
-                data: {
-                    accountNumber: acc.number,
-                    name: acc.name,
-                    type: acc.type,
-                    accountClass: acc.class,
-                },
+        const parsedAccounts = this.parseAccountsFromFile();
+        console.log(`📋 Parsed ${parsedAccounts.length} accounts from nCompte file`);
+        const combined = new Map();
+        for (const acc of baseAccounts) {
+            combined.set(acc.number, {
+                number: acc.number,
+                name: acc.name,
+                type: acc.type,
+                class: acc.class,
             });
         }
-        console.log("Default chart of accounts created");
+        for (const acc of parsedAccounts) {
+            if (combined.has(acc.number))
+                continue;
+            combined.set(acc.number, {
+                number: acc.number,
+                name: acc.name,
+                type: this.resolveAccountType(acc.number),
+                class: this.resolveAccountClass(acc.number),
+            });
+        }
+        const toCreate = Array.from(combined.values())
+            .filter((acc) => !existingNumbers.has(acc.number))
+            .map((acc) => ({
+            accountNumber: acc.number,
+            name: acc.name,
+            type: acc.type,
+            accountClass: acc.class,
+            isActive: true,
+        }));
+        if (toCreate.length === 0) {
+            console.log("✅ No new accounts to create (all exist)");
+            return;
+        }
+        await prisma_1.prisma.account.createMany({ data: toCreate, skipDuplicates: true });
+        console.log(`✅ Added ${toCreate.length} account(s) to database`);
     }
     /**
      * Create initial fiscal year

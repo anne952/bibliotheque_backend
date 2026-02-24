@@ -48,6 +48,9 @@ export declare class CalculationService {
  * Use this to set up default chart of accounts
  */
 export declare class AccountInitService {
+    private static resolveAccountClass;
+    private static resolveAccountType;
+    private static parseAccountsFromFile;
     /**
      * Create default chart of accounts
      */

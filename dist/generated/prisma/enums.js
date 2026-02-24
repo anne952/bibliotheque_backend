@@ -91,6 +91,7 @@ exports.AccountType = {
 exports.JournalType = {
     GENERAL: 'GENERAL',
     CASH: 'CASH',
+    DONATION: 'DONATION',
     PURCHASE: 'PURCHASE',
     SALES: 'SALES',
     BANK: 'BANK'

@@ -592,7 +592,8 @@ exports.transactionsRoutes.post("/donation", (0, http_1.asyncHandler)(async (req
     const donationKind = parseDonationKind(body.donationKind);
     if (!donationKind)
         throw new http_1.AppError("donationKind obligatoire", 400);
-    const direction = parseDonationDirection(body.direction) ?? client_1.DonationDirection.IN;
+    const parsedDirection = parseDonationDirection(body.direction) ?? client_1.DonationDirection.IN;
+    const direction = donationKind === client_1.DonationKind.MATERIAL ? client_1.DonationDirection.OUT : parsedDirection;
     const paymentMethod = parsePaymentMethod(body.paymentMethod);
     const result = await prisma_1.prisma.$transaction(async (tx) => {
         if (body.donorId) {
@@ -657,7 +658,7 @@ exports.transactionsRoutes.post("/donation", (0, http_1.asyncHandler)(async (req
                 const methodForAccounting = paymentMethod ?? client_1.PaymentMethod.CASH;
                 await createAutoJournalEntry(tx, {
                     date: donation.donationDate,
-                    journalType: "CASH",
+                    journalType: "DONATION",
                     description: `Don financier ${donation.id}`,
                     sourceType: client_1.SourceType.DONATION_FINANCIAL,
                     sourceId: donation.id,
