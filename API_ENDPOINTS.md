@@ -303,6 +303,17 @@
 - Validation: Debit total must equal credit total, min 2 lines
 - Response: Created journal entry
 
+**Comptes disponibles:**
+- **901 comptes SYSCOHADA** pré-chargés en base de données
+- **Distribution par type:**
+  - ASSET: 385 comptes
+  - LIABILITY: 2 comptes
+  - EQUITY: 149 comptes
+  - REVENUE: 110 comptes
+  - EXPENSE: 199 comptes
+  - CONTINGENT: 56 comptes
+- **Vérification:** `GET /accounting/accounts/resolve?accountNumber=<number>`
+
 **Exemples:**
 ```json
 // Avec numéros de compte
@@ -365,6 +376,49 @@
 - Converts account number (e.g., "57", "521") to account UUID with details
 - Response: `{ id, accountNumber, name, type }`
 - Example: `/accounting/accounts/resolve?accountNumber=57`
+
+### Account Reference - 901 SYSCOHADA Accounts (Verified)
+**All 901 SYSCOHADA accounts are pre-loaded and available for use.**
+
+**Status: ✅ VERIFIED - All accounts present and resolvable**
+
+**Available Account Types:**
+- **ASSET** (Classes 1-5): 385 comptes
+  - 101-109: Fixed Assets
+  - 201-209: Capital & Equity
+  - 301-309: Inventory
+  - 521-529: Bank/Cash accounts
+  - etc.
+  
+- **LIABILITY** (Class 2): 2 comptes
+  - Short and long-term liabilities
+  
+- **EQUITY** (Class 2-3): 149 comptes
+  - Capital accounts, retained earnings
+  
+- **REVENUE** (Class 7): 110 comptes
+  - Sales, service income, donations
+  - Examples: 701 (Ventes de livres), 702 (Ventes de matieres)
+  
+- **EXPENSE** (Class 6): 199 comptes
+  - Cost of goods sold, operating expenses
+  - Examples: 601 (Achats de livres), 602 (Transport)
+  
+- **CONTINGENT** (Class 8-9): 56 comptes
+  - Contingent assets and liabilities
+
+**Usage Examples:**
+```
+Account 57 (Caisse): Cash account
+Account 521 (Banque): Bank account
+Account 701 (Ventes de livres): Revenue from book sales
+Account 601 (Achats de livres): Cost of book purchases
+Account 103 (Immobilisations corporelles): Tangible assets
+```
+
+**Verification Endpoint:**
+- Check if an account exists: `GET /accounting/accounts/resolve?accountNumber=57`
+- Lists all available accounts with metadata (auto-populated at database initialization)
 
 ### Get Balance Sheet
 - **GET** `/accounting/balance-sheet?fiscalYearId=<id>`

@@ -1,0 +1,5415 @@
+{
+  "metadata": {
+    "total": 901,
+    "timestamp": "2026-02-24T02:42:34.475Z",
+    "description": "Fichier combinant tous les comptes SYSCOHADA + comptes locaux"
+  },
+  "accounts": [
+    {
+      "id": "24977f08-47f8-4a9d-b2b0-420f5a8da400",
+      "accountNumber": "10",
+      "name": "CAPITAL",
+      "type": "EQUITY"
+    },
+    {
+      "id": "1ce2615e-5097-4f4d-b7a1-4babb4452d57",
+      "accountNumber": "101",
+      "name": "Caisse",
+      "type": "ASSET"
+    },
+    {
+      "id": "2f3bfb9d-8ac6-4a9d-9fe3-c7bdc137933d",
+      "accountNumber": "1011",
+      "name": "Capital souscrit, non appelé",
+      "type": "EQUITY"
+    },
+    {
+      "id": "010b4939-a965-40ef-8ab1-1028d0af52d5",
+      "accountNumber": "1012",
+      "name": "Capital souscrit, appelé, non versé",
+      "type": "EQUITY"
+    },
+    {
+      "id": "fdf9f80b-38b5-4582-a592-83f37c955444",
+      "accountNumber": "1013",
+      "name": "Capital souscrit, appelé, versé, non amorti",
+      "type": "EQUITY"
+    },
+    {
+      "id": "1d6e0e18-64e2-4104-9ca7-b2fc7347d52e",
+      "accountNumber": "1014",
+      "name": "Capital souscrit, appelé, versé, amorti",
+      "type": "EQUITY"
+    },
+    {
+      "id": "2d00d471-75bd-4cfe-9145-0b6d36b76aa0",
+      "accountNumber": "1018",
+      "name": "Capital souscrit, soumis à des conditions particulières",
+      "type": "EQUITY"
+    },
+    {
+      "id": "af771f95-7f18-4d28-be6e-bfb2ce3178e2",
+      "accountNumber": "102",
+      "name": "Banque",
+      "type": "ASSET"
+    },
+    {
+      "id": "251b5f88-03f4-4625-9188-87944301442b",
+      "accountNumber": "1021",
+      "name": "Dotation initiale",
+      "type": "EQUITY"
+    },
+    {
+      "id": "4ad98fd8-bd74-4c81-8a9d-2b6bbf560e41",
+      "accountNumber": "1022",
+      "name": "Dotations complémentaires",
+      "type": "EQUITY"
+    },
+    {
+      "id": "85d3d355-be78-4544-8f73-86e716b56991",
+      "accountNumber": "1028",
+      "name": "Autres dotations",
+      "type": "EQUITY"
+    },
+    {
+      "id": "1d59f685-781a-49ca-9973-38c344e55547",
+      "accountNumber": "103",
+      "name": "Stock de livres",
+      "type": "ASSET"
+    },
+    {
+      "id": "fa218f41-645a-41fc-a4c8-fbda2bef6910",
+      "accountNumber": "104",
+      "name": "Mobilier",
+      "type": "ASSET"
+    },
+    {
+      "id": "47527e00-f4fe-4bb3-9403-1943b24f0298",
+      "accountNumber": "1041",
+      "name": "Apports temporaires",
+      "type": "EQUITY"
+    },
+    {
+      "id": "7317aca5-5191-431f-97e1-212caecf82b7",
+      "accountNumber": "1042",
+      "name": "Opérations courantes",
+      "type": "EQUITY"
+    },
+    {
+      "id": "9e6668c0-f198-449e-be67-7e82662f086f",
+      "accountNumber": "1043",
+      "name": "Rémunérations, impôts et autres charges personnelles",
+      "type": "EQUITY"
+    },
+    {
+      "id": "18e6c71e-1ccf-455e-b93a-c575e88e65ba",
+      "accountNumber": "1047",
+      "name": "Prélèvements d'autoconsommation",
+      "type": "EQUITY"
+    },
+    {
+      "id": "3962376f-c2ef-4c67-a77f-006d32513cf1",
+      "accountNumber": "1048",
+      "name": "Autres prélèvements",
+      "type": "EQUITY"
+    },
+    {
+      "id": "5288e8fb-6796-44de-b114-ea9ebec5e744",
+      "accountNumber": "105",
+      "name": "PRIMES LIÉES AU CAPITAL SOCIAL",
+      "type": "EQUITY"
+    },
+    {
+      "id": "e824dbeb-2fdf-4174-93e6-153d1097801d",
+      "accountNumber": "1051",
+      "name": "Primes d'émission",
+      "type": "EQUITY"
+    },
+    {
+      "id": "6c23b60b-bc94-44f8-a28f-d94da88cf99c",
+      "accountNumber": "1052",
+      "name": "Primes d'apport",
+      "type": "EQUITY"
+    },
+    {
+      "id": "e4247c44-46cd-4198-891b-1429a7a1eb34",
+      "accountNumber": "1053",
+      "name": "Primes de fusion",
+      "type": "EQUITY"
+    },
+    {
+      "id": "417dd4e1-1c3f-4129-b839-b35d04b687c9",
+      "accountNumber": "1054",
+      "name": "Primes de conversion",
+      "type": "EQUITY"
+    },
+    {
+      "id": "16bf132a-559f-40cd-ad92-08e40a5da4bc",
+      "accountNumber": "1058",
+      "name": "Autres primes",
+      "type": "EQUITY"
+    },
+    {
+      "id": "7c561d59-0d9c-44dc-aecd-004fec4e6cc1",
+      "accountNumber": "106",
+      "name": "ÉCARTS DE RÉÉVALUATION",
+      "type": "EQUITY"
+    },
+    {
+      "id": "c971a5d9-398d-40f7-882d-dd4be1b191f1",
+      "accountNumber": "1061",
+      "name": "Écarts de réévaluation légale",
+      "type": "EQUITY"
+    },
+    {
+      "id": "d302e0fc-a2d9-441f-be39-21244d51c28c",
+      "accountNumber": "1062",
+      "name": "Écarts de réévaluation libre",
+      "type": "EQUITY"
+    },
+    {
+      "id": "be5cc580-181b-43c7-b566-452c0b0740a0",
+      "accountNumber": "109",
+      "name": "APPORTEURS, CAPITAL SOUSCRIT, NON APPELÉ",
+      "type": "EQUITY"
+    },
+    {
+      "id": "7697bc89-4d6f-4270-b8bd-8a83dd8aa6b7",
+      "accountNumber": "11",
+      "name": "RÉSERVES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "e67cdec0-260b-40e8-bb34-bc23934df776",
+      "accountNumber": "111",
+      "name": "RÉSERVE LÉGALE",
+      "type": "EQUITY"
+    },
+    {
+      "id": "2ecf445b-bc43-4e26-8965-a95548960ff1",
+      "accountNumber": "112",
+      "name": "RÉSERVES STATUTAIRES OU CONTRACTUELLES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "e436dccd-9247-4abc-adbf-380ac5de6e89",
+      "accountNumber": "113",
+      "name": "RÉSERVES RÉGLEMENTÉES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "7abc262d-c202-4d1a-a347-bed0bd94230c",
+      "accountNumber": "1131",
+      "name": "Réserves de plus-values nettes à long terme",
+      "type": "EQUITY"
+    },
+    {
+      "id": "9baf7dc1-30d6-4569-a5a2-be919bdad581",
+      "accountNumber": "1132",
+      "name": "Réserves d'attribution gratuite d'actions au personnel salarié et aux dirigeants",
+      "type": "EQUITY"
+    },
+    {
+      "id": "24099069-c410-4c92-a221-e369c88f62cb",
+      "accountNumber": "1133",
+      "name": "Réserves consécutives à l'octroi de subventions d'investissement",
+      "type": "EQUITY"
+    },
+    {
+      "id": "3879ab61-ba52-40f1-9aee-78cf1a252c93",
+      "accountNumber": "1134",
+      "name": "Réserves des valeurs mobilières donnant accès au capital",
+      "type": "EQUITY"
+    },
+    {
+      "id": "c8d3eefb-68d5-4a0d-879c-b4ba548644c6",
+      "accountNumber": "1138",
+      "name": "Autres réserves réglementées",
+      "type": "EQUITY"
+    },
+    {
+      "id": "f8723878-5c00-4af2-b61c-e00e99992dfa",
+      "accountNumber": "118",
+      "name": "AUTRES RÉSERVES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "c240829f-ebab-4354-97b0-32faad9793e2",
+      "accountNumber": "1181",
+      "name": "Réserves facultatives",
+      "type": "EQUITY"
+    },
+    {
+      "id": "b1b851e1-1544-49d5-b461-7462c9ad9fa5",
+      "accountNumber": "1188",
+      "name": "Réserves diverses",
+      "type": "EQUITY"
+    },
+    {
+      "id": "a6e8d4ac-5ce9-4982-8240-30fd867127b2",
+      "accountNumber": "12",
+      "name": "REPORT À NOUVEAU",
+      "type": "EQUITY"
+    },
+    {
+      "id": "ba99ff6c-57a7-4e96-8ba9-eafb6d5a1f34",
+      "accountNumber": "121",
+      "name": "REPORT À NOUVEAU CRÉDITEUR",
+      "type": "EQUITY"
+    },
+    {
+      "id": "55fddd44-3423-4812-a809-50aa787be89d",
+      "accountNumber": "129",
+      "name": "REPORT À NOUVEAU DÉBITEUR",
+      "type": "EQUITY"
+    },
+    {
+      "id": "7bcc60b6-8c3e-46d2-898e-fd78fc082abc",
+      "accountNumber": "1291",
+      "name": "Perte nette à reporter",
+      "type": "EQUITY"
+    },
+    {
+      "id": "491cd86c-9584-4998-8b84-c02acaef8d2d",
+      "accountNumber": "1292",
+      "name": "Perte - Amortissements réputés différés",
+      "type": "EQUITY"
+    },
+    {
+      "id": "da4c7dc3-96c6-4a30-b011-c373587cbec1",
+      "accountNumber": "13",
+      "name": "RÉSULTAT NET (Comptes de capitaux propres, classe 1)",
+      "type": "EQUITY"
+    },
+    {
+      "id": "2f0e05a5-38b3-4b09-b21e-94185d275a5a",
+      "accountNumber": "130",
+      "name": "RÉSULTAT EN INSTANCE D'AFFECTATION",
+      "type": "EQUITY"
+    },
+    {
+      "id": "e5e42df7-cd25-4480-8a03-97e8164510da",
+      "accountNumber": "1301",
+      "name": "Résultat en instance d'affectation : Bénéfice",
+      "type": "EQUITY"
+    },
+    {
+      "id": "e307dd9b-8e7f-4b74-ab0d-74839656a2ea",
+      "accountNumber": "1309",
+      "name": "Résultat en instance d'affectation : Perte",
+      "type": "EQUITY"
+    },
+    {
+      "id": "759192c6-0c13-4e50-8205-986af9d322b2",
+      "accountNumber": "131",
+      "name": "RÉSULTAT NET : BÉNÉFICE",
+      "type": "EQUITY"
+    },
+    {
+      "id": "f9272bc4-2a0b-45bb-a439-9203d79a2002",
+      "accountNumber": "132",
+      "name": "MARGE COMMERCIALE (M. C)",
+      "type": "EQUITY"
+    },
+    {
+      "id": "7c44dc4e-4781-4bab-a892-69c6fce0a96c",
+      "accountNumber": "133",
+      "name": "VALEUR AJOUTÉE (V.A.)",
+      "type": "EQUITY"
+    },
+    {
+      "id": "3aa09c16-24de-437a-86cb-54ef7f35feca",
+      "accountNumber": "134",
+      "name": "EXCÉDENT BRUT D'EXPLOITATION (E.B.E.)",
+      "type": "EQUITY"
+    },
+    {
+      "id": "7c8c930f-a855-492f-9915-c923fb41755d",
+      "accountNumber": "135",
+      "name": "RÉSULTAT D'EXPLOITATION",
+      "type": "EQUITY"
+    },
+    {
+      "id": "b591ef1a-aeb7-47e2-88a1-4d6509dc1574",
+      "accountNumber": "1381",
+      "name": "Résultat de fusion",
+      "type": "EQUITY"
+    },
+    {
+      "id": "f46734b6-f90a-4435-a889-62293a5d9c3b",
+      "accountNumber": "1382",
+      "name": "Résultat d'apport partiel d'actif",
+      "type": "EQUITY"
+    },
+    {
+      "id": "bfdc0af9-067b-451b-b95f-50522691c2e1",
+      "accountNumber": "1383",
+      "name": "Résultat de scission",
+      "type": "EQUITY"
+    },
+    {
+      "id": "6b144a93-48c2-4e2b-80aa-4b6242560cef",
+      "accountNumber": "1384",
+      "name": "Résultat de liquidation",
+      "type": "EQUITY"
+    },
+    {
+      "id": "95bad45b-2c8d-478b-b573-8d5bd0725e8c",
+      "accountNumber": "139",
+      "name": "RESULTAT NET : PERTE",
+      "type": "EQUITY"
+    },
+    {
+      "id": "75cd7651-a679-423d-bbac-c4ef8401ccb3",
+      "accountNumber": "14",
+      "name": "SUBVENTIONS D'INVESTISSEMENT",
+      "type": "EQUITY"
+    },
+    {
+      "id": "9a283b7c-749d-4725-9110-09ff885edb2c",
+      "accountNumber": "141",
+      "name": "SUBVENTIONS D'EQUIPEMENT",
+      "type": "EQUITY"
+    },
+    {
+      "id": "0d06135a-4659-4200-9c8c-5a69c69a9de5",
+      "accountNumber": "1411",
+      "name": "Etat",
+      "type": "EQUITY"
+    },
+    {
+      "id": "e46c64a9-296e-41b2-b621-a64dc3da80be",
+      "accountNumber": "1412",
+      "name": "Régions",
+      "type": "EQUITY"
+    },
+    {
+      "id": "afb873c4-7c43-4f8b-9133-3c623d27c8dd",
+      "accountNumber": "1413",
+      "name": "Départements",
+      "type": "EQUITY"
+    },
+    {
+      "id": "fbc27b4e-feb8-4ba9-a33f-a44dedf3621b",
+      "accountNumber": "1414",
+      "name": "Communes et collectivités publiques",
+      "type": "EQUITY"
+    },
+    {
+      "id": "b28a6335-4184-4b16-b784-e032c853945c",
+      "accountNumber": "1415",
+      "name": "Entités publiques ou mixtes",
+      "type": "EQUITY"
+    },
+    {
+      "id": "f4e19a7d-d405-46b0-9494-6c4eeb65284b",
+      "accountNumber": "1416",
+      "name": "Entités et organismes privés",
+      "type": "EQUITY"
+    },
+    {
+      "id": "0325d526-711a-41ea-9969-1df546af189f",
+      "accountNumber": "1417",
+      "name": "Organismes internationaux",
+      "type": "EQUITY"
+    },
+    {
+      "id": "43257ab0-1293-43d6-ad37-3087b498aa6a",
+      "accountNumber": "1418",
+      "name": "Autres",
+      "type": "EQUITY"
+    },
+    {
+      "id": "8b96cb9d-5bbb-4d27-9595-1d8db1630803",
+      "accountNumber": "148",
+      "name": "AUTRES SUBVENTIONS D'INVESTISSEMENT",
+      "type": "EQUITY"
+    },
+    {
+      "id": "7504df91-8976-4149-97e4-01bf3473dfe1",
+      "accountNumber": "15",
+      "name": "PROVISIONS REGLEMENTEES ET FONDS ASSIMILES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "07c2a8b5-72a6-46a8-8732-e354f082f171",
+      "accountNumber": "151",
+      "name": "AMORTISSEMENTS DEROGATOIRES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "0d533f9a-ec5f-4889-bcbe-042c12f16764",
+      "accountNumber": "152",
+      "name": "PLUS-VALUES DE CESSION A REINVESTIR",
+      "type": "EQUITY"
+    },
+    {
+      "id": "b22df315-401d-4e7e-9205-400cc18dac84",
+      "accountNumber": "153",
+      "name": "FONDS REGLEMENTES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "1b7b04ef-4845-4ba1-9dc3-98182eced6ae",
+      "accountNumber": "1531",
+      "name": "Fonds National",
+      "type": "EQUITY"
+    },
+    {
+      "id": "a50d20e1-94af-48b0-a07f-c1aa226cbe8b",
+      "accountNumber": "1532",
+      "name": "Prélèvement pour le Budget",
+      "type": "EQUITY"
+    },
+    {
+      "id": "c96b8149-4cc7-4672-94c1-62a48f946f18",
+      "accountNumber": "154",
+      "name": "PROVISIONS SPECIALES DE REVALUATION",
+      "type": "EQUITY"
+    },
+    {
+      "id": "13aa4bed-2be9-492b-b3eb-81c715e7da46",
+      "accountNumber": "155",
+      "name": "PROVISIONS REGLEMENTEES RELATIVES AUX IMMOBILISATIONS",
+      "type": "EQUITY"
+    },
+    {
+      "id": "ac4bdc11-9ec1-4421-bd9f-e905f2057348",
+      "accountNumber": "1551",
+      "name": "Reconstitution des gisements miniers et pétroliers",
+      "type": "EQUITY"
+    },
+    {
+      "id": "fd62b8df-b6e7-46e3-8d80-0a38b7527b70",
+      "accountNumber": "156",
+      "name": "PROVISIONS REGLEMENTEES RELATIVES AUX STOCKS",
+      "type": "EQUITY"
+    },
+    {
+      "id": "425250ca-19a9-4be5-a147-f9fff77a60e0",
+      "accountNumber": "1561",
+      "name": "Hausse de prix",
+      "type": "EQUITY"
+    },
+    {
+      "id": "bebc0578-d240-40e4-a509-573a2817e8ef",
+      "accountNumber": "1562",
+      "name": "Fluctuation des cours",
+      "type": "EQUITY"
+    },
+    {
+      "id": "7eba3064-6d72-45b6-ab8b-556132aae8aa",
+      "accountNumber": "157",
+      "name": "PROVISIONS POUR INVESTISSEMENT",
+      "type": "EQUITY"
+    },
+    {
+      "id": "ae07447c-b696-4bff-98ac-6de4ba1bbe04",
+      "accountNumber": "158",
+      "name": "AUTRES PROVISIONS ET FONDS REGLEMENTES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "4dad0202-85bf-4a6c-8325-f583ebe03516",
+      "accountNumber": "16",
+      "name": "EMPRUNTS ET DETTES ASSIMILEES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "ceeb6433-c929-4028-ae3d-439d738e5fd1",
+      "accountNumber": "161",
+      "name": "EMPRUNTS OBLIGATAIRES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "e82262e9-c97b-451a-aff1-b356b87f5612",
+      "accountNumber": "1611",
+      "name": "Emprunts obligataires ordinaires",
+      "type": "EQUITY"
+    },
+    {
+      "id": "145c6d22-076f-4a25-b4c1-1390a1f8d96a",
+      "accountNumber": "1612",
+      "name": "Emprunts obligataires convertibles en actions",
+      "type": "EQUITY"
+    },
+    {
+      "id": "6ae82957-008d-4d68-8e08-5de3b6dca71f",
+      "accountNumber": "1613",
+      "name": "Emprunts obligataires remboursables en actions",
+      "type": "EQUITY"
+    },
+    {
+      "id": "52795ffc-2865-4409-9991-254c287052dd",
+      "accountNumber": "1618",
+      "name": "Autres emprunts obligataires",
+      "type": "EQUITY"
+    },
+    {
+      "id": "f3b3e682-8571-414c-95f5-db3ada5e1a86",
+      "accountNumber": "162",
+      "name": "EMPRUNTS ET DETTES AUPRES DES ETABLISSEMENTS DE CREDIT",
+      "type": "EQUITY"
+    },
+    {
+      "id": "2d0d2bc0-6e15-4392-a9fd-7f9004c46153",
+      "accountNumber": "163",
+      "name": "AVANCES RECUES DE L'ETAT",
+      "type": "EQUITY"
+    },
+    {
+      "id": "03c174fd-6048-4705-8d16-bc311744615e",
+      "accountNumber": "164",
+      "name": "AVANCES RECUES ET COMPTES COURANTS BLOQUES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "158f892d-d087-4ab3-8a80-a2f25f33297e",
+      "accountNumber": "165",
+      "name": "DEPOTS ET CAUTIONNEMENTS RECUS",
+      "type": "EQUITY"
+    },
+    {
+      "id": "97d01219-d346-4068-98c1-d861dd402c70",
+      "accountNumber": "1651",
+      "name": "Dépôts",
+      "type": "EQUITY"
+    },
+    {
+      "id": "a709ce49-a632-4da4-8332-87db362a19be",
+      "accountNumber": "1652",
+      "name": "Cautionnements",
+      "type": "EQUITY"
+    },
+    {
+      "id": "1bd34338-a261-42b3-b476-27edcd1c69cc",
+      "accountNumber": "166",
+      "name": "INTERETS COURUS",
+      "type": "EQUITY"
+    },
+    {
+      "id": "6c104b71-6fa7-4ea6-8c78-5be597fe201c",
+      "accountNumber": "1661",
+      "name": "sur emprunts obligataires",
+      "type": "EQUITY"
+    },
+    {
+      "id": "db87a836-8c43-451e-969a-453f4d94a835",
+      "accountNumber": "1662",
+      "name": "sur emprunts et dettes auprès des établissements de crédit",
+      "type": "EQUITY"
+    },
+    {
+      "id": "aaed4157-05d0-46b0-a2fa-ef24868bd9e3",
+      "accountNumber": "1663",
+      "name": "sur avances reçues de l'État",
+      "type": "EQUITY"
+    },
+    {
+      "id": "a0c49556-c7b6-442a-8312-385a742248d9",
+      "accountNumber": "1664",
+      "name": "sur avances reçues et comptes courants bloqués",
+      "type": "EQUITY"
+    },
+    {
+      "id": "d5e1e112-779f-4f7b-933b-f0974979d5d8",
+      "accountNumber": "1665",
+      "name": "sur dépôts et cautionnements reçus",
+      "type": "EQUITY"
+    },
+    {
+      "id": "5b604127-496e-4e0c-a9af-5b9b63198f01",
+      "accountNumber": "1667",
+      "name": "sur avances assorties de conditions particulières",
+      "type": "EQUITY"
+    },
+    {
+      "id": "cee93cf6-8098-4b3f-b598-0b2eb3a32943",
+      "accountNumber": "1668",
+      "name": "sur autres emprunts et dettes",
+      "type": "EQUITY"
+    },
+    {
+      "id": "43e47fa6-a37d-4f1c-8d73-9449b0b64cec",
+      "accountNumber": "167",
+      "name": "AVANCES ASSORTIES DE CONDITIONS PARTICULIERES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "fa285c3f-401a-4e8f-a900-d268ab425ec5",
+      "accountNumber": "1671",
+      "name": "Avances bloquées pour augmentation du capital",
+      "type": "EQUITY"
+    },
+    {
+      "id": "c299142a-3699-4b61-a491-1200c382e4bb",
+      "accountNumber": "1672",
+      "name": "Avances conditionnées par l'État",
+      "type": "EQUITY"
+    },
+    {
+      "id": "edc67ee6-66db-45cb-97cc-b94390c2f26d",
+      "accountNumber": "1673",
+      "name": "Avances conditionnées par les autres organismes publics",
+      "type": "EQUITY"
+    },
+    {
+      "id": "7afacd6b-c328-4e19-bb5d-7e9b1a01fe26",
+      "accountNumber": "1674",
+      "name": "Avances conditionnées par les organismes privés",
+      "type": "EQUITY"
+    },
+    {
+      "id": "d87ad608-fdd0-4d95-98f3-4bafae4733f0",
+      "accountNumber": "168",
+      "name": "AUTRES EMPRUNTS ET DETTES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "f9a16430-6cf7-45c3-8185-7d01b3fa5432",
+      "accountNumber": "1681",
+      "name": "Rentes viagères capitalisées",
+      "type": "EQUITY"
+    },
+    {
+      "id": "10a7aa7a-1502-483c-be41-490dc0ceed81",
+      "accountNumber": "1682",
+      "name": "Billets de fonds",
+      "type": "EQUITY"
+    },
+    {
+      "id": "a6d3add4-7683-47ac-b977-6fe68fb1e0af",
+      "accountNumber": "1683",
+      "name": "Dettes consécutives à des titres empruntés",
+      "type": "EQUITY"
+    },
+    {
+      "id": "08300406-5f80-402e-a3fa-28042b8f0f9d",
+      "accountNumber": "1684",
+      "name": "Emprunts participatifs",
+      "type": "EQUITY"
+    },
+    {
+      "id": "1befda58-b29f-423c-8226-e0b938ac3736",
+      "accountNumber": "17",
+      "name": "DETTES DE LOCATION ACQUISITION",
+      "type": "EQUITY"
+    },
+    {
+      "id": "61b0432e-c63f-4f95-92d7-5323d056eb3f",
+      "accountNumber": "171",
+      "name": "DETTES DE LOCATION ACQUISITION",
+      "type": "EQUITY"
+    },
+    {
+      "id": "d7076d30-afdd-4459-b075-622a48847c47",
+      "accountNumber": "172",
+      "name": "DETTES DE LOCATION ACQUISITION/CREDIT-BAIL IMMOBILIER",
+      "type": "EQUITY"
+    },
+    {
+      "id": "4b5f0266-a1eb-4e9c-9c2b-df6b534579b1",
+      "accountNumber": "173",
+      "name": "DETTES DE LOCATION ACQUISITION/CREDIT-BAIL MOBILIER",
+      "type": "EQUITY"
+    },
+    {
+      "id": "800ceff9-d3cf-44c6-9422-be04015b9be5",
+      "accountNumber": "174",
+      "name": "DETTES DE LOCATION ACQUISITION/LOCATION VENTE",
+      "type": "EQUITY"
+    },
+    {
+      "id": "1721cfb9-7816-4405-946c-e8fae2577a23",
+      "accountNumber": "176",
+      "name": "INTERETS COURUS",
+      "type": "EQUITY"
+    },
+    {
+      "id": "fcea2252-3f11-4c96-bc30-5a589e8cbaf6",
+      "accountNumber": "1762",
+      "name": "sur dettes de location acquisition/credit-bail immobilier",
+      "type": "EQUITY"
+    },
+    {
+      "id": "5dc83eec-e39e-475d-8fb0-0dd2515c2121",
+      "accountNumber": "1763",
+      "name": "sur dettes de location acquisition/credit-bail mobilier",
+      "type": "EQUITY"
+    },
+    {
+      "id": "31d1098c-0f77-4466-8d8e-863fa86cfc70",
+      "accountNumber": "1764",
+      "name": "sur dettes de location acquisition/location vente",
+      "type": "EQUITY"
+    },
+    {
+      "id": "4a53752b-c9a1-4111-8b07-1360dded3cbd",
+      "accountNumber": "1768",
+      "name": "sur autres dettes de location acquisition",
+      "type": "EQUITY"
+    },
+    {
+      "id": "7c534ae7-c117-472c-b9cf-3f56db07194f",
+      "accountNumber": "178",
+      "name": "AUTRES DETTES DE LOCATION ACQUISITION",
+      "type": "EQUITY"
+    },
+    {
+      "id": "70931e04-9cc7-4d17-bd49-a9b3374a5982",
+      "accountNumber": "18",
+      "name": "DETTES LIEES A DES PARTICIPATIONS ET COMPTES DE LIAISON",
+      "type": "EQUITY"
+    },
+    {
+      "id": "6ad09387-156d-4fb1-b58b-f6b326a1ab80",
+      "accountNumber": "181",
+      "name": "DETTES LIEES A DES PARTICIPATIONS",
+      "type": "EQUITY"
+    },
+    {
+      "id": "49a21efd-0e8c-4c48-bc89-2b6628bbf1b0",
+      "accountNumber": "1811",
+      "name": "Dettes liées à des participations (groupe)",
+      "type": "EQUITY"
+    },
+    {
+      "id": "cfb97a84-224f-4c5e-ba69-35f33f3c8d66",
+      "accountNumber": "1812",
+      "name": "Dettes liées à des participations (hors groupe)",
+      "type": "EQUITY"
+    },
+    {
+      "id": "192bdf9d-7d8e-4b4a-8035-3cc571a5cce7",
+      "accountNumber": "182",
+      "name": "DETTES LIEES A DES SOCIETES EN PARTICIPATION",
+      "type": "EQUITY"
+    },
+    {
+      "id": "9a171805-6173-4146-94fa-3587c2be5494",
+      "accountNumber": "183",
+      "name": "INTERETS COURUS SUR DETTES LIEES A DES PARTICIPATIONS",
+      "type": "EQUITY"
+    },
+    {
+      "id": "aa483f1b-a0f6-48cc-b0ed-adee1b935246",
+      "accountNumber": "184",
+      "name": "COMPTES PERMANENTS BLOQUES DES ETABLISSEMENTS ET SUCCURSALES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "0df34ad6-db88-4dbb-9620-b0aa8b987092",
+      "accountNumber": "185",
+      "name": "COMPTES PERMANENTS NON BLOQUES DES ETABLISSEMENTS ET SUCCURSALES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "f31ed032-ad62-4fa7-bf2b-869602a90aa8",
+      "accountNumber": "186",
+      "name": "COMPTES DE LIAISON CHARGES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "3c161b2c-d3a5-471d-8641-caf935fb6733",
+      "accountNumber": "187",
+      "name": "COMPTES DE LIAISON PRODUITS",
+      "type": "EQUITY"
+    },
+    {
+      "id": "1979ed41-48c6-488f-92cd-4b501e364676",
+      "accountNumber": "188",
+      "name": "COMPTES DE LIAISON DES SOCIETES EN PARTICIPATION",
+      "type": "EQUITY"
+    },
+    {
+      "id": "d45ad5c3-c365-44cd-9865-1e4f69254dba",
+      "accountNumber": "19",
+      "name": "PROVISIONS POUR RISQUES ET CHARGES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "20269a42-6b9a-42e0-8e0b-d42e28f2736c",
+      "accountNumber": "192",
+      "name": "PROVISIONS POUR LITIGES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "cc810c72-ce64-4250-b111-61cf36aa99bc",
+      "accountNumber": "193",
+      "name": "PROVISIONS POUR GARANTIES DONNEES AUX CLIENTS",
+      "type": "EQUITY"
+    },
+    {
+      "id": "f2ca3e46-3eb8-4c22-9d8d-490014eb9f2e",
+      "accountNumber": "194",
+      "name": "PROVISIONS POUR PERTES SUR MARCHES A TERME",
+      "type": "EQUITY"
+    },
+    {
+      "id": "52ba9b30-dc6e-460f-a997-ce9dbda7af4a",
+      "accountNumber": "195",
+      "name": "PROVISIONS POUR PERTES DE CHANGE",
+      "type": "EQUITY"
+    },
+    {
+      "id": "497e62d0-f98e-4c03-9715-6b932e369799",
+      "accountNumber": "196",
+      "name": "PROVISIONS POUR PENSIONS ET OBLIGATIONS SIMILAIRES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "760312cc-6fdc-43c8-8091-a5fc52a1e422",
+      "accountNumber": "1961",
+      "name": "Provisions pour pensions et obligations similaires",
+      "type": "EQUITY"
+    },
+    {
+      "id": "13879de3-2d8b-4b74-98eb-fd62de99a36f",
+      "accountNumber": "1962",
+      "name": "Actif du régime de retraite",
+      "type": "EQUITY"
+    },
+    {
+      "id": "4d036d4d-259b-4288-b6d5-ddaff98dea64",
+      "accountNumber": "197",
+      "name": "PROVISIONS POUR RESTRUCTURATION",
+      "type": "EQUITY"
+    },
+    {
+      "id": "f728b775-d3c2-488c-9287-e1ddbfa70168",
+      "accountNumber": "198",
+      "name": "AUTRES PROVISIONS POUR RISQUES ET CHARGES",
+      "type": "EQUITY"
+    },
+    {
+      "id": "cc59f70d-d76e-4a59-b6a3-e631d3b02404",
+      "accountNumber": "1981",
+      "name": "Provisions pour amendes et pénalités",
+      "type": "EQUITY"
+    },
+    {
+      "id": "a7ceb60c-0e8d-415b-b3d2-06f9127a981e",
+      "accountNumber": "1983",
+      "name": "Provisions pour propre assureur",
+      "type": "EQUITY"
+    },
+    {
+      "id": "1637edec-c452-41b7-887c-b49abca8b87d",
+      "accountNumber": "1984",
+      "name": "Provisions pour démantèlement et remise en état",
+      "type": "EQUITY"
+    },
+    {
+      "id": "42780fb9-b3e9-47cd-ad03-b1a5084046a3",
+      "accountNumber": "1985",
+      "name": "Provisions pour droits à réduction ou avantages en nature (chèques cadeau, cartes de fidélité...)",
+      "type": "EQUITY"
+    },
+    {
+      "id": "f1e1805c-9b56-41fb-bc5a-965057ae5e63",
+      "accountNumber": "1988",
+      "name": "Provisions pour divers risques et charges",
+      "type": "EQUITY"
+    },
+    {
+      "id": "ed712593-dc99-4091-9bb2-a86fc977942d",
+      "accountNumber": "20",
+      "name": "IMMOBILISATIONS INCORPORELLES (début de la classe 2, implicite)",
+      "type": "ASSET"
+    },
+    {
+      "id": "2380c5bd-7e81-4547-8ad6-45946058b94c",
+      "accountNumber": "201",
+      "name": "Fournisseurs",
+      "type": "LIABILITY"
+    },
+    {
+      "id": "195028a0-0603-4fb6-a951-69e2c69a7a2d",
+      "accountNumber": "202",
+      "name": "Dettes fiscales",
+      "type": "LIABILITY"
+    },
+    {
+      "id": "6c5dc54c-23df-4342-a7a0-02ed71793e02",
+      "accountNumber": "23",
+      "name": "BÂTIMENTS, INSTALLATIONS TECHNIQUES ET AGENCEMENTS",
+      "type": "ASSET"
+    },
+    {
+      "id": "1434da2c-5615-4191-b144-261beb30f398",
+      "accountNumber": "231",
+      "name": "BÂTIMENTS INDUSTRIELS, AGRICOLES, ADMINISTRATIFS ET COMMERCIAUX SUR SOL PROPRE",
+      "type": "ASSET"
+    },
+    {
+      "id": "b3cfb4c3-0b65-4606-bdbb-25aa2c13dc0f",
+      "accountNumber": "2311",
+      "name": "Bâtiments industriels",
+      "type": "ASSET"
+    },
+    {
+      "id": "4b33914c-f401-4c8f-8ae1-fc34a3571472",
+      "accountNumber": "2312",
+      "name": "Bâtiments agricoles",
+      "type": "ASSET"
+    },
+    {
+      "id": "d8ac55c7-cfc1-43e4-bd1f-85766101939b",
+      "accountNumber": "2313",
+      "name": "Bâtiments administratifs et commerciaux",
+      "type": "ASSET"
+    },
+    {
+      "id": "5104fdcd-abb4-4d7e-b9f2-8d0c24d92405",
+      "accountNumber": "2314",
+      "name": "Bâtiments affectés au logement du personnel",
+      "type": "ASSET"
+    },
+    {
+      "id": "2d812c6a-898e-4115-b68f-2a7069ce5178",
+      "accountNumber": "2315",
+      "name": "Bâtiments - immeubles de placement",
+      "type": "ASSET"
+    },
+    {
+      "id": "e494a8c3-83d3-49ca-be11-98871978419d",
+      "accountNumber": "2316",
+      "name": "Bâtiments de location - acquisition",
+      "type": "ASSET"
+    },
+    {
+      "id": "6e9ce13a-01bb-40c8-87ed-1de4fd2c0b4d",
+      "accountNumber": "232",
+      "name": "BÂTIMENTS INDUSTRIELS, AGRICOLES, ADMINISTRATIFS ET COMMERCIAUX SUR SOL D'AUTRUI",
+      "type": "ASSET"
+    },
+    {
+      "id": "259a7e31-418c-4cf7-83ee-571b34256d67",
+      "accountNumber": "2321",
+      "name": "Bâtiments industriels",
+      "type": "ASSET"
+    },
+    {
+      "id": "047ca570-9718-4c10-aab7-aed89f227d2f",
+      "accountNumber": "2322",
+      "name": "Bâtiments agricoles",
+      "type": "ASSET"
+    },
+    {
+      "id": "4d1e9588-b0fb-49ec-8295-bd13fd5e4086",
+      "accountNumber": "2323",
+      "name": "Bâtiments administratifs et commerciaux",
+      "type": "ASSET"
+    },
+    {
+      "id": "ebc684d0-993c-41d4-92db-cd8319c1fa8a",
+      "accountNumber": "2324",
+      "name": "Bâtiments affectés au logement du personnel",
+      "type": "ASSET"
+    },
+    {
+      "id": "dcdfafb7-aa41-4fb1-98bb-cf5ef2e4817c",
+      "accountNumber": "2325",
+      "name": "Bâtiments - immeubles de placement",
+      "type": "ASSET"
+    },
+    {
+      "id": "2aa24c13-9541-42da-a12e-f2b0e602e25f",
+      "accountNumber": "2326",
+      "name": "Bâtiments de location - acquisition",
+      "type": "ASSET"
+    },
+    {
+      "id": "ee5547fd-d3e6-48f0-81e2-c61f8610bdb2",
+      "accountNumber": "233",
+      "name": "OUVRAGES D'INFRASTRUCTURE",
+      "type": "ASSET"
+    },
+    {
+      "id": "728e859b-4f33-4e88-8f23-912aa11bb4f3",
+      "accountNumber": "2331",
+      "name": "Voies de terre",
+      "type": "ASSET"
+    },
+    {
+      "id": "bd14cb2d-f057-407a-9036-f0a01ec5775f",
+      "accountNumber": "2332",
+      "name": "Voies de fer",
+      "type": "ASSET"
+    },
+    {
+      "id": "ba520f63-532c-4fc3-89f4-2c7f63bcf71d",
+      "accountNumber": "2333",
+      "name": "Voies d'eau",
+      "type": "ASSET"
+    },
+    {
+      "id": "666facf0-aead-461f-a390-905da4f6c50d",
+      "accountNumber": "2334",
+      "name": "Barrages, Digues",
+      "type": "ASSET"
+    },
+    {
+      "id": "4859b813-f2d2-4f7e-afa9-db619038c149",
+      "accountNumber": "2335",
+      "name": "Pistes d'aérodrome",
+      "type": "ASSET"
+    },
+    {
+      "id": "113156c9-9fef-4fb5-9642-a63abe034b93",
+      "accountNumber": "2336",
+      "name": "Autres ouvrages d'infrastructure",
+      "type": "ASSET"
+    },
+    {
+      "id": "ce116c65-bd0d-4d4f-b1a2-ee312f2ad0b5",
+      "accountNumber": "234",
+      "name": "AMÉNAGEMENTS, AGENCEMENTS ET INSTALLATIONS TECHNIQUES",
+      "type": "ASSET"
+    },
+    {
+      "id": "cb967b19-1600-4eca-b077-d88dc171fd92",
+      "accountNumber": "2341",
+      "name": "Installations complexes spécialisées sur sol propre",
+      "type": "ASSET"
+    },
+    {
+      "id": "c2811cc6-a5c0-45d7-bcaf-8e323e04306e",
+      "accountNumber": "2342",
+      "name": "Installations complexes spécialisées sur sol d'autrui",
+      "type": "ASSET"
+    },
+    {
+      "id": "450fc663-5c30-41fc-b364-f32f95b1e1a2",
+      "accountNumber": "2343",
+      "name": "Installations à caractère spécifique sur sol propre",
+      "type": "ASSET"
+    },
+    {
+      "id": "b2ec52c3-769b-4bff-afe4-4fbc72510024",
+      "accountNumber": "2344",
+      "name": "Installations à caractère spécifique sur sol d'autrui",
+      "type": "ASSET"
+    },
+    {
+      "id": "b10a0bb1-75bd-45fa-9e37-cf0eaa99853f",
+      "accountNumber": "2345",
+      "name": "Aménagements et agencements des bâtiments",
+      "type": "ASSET"
+    },
+    {
+      "id": "ed46f935-296d-4cab-832c-bbe5a473be87",
+      "accountNumber": "235",
+      "name": "AMÉNAGEMENTS, AGENCEMENTS ET INSTALLATIONS EN COURS",
+      "type": "ASSET"
+    },
+    {
+      "id": "d4a35ef6-8977-48eb-a454-c7cde02fea0c",
+      "accountNumber": "2351",
+      "name": "Installations complexes en cours",
+      "type": "ASSET"
+    },
+    {
+      "id": "cf47e6fa-e46c-4713-bd36-a00b46f4db5b",
+      "accountNumber": "2352",
+      "name": "Installations spécifiques en cours",
+      "type": "ASSET"
+    },
+    {
+      "id": "d072f4e9-7954-48a8-a02b-b7f1e961eb15",
+      "accountNumber": "2353",
+      "name": "Aménagements et agencements des bâtiments en cours",
+      "type": "ASSET"
+    },
+    {
+      "id": "a4dbc214-2deb-4dd4-821e-392821b92f5a",
+      "accountNumber": "2358",
+      "name": "Autres installations et agencements en cours",
+      "type": "ASSET"
+    },
+    {
+      "id": "9f96027d-c1ac-4003-bad3-f6d0a6a2e135",
+      "accountNumber": "24",
+      "name": "MATÉRIEL, MOBILIER ET ACTIFS BIOLOGIQUES",
+      "type": "ASSET"
+    },
+    {
+      "id": "271476ad-0abc-4470-98d5-20f1fec8c836",
+      "accountNumber": "241",
+      "name": "MATÉRIEL ET OUTILLAGE INDUSTRIEL ET COMMERCIAL",
+      "type": "ASSET"
+    },
+    {
+      "id": "0bc8b371-9775-4c2e-b8e5-d3e510a3a96a",
+      "accountNumber": "2411",
+      "name": "Matériel industriel",
+      "type": "ASSET"
+    },
+    {
+      "id": "0fae3bc5-e4fe-4c5a-9256-c132d627b08f",
+      "accountNumber": "2412",
+      "name": "Outillage industriel",
+      "type": "ASSET"
+    },
+    {
+      "id": "1bf43a26-4f99-4c0e-8bbd-82432696d319",
+      "accountNumber": "2413",
+      "name": "Matériel commercial",
+      "type": "ASSET"
+    },
+    {
+      "id": "a7c9ac3d-027f-4cbc-afca-acf483a0d8be",
+      "accountNumber": "2414",
+      "name": "Outillage commercial",
+      "type": "ASSET"
+    },
+    {
+      "id": "f491861b-b881-430c-aec7-ec50201f16cd",
+      "accountNumber": "2416",
+      "name": "Matériel et outillage industriel et commercial de location - acquisition",
+      "type": "ASSET"
+    },
+    {
+      "id": "48e6901e-8175-4adc-a16a-796ad31599bb",
+      "accountNumber": "242",
+      "name": "MATÉRIEL ET OUTILLAGE AGRICOLE",
+      "type": "ASSET"
+    },
+    {
+      "id": "dd2456d1-bc69-4655-8620-b2408f78ea6d",
+      "accountNumber": "2421",
+      "name": "Matériel agricole",
+      "type": "ASSET"
+    },
+    {
+      "id": "6aec335c-7aa2-4b1c-904f-25c609538879",
+      "accountNumber": "2422",
+      "name": "Outillage agricole",
+      "type": "ASSET"
+    },
+    {
+      "id": "e5ab71fb-ed56-4bbc-859d-93c96b85e836",
+      "accountNumber": "2426",
+      "name": "Matériel et outillage agricole de location - acquisition",
+      "type": "ASSET"
+    },
+    {
+      "id": "3122bf22-90f0-466e-a8ef-6df97cee627a",
+      "accountNumber": "243",
+      "name": "MATÉRIEL D'EMBALLAGE RÉCUPÉRABLE ET IDENTIFIABLE",
+      "type": "ASSET"
+    },
+    {
+      "id": "a43151ce-a44f-4d68-a276-d16f4f8a4eef",
+      "accountNumber": "244",
+      "name": "MATÉRIEL ET MOBILIER",
+      "type": "ASSET"
+    },
+    {
+      "id": "4677e95b-1a20-4b27-b19e-9c01e7c6cca8",
+      "accountNumber": "2441",
+      "name": "Matériel de bureau",
+      "type": "ASSET"
+    },
+    {
+      "id": "12ff1d5e-8600-40f3-b241-50ebedd83824",
+      "accountNumber": "2442",
+      "name": "Matériel informatique",
+      "type": "ASSET"
+    },
+    {
+      "id": "e5534edb-73c9-4193-afdd-cec587967bbe",
+      "accountNumber": "2443",
+      "name": "Matériel bureautique",
+      "type": "ASSET"
+    },
+    {
+      "id": "580629dd-3c17-428e-b07b-d9266f7e4c31",
+      "accountNumber": "2444",
+      "name": "Mobilier de bureau",
+      "type": "ASSET"
+    },
+    {
+      "id": "24ea4490-7189-45d1-9c5b-de7a618d8cf3",
+      "accountNumber": "2445",
+      "name": "Matériel et mobilier - immeubles de placement",
+      "type": "ASSET"
+    },
+    {
+      "id": "b13a353e-1c27-4c72-90e5-0d7e45065622",
+      "accountNumber": "2446",
+      "name": "Matériel et mobilier de location - acquisition",
+      "type": "ASSET"
+    },
+    {
+      "id": "ab86801a-77d7-4e3d-b099-77732ea03f41",
+      "accountNumber": "2447",
+      "name": "Matériel et mobilier des logements du personnel",
+      "type": "ASSET"
+    },
+    {
+      "id": "376312cc-a9a6-42e6-907f-35f103b53426",
+      "accountNumber": "245",
+      "name": "MATÉRIEL DE TRANSPORT",
+      "type": "ASSET"
+    },
+    {
+      "id": "7e31eaa6-2ac7-45cd-ba0f-022c46616a06",
+      "accountNumber": "2451",
+      "name": "Matériel automobile",
+      "type": "ASSET"
+    },
+    {
+      "id": "dad96231-4679-4f9b-a3d8-4c09ef27abfc",
+      "accountNumber": "2452",
+      "name": "Matériel ferroviaire",
+      "type": "ASSET"
+    },
+    {
+      "id": "b7a4b1dd-fe0a-4544-b608-f385a508b14c",
+      "accountNumber": "2453",
+      "name": "Matériel fluvial, lagunaire",
+      "type": "ASSET"
+    },
+    {
+      "id": "3700e0ef-ec56-4db1-8565-642b4ff50a68",
+      "accountNumber": "2454",
+      "name": "Matériel naval",
+      "type": "ASSET"
+    },
+    {
+      "id": "76f7373a-0528-4331-8fba-dd970dc4251e",
+      "accountNumber": "2455",
+      "name": "Matériel aérien",
+      "type": "ASSET"
+    },
+    {
+      "id": "c7873f52-5ad1-4c45-9a42-a1380cb41ee3",
+      "accountNumber": "2456",
+      "name": "Matériel de transport de location - acquisition",
+      "type": "ASSET"
+    },
+    {
+      "id": "13f0141b-8146-472f-be83-ea22b4450d8f",
+      "accountNumber": "2457",
+      "name": "Matériel hippomobile",
+      "type": "ASSET"
+    },
+    {
+      "id": "4a6b9f4e-fa3e-4698-905a-a838073fac4c",
+      "accountNumber": "2458",
+      "name": "Autres matériels de transport",
+      "type": "ASSET"
+    },
+    {
+      "id": "e8fb9adb-641f-4d01-b027-d3f5a359bd78",
+      "accountNumber": "246",
+      "name": "ACTIFS BIOLOGIQUES",
+      "type": "ASSET"
+    },
+    {
+      "id": "4b85667b-9f05-4d4b-82d3-0cc010c847d0",
+      "accountNumber": "2461",
+      "name": "Cheptel, animaux de trait",
+      "type": "ASSET"
+    },
+    {
+      "id": "3429c76d-64c2-40f7-92c2-01419711a4f4",
+      "accountNumber": "2462",
+      "name": "Cheptel, animaux reproducteurs",
+      "type": "ASSET"
+    },
+    {
+      "id": "2b174d7d-d3b0-4b49-8ef9-8f8393759c6f",
+      "accountNumber": "2463",
+      "name": "Animaux de garde",
+      "type": "ASSET"
+    },
+    {
+      "id": "3dc5f746-d710-4ab5-b6a2-392ed3331dd0",
+      "accountNumber": "2465",
+      "name": "Plantations agricoles",
+      "type": "ASSET"
+    },
+    {
+      "id": "de52509d-cc34-4252-968d-ae304fffa0f8",
+      "accountNumber": "2468",
+      "name": "Autres actifs biologiques",
+      "type": "ASSET"
+    },
+    {
+      "id": "772f967f-f4ae-4de0-a593-6e4ff08ec0af",
+      "accountNumber": "247",
+      "name": "AGENCEMENTS, AMÉNAGEMENTS DU MATÉRIEL ET ACTIFS BIOLOGIQUES",
+      "type": "ASSET"
+    },
+    {
+      "id": "e9c2e4c1-5d0a-4959-8a34-556e48610291",
+      "accountNumber": "2471",
+      "name": "Agencements et aménagements du matériel",
+      "type": "ASSET"
+    },
+    {
+      "id": "83958729-d6d3-4d1d-a0ab-215434af2cc0",
+      "accountNumber": "2472",
+      "name": "Agencements et aménagements des actifs biologiques",
+      "type": "ASSET"
+    },
+    {
+      "id": "6623b56b-d964-4ed4-bb9f-9292171c3368",
+      "accountNumber": "2478",
+      "name": "Autres agencements, aménagements du matériel et actifs biologiques",
+      "type": "ASSET"
+    },
+    {
+      "id": "6de53e0b-602d-4c15-959c-2cc342334c53",
+      "accountNumber": "248",
+      "name": "AUTRES MATÉRIELS ET MOBILIERS",
+      "type": "ASSET"
+    },
+    {
+      "id": "77ac9b73-c50b-4e66-9fef-5ec66a71147e",
+      "accountNumber": "2481",
+      "name": "Collections et œuvres d'art",
+      "type": "ASSET"
+    },
+    {
+      "id": "52ef2b5d-2651-4796-b954-1e788168c60c",
+      "accountNumber": "2488",
+      "name": "Divers matériels mobiliers",
+      "type": "ASSET"
+    },
+    {
+      "id": "f8b3f2d5-5e02-4cbe-98f6-f3e636318d41",
+      "accountNumber": "249",
+      "name": "AUTRES MATÉRIELS ET ACTIFS BIOLOGIQUES",
+      "type": "ASSET"
+    },
+    {
+      "id": "01d39684-e732-46a7-b267-d4c63003b67d",
+      "accountNumber": "2491",
+      "name": "Matériel et outillage industriel et commercial",
+      "type": "ASSET"
+    },
+    {
+      "id": "5b763e8c-e549-4d68-b7d2-df7b3c4c6902",
+      "accountNumber": "2492",
+      "name": "Matériel et outillage agricole",
+      "type": "ASSET"
+    },
+    {
+      "id": "78c14726-119c-455b-a722-ddbb31758446",
+      "accountNumber": "2493",
+      "name": "Matériel d'emballage récupérable et identifiable",
+      "type": "ASSET"
+    },
+    {
+      "id": "df23fb37-dcfd-4bb8-8da7-4b4df29beb12",
+      "accountNumber": "2494",
+      "name": "Matériel et mobilier de bureau",
+      "type": "ASSET"
+    },
+    {
+      "id": "93a85f65-98c5-4c16-a5b3-fb6414dc5612",
+      "accountNumber": "2495",
+      "name": "Matériel de transport",
+      "type": "ASSET"
+    },
+    {
+      "id": "eb4f0b55-4cf6-4ede-baeb-acbde1e6b7d6",
+      "accountNumber": "2496",
+      "name": "Actifs biologiques",
+      "type": "ASSET"
+    },
+    {
+      "id": "2d438b8b-1dec-4b1b-a395-84fbafd0f080",
+      "accountNumber": "2497",
+      "name": "Agencements et aménagements du matériel et des actifs biologiques",
+      "type": "ASSET"
+    },
+    {
+      "id": "68b314c2-9a4b-4867-a5b7-d73e1cf0c687",
+      "accountNumber": "2498",
+      "name": "Autres matériels et actifs biologiques en cours",
+      "type": "ASSET"
+    },
+    {
+      "id": "2e45ca50-7eea-45af-8b23-f1601c0fd53c",
+      "accountNumber": "25",
+      "name": "AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS",
+      "type": "ASSET"
+    },
+    {
+      "id": "d6bcbdec-d8c8-4a25-a1ae-013659954c39",
+      "accountNumber": "251",
+      "name": "AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS INCORPORELLES",
+      "type": "ASSET"
+    },
+    {
+      "id": "88d6b834-e306-4128-a2a9-b5ef9d57a417",
+      "accountNumber": "252",
+      "name": "AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS CORPORELLES",
+      "type": "ASSET"
+    },
+    {
+      "id": "b983fc39-0c00-4c97-9e29-993b866b153d",
+      "accountNumber": "26",
+      "name": "TITRES DE PARTICIPATION",
+      "type": "ASSET"
+    },
+    {
+      "id": "78159bdb-b42f-424b-abe2-465e0d9ebf66",
+      "accountNumber": "261",
+      "name": "TITRES DE PARTICIPATION DANS DES SOCIÉTÉS SOUS CONTRÔLE EXCLUSIF",
+      "type": "ASSET"
+    },
+    {
+      "id": "989ea8a2-13e2-4677-897c-22764ff1f36a",
+      "accountNumber": "262",
+      "name": "TITRES DE PARTICIPATION DANS DES SOCIÉTÉS SOUS CONTRÔLE CONJOINT",
+      "type": "ASSET"
+    },
+    {
+      "id": "c796e37d-e9fc-4734-9cae-d86b71b63314",
+      "accountNumber": "263",
+      "name": "TITRES DE PARTICIPATION DANS DES SOCIÉTÉS CONFÉRANT UNE INFLUENCE NOTABLE",
+      "type": "ASSET"
+    },
+    {
+      "id": "d14d82e3-b94c-4203-be7a-d6500e940c08",
+      "accountNumber": "265",
+      "name": "PARTICIPATIONS DANS DES ORGANISMES PROFESSIONNELS",
+      "type": "ASSET"
+    },
+    {
+      "id": "2b8523d4-6cd7-4673-b68b-082b5975bbbb",
+      "accountNumber": "266",
+      "name": "PARTS DANS DES GROUPEMENTS D'INTÉRÊT ÉCONOMIQUE (G.I.E.)",
+      "type": "ASSET"
+    },
+    {
+      "id": "6d2842bb-9351-465e-a7e4-b197c6f84511",
+      "accountNumber": "268",
+      "name": "AUTRES TITRES DE PARTICIPATION",
+      "type": "ASSET"
+    },
+    {
+      "id": "138f464d-e865-48b1-a46c-edf41c78a860",
+      "accountNumber": "27",
+      "name": "AUTRES IMMOBILISATIONS FINANCIÈRES",
+      "type": "ASSET"
+    },
+    {
+      "id": "a209a6c2-3501-49f5-89a2-3a2f37f44579",
+      "accountNumber": "271",
+      "name": "PRÊTS ET CRÉANCES",
+      "type": "ASSET"
+    },
+    {
+      "id": "131bb922-9601-4812-90fe-b92a76b7cbe7",
+      "accountNumber": "2711",
+      "name": "Prêts participatifs",
+      "type": "ASSET"
+    },
+    {
+      "id": "7f82a2c7-6485-42c4-b13c-8002ae46285b",
+      "accountNumber": "2712",
+      "name": "Prêts aux associés",
+      "type": "ASSET"
+    },
+    {
+      "id": "9887f76c-2eae-440a-8c8f-1200bd7f6b5e",
+      "accountNumber": "2713",
+      "name": "Billets de fonds",
+      "type": "ASSET"
+    },
+    {
+      "id": "a72bf7d4-06f9-407e-8d07-38ec404c35ed",
+      "accountNumber": "2714",
+      "name": "Créances de location financement",
+      "type": "ASSET"
+    },
+    {
+      "id": "c9a159bd-7871-4b7c-ba9e-873948a82cf9",
+      "accountNumber": "2715",
+      "name": "Titres prêtés",
+      "type": "ASSET"
+    },
+    {
+      "id": "a0e49c9d-8eb9-4ef9-9285-b2ac132cb0e0",
+      "accountNumber": "2718",
+      "name": "Autres prêts et créances",
+      "type": "ASSET"
+    },
+    {
+      "id": "eabf8718-b04f-413d-be44-7a8a177e8f85",
+      "accountNumber": "273",
+      "name": "PRÊTS AU PERSONNEL",
+      "type": "ASSET"
+    },
+    {
+      "id": "370cecb7-905d-49cb-a098-76e69aa5d92c",
+      "accountNumber": "2731",
+      "name": "PRÊTS immobiliers",
+      "type": "ASSET"
+    },
+    {
+      "id": "6a6e3522-09e4-49ba-baf6-ca1e11ba03e9",
+      "accountNumber": "2732",
+      "name": "PRÊTS mobiliers et d'installation",
+      "type": "ASSET"
+    },
+    {
+      "id": "aa292d6e-d1a5-40d7-91cf-dbbea523c0d0",
+      "accountNumber": "2733",
+      "name": "Autres prêts au personnel",
+      "type": "ASSET"
+    },
+    {
+      "id": "c6e37920-408f-4caf-a173-13e92751aa65",
+      "accountNumber": "274",
+      "name": "CRÉANCES SUR L'ÉTAT",
+      "type": "ASSET"
+    },
+    {
+      "id": "deac30db-597b-4dbb-b63d-630abc121524",
+      "accountNumber": "275",
+      "name": "CRÉANCES RATTACHÉES À DES PARTICIPATIONS ET AVANCES À DES G.I.E.",
+      "type": "ASSET"
+    },
+    {
+      "id": "9d7b7500-be71-4be4-984b-e207b37fad1b",
+      "accountNumber": "2751",
+      "name": "CRÉANCES RATTACHÉES À DES PARTICIPATIONS (groupe)",
+      "type": "ASSET"
+    },
+    {
+      "id": "f488b4d9-a29b-4f29-9dd5-4d4bbfda1123",
+      "accountNumber": "2752",
+      "name": "CRÉANCES RATTACHÉES à des participations (hors groupe)",
+      "type": "ASSET"
+    },
+    {
+      "id": "aab80204-45fa-4366-b641-9ce935cd1bc8",
+      "accountNumber": "2753",
+      "name": "CRÉANCES RATTACHÉES à des sociétés en participation",
+      "type": "ASSET"
+    },
+    {
+      "id": "c8465e37-5357-459c-bb5b-688696138889",
+      "accountNumber": "2754",
+      "name": "CRÉANCES RATTACHÉES à des Groupements d'intérêt économique (G.I.E.)",
+      "type": "ASSET"
+    },
+    {
+      "id": "78bfd333-78e2-45e8-b053-341795d31eaf",
+      "accountNumber": "276",
+      "name": "IMMOBILISATIONS FINANCIÈRES DIVERSES",
+      "type": "ASSET"
+    },
+    {
+      "id": "d991f9b0-e7be-4421-8d55-c681b07683de",
+      "accountNumber": "2761",
+      "name": "CRÉANCES diverses groupe",
+      "type": "ASSET"
+    },
+    {
+      "id": "a1e97374-b096-4e32-a099-8727fa533b9d",
+      "accountNumber": "2762",
+      "name": "CRÉANCES diverses hors groupe",
+      "type": "ASSET"
+    },
+    {
+      "id": "b84c2ac6-c8a4-4c6a-bdde-9a6bcdd9ff08",
+      "accountNumber": "2763",
+      "name": "Banques dépôts à terme",
+      "type": "ASSET"
+    },
+    {
+      "id": "e7e6995c-0650-4940-96e0-2f4ee11b867c",
+      "accountNumber": "2765",
+      "name": "Or et métaux précieux",
+      "type": "ASSET"
+    },
+    {
+      "id": "15dcb77c-e006-4241-add9-0dc31a6bed7b",
+      "accountNumber": "2768",
+      "name": "Autres immobilisations financières",
+      "type": "ASSET"
+    },
+    {
+      "id": "d9e53853-880f-42c0-a015-dfd01a228ed5",
+      "accountNumber": "28",
+      "name": "AMORTISSEMENTS",
+      "type": "ASSET"
+    },
+    {
+      "id": "00220972-da82-49ae-a65e-3000f77f9573",
+      "accountNumber": "281",
+      "name": "AMORTISSEMENTS DES IMMOBILISATIONS INCORPORELLES",
+      "type": "ASSET"
+    },
+    {
+      "id": "af903a4c-e27e-4d3b-9e2a-12516a31bad0",
+      "accountNumber": "2811",
+      "name": "Amortissements des frais de développement",
+      "type": "ASSET"
+    },
+    {
+      "id": "1b43e0bc-3fb5-459a-9e36-515b7db2afc7",
+      "accountNumber": "2812",
+      "name": "Amortissements des brevets, licences, concessions et droits similaires",
+      "type": "ASSET"
+    },
+    {
+      "id": "923bbf43-5009-4a4e-818e-4015f77887aa",
+      "accountNumber": "2813",
+      "name": "Amortissements des logiciels et sites internet",
+      "type": "ASSET"
+    },
+    {
+      "id": "be4e5ea7-c028-49e4-82d2-2863313491fd",
+      "accountNumber": "2814",
+      "name": "Amortissements des marques",
+      "type": "ASSET"
+    },
+    {
+      "id": "415027b9-6512-4e98-9137-1447aaa794f2",
+      "accountNumber": "2815",
+      "name": "Amortissements du fonds commercial",
+      "type": "ASSET"
+    },
+    {
+      "id": "f7a6c2c3-69ea-4b39-85dd-d5bcfe397f96",
+      "accountNumber": "2816",
+      "name": "Amortissements du droit au bail",
+      "type": "ASSET"
+    },
+    {
+      "id": "8e24230e-3aba-4528-99b4-99738354927b",
+      "accountNumber": "2817",
+      "name": "Amortissements des investissements de création",
+      "type": "ASSET"
+    },
+    {
+      "id": "7b0be15b-c851-4715-8d51-4903aa828d66",
+      "accountNumber": "2818",
+      "name": "Amortissements des autres droits et valeurs incorporels",
+      "type": "ASSET"
+    },
+    {
+      "id": "abeea16c-c3d0-4a68-bd8b-ca09696479e8",
+      "accountNumber": "282",
+      "name": "AMORTISSEMENTS DES TERRAINS",
+      "type": "ASSET"
+    },
+    {
+      "id": "b9848eca-1675-43c1-a737-1553e9ee243f",
+      "accountNumber": "2824",
+      "name": "Amortissements des travaux de mise en valeur des terrains",
+      "type": "ASSET"
+    },
+    {
+      "id": "669e6139-a8c7-45f5-89fc-d419e956ebe8",
+      "accountNumber": "283",
+      "name": "AMORTISSEMENTS DES BÂTIMENTS, INSTALLATIONS TECHNIQUES ET AGENCEMENTS",
+      "type": "ASSET"
+    },
+    {
+      "id": "d50ad4c3-f1b5-4a5f-b0af-3ee0f1f9bf0c",
+      "accountNumber": "2831",
+      "name": "Amortissements des bâtiments industriels, agricoles, administratifs et commerciaux sur sol propre",
+      "type": "ASSET"
+    },
+    {
+      "id": "f79e7756-b0b8-49e4-8be6-9e2963943cf4",
+      "accountNumber": "2832",
+      "name": "Amortissements des bâtiments industriels, agricoles, administratifs et commerciaux sur sol d'autrui",
+      "type": "ASSET"
+    },
+    {
+      "id": "e5d3630c-59cd-4e49-9801-e9d588cb9c3c",
+      "accountNumber": "2833",
+      "name": "Amortissements des ouvrages d'infrastructure",
+      "type": "ASSET"
+    },
+    {
+      "id": "e9d02b15-1cc5-4c72-868e-852e0c7aabc1",
+      "accountNumber": "2834",
+      "name": "Amortissements des aménagements, agencements et installations techniques",
+      "type": "ASSET"
+    },
+    {
+      "id": "cda65b90-efff-4f36-be25-7a97dce4c0a2",
+      "accountNumber": "2835",
+      "name": "Amortissements des aménagements de bureaux",
+      "type": "ASSET"
+    },
+    {
+      "id": "437848f8-4ea6-4499-bab9-fab18871e832",
+      "accountNumber": "2837",
+      "name": "Amortissements des bâtiments industriels, agricoles et commerciaux mis en concession",
+      "type": "ASSET"
+    },
+    {
+      "id": "0b635be5-f074-4455-8e57-f95c0bd434f3",
+      "accountNumber": "2838",
+      "name": "Amortissements des autres installations et agencements",
+      "type": "ASSET"
+    },
+    {
+      "id": "58f22a53-3e44-4b16-b27e-defcc370bf55",
+      "accountNumber": "284",
+      "name": "AMORTISSEMENTS DU MATÉRIEL",
+      "type": "ASSET"
+    },
+    {
+      "id": "ff435129-4f24-4bda-be3e-e62109024b37",
+      "accountNumber": "2841",
+      "name": "Amortissements du matériel et outillage industriel et commercial",
+      "type": "ASSET"
+    },
+    {
+      "id": "5c19b576-9deb-4754-ade6-b6696404f611",
+      "accountNumber": "2842",
+      "name": "Amortissements du matériel et outillage agricole",
+      "type": "ASSET"
+    },
+    {
+      "id": "15fd6ba2-2d07-4582-af0f-2c813e227dc6",
+      "accountNumber": "2843",
+      "name": "Amortissements du matériel d'emballage récupérable et identifiable",
+      "type": "ASSET"
+    },
+    {
+      "id": "62944fcb-36d8-4c40-a0d8-e72b0a2628e0",
+      "accountNumber": "2844",
+      "name": "Amortissements du matériel et mobilier de bureau",
+      "type": "ASSET"
+    },
+    {
+      "id": "579da58f-6412-41e9-b80c-7f835171c510",
+      "accountNumber": "2845",
+      "name": "Amortissements du matériel de transport",
+      "type": "ASSET"
+    },
+    {
+      "id": "dd88bbb9-aed1-4ff3-81c2-34a288d20bca",
+      "accountNumber": "2846",
+      "name": "Amortissements des actifs biologiques",
+      "type": "ASSET"
+    },
+    {
+      "id": "b05456fd-83da-47a3-8947-1935e314dce9",
+      "accountNumber": "2847",
+      "name": "Amortissements des agencements et aménagements du matériel et des actifs biologiques",
+      "type": "ASSET"
+    },
+    {
+      "id": "b179ca80-6355-4a38-9875-a1cd10c48995",
+      "accountNumber": "2848",
+      "name": "Amortissements des autres matériels",
+      "type": "ASSET"
+    },
+    {
+      "id": "22929e78-2d15-4cce-82b5-19e4a5fc4f7f",
+      "accountNumber": "29",
+      "name": "DÉPRÉCIATIONS DES IMMOBILISATIONS",
+      "type": "ASSET"
+    },
+    {
+      "id": "3b65a2a9-c22f-4d34-a942-01fc6d84156f",
+      "accountNumber": "291",
+      "name": "DÉPRÉCIATIONS DES IMMOBILISATIONS INCORPORELLES",
+      "type": "ASSET"
+    },
+    {
+      "id": "9fc80d6a-6173-458b-947b-f6cbe6411c8d",
+      "accountNumber": "2911",
+      "name": "Dépréciations des frais de développement",
+      "type": "ASSET"
+    },
+    {
+      "id": "337ffe95-c567-40d8-86ff-53c81dcb3876",
+      "accountNumber": "2912",
+      "name": "Dépréciations des brevets, licences, concessions et droits similaires",
+      "type": "ASSET"
+    },
+    {
+      "id": "6511b97e-4f7e-4733-b7a2-6c7009778830",
+      "accountNumber": "2913",
+      "name": "Dépréciations des logiciels et sites internet",
+      "type": "ASSET"
+    },
+    {
+      "id": "ce6f10ee-1146-44fb-a226-ae0b2ad1eea8",
+      "accountNumber": "2914",
+      "name": "Dépréciations des marques",
+      "type": "ASSET"
+    },
+    {
+      "id": "16de35fc-5c52-4d89-b010-d3b1c80288bb",
+      "accountNumber": "2915",
+      "name": "Dépréciations du fonds commercial",
+      "type": "ASSET"
+    },
+    {
+      "id": "d7343c60-9be6-4470-9c4d-91d19ec91a0a",
+      "accountNumber": "2916",
+      "name": "Dépréciations du droit au bail",
+      "type": "ASSET"
+    },
+    {
+      "id": "2f46b08a-d3e1-4621-83bc-2f4d3aa9452a",
+      "accountNumber": "2917",
+      "name": "Dépréciations des investissements de création",
+      "type": "ASSET"
+    },
+    {
+      "id": "11e2e334-3599-47af-b710-0097ebd4e6a5",
+      "accountNumber": "2918",
+      "name": "Dépréciations des autres droits et valeurs incorporels",
+      "type": "ASSET"
+    },
+    {
+      "id": "44801f70-b887-4815-80e6-a1c2f9e7fa72",
+      "accountNumber": "2919",
+      "name": "Dépréciations des immobilisations incorporelles en cours",
+      "type": "ASSET"
+    },
+    {
+      "id": "114595de-0ed9-4feb-aaec-eeab6396b6ea",
+      "accountNumber": "292",
+      "name": "DÉPRÉCIATIONS DES TERRAINS",
+      "type": "ASSET"
+    },
+    {
+      "id": "653247e5-4f5e-4b30-adbc-76229213815c",
+      "accountNumber": "2921",
+      "name": "Dépréciations des terrains agricoles et forestiers",
+      "type": "ASSET"
+    },
+    {
+      "id": "4c3e405d-9746-4132-8b83-7fd384e87f16",
+      "accountNumber": "2922",
+      "name": "Dépréciations des terrains nus",
+      "type": "ASSET"
+    },
+    {
+      "id": "1efde454-828f-4017-a10c-05b79c5b4a99",
+      "accountNumber": "2923",
+      "name": "Dépréciations des terrains bâtis",
+      "type": "ASSET"
+    },
+    {
+      "id": "73e93bee-f235-473f-ae39-0e631222cdc3",
+      "accountNumber": "2924",
+      "name": "Dépréciations des travaux de mise en valeur des terrains",
+      "type": "ASSET"
+    },
+    {
+      "id": "a2a8cd3f-de99-45b6-8403-97e84cae2b9b",
+      "accountNumber": "2925",
+      "name": "Dépréciations des terrains de gisement",
+      "type": "ASSET"
+    },
+    {
+      "id": "eb6e287b-0e29-4306-b75b-76771431658e",
+      "accountNumber": "2926",
+      "name": "Dépréciations des terrains aménagés",
+      "type": "ASSET"
+    },
+    {
+      "id": "d1bdfac7-6663-4b0f-b23b-f74cd781fa6c",
+      "accountNumber": "2927",
+      "name": "Dépréciations des terrains mis en concession",
+      "type": "ASSET"
+    },
+    {
+      "id": "1498aea8-574c-4868-9eb6-1f83723f1f78",
+      "accountNumber": "2928",
+      "name": "Dépréciations des autres terrains",
+      "type": "ASSET"
+    },
+    {
+      "id": "5943510d-d209-4ddd-a732-ce62a5474fea",
+      "accountNumber": "2929",
+      "name": "Dépréciations des aménagements de terrains en cours",
+      "type": "ASSET"
+    },
+    {
+      "id": "a5350a48-de80-4cc0-ad3e-09dcf8ca3b4f",
+      "accountNumber": "293",
+      "name": "DÉPRÉCIATIONS DES BÂTIMENTS, INSTALLATIONS TECHNIQUES ET AGENCEMENTS",
+      "type": "ASSET"
+    },
+    {
+      "id": "004ab2d1-56be-4874-b42a-3aaaaf98d4b1",
+      "accountNumber": "2931",
+      "name": "Dépréciations des bâtiments industriels, agricoles, administratifs et commerciaux sur sol propre",
+      "type": "ASSET"
+    },
+    {
+      "id": "9ed75736-a736-41ff-995f-498803fadd45",
+      "accountNumber": "2932",
+      "name": "Dépréciations des bâtiments industriels, agricoles, administratifs et commerciaux, sur sol d'autrui",
+      "type": "ASSET"
+    },
+    {
+      "id": "5a4ac2a2-aa7d-41ae-a1ff-5daae02981ca",
+      "accountNumber": "2933",
+      "name": "Dépréciations des ouvrages d'infrastructure",
+      "type": "ASSET"
+    },
+    {
+      "id": "a18173e2-b552-4849-bd93-a08d68611080",
+      "accountNumber": "2934",
+      "name": "Dépréciations des aménagements, agencements et installations techniques",
+      "type": "ASSET"
+    },
+    {
+      "id": "2afd9f3b-5e50-4b36-9f39-c38dad22eb07",
+      "accountNumber": "2935",
+      "name": "Dépréciations des aménagements de bureaux",
+      "type": "ASSET"
+    },
+    {
+      "id": "27d99a60-c782-431b-8e16-9a91b3e2b724",
+      "accountNumber": "2937",
+      "name": "Dépréciations des bâtiments industriels, agricoles et commerciaux mis en concession",
+      "type": "ASSET"
+    },
+    {
+      "id": "b4c738b2-5ca5-424a-9588-51e9ad4450b5",
+      "accountNumber": "2938",
+      "name": "Dépréciations des autres installations et agencements",
+      "type": "ASSET"
+    },
+    {
+      "id": "96e6589a-bc1c-4645-9f24-bb36a1162ab4",
+      "accountNumber": "2939",
+      "name": "Dépréciations des bâtiments et installations en cours",
+      "type": "ASSET"
+    },
+    {
+      "id": "6ad434e0-f14d-4c7f-a27e-e4607ab75b4c",
+      "accountNumber": "294",
+      "name": "DÉPRÉCIATIONS DU MATÉRIEL, DU MOBILIER ET DES ACTIFS BIOLOGIQUES",
+      "type": "ASSET"
+    },
+    {
+      "id": "e6c12da0-f1c6-4281-98e7-d5a5d644aa44",
+      "accountNumber": "2941",
+      "name": "Dépréciations du matériel et outillage industriel et commercial",
+      "type": "ASSET"
+    },
+    {
+      "id": "11dda836-efa2-4971-998c-48081c9cec1f",
+      "accountNumber": "2942",
+      "name": "Dépréciations du matériel et outillage agricole",
+      "type": "ASSET"
+    },
+    {
+      "id": "40378bbb-b940-44b9-a962-9da23a6dcd88",
+      "accountNumber": "2943",
+      "name": "Dépréciations du matériel d'emballage récupérable et identifiable",
+      "type": "ASSET"
+    },
+    {
+      "id": "a79adb56-ea19-40c5-b693-9113c1109e01",
+      "accountNumber": "2944",
+      "name": "Dépréciations du matériel et mobilier de bureau",
+      "type": "ASSET"
+    },
+    {
+      "id": "6e8da550-7460-4e4f-afe3-407880fa1c5b",
+      "accountNumber": "2945",
+      "name": "Dépréciations du matériel de transport",
+      "type": "ASSET"
+    },
+    {
+      "id": "315154c4-7933-44a4-9247-be6e9cc40c2d",
+      "accountNumber": "2946",
+      "name": "Dépréciations des actifs biologiques",
+      "type": "ASSET"
+    },
+    {
+      "id": "f936fa15-1d78-4d1b-94ae-7a91fbbfb871",
+      "accountNumber": "2947",
+      "name": "Dépréciations des agencements et aménagements du matériel et des actifs biologiques",
+      "type": "ASSET"
+    },
+    {
+      "id": "fc80ce39-3427-4506-be78-b7c854e2206e",
+      "accountNumber": "2948",
+      "name": "Dépréciations des autres matériels",
+      "type": "ASSET"
+    },
+    {
+      "id": "f4c7b85e-7ffb-49f5-ab01-8ef72aa3ba85",
+      "accountNumber": "2949",
+      "name": "Dépréciations de matériel en cours",
+      "type": "ASSET"
+    },
+    {
+      "id": "f9cc31bf-38de-4e22-9a27-a676dcdf6c68",
+      "accountNumber": "295",
+      "name": "DÉPRÉCIATIONS DES AVANCES ET ACOMPTES VERSÉS SUR IMMOBILISATIONS",
+      "type": "ASSET"
+    },
+    {
+      "id": "752c97f6-61ab-41c2-a559-589078f516ce",
+      "accountNumber": "2951",
+      "name": "Dépréciations des avances et acomptes versés sur immobilisations incorporelles",
+      "type": "ASSET"
+    },
+    {
+      "id": "54360abb-b3b1-4c3b-9e57-b04bbde79f66",
+      "accountNumber": "2952",
+      "name": "Dépréciations des avances et acomptes versés sur immobilisations corporelles",
+      "type": "ASSET"
+    },
+    {
+      "id": "739958ae-6846-409b-aed6-5c57516a30d1",
+      "accountNumber": "296",
+      "name": "DÉPRÉCIATIONS DES TITRES DE PARTICIPATION",
+      "type": "ASSET"
+    },
+    {
+      "id": "157bdbe4-b982-4a4c-9535-aa201a4682ba",
+      "accountNumber": "2961",
+      "name": "Dépréciations des titres de participation dans sociétés sous contrôle exclusif",
+      "type": "ASSET"
+    },
+    {
+      "id": "13e590bf-b4e7-4900-88d5-9a9e5955c9d2",
+      "accountNumber": "2962",
+      "name": "Dépréciations des titres de participation dans sociétés sous contrôle conjoint",
+      "type": "ASSET"
+    },
+    {
+      "id": "72829db3-7fdd-40ac-81c9-c0fbca9267f6",
+      "accountNumber": "2963",
+      "name": "Dépréciations des titres de participation dans sociétés conférant une influence notable",
+      "type": "ASSET"
+    },
+    {
+      "id": "31ac0af6-b56a-4d3d-9bfa-f5cc992ee853",
+      "accountNumber": "2965",
+      "name": "Dépréciations des participations dans des organismes professionnels",
+      "type": "ASSET"
+    },
+    {
+      "id": "2b00ff4d-b62c-409d-a5a9-fd450c7cbc72",
+      "accountNumber": "2966",
+      "name": "Dépréciations des parts dans des GIE",
+      "type": "ASSET"
+    },
+    {
+      "id": "94f55b59-8723-4136-8924-e43468eabf60",
+      "accountNumber": "2968",
+      "name": "Dépréciations des autres titres de participation",
+      "type": "ASSET"
+    },
+    {
+      "id": "d98296a5-2b5a-4bc8-8dbb-252cc1be1637",
+      "accountNumber": "297",
+      "name": "DÉPRÉCIATIONS DES AUTRES IMMOBILISATIONS FINANCIÈRES",
+      "type": "ASSET"
+    },
+    {
+      "id": "716f5769-8db2-42e6-a94b-ee76243e0ac0",
+      "accountNumber": "2971",
+      "name": "Dépréciations des prêts et créances",
+      "type": "ASSET"
+    },
+    {
+      "id": "99e7bb82-b55c-40ab-95e0-7b1a3011f52c",
+      "accountNumber": "2972",
+      "name": "Dépréciations des prêts au personnel",
+      "type": "ASSET"
+    },
+    {
+      "id": "bb21a4c1-572f-4349-9288-f032e6482cc7",
+      "accountNumber": "2973",
+      "name": "Dépréciations des créances sur l'Etat",
+      "type": "ASSET"
+    },
+    {
+      "id": "b0066dd3-ac09-4b2a-9987-65df83aac5d6",
+      "accountNumber": "2975",
+      "name": "Dépréciations des dépôts et cautionnements versés",
+      "type": "ASSET"
+    },
+    {
+      "id": "da5871fd-3c22-4903-82a7-29804c6f2de7",
+      "accountNumber": "2977",
+      "name": "Dépréciations des créances rattachées à des participations et avances à des GIE",
+      "type": "ASSET"
+    },
+    {
+      "id": "a99eeefe-ff76-4e0f-ab2b-34686b0a50f2",
+      "accountNumber": "2978",
+      "name": "Dépréciations des créances financières diverses",
+      "type": "ASSET"
+    },
+    {
+      "id": "3aac9c30-d812-4ba9-88ac-8f80a4d96dad",
+      "accountNumber": "301",
+      "name": "Capital",
+      "type": "EQUITY"
+    },
+    {
+      "id": "12fbc477-7fa5-489c-9fb5-e7f96073a910",
+      "accountNumber": "302",
+      "name": "Résultats",
+      "type": "EQUITY"
+    },
+    {
+      "id": "8eac3be2-84d8-4a73-a602-79e22804a648",
+      "accountNumber": "31",
+      "name": "MARCHANDISES",
+      "type": "ASSET"
+    },
+    {
+      "id": "2b9548d6-4164-4662-b6c1-95522c0f5791",
+      "accountNumber": "311",
+      "name": "MARCHANDISES A",
+      "type": "ASSET"
+    },
+    {
+      "id": "5491b394-7b65-446c-804d-12838f27c4d0",
+      "accountNumber": "3111",
+      "name": "Marchandises A1",
+      "type": "ASSET"
+    },
+    {
+      "id": "3dc276a3-0fdf-454a-9a94-a4382b3dbbee",
+      "accountNumber": "3112",
+      "name": "Marchandises A2",
+      "type": "ASSET"
+    },
+    {
+      "id": "f7318f66-836b-4f31-a57f-5d1350fe23dd",
+      "accountNumber": "312",
+      "name": "MARCHANDISES B",
+      "type": "ASSET"
+    },
+    {
+      "id": "4da47738-bbf0-48a2-850e-ede8f1ee6219",
+      "accountNumber": "3121",
+      "name": "Marchandises B1",
+      "type": "ASSET"
+    },
+    {
+      "id": "ad1f2cd4-5e3e-44e3-9a8c-a8db5433bb18",
+      "accountNumber": "3122",
+      "name": "Marchandises B2",
+      "type": "ASSET"
+    },
+    {
+      "id": "d739ab10-842f-4d91-adb7-74d54c0804d1",
+      "accountNumber": "313",
+      "name": "ACTIFS BIOLOGIQUES",
+      "type": "ASSET"
+    },
+    {
+      "id": "89573632-0b2a-4dca-b7e4-915e392fd894",
+      "accountNumber": "3131",
+      "name": "Animaux",
+      "type": "ASSET"
+    },
+    {
+      "id": "189c9dd8-13f6-478a-a229-5c255ca4f5a6",
+      "accountNumber": "3132",
+      "name": "Végétaux",
+      "type": "ASSET"
+    },
+    {
+      "id": "8ecc7852-02ab-4095-beff-d46b744840ee",
+      "accountNumber": "318",
+      "name": "MARCHANDISES HORS ACTIVITÉS ORDINAIRES (H.A.O.)",
+      "type": "ASSET"
+    },
+    {
+      "id": "424a0381-fc77-46f8-a85e-ab187119324c",
+      "accountNumber": "32",
+      "name": "MATIÈRES PREMIÈRES ET FOURNITURES LIÉES",
+      "type": "ASSET"
+    },
+    {
+      "id": "1fe0177f-b5b4-4c1f-a163-c7588f604920",
+      "accountNumber": "321",
+      "name": "MATIÈRES A",
+      "type": "ASSET"
+    },
+    {
+      "id": "7a5641ba-4c02-41df-8885-9876c6c82f00",
+      "accountNumber": "322",
+      "name": "MATIÈRES B",
+      "type": "ASSET"
+    },
+    {
+      "id": "73561e1b-924d-48d1-951d-6e83e3256e9c",
+      "accountNumber": "323",
+      "name": "FOURNITURES (A, B)",
+      "type": "ASSET"
+    },
+    {
+      "id": "3455c018-67ac-4503-be43-1dc354925712",
+      "accountNumber": "33",
+      "name": "AUTRES APPROVISIONNEMENTS",
+      "type": "ASSET"
+    },
+    {
+      "id": "3a343f35-188a-4e2b-8ad7-2be3e5212c45",
+      "accountNumber": "331",
+      "name": "MATIÈRES CONSOMMABLES",
+      "type": "ASSET"
+    },
+    {
+      "id": "f98face1-1da5-403d-81d6-4ba37ec005b4",
+      "accountNumber": "332",
+      "name": "FOURNITURES D'ATELIER ET D'USINE",
+      "type": "ASSET"
+    },
+    {
+      "id": "ac73557f-4484-4f35-9d52-d667b10814d8",
+      "accountNumber": "333",
+      "name": "FOURNITURES DE MAGASIN",
+      "type": "ASSET"
+    },
+    {
+      "id": "f42f4de9-50ce-4c6c-93da-248a8ac4eefc",
+      "accountNumber": "334",
+      "name": "FOURNITURES DE BUREAU",
+      "type": "ASSET"
+    },
+    {
+      "id": "9f8760f7-d6c4-45ee-a060-0e650a76c3c4",
+      "accountNumber": "335",
+      "name": "EMBALLAGES",
+      "type": "ASSET"
+    },
+    {
+      "id": "0d657d0b-6e64-45fb-b3cc-cca59fc3d038",
+      "accountNumber": "3351",
+      "name": "Emballages perdus",
+      "type": "ASSET"
+    },
+    {
+      "id": "6439ee4a-2f87-46de-b079-a80040cb6d4f",
+      "accountNumber": "3352",
+      "name": "Emballages récupérables non identifiables",
+      "type": "ASSET"
+    },
+    {
+      "id": "546b4af8-0ad8-46e6-af26-e3e99839fa78",
+      "accountNumber": "3353",
+      "name": "Emballages à usage mixte",
+      "type": "ASSET"
+    },
+    {
+      "id": "35c52b8c-3c45-4046-a835-a0a6f7e992fd",
+      "accountNumber": "3358",
+      "name": "Autres emballages",
+      "type": "ASSET"
+    },
+    {
+      "id": "db278a49-0b04-43b3-ae2d-3bd9d1ec7ab9",
+      "accountNumber": "338",
+      "name": "AUTRES MATIÈRES",
+      "type": "ASSET"
+    },
+    {
+      "id": "f7377e6a-69a6-4f8f-a36e-2bfce4214125",
+      "accountNumber": "34",
+      "name": "PRODUITS EN COURS",
+      "type": "ASSET"
+    },
+    {
+      "id": "6cb06c34-a706-45e5-a56e-b23d1943a5ac",
+      "accountNumber": "341",
+      "name": "PRODUITS EN COURS",
+      "type": "ASSET"
+    },
+    {
+      "id": "b2781d1d-21c6-4968-826a-f3ce2be28fd5",
+      "accountNumber": "3411",
+      "name": "Produits en cours P1",
+      "type": "ASSET"
+    },
+    {
+      "id": "4e1960b5-4b10-467b-92d0-ca9a994b4da0",
+      "accountNumber": "3412",
+      "name": "Produits en cours P2",
+      "type": "ASSET"
+    },
+    {
+      "id": "1c0a184d-145e-44a3-8daa-512b6d38dbbc",
+      "accountNumber": "342",
+      "name": "TRAVAUX EN COURS",
+      "type": "ASSET"
+    },
+    {
+      "id": "85fbd3bc-743c-4492-8ed0-b7831445d11e",
+      "accountNumber": "3421",
+      "name": "Travaux en cours T1",
+      "type": "ASSET"
+    },
+    {
+      "id": "8526f90a-9f78-4635-be90-ba124111b7a9",
+      "accountNumber": "3422",
+      "name": "Travaux en cours T2",
+      "type": "ASSET"
+    },
+    {
+      "id": "39724017-1872-46cc-8e57-e47fc53f2df1",
+      "accountNumber": "343",
+      "name": "PRODUITS INTERMÉDIAIRES EN COURS",
+      "type": "ASSET"
+    },
+    {
+      "id": "5007854b-22a0-4d4e-b134-5229e5aa170b",
+      "accountNumber": "3431",
+      "name": "Produits intermédiaires A",
+      "type": "ASSET"
+    },
+    {
+      "id": "baa3572d-e3db-4d54-a5ba-ecad93bfe92a",
+      "accountNumber": "3432",
+      "name": "Produits intermédiaires B",
+      "type": "ASSET"
+    },
+    {
+      "id": "5e7d7391-c5c2-45fd-9428-c7241e215f9c",
+      "accountNumber": "344",
+      "name": "PRODUITS RÉSIDUELS EN COURS",
+      "type": "ASSET"
+    },
+    {
+      "id": "635de709-3e68-4cf8-a8e7-a61de85aaec0",
+      "accountNumber": "3441",
+      "name": "Produits résiduels A",
+      "type": "ASSET"
+    },
+    {
+      "id": "604d1f2c-72cc-4105-ba98-e566fe578b70",
+      "accountNumber": "3442",
+      "name": "Produits résiduels B",
+      "type": "ASSET"
+    },
+    {
+      "id": "90abe0c8-dd32-46cd-a3d5-9597eb32e3b5",
+      "accountNumber": "345",
+      "name": "ACTIFS BIOLOGIQUES EN COURS",
+      "type": "ASSET"
+    },
+    {
+      "id": "a7eca167-25b8-441a-9103-c55c00ff8154",
+      "accountNumber": "3451",
+      "name": "Animaux",
+      "type": "ASSET"
+    },
+    {
+      "id": "a56928e6-3285-455a-8864-4c7e6a1cc360",
+      "accountNumber": "3452",
+      "name": "Végétaux",
+      "type": "ASSET"
+    },
+    {
+      "id": "8474f95d-a992-4dfb-901d-10fcd86d0e67",
+      "accountNumber": "35",
+      "name": "SERVICES EN COURS",
+      "type": "ASSET"
+    },
+    {
+      "id": "5ac010d8-7e37-4ba0-ab75-0ca24a3c57fd",
+      "accountNumber": "351",
+      "name": "ÉTUDES EN COURS",
+      "type": "ASSET"
+    },
+    {
+      "id": "137f27b6-8fab-4cbc-8c8e-a92e511bfbab",
+      "accountNumber": "3511",
+      "name": "Études en cours E1",
+      "type": "ASSET"
+    },
+    {
+      "id": "0c6ee22c-850c-477c-94f6-70a65a851d13",
+      "accountNumber": "3512",
+      "name": "Études en cours E2",
+      "type": "ASSET"
+    },
+    {
+      "id": "bb0e2e67-6108-42b8-9abe-fd0d01931dc2",
+      "accountNumber": "352",
+      "name": "PRESTATIONS DE SERVICES EN COURS",
+      "type": "ASSET"
+    },
+    {
+      "id": "58043c72-48f8-4a4f-9444-523f83d41ad9",
+      "accountNumber": "3521",
+      "name": "Prestations de services S1",
+      "type": "ASSET"
+    },
+    {
+      "id": "6e347101-a8ac-486c-9c5e-bc7b62a140e0",
+      "accountNumber": "3522",
+      "name": "Prestations de services S2",
+      "type": "ASSET"
+    },
+    {
+      "id": "f5d3b139-aa39-4607-9003-4b00dd65b97b",
+      "accountNumber": "36",
+      "name": "PRODUITS FINIS",
+      "type": "ASSET"
+    },
+    {
+      "id": "d5ddefd2-30af-4bec-9c33-ed6163c5a5df",
+      "accountNumber": "361",
+      "name": "PRODUITS FINIS A",
+      "type": "ASSET"
+    },
+    {
+      "id": "89e3dd1c-2726-4348-ac70-ea62bd2d3339",
+      "accountNumber": "362",
+      "name": "PRODUITS FINIS B",
+      "type": "ASSET"
+    },
+    {
+      "id": "60042078-41e5-4e2c-975e-97d7b55076f8",
+      "accountNumber": "363",
+      "name": "ACTIFS BIOLOGIQUES",
+      "type": "ASSET"
+    },
+    {
+      "id": "0fbf6d58-cbb6-4c4b-a4ff-2315f30b82d1",
+      "accountNumber": "3631",
+      "name": "Animaux",
+      "type": "ASSET"
+    },
+    {
+      "id": "e4c22f99-57ef-4a92-878d-c9ae9ffe9827",
+      "accountNumber": "3632",
+      "name": "Végétaux",
+      "type": "ASSET"
+    },
+    {
+      "id": "29b76806-4ed5-4743-80ad-d8da3832a662",
+      "accountNumber": "3638",
+      "name": "Autres stocks (activités annexes)",
+      "type": "ASSET"
+    },
+    {
+      "id": "220d2202-5552-4d3e-b5bc-7ce48d4a672a",
+      "accountNumber": "37",
+      "name": "PRODUITS INTERMÉDIAIRES ET RÉSIDUELS",
+      "type": "ASSET"
+    },
+    {
+      "id": "52fe67c7-1a17-4c63-b900-e314384f2aa7",
+      "accountNumber": "371",
+      "name": "PRODUITS INTERMÉDIAIRES",
+      "type": "ASSET"
+    },
+    {
+      "id": "5cf0f8c5-91fd-4462-ab51-717d0a915ebe",
+      "accountNumber": "3711",
+      "name": "Produits intermédiaires A",
+      "type": "ASSET"
+    },
+    {
+      "id": "f3d2c450-ad04-4450-ba9a-cbeb43445d2e",
+      "accountNumber": "3712",
+      "name": "Produits intermédiaires B",
+      "type": "ASSET"
+    },
+    {
+      "id": "3284d21e-6b4e-4da4-b8a4-5901da6bd8d3",
+      "accountNumber": "372",
+      "name": "PRODUITS RÉSIDUELS",
+      "type": "ASSET"
+    },
+    {
+      "id": "ba01279b-74cc-4435-b7a3-54c289a80124",
+      "accountNumber": "3721",
+      "name": "Déchets",
+      "type": "ASSET"
+    },
+    {
+      "id": "1c080439-984a-4722-b7ec-052dfe064cee",
+      "accountNumber": "3722",
+      "name": "Rebuts",
+      "type": "ASSET"
+    },
+    {
+      "id": "65ea909c-7d82-425f-ba15-159020829891",
+      "accountNumber": "3723",
+      "name": "Matières de Récupération",
+      "type": "ASSET"
+    },
+    {
+      "id": "c0a84fb1-0285-4ceb-9ddc-38e126c2e760",
+      "accountNumber": "373",
+      "name": "ACTIFS BIOLOGIQUES",
+      "type": "ASSET"
+    },
+    {
+      "id": "4e0efcf8-2f79-43df-b061-eebd5f46d498",
+      "accountNumber": "3731",
+      "name": "Animaux",
+      "type": "ASSET"
+    },
+    {
+      "id": "c9c95ab1-6ebb-497c-b885-f7d5e6eb25ed",
+      "accountNumber": "3732",
+      "name": "Végétaux",
+      "type": "ASSET"
+    },
+    {
+      "id": "05fd8e0d-78e5-45d7-8071-984fd156b10c",
+      "accountNumber": "3738",
+      "name": "Autres stocks (activités annexes)",
+      "type": "ASSET"
+    },
+    {
+      "id": "0dc30b07-7225-4507-9c8a-86ace90c0b28",
+      "accountNumber": "39",
+      "name": "DÉPRÉCIATIONS DES STOCKS ET ENCOURS DE PRODUCTION",
+      "type": "ASSET"
+    },
+    {
+      "id": "242b344d-84ca-48d8-ad2b-9988b52a0be7",
+      "accountNumber": "391",
+      "name": "DÉPRÉCIATIONS DES STOCKS DE MARCHANDISES",
+      "type": "ASSET"
+    },
+    {
+      "id": "a3f04d8f-d92a-434e-984d-ef7b6afc322d",
+      "accountNumber": "392",
+      "name": "DÉPRÉCIATIONS DES STOCKS DE MATIÈRES PREMIÈRES ET FOURNITURES LIÉES",
+      "type": "ASSET"
+    },
+    {
+      "id": "20e02269-815e-4d2b-99d0-2ca7c868a00c",
+      "accountNumber": "393",
+      "name": "DÉPRÉCIATIONS DES STOCKS D'AUTRES APPROVISIONNEMENTS",
+      "type": "ASSET"
+    },
+    {
+      "id": "c2c5efe0-1d4b-464f-a4d6-a782a3a400e1",
+      "accountNumber": "394",
+      "name": "DÉPRÉCIATIONS DES PRODUCTIONS EN COURS",
+      "type": "ASSET"
+    },
+    {
+      "id": "c3eea13c-70c0-4cce-944e-b203ed716c46",
+      "accountNumber": "395",
+      "name": "DÉPRÉCIATIONS DES SERVICES EN COURS",
+      "type": "ASSET"
+    },
+    {
+      "id": "02f4bc5a-2b56-4fbb-86f5-d88280faff91",
+      "accountNumber": "396",
+      "name": "DÉPRÉCIATIONS DES STOCKS DE PRODUITS FINIS",
+      "type": "ASSET"
+    },
+    {
+      "id": "43889a97-9065-4e3f-b506-dd63f3375997",
+      "accountNumber": "397",
+      "name": "DÉPRÉCIATIONS DES STOCKS DE PRODUITS INTERMÉDIAIRES ET RÉSIDUELS",
+      "type": "ASSET"
+    },
+    {
+      "id": "5aac232e-975d-4a15-99a0-3cf848f9dd14",
+      "accountNumber": "398",
+      "name": "DÉPRÉCIATIONS DES STOCKS EN COURS DE ROUTE, EN CONSIGNATION OU EN DÉPÔT",
+      "type": "ASSET"
+    },
+    {
+      "id": "e291f952-4cd7-41e0-b9d6-2617742a615f",
+      "accountNumber": "50",
+      "name": "VALEURS MOBILIERES DE PLACEMENT",
+      "type": "ASSET"
+    },
+    {
+      "id": "36310461-2a10-4eda-9225-0018141b7005",
+      "accountNumber": "501",
+      "name": "TITRES DU TRESOR ET BONS DE CAISSE A COURT TERME",
+      "type": "ASSET"
+    },
+    {
+      "id": "ab77d257-7f1d-4c92-856c-cce96c81b7c9",
+      "accountNumber": "5011",
+      "name": "Titres du Tresor a court terme",
+      "type": "ASSET"
+    },
+    {
+      "id": "ff6d7c9f-4655-492b-bf1c-b6bcb5b1a8b8",
+      "accountNumber": "5012",
+      "name": "Titres d'organismes financiers",
+      "type": "ASSET"
+    },
+    {
+      "id": "92babf70-a221-4576-8c22-34349e54f244",
+      "accountNumber": "5013",
+      "name": "Bons de caisse a court terme",
+      "type": "ASSET"
+    },
+    {
+      "id": "85e3a2cf-08b3-4078-8ba9-04595296b9a1",
+      "accountNumber": "5016",
+      "name": "Frais d'acquisition des titres de tresor",
+      "type": "ASSET"
+    },
+    {
+      "id": "410f51b3-809a-4794-a8dc-5a57abb22826",
+      "accountNumber": "502",
+      "name": "ACTIONS",
+      "type": "ASSET"
+    },
+    {
+      "id": "809a1577-6d7b-493c-ad60-2db15aa7e723",
+      "accountNumber": "5021",
+      "name": "Actions ou parts propres",
+      "type": "ASSET"
+    },
+    {
+      "id": "a49a267f-e04e-46b8-930e-1b892453fcf9",
+      "accountNumber": "5022",
+      "name": "Actions cotées",
+      "type": "ASSET"
+    },
+    {
+      "id": "ba2aea3b-7f6a-462b-a603-e7d302d5bf7b",
+      "accountNumber": "5023",
+      "name": "Actions non cotées",
+      "type": "ASSET"
+    },
+    {
+      "id": "8af1e51a-3815-4adb-b8a4-6896ef3618b7",
+      "accountNumber": "5024",
+      "name": "Actions demembrees (certificats d'investissement, droits de vote)",
+      "type": "ASSET"
+    },
+    {
+      "id": "864d87ea-7761-4ab0-bde9-2f14923f6402",
+      "accountNumber": "5025",
+      "name": "Autres actions",
+      "type": "ASSET"
+    },
+    {
+      "id": "7ddd75ff-916a-471e-88fe-eecaba8c153e",
+      "accountNumber": "5026",
+      "name": "Frais d'acquisition des actions",
+      "type": "ASSET"
+    },
+    {
+      "id": "9788e2c2-6424-4eba-b720-90146e4dc9ed",
+      "accountNumber": "503",
+      "name": "OBLIGATIONS",
+      "type": "ASSET"
+    },
+    {
+      "id": "097a49c1-0a41-4a0d-bf47-5ab7a236c97a",
+      "accountNumber": "5031",
+      "name": "Obligations emises par la societe et rachetees par elle",
+      "type": "ASSET"
+    },
+    {
+      "id": "a5cab3b7-fead-49c0-8826-280eab109867",
+      "accountNumber": "5032",
+      "name": "Obligations cotées",
+      "type": "ASSET"
+    },
+    {
+      "id": "08abbca0-305f-44b0-ad90-0ab16b6f028a",
+      "accountNumber": "5033",
+      "name": "Obligations non cotées",
+      "type": "ASSET"
+    },
+    {
+      "id": "2f576df5-cdd4-4368-b5ee-f72bc8dd11be",
+      "accountNumber": "5035",
+      "name": "Autres obligations",
+      "type": "ASSET"
+    },
+    {
+      "id": "a7df992a-6aa4-4b54-8e26-ecceb19c691c",
+      "accountNumber": "5036",
+      "name": "Frais d'acquisition des obligations",
+      "type": "ASSET"
+    },
+    {
+      "id": "1ec520d1-6784-47c2-b27f-8855be1ea4a3",
+      "accountNumber": "504",
+      "name": "BONS DE SOUSCRIPTION",
+      "type": "ASSET"
+    },
+    {
+      "id": "cde3acdf-4205-48b4-82c5-ec7b006f92bf",
+      "accountNumber": "5042",
+      "name": "Bons de souscription d'actions",
+      "type": "ASSET"
+    },
+    {
+      "id": "7a23738c-1106-412e-8521-fef172dec960",
+      "accountNumber": "5043",
+      "name": "Bons de souscription d'obligations",
+      "type": "ASSET"
+    },
+    {
+      "id": "fec587ab-e1ad-4321-85f0-519d770aeae9",
+      "accountNumber": "505",
+      "name": "TITRES NEGOCIABLES HORS REGION",
+      "type": "ASSET"
+    },
+    {
+      "id": "b196a12e-8fdb-4f31-bb5f-279358394220",
+      "accountNumber": "506",
+      "name": "INTERETS COURUS",
+      "type": "ASSET"
+    },
+    {
+      "id": "53371b54-5b2f-4c6f-91ab-41a97ea3b184",
+      "accountNumber": "5061",
+      "name": "Titres du Tresor et bons de caisse a court terme",
+      "type": "ASSET"
+    },
+    {
+      "id": "7f4e20ee-0cd4-4a56-acc0-42388691c72f",
+      "accountNumber": "5062",
+      "name": "Actions",
+      "type": "ASSET"
+    },
+    {
+      "id": "4840bf63-c8f8-40cc-8c36-28b20e5f4d73",
+      "accountNumber": "5063",
+      "name": "Obligations",
+      "type": "ASSET"
+    },
+    {
+      "id": "9ebe3f69-85c8-4bca-82d2-1caa0521d501",
+      "accountNumber": "508",
+      "name": "AUTRES TITRES DE PLACEMENT ET CREANCES ASSIMILEES",
+      "type": "ASSET"
+    },
+    {
+      "id": "691428ae-ef21-4df1-9b87-e14f8a164bf5",
+      "accountNumber": "54",
+      "name": "INSTRUMENTS DE TRÉSORERIE",
+      "type": "ASSET"
+    },
+    {
+      "id": "565d91f5-e241-434a-b33f-ad3ee4483f7b",
+      "accountNumber": "541",
+      "name": "OPTIONS DE TAUX D'INTERÊT",
+      "type": "ASSET"
+    },
+    {
+      "id": "362ea8c4-a4f6-4f55-8a91-f72868ce4d73",
+      "accountNumber": "542",
+      "name": "OPTIONS DE TAUX DE CHANGE",
+      "type": "ASSET"
+    },
+    {
+      "id": "a251eae4-5c7e-48de-9685-38143fb86ad1",
+      "accountNumber": "543",
+      "name": "OPTIONS DE TAUX BOURSIERS",
+      "type": "ASSET"
+    },
+    {
+      "id": "042b97ea-5d01-457c-b2be-648aa92d0be6",
+      "accountNumber": "544",
+      "name": "INSTRUMENTS DE MARCHES À TERME",
+      "type": "ASSET"
+    },
+    {
+      "id": "17066e12-a6cb-4638-94e7-cde31562ad48",
+      "accountNumber": "545",
+      "name": "AVOIRS D'OR ET AUTRES MÉTAUX PRECIEUX",
+      "type": "ASSET"
+    },
+    {
+      "id": "daebbaaa-a373-4890-9c62-317719002d4a",
+      "accountNumber": "55",
+      "name": "INSTRUMENTS DE MONNAIE ELECTRONIQUE",
+      "type": "ASSET"
+    },
+    {
+      "id": "2e36296d-076d-497c-ab1f-3435cfd67a08",
+      "accountNumber": "551",
+      "name": "MONNAIE ELECTRONIQUE - CARTE",
+      "type": "ASSET"
+    },
+    {
+      "id": "6cd0cd7c-7e35-459d-bc06-22fd80229cb9",
+      "accountNumber": "552",
+      "name": "MONNAIE ELECTRONIQUE - TELEPHONE PORTABLE",
+      "type": "ASSET"
+    },
+    {
+      "id": "a9b7ea61-7cd2-4c75-b65a-ba2bdc72a53f",
+      "accountNumber": "553",
+      "name": "MONNAIE ELECTRONIQUE - CARTE PEAGE",
+      "type": "ASSET"
+    },
+    {
+      "id": "94fb21d9-1e22-4e35-aa2e-9b4f3a37abeb",
+      "accountNumber": "554",
+      "name": "PORTE-MONNAIE ELECTRONIQUE",
+      "type": "ASSET"
+    },
+    {
+      "id": "4e0942e1-2d42-4a6a-9f56-f5ffff8e89ba",
+      "accountNumber": "558",
+      "name": "AUTRES INSTRUMENTS MONNAIE ELECTRONIQUE",
+      "type": "ASSET"
+    },
+    {
+      "id": "f3fde1f8-ba08-48d7-b2a2-063f05cf711e",
+      "accountNumber": "56",
+      "name": "BANQUES, CRÉDITS DE TRÉSORERIE ET D'ESCOMPTE",
+      "type": "ASSET"
+    },
+    {
+      "id": "ab73f28b-e711-4b2c-bc02-91a252c3504b",
+      "accountNumber": "561",
+      "name": "CRÉDITS DE TRÉSORERIE",
+      "type": "ASSET"
+    },
+    {
+      "id": "df610afa-86e6-4c46-beb5-9050807518b3",
+      "accountNumber": "564",
+      "name": "ESCOMPTE DE CRÉDITS DE CAMPAGNE",
+      "type": "ASSET"
+    },
+    {
+      "id": "79593e60-9a2a-45d6-947c-81ea2f487f11",
+      "accountNumber": "565",
+      "name": "ESCOMPTE DE CRÉDITS ORDINAIRES",
+      "type": "ASSET"
+    },
+    {
+      "id": "db4dec66-46ea-4cf7-9c37-deb17265f056",
+      "accountNumber": "566",
+      "name": "BANQUES, CRÉDITS DE TRÉSORERIE, INTERETS COURUS",
+      "type": "ASSET"
+    },
+    {
+      "id": "5775c8f1-5a89-41bc-9e30-43ebdef32fb5",
+      "accountNumber": "57",
+      "name": "CAISSE",
+      "type": "ASSET"
+    },
+    {
+      "id": "5416b08e-8b25-4ddf-9d66-2688244658b5",
+      "accountNumber": "571",
+      "name": "CAISSE SIEGE SOCIAL",
+      "type": "ASSET"
+    },
+    {
+      "id": "66efe9c3-e958-4ea5-893d-6caddcf8fa8c",
+      "accountNumber": "5711",
+      "name": "Caisse en monnaie nationale",
+      "type": "ASSET"
+    },
+    {
+      "id": "c212df54-6cd6-48a5-9634-df4634121b77",
+      "accountNumber": "5712",
+      "name": "Caisse en devises",
+      "type": "ASSET"
+    },
+    {
+      "id": "a2d20ce6-9151-442c-bcca-2189b93cac54",
+      "accountNumber": "572",
+      "name": "CAISSE SUCCURSALE A",
+      "type": "ASSET"
+    },
+    {
+      "id": "3b65a541-dfe6-40e1-b77c-f9fb66e55c27",
+      "accountNumber": "5721",
+      "name": "en monnaie nationale",
+      "type": "ASSET"
+    },
+    {
+      "id": "4646fca6-b962-486b-ba62-2230b59d4858",
+      "accountNumber": "5722",
+      "name": "en devises",
+      "type": "ASSET"
+    },
+    {
+      "id": "c2ae6bc9-f01c-4a47-97be-7937db4bb06f",
+      "accountNumber": "573",
+      "name": "CAISSE SUCCURSALE B",
+      "type": "ASSET"
+    },
+    {
+      "id": "44f0b8a3-0f36-4d2b-bb60-57374b5d9cbb",
+      "accountNumber": "5731",
+      "name": "en monnaie nationale",
+      "type": "ASSET"
+    },
+    {
+      "id": "6f9bd91c-2a29-42bf-bbdc-c14bc01b7eec",
+      "accountNumber": "5732",
+      "name": "en devises",
+      "type": "ASSET"
+    },
+    {
+      "id": "ec41cf48-74c2-4522-95d9-97da26f15994",
+      "accountNumber": "601",
+      "name": "Achats de livres",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "72af4242-0d05-4dcd-9a3f-9473fed80819",
+      "accountNumber": "602",
+      "name": "Personnel",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "14e66461-ef1d-49d4-a15f-b0151338eec7",
+      "accountNumber": "603",
+      "name": "Loyer",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "e99d672d-3857-4a9a-81b6-099f57416f2f",
+      "accountNumber": "604",
+      "name": "Utilities",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "019e9182-aea4-46cf-b03f-c9b6f428f4d0",
+      "accountNumber": "62",
+      "name": "AUTRES SERVICES EXTÉRIEURS",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "56e140e1-f0dc-4abb-b543-02375d6c1703",
+      "accountNumber": "621",
+      "name": "SOUS-TRAITANCE GENERALE",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "ee739767-4bfe-4933-ad87-fe397460f7ba",
+      "accountNumber": "622",
+      "name": "LOCATIONS, CHARGES LOCATIVES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "0945ab28-c79f-45f0-8e55-c3df3ab0c4d8",
+      "accountNumber": "6221",
+      "name": "Locations de terrains",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "d2ff8e6b-b54a-42c3-a835-237b56311fab",
+      "accountNumber": "6222",
+      "name": "Locations de bâtiments",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "c526ef78-089b-4a01-ad06-100d0dccead8",
+      "accountNumber": "6223",
+      "name": "Locations de matériels et outillages",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "62602b20-fd3a-4454-8d90-4a3ce6407ed2",
+      "accountNumber": "6224",
+      "name": "Malis sur emballages",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "a6ab9c03-2780-4bfc-b8c8-2c8c4e7c63f5",
+      "accountNumber": "6225",
+      "name": "Locations d'emballages",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "2858af5b-8982-470f-8d68-52cc887b5163",
+      "accountNumber": "6226",
+      "name": "Fermages et loyers du foncier",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "aeb454ca-df12-44e6-98bf-ebac5f551e1d",
+      "accountNumber": "6228",
+      "name": "Locations et charges locatives diverses",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "1468dbfb-b544-413c-94c5-b919fe5ebb52",
+      "accountNumber": "623",
+      "name": "REDEVANCES DE LOCATION ACQUISITION",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "1ebdd178-9a46-4cf8-9df7-a0332540068f",
+      "accountNumber": "6232",
+      "name": "Crédit-bail immobilier",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "58fd8bbc-56d0-47ec-bbb5-f020fd23962d",
+      "accountNumber": "6233",
+      "name": "Crédit-bail mobilier",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "46f014f2-5154-4151-a808-0051350db663",
+      "accountNumber": "6234",
+      "name": "Location vente",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "c58ed091-b123-4d4e-9d61-417e9ee80a74",
+      "accountNumber": "6238",
+      "name": "Autres contrats de location acquisition",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "2feebe0e-c390-4d50-ace8-8e65fd3dda97",
+      "accountNumber": "624",
+      "name": "ENTRETIENS, REPARATIONS, REMISE EN ETAT, MAINTENANCE",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "48dcefd5-6855-4338-9245-12ec0b1ac5df",
+      "accountNumber": "6241",
+      "name": "Entretien et réparations des biens immobiliers",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "10b1990e-7d09-4271-a3da-f16b2a3fca48",
+      "accountNumber": "6242",
+      "name": "Entretien et réparations des biens mobiliers",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "ab67e73b-e605-4a69-b09a-3574c3246d91",
+      "accountNumber": "6243",
+      "name": "Maintenance",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "0131b028-f47f-4cae-a213-1bf8fe2c5ecc",
+      "accountNumber": "6244",
+      "name": "Charges de démantèlement et remise en état",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "a28ced78-6667-467f-a6a9-61a3a4d1965f",
+      "accountNumber": "6248",
+      "name": "Autres entretiens et réparations",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "9836f2c5-7217-4eeb-a334-2f1fcfb32373",
+      "accountNumber": "625",
+      "name": "PRIMES D'ASSURANCE",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "6707ec7c-830b-4a49-9ec0-09e616137fab",
+      "accountNumber": "6251",
+      "name": "Assurances multirisques",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "76b65d92-2988-4c0c-bdea-10efdc5fd00d",
+      "accountNumber": "6252",
+      "name": "Assurances matériel de transport",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "22c69ef4-e40c-4755-b357-cfdb8abb2b61",
+      "accountNumber": "6253",
+      "name": "Assurances risques d'exploitation",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "0b519fbc-9287-41fe-bf3f-3a5d98de1817",
+      "accountNumber": "6254",
+      "name": "Assurances responsabilité du producteur",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "ec349c7b-ce15-4466-bd71-0a7846443b9a",
+      "accountNumber": "6255",
+      "name": "Assurances insolvabilité clients",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "93c36ee7-ea86-4cd4-a071-460b70c1a893",
+      "accountNumber": "6257",
+      "name": "Assurances transport sur ventes",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "c87f30ea-7954-4c85-916c-e8e66012387c",
+      "accountNumber": "6258",
+      "name": "Autres primes d'assurances",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "9f7abdda-4519-4be9-9e3c-3c391e322741",
+      "accountNumber": "626",
+      "name": "ETUDES, RECHERCHES ET DOCUMENTATION",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "1a75c8ff-5a5c-4622-bc33-40871247a411",
+      "accountNumber": "6261",
+      "name": "Études et recherches",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "901b7125-860d-4d3c-8848-3515a9347077",
+      "accountNumber": "6265",
+      "name": "Documentation générale",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "a2511f9c-05e0-47d3-a8bd-63468fc9973e",
+      "accountNumber": "627",
+      "name": "PUBLICITE, PUBLICATIONS, RELATIONS PUBLIQUES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "dbf348b2-12a0-47fe-a59b-30203a7ca56e",
+      "accountNumber": "6271",
+      "name": "Annonces, insertions",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "fe847465-523b-40a2-a2cf-5a1cfa101e7a",
+      "accountNumber": "6272",
+      "name": "Catalogues, imprimés publicitaires",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "130b7132-14c7-45a4-91dc-1c24d53e922d",
+      "accountNumber": "6273",
+      "name": "Echantillons",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "0f40595d-1ff2-40c8-ac7f-20e4fe268b4a",
+      "accountNumber": "6274",
+      "name": "Foires et expositions",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "d2b5e589-9087-4443-b974-b533741ed375",
+      "accountNumber": "6275",
+      "name": "Publications",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "752bbe5c-171b-4744-b33a-11a85efd5aac",
+      "accountNumber": "6276",
+      "name": "Cadeaux à la clientèle",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "2e979ccf-cf5a-462a-bc6c-c33fd9dbfe16",
+      "accountNumber": "6277",
+      "name": "Frais de colloques, séminaires, conférences",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "acf168e3-6d7b-458a-a98f-4ec70125be41",
+      "accountNumber": "6278",
+      "name": "Autres charges de publicité et relations publiques",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "b748266b-886c-48c4-b685-b3d19917408c",
+      "accountNumber": "628",
+      "name": "FRAIS DE TÉLÉCOMMUNICATIONS",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "c6580875-a3b2-4ff8-bb5a-5e14c202fe1b",
+      "accountNumber": "6281",
+      "name": "Frais de téléphone",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "dbb3ba88-dee5-4f7a-8305-7047694debeb",
+      "accountNumber": "6282",
+      "name": "Frais de télex",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "14da5598-1479-48b8-a886-346f688a7a48",
+      "accountNumber": "6283",
+      "name": "Frais de télécopie",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "e5d9bd5a-15e7-4732-a99a-afa86b06f1b4",
+      "accountNumber": "6288",
+      "name": "Autres frais de télécommunications",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "2c0893d4-7f85-439f-bd8f-c6ef938c306b",
+      "accountNumber": "63",
+      "name": "AUTRES SERVICES EXTÉRIEURS (SUITE)",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "7260fd27-9816-4e3c-8d33-aa730ecbb9f4",
+      "accountNumber": "631",
+      "name": "FRAIS BANCAIRES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "aff62bdd-9113-47ff-b530-d05e17b4e477",
+      "accountNumber": "6311",
+      "name": "Frais sur titres (vente, garde)",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "f9532894-bdf6-45a2-99cf-01316dd0c75f",
+      "accountNumber": "6312",
+      "name": "Frais sur effets",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "a0d87cbb-5bae-407c-b028-0ffe32eb3469",
+      "accountNumber": "6313",
+      "name": "Location de coffres",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "e1d0e8b1-2096-4be8-8da9-a086c103b391",
+      "accountNumber": "6314",
+      "name": "Commissions d'affacturage",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "e6f83c4d-6191-4cd6-91a8-de273f5bc6ce",
+      "accountNumber": "6315",
+      "name": "Commissions sur cartes de crédit",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "9c5ba1df-58c5-4585-8186-95e1999a4f84",
+      "accountNumber": "6316",
+      "name": "Frais d'émission d'emprunts",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "0c8db1df-3551-404f-96cb-676f2018d98d",
+      "accountNumber": "6317",
+      "name": "Frais sur instruments monnaie électronique",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "105d6127-dc06-428a-ba8b-69b910aa8f5e",
+      "accountNumber": "6318",
+      "name": "Autres frais bancaires",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "6fcf35c6-6b6f-4058-af64-5690740ef0ba",
+      "accountNumber": "632",
+      "name": "AUTRES FRAIS",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "c1088aba-c711-4e46-b5ae-bf354797ff78",
+      "accountNumber": "6322",
+      "name": "Commissions et courtages sur ventes",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "727411b9-91d2-42a1-b59e-c75d042e2330",
+      "accountNumber": "6324",
+      "name": "Honoraires des professions réglementées",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "aac11608-1f7b-43a0-8a53-8c98a54464ce",
+      "accountNumber": "6326",
+      "name": "Frais d'actes et de contentieux",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "d28f4e06-0dea-41f4-b383-c1e651a32286",
+      "accountNumber": "6327",
+      "name": "Rémunérations d'affacturage",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "7ba85226-d116-43cf-9b28-08b784e41832",
+      "accountNumber": "6328",
+      "name": "Rémunérations des autres prestataires de services",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "577617f2-6a2c-4cb3-969a-328cecdc79be",
+      "accountNumber": "633",
+      "name": "FRAIS DE FORMATION DU PERSONNEL",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "e43d2f90-a021-4fa1-a453-a8b16c0a492f",
+      "accountNumber": "634",
+      "name": "REDEVANCES POUR BREVETS, LICENCES, VALEURS SIMILAIRES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "49933210-142b-4b47-a176-83042bdfd0c9",
+      "accountNumber": "6342",
+      "name": "Redevances pour brevets, licences",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "9304157f-99e9-4d95-970b-25e1e2df3824",
+      "accountNumber": "6343",
+      "name": "Redevances pour logiciels",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "94def9d3-8d3d-4233-8f92-9e970e0e16e1",
+      "accountNumber": "6344",
+      "name": "Redevances pour marques",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "9c9c658e-a3ef-4c95-8c48-2414fde76c49",
+      "accountNumber": "6345",
+      "name": "Redevances pour sites internet",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "44b6c2cd-a6df-49e4-b51a-4bdd25613c24",
+      "accountNumber": "635",
+      "name": "COTISATIONS",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "9b9a18b6-aec8-4da8-83c5-20ea9b8488fe",
+      "accountNumber": "6351",
+      "name": "Cotisations",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "fd2e597f-6855-4951-815d-26e99c2ee93b",
+      "accountNumber": "6358",
+      "name": "Concours divers",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "e0699903-9663-404d-87c8-d6c156b96e37",
+      "accountNumber": "637",
+      "name": "REMUNERATIONS DE PERSONNEL EXTÉRIEUR",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "edefc29b-76ab-473c-ae10-e7f129ea6fdb",
+      "accountNumber": "6371",
+      "name": "Personnel intérimaire",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "c471e166-18d0-47ea-a0c9-0ee5e64078d7",
+      "accountNumber": "6372",
+      "name": "Personnel détaché ou prêté à l'entité",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "6f7acf7b-7528-4326-be94-8f9037d6efad",
+      "accountNumber": "638",
+      "name": "AUTRES CHARGES EXTERNES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "3427b402-de82-4bf4-8dc8-4da23f960d48",
+      "accountNumber": "6381",
+      "name": "Frais de recrutement du personnel",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "f1b44115-6b7b-4088-8834-80c6dbc371e4",
+      "accountNumber": "6382",
+      "name": "Frais de déménagement",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "83e3f03c-8608-4ff4-909e-fad21df136d1",
+      "accountNumber": "6383",
+      "name": "Réceptions",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "877ae81a-de75-4556-a579-dc65581ed544",
+      "accountNumber": "6384",
+      "name": "Missions",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "dc67aba4-f75c-489f-a9c7-c4767f2f59d9",
+      "accountNumber": "6385",
+      "name": "Charges de copropriété",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "a6515898-ae4f-46b5-817a-f9d39e353a3b",
+      "accountNumber": "6388",
+      "name": "Charges externes diverses",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "6bf6fa6f-794f-4cee-9cad-54508fb351ed",
+      "accountNumber": "64",
+      "name": "IMPÔTS ET TAXES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "fba2b1b8-8f2e-4e52-b416-0325ff878a56",
+      "accountNumber": "641",
+      "name": "IMPÔTS ET TAXES DIRECTS",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "2d810435-51a8-4186-ac64-cde42820ec24",
+      "accountNumber": "6411",
+      "name": "Impôts fonciers et taxes annexes",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "8990f870-dd32-4bc0-b16d-8c4fb12b6c43",
+      "accountNumber": "6412",
+      "name": "Patentes, licences et taxes annexes",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "4e3e87f6-83f2-4c4d-93c4-debd076cc5b3",
+      "accountNumber": "6413",
+      "name": "Taxes sur appointements et salaires",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "43ad7ee8-9e2a-47ba-ba0b-1bc038a3f7ef",
+      "accountNumber": "6414",
+      "name": "Taxes d'apprentissage",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "6cd3ec32-cf35-4ca1-87b3-a356c8592ee7",
+      "accountNumber": "6415",
+      "name": "Formation professionnelle continue",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "7c27b784-8acd-4ccf-a475-3be6ee453660",
+      "accountNumber": "6418",
+      "name": "Autres impôts et taxes directs",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "495353e7-670f-427e-8892-4ae68a6e64e4",
+      "accountNumber": "65",
+      "name": "AUTRES CHARGES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "91183b95-549c-48c5-a4d2-c6011c7556b2",
+      "accountNumber": "651",
+      "name": "PERTES SUR CRÉANCES CLIENTS ET AUTRES DÉBITEURS",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "86d93f5c-a3b9-4157-a3f6-a94f68bc292e",
+      "accountNumber": "6511",
+      "name": "Clients",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "6f8b2a27-408a-4a59-88de-d7161b0798cd",
+      "accountNumber": "6515",
+      "name": "Autres débiteurs",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "a4dfdfba-7ccd-4121-b4cd-b4bd9673b4cb",
+      "accountNumber": "652",
+      "name": "QUOTE-PART DE RÉSULTAT SUR OPERATIONS FAITES EN COMMUN",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "e7e0b2e3-405c-463c-8420-f14c6d406d0e",
+      "accountNumber": "6521",
+      "name": "Quote-part transférée de bénéfices (comptabilité du gérant)",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "1a842aef-6065-4484-8eaf-bd0e504d12dd",
+      "accountNumber": "6525",
+      "name": "Pertes imputées par transfert (comptabilité des associés non gérants)",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "0167ff89-8ed5-4861-bab3-02ec67e82218",
+      "accountNumber": "654",
+      "name": "VALEURS COMPTABLES DES CESSIONS COURANTES D'IMMOBILISATIONS",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "1bc4fd72-ccd0-4441-a1d7-cde0f9de4e6c",
+      "accountNumber": "6541",
+      "name": "Immobilisations incorporelles",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "661a7dd1-dda2-473e-85b9-0009c858efd9",
+      "accountNumber": "6542",
+      "name": "Immobilisations corporelles",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "87b97dde-d89b-4d50-b564-ddcaf2124e22",
+      "accountNumber": "656",
+      "name": "PERTE DE CHANGE SUR CRÉANCES ET DETTES COMMERCIALES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "ad1ec445-cc8d-47f3-b4cf-7f4e33fc99da",
+      "accountNumber": "657",
+      "name": "PENALITES ET AMENDES PENALES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "e8cba30d-48b6-4cb6-9b8f-2236ae06626d",
+      "accountNumber": "658",
+      "name": "CHARGES DIVERSES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "cbac5db2-fda1-48ce-9757-3f6d637fe3b7",
+      "accountNumber": "6581",
+      "name": "Indemnités de fonction et autres rémunérations d'administrateurs",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "8031fdde-715e-443f-ab5f-6bf275aa69ad",
+      "accountNumber": "6582",
+      "name": "Dons",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "7d8768c1-ca9d-4c0b-b408-cfb5232d7d91",
+      "accountNumber": "6583",
+      "name": "Mécénat",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "24d736a4-f7c7-4494-bfbb-0d5b21d3fd3a",
+      "accountNumber": "6588",
+      "name": "Autres charges diverses",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "8e20a28d-0d0f-4e58-ab46-1363568d2397",
+      "accountNumber": "659",
+      "name": "CHARGES POUR DEPRECIATIONS ET PROVISIONS POUR RISQUES A COURT TERME D'EXPLOITATION",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "ef42919a-d4a9-4149-89db-7847217a1484",
+      "accountNumber": "6591",
+      "name": "sur risques à court terme",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "ec85ef77-9120-4681-8e68-5c6a3f7ee624",
+      "accountNumber": "6593",
+      "name": "sur stocks",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "632c7c31-4f1d-44ae-9dae-57bfd4b26e8a",
+      "accountNumber": "6594",
+      "name": "sur créances",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "661275d5-d62a-4dc7-8d39-4a17ef55bb40",
+      "accountNumber": "6598",
+      "name": "Autres charges pour dépréciations et provisions pour risques à court terme",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "7de18e32-f857-4a17-acae-751ca32681c0",
+      "accountNumber": "66",
+      "name": "CHARGES DE PERSONNEL",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "ae47738f-fe4a-40f4-9869-90b172dd0803",
+      "accountNumber": "661",
+      "name": "RÉMUNÉRATIONS DIRECTES VERSÉES AU PERSONNEL NATIONAL",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "4776048d-4c72-4c6d-90ec-b3030a0813d7",
+      "accountNumber": "6611",
+      "name": "Appointements salaires et commissions",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "d6f1c89e-06d8-4de2-9917-dded0303b234",
+      "accountNumber": "6612",
+      "name": "Primes et gratifications",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "80ef402d-7b83-4cee-bc7d-3281733829cd",
+      "accountNumber": "6613",
+      "name": "Congés payés",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "a2486172-cead-4a6e-8baa-79c9c60b6657",
+      "accountNumber": "6614",
+      "name": "Indemnités de préavis, de licenciement et de recherche d'embauche",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "c9ce72d0-6904-4a80-9576-84c6b8360a6b",
+      "accountNumber": "6615",
+      "name": "Indemnités de maladie versées aux travailleurs",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "0afe5cf6-4e19-4be8-bda3-797564e53844",
+      "accountNumber": "6616",
+      "name": "Supplément familial",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "4c56be70-ae61-4630-8bea-0c7e497af872",
+      "accountNumber": "6617",
+      "name": "Avantages en nature",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "923d2a43-3d78-4e15-9543-9e967e72b605",
+      "accountNumber": "6618",
+      "name": "Autres rémunérations directes",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "fc92fed2-c255-40ba-87f3-a12bcadb28b7",
+      "accountNumber": "662",
+      "name": "RÉMUNÉRATIONS DIRECTES VERSÉES AU PERSONNEL NON NATIONAL",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "7dc31f58-f003-4410-9d13-81c22ab53d3c",
+      "accountNumber": "6621",
+      "name": "Appointements salaires et commissions",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "8bcc6314-4557-4105-856c-de3445903cb8",
+      "accountNumber": "6622",
+      "name": "Primes et gratifications",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "81d9b588-571c-4ff5-9706-861f2953a6aa",
+      "accountNumber": "6623",
+      "name": "Congés payés",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "d029a286-0f9e-4a66-9845-b3bfeb936c38",
+      "accountNumber": "6624",
+      "name": "Indemnités de préavis, de licenciement et de recherche d'embauche",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "cdee9b9e-f497-41e5-a606-34ae0812b836",
+      "accountNumber": "6625",
+      "name": "Indemnités de maladie versées aux travailleurs",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "9700227d-00d9-490e-bbb0-083bde5d6714",
+      "accountNumber": "663",
+      "name": "INDEMNITÉS FORFAITAIRES VERSÉES AU PERSONNEL",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "832c8ee7-14d2-4c78-b3f8-933c6ba4f3df",
+      "accountNumber": "6631",
+      "name": "Indemnités de logement",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "78f725d7-efce-4084-8bbf-51ec17f2b227",
+      "accountNumber": "6632",
+      "name": "Indemnités de représentation",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "598ffa0a-9d9d-4320-b036-5ddb7f434068",
+      "accountNumber": "6633",
+      "name": "Indemnités d'expatriation",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "563aa4cb-021a-4fcd-8590-d99b9f0d34af",
+      "accountNumber": "6634",
+      "name": "Indemnités de transport",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "0332d523-aece-4385-88d3-50161bd27dcf",
+      "accountNumber": "6638",
+      "name": "Autres indemnités et avantages divers",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "f8faf0cf-6ee5-4f2e-b38c-c128640d56cd",
+      "accountNumber": "664",
+      "name": "CHARGES SOCIALES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "757584c6-d9ba-4ba2-96e6-4e9d126f84f4",
+      "accountNumber": "6641",
+      "name": "Charges sociales sur rémunération du personnel national",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "0c6dc548-9971-4766-8274-7283fedff137",
+      "accountNumber": "6642",
+      "name": "Charges sociales sur rémunération du personnel non national",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "87f3c096-2558-4bcf-a080-cfdcdead3cdf",
+      "accountNumber": "666",
+      "name": "RÉMUNÉRATIONS ET CHARGES SOCIALES DE L'EXPLOITANT INDIVIDUEL",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "886a9165-b5fb-4f39-a4a6-f79b4c3a2524",
+      "accountNumber": "6661",
+      "name": "Rémunération du travail de l'exploitant",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "fcdc47ae-d047-4207-9725-f47c0eae39a0",
+      "accountNumber": "6662",
+      "name": "Charges sociales",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "090b11d6-74d6-4181-aa08-887fe0f72204",
+      "accountNumber": "667",
+      "name": "RÉMUNÉRATION TRANSFÉRÉE DE PERSONNEL EXTÉRIEUR",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "c7dc0d02-3dcd-4a50-b5d1-b8ced3036b4e",
+      "accountNumber": "6671",
+      "name": "Personnel intérimaire",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "09acc275-6e7a-4bff-b6c2-35b5abf50c67",
+      "accountNumber": "6672",
+      "name": "Personnel détaché ou prêté à l'entité",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "1d713993-7767-4863-9f17-d439fa8236d2",
+      "accountNumber": "668",
+      "name": "AUTRES CHARGES SOCIALES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "3eb9afba-7a0c-4269-a470-675e6e241906",
+      "accountNumber": "6681",
+      "name": "Versements aux Syndicats et Comités d'entreprise, d'établissement",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "4b9bc255-72f2-4b8a-a131-5641dc161d4e",
+      "accountNumber": "6682",
+      "name": "Versements aux Comités d'hygiène et de sécurité",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "07c04074-c92f-4997-9c12-66ecedddaaba",
+      "accountNumber": "6683",
+      "name": "Versements et contributions aux autres œuvres sociales",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "e094678f-2228-408c-9498-335b660cd922",
+      "accountNumber": "6684",
+      "name": "Médecine du travail et pharmacie",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "061c29b0-265a-47aa-bf9f-9f78c2146add",
+      "accountNumber": "6685",
+      "name": "Assurances et organismes de santé",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "ed0b20cf-8c98-4f3c-8914-a78ef71cfd63",
+      "accountNumber": "6686",
+      "name": "Assurances retraite et fonds de pension",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "6d28d485-2166-48f9-8028-c052cdce2eeb",
+      "accountNumber": "6687",
+      "name": "Majorations et pénalités sociales",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "08362d6b-0249-47f1-b9be-f8554aefc3b6",
+      "accountNumber": "6688",
+      "name": "Charges sociales diverses",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "2d3512b5-c9cb-4d4b-be28-1f4025a5586f",
+      "accountNumber": "67",
+      "name": "FRAIS FINANCIERS ET CHARGES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "f6993a98-41cb-437f-9471-fb37e5cf1e92",
+      "accountNumber": "671",
+      "name": "INTERETS DES EMPRUNTS",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "4b39987c-d134-417c-96b4-ceb67773b0ae",
+      "accountNumber": "6711",
+      "name": "Emprunts obligataires",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "cb7bc07d-d637-4c2c-928a-cb5ed68c6e1c",
+      "accountNumber": "6712",
+      "name": "Emprunts auprès des établissements de crédit",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "2f879f43-882f-4559-a2c0-dfa1fdcb8c31",
+      "accountNumber": "6713",
+      "name": "Dettes liées à des participations",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "5cdee954-f1eb-4266-9223-53077c320b5a",
+      "accountNumber": "6714",
+      "name": "Primes de remboursement des obligations",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "dd75f7be-6556-49f1-8e01-3aa7833bddca",
+      "accountNumber": "672",
+      "name": "INTERETS DANS LOYERS DE LOCATION ACQUISITION",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "80723013-5cef-4123-a560-ac07b6308c24",
+      "accountNumber": "6722",
+      "name": "Intérêts dans loyer de location crédit-bail immobilier",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "1219b8bf-13c2-4f30-a757-84b6e7a1a891",
+      "accountNumber": "6723",
+      "name": "Intérêts dans loyer de location crédit-bail mobilier",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "6c548668-d061-449e-af4d-d75885be392f",
+      "accountNumber": "6724",
+      "name": "Intérêts dans loyer de location location vente",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "fe69e9a5-74a1-417c-8679-4060cc685afc",
+      "accountNumber": "6728",
+      "name": "Intérêts dans loyer des autres locations acquisition",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "9139149e-44bd-4c3d-89dd-cc4a4dc45812",
+      "accountNumber": "673",
+      "name": "ESCOMPTES ACCORDÉS",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "b17619e3-4d71-44f4-897d-ade22ce69dab",
+      "accountNumber": "674",
+      "name": "AUTRES INTERETS",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "b2d820d4-50db-4030-b4ad-ef01011337da",
+      "accountNumber": "6741",
+      "name": "Avances reçues et dépôts créditeurs",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "81eb32b2-6fd8-4a1f-8ef2-3941a37f8acb",
+      "accountNumber": "6742",
+      "name": "Comptes courants bloqués",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "ab8ccb80-a923-4880-8b70-e7c11953cdb8",
+      "accountNumber": "6743",
+      "name": "Intérêts sur obligations cautionnées",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "10249c08-90f2-4222-a5ca-2a058b558349",
+      "accountNumber": "6744",
+      "name": "Intérêts sur dettes commerciales",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "68d562cb-1f35-4b0b-a560-4e72afa2279c",
+      "accountNumber": "6745",
+      "name": "Intérêts bancaires et sur opérations de financement (escomptes ...)",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "e8f2e0e7-08f4-462b-92e9-3178aea573fa",
+      "accountNumber": "6748",
+      "name": "Intérêts sur dettes diverses",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "5208a6d2-5ae9-4e32-a1bf-54989959ce67",
+      "accountNumber": "675",
+      "name": "ESCOMPTES DES EFFETS DE COMMERCE",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "055d17ec-b365-4470-bcec-45fc56595f8a",
+      "accountNumber": "676",
+      "name": "PERTES DE CHANGE FINANCIERES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "3cce252c-153f-4326-bc66-c5113dd8639e",
+      "accountNumber": "677",
+      "name": "PERTES SUR TITRES DE PLACEMENT",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "7238baf1-0651-4ec0-8ad5-7230211fe879",
+      "accountNumber": "6771",
+      "name": "Pertes sur cessions de titres de placement",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "94132507-7848-47f5-b688-f02f30bd5813",
+      "accountNumber": "6772",
+      "name": "Malis provenant d'attribution gratuite d'actions au personnel salarié et aux dirigeants",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "9cab99f1-3bfa-4392-875c-ff4f16f92118",
+      "accountNumber": "678",
+      "name": "PERTES ET CHARGES SUR RISQUES FINANCIERS",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "7e6e0e22-ed5b-49ff-8f02-3e41acd800d3",
+      "accountNumber": "6781",
+      "name": "sur rentes viagères",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "b9cb5cf0-a281-4491-a57b-c2f3993b0a98",
+      "accountNumber": "6782",
+      "name": "sur opérations financières",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "2b4158df-9720-4e65-ab3a-d5f8f548e385",
+      "accountNumber": "6784",
+      "name": "sur instruments de trésorerie",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "1c77ef74-0f27-48ea-918e-5f21d545a7f3",
+      "accountNumber": "679",
+      "name": "CHARGES POUR DEPRECIATIONS ET PROVISIONS POUR RISQUES A COURT TERME FINANCIERES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "0e1d948b-5d0b-4b31-9f09-05af3cc2ee6d",
+      "accountNumber": "6791",
+      "name": "sur risques financiers",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "bbacffee-a462-4a2e-9864-4be7fd52140a",
+      "accountNumber": "6795",
+      "name": "sur titres de placement",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "8f708bbf-ca24-4fe8-af87-ce84555d07c9",
+      "accountNumber": "6798",
+      "name": "Autres charges pour dépréciations et provisions pour risques à court terme financières",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "9baac59d-b451-4028-b5d7-aba662b494d0",
+      "accountNumber": "68",
+      "name": "DOTATIONS AUX AMORTISSEMENTS",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "aeeb66bf-f0d3-49ca-acdd-0e7d8f1e4232",
+      "accountNumber": "681",
+      "name": "DOTATIONS AUX AMORTISSEMENTS D'EXPLOITATION",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "f8c86faf-16ed-4f9e-aa14-cee3b3896968",
+      "accountNumber": "6812",
+      "name": "Dotations aux amortissements des immobilisations incorporelles",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "7969b372-ed17-46b5-bd20-9b2e59e26420",
+      "accountNumber": "6813",
+      "name": "Dotations aux amortissements des immobilisations corporelles",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "7703688d-f0dd-41e6-8929-61fd28a2a593",
+      "accountNumber": "69",
+      "name": "DOTATIONS AUX PROVISIONS ET AUX DEPRECIATIONS",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "ab846a97-abb0-4742-8358-e4ea12abe9ed",
+      "accountNumber": "691",
+      "name": "DOTATIONS AUX PROVISIONS ET AUX DEPRECIATIONS D'EXPLOITATION",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "6b459b7b-a3ec-493d-a72b-c01511bad1b3",
+      "accountNumber": "6911",
+      "name": "Dotations aux provisions pour risques et charges",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "da22827d-23fd-43a5-a70b-a2212ff2b5dd",
+      "accountNumber": "6913",
+      "name": "Dotations aux dépréciations des immobilisations incorporelles",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "108f3ef0-f569-43f8-8c94-a15e93bd5c0b",
+      "accountNumber": "6914",
+      "name": "Dotations aux dépréciations des immobilisations corporelles",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "1bc004fa-826d-48d1-a08a-bab154e79b01",
+      "accountNumber": "697",
+      "name": "DOTATIONS AUX PROVISIONS ET AUX DEPRECIATIONS FINANCIERES",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "85a96d9d-16a6-4220-a507-1138dbbc0cc1",
+      "accountNumber": "6971",
+      "name": "Dotations aux provisions pour risques et charges",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "00d3cf08-7214-4e76-9aeb-cb588f3d56f8",
+      "accountNumber": "6972",
+      "name": "Dotations aux dépréciations des immobilisations financières",
+      "type": "EXPENSE"
+    },
+    {
+      "id": "4467693c-e9bc-45e9-ac45-861444606c31",
+      "accountNumber": "70",
+      "name": "VENTES",
+      "type": "REVENUE"
+    },
+    {
+      "id": "85307468-040f-4e5f-818a-e216c028873a",
+      "accountNumber": "701",
+      "name": "Ventes de livres",
+      "type": "REVENUE"
+    },
+    {
+      "id": "cb9dd087-0942-40ac-a92f-b06ff504fd2a",
+      "accountNumber": "7011",
+      "name": "dans la Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "20ffada0-c591-43de-adb6-356cd0ef7309",
+      "accountNumber": "7012",
+      "name": "hors Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "52ac448b-351d-430a-9786-129353704ce1",
+      "accountNumber": "7013",
+      "name": "aux entités du groupe dans la Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "d6794bb9-856b-45aa-93a2-a06ca135d995",
+      "accountNumber": "7014",
+      "name": "aux entités du groupe hors Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "61a08c17-1597-4125-8e8a-646147b3f845",
+      "accountNumber": "7015",
+      "name": "sur internet",
+      "type": "REVENUE"
+    },
+    {
+      "id": "07cd71da-5e5c-45a0-b2ba-685e9d9d19ad",
+      "accountNumber": "7019",
+      "name": "Rabais, remises, ristournes, accords (non ventilés)",
+      "type": "REVENUE"
+    },
+    {
+      "id": "7dbdecaf-15b0-4fbc-b88c-46a2a54383e7",
+      "accountNumber": "702",
+      "name": "Dons financiers",
+      "type": "REVENUE"
+    },
+    {
+      "id": "2db259e5-ef91-4764-89db-da314f2ea892",
+      "accountNumber": "7021",
+      "name": "dans la Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "b2e1412d-66a0-4040-90ec-c24c4a1f439f",
+      "accountNumber": "7022",
+      "name": "hors Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "0bb55fa0-8a94-4d96-97d6-508b8f6949cc",
+      "accountNumber": "7023",
+      "name": "aux entités du groupe dans la Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "f18984ab-3211-4ce2-9292-f7885f27838e",
+      "accountNumber": "7024",
+      "name": "aux entités du groupe hors Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "50b3e0db-f6b5-4772-9887-a8f1258ceb5a",
+      "accountNumber": "7025",
+      "name": "sur internet",
+      "type": "REVENUE"
+    },
+    {
+      "id": "44ff6dbf-9829-4b01-98b0-e32e66b0488d",
+      "accountNumber": "7029",
+      "name": "Rabais, remises, ristournes, accords (non ventilés)",
+      "type": "REVENUE"
+    },
+    {
+      "id": "3be88ea2-af0d-4cf1-a940-34c9d2678ac7",
+      "accountNumber": "703",
+      "name": "Services",
+      "type": "REVENUE"
+    },
+    {
+      "id": "e537d700-b5b6-41b6-a2c2-56abd425845b",
+      "accountNumber": "7031",
+      "name": "dans la Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "c7f236a6-3fa1-481d-a3ff-19a2a1c002d7",
+      "accountNumber": "7032",
+      "name": "hors Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "92850a9c-a18e-40c3-8173-97e110c51af2",
+      "accountNumber": "7033",
+      "name": "aux entités du groupe dans la Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "e2dd8ce7-19ff-4128-8f0d-eeca5bd78560",
+      "accountNumber": "7034",
+      "name": "aux entités du groupe hors Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "8bc2ef33-7d3d-42ec-8319-a06f7871a097",
+      "accountNumber": "7035",
+      "name": "sur internet",
+      "type": "REVENUE"
+    },
+    {
+      "id": "5842832a-d287-4cb8-8718-eadf881af419",
+      "accountNumber": "7039",
+      "name": "Rabais, remises, ristournes, accords (non ventilés)",
+      "type": "REVENUE"
+    },
+    {
+      "id": "51a63bfe-100f-4e7a-9ee6-6cfc04c446e8",
+      "accountNumber": "704",
+      "name": "VENTES DE PRODUITS RÉSIDUELS",
+      "type": "REVENUE"
+    },
+    {
+      "id": "cb118f38-89f0-4080-b357-4359dac63066",
+      "accountNumber": "7041",
+      "name": "dans la Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "5301ecc9-6fca-428b-b940-f937af373724",
+      "accountNumber": "7042",
+      "name": "hors Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "e3ef4af2-c320-4e8b-a476-3f8a69ce993c",
+      "accountNumber": "7043",
+      "name": "aux entités du groupe dans la Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "af862aa7-b523-47a9-945e-9c60a8f9b1cc",
+      "accountNumber": "7044",
+      "name": "aux entités du groupe hors Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "caed3f1f-6aab-45e5-ad0f-84d9148b620a",
+      "accountNumber": "7045",
+      "name": "sur internet",
+      "type": "REVENUE"
+    },
+    {
+      "id": "94593565-cdb0-4ee6-9c41-a2ce37166936",
+      "accountNumber": "7049",
+      "name": "Rabais, remises, ristournes, accords (non ventilés)",
+      "type": "REVENUE"
+    },
+    {
+      "id": "dd2408f1-a2cc-42a4-bc5f-5f125b48320f",
+      "accountNumber": "705",
+      "name": "TRAVAUX FACTURES",
+      "type": "REVENUE"
+    },
+    {
+      "id": "a609f890-bcd1-4660-bdbe-b7d473c3a362",
+      "accountNumber": "7051",
+      "name": "dans la Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "28d83a00-c487-47e4-909b-0711c154c6c1",
+      "accountNumber": "7052",
+      "name": "hors Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "e2901ff4-9a7e-4cdf-b57b-20706f9b71d1",
+      "accountNumber": "7053",
+      "name": "aux entités du groupe dans la Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "74f36591-52a7-48b5-8046-4648034cc9a4",
+      "accountNumber": "7054",
+      "name": "aux entités du groupe hors Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "6997f11b-49e2-4ec5-bbe5-9446a697cf4a",
+      "accountNumber": "7055",
+      "name": "sur internet",
+      "type": "REVENUE"
+    },
+    {
+      "id": "9780d280-6fec-483c-8a9e-e032eeb400dd",
+      "accountNumber": "7059",
+      "name": "Rabais, remises, ristournes, accordés (non ventilés)",
+      "type": "REVENUE"
+    },
+    {
+      "id": "fc060783-3253-46d2-a14e-d055af229c3f",
+      "accountNumber": "706",
+      "name": "SERVICES VENDUS",
+      "type": "REVENUE"
+    },
+    {
+      "id": "ce7355d6-33fb-4f16-b4f2-f23a8fced463",
+      "accountNumber": "7061",
+      "name": "dans la Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "62388c6a-e90d-4c30-bb69-e36aa150bb1b",
+      "accountNumber": "7062",
+      "name": "hors Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "55eb8eb6-9eae-48a4-ad14-69c05d0a3c2d",
+      "accountNumber": "7063",
+      "name": "aux entités du groupe dans la Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "95dca192-1b38-4008-88c6-c005ef53b0b2",
+      "accountNumber": "7064",
+      "name": "aux entités du groupe hors Région",
+      "type": "REVENUE"
+    },
+    {
+      "id": "e70b12b6-45b7-4591-a8d1-d9f3befb8b41",
+      "accountNumber": "7065",
+      "name": "sur internet",
+      "type": "REVENUE"
+    },
+    {
+      "id": "cdce3ef6-1b71-4fc5-bebe-9939efeb3cef",
+      "accountNumber": "7069",
+      "name": "Rabais, remises, ristournes, accordés (non ventilés)",
+      "type": "REVENUE"
+    },
+    {
+      "id": "9f97364f-e545-42a4-9746-c2afff307570",
+      "accountNumber": "707",
+      "name": "PRODUITS ACCESSOIRES",
+      "type": "REVENUE"
+    },
+    {
+      "id": "711cd3c5-bb4d-489d-b9ff-4c61b8b78ff1",
+      "accountNumber": "7071",
+      "name": "Ports, emballages perdus et autres frais facturés",
+      "type": "REVENUE"
+    },
+    {
+      "id": "36911fff-4a28-4974-a983-36f066288759",
+      "accountNumber": "7072",
+      "name": "Commissions et courtages",
+      "type": "REVENUE"
+    },
+    {
+      "id": "27a15c71-bc1f-40aa-befe-01236a69c3ba",
+      "accountNumber": "7073",
+      "name": "Locations",
+      "type": "REVENUE"
+    },
+    {
+      "id": "5a447c42-22f0-446e-ba7a-1875e17353a3",
+      "accountNumber": "7074",
+      "name": "Bonis sur reprises et cessions d'emballages",
+      "type": "REVENUE"
+    },
+    {
+      "id": "b737a296-149d-449f-ac20-5173cb8f68f0",
+      "accountNumber": "7075",
+      "name": "Mise à disposition de personnel",
+      "type": "REVENUE"
+    },
+    {
+      "id": "13bf8784-60a0-4bb8-9347-de1bef87d967",
+      "accountNumber": "7076",
+      "name": "Redevances pour brevets, logiciels, marques et droits similaires",
+      "type": "REVENUE"
+    },
+    {
+      "id": "498f2206-f986-4359-827e-ed666c4b2574",
+      "accountNumber": "7077",
+      "name": "Services exploités dans l'intérêt du personnel",
+      "type": "REVENUE"
+    },
+    {
+      "id": "f19c11e1-7603-464c-b3ff-d0db2a90596d",
+      "accountNumber": "7078",
+      "name": "Autres produits accessoires",
+      "type": "REVENUE"
+    },
+    {
+      "id": "7ccc3859-0b4a-4c23-a54c-08bb75474732",
+      "accountNumber": "71",
+      "name": "SUBVENTIONS D'EXPLOITATION",
+      "type": "REVENUE"
+    },
+    {
+      "id": "d782ec8b-ace5-4fac-90bf-fcb4800baa9f",
+      "accountNumber": "711",
+      "name": "SUR PRODUITS À L'EXPORTATION",
+      "type": "REVENUE"
+    },
+    {
+      "id": "42872800-9e09-459b-923e-52ae6c9a6110",
+      "accountNumber": "712",
+      "name": "SUR PRODUITS À L'IMPORTATION",
+      "type": "REVENUE"
+    },
+    {
+      "id": "4c06f3ba-c1e4-4ee0-b328-45faedb0796b",
+      "accountNumber": "713",
+      "name": "SUR PRODUITS DE PÉRÉQUATION",
+      "type": "REVENUE"
+    },
+    {
+      "id": "889d468e-cb1a-4e26-a395-28f3f65b690a",
+      "accountNumber": "714",
+      "name": "INDEMNITES ET SUBVENTIONS D'EXPLOITATION (entité agricole)",
+      "type": "REVENUE"
+    },
+    {
+      "id": "84736eb4-a056-4cda-ab43-eff7b01dbd09",
+      "accountNumber": "718",
+      "name": "AUTRES SUBVENTIONS D'EXPLOITATION",
+      "type": "REVENUE"
+    },
+    {
+      "id": "0607f02d-72be-453e-87dc-f3d55ff53b3e",
+      "accountNumber": "7181",
+      "name": "Versées par l'État et les collectivités publiques",
+      "type": "REVENUE"
+    },
+    {
+      "id": "e35bd24b-e256-4f19-a624-3c37a94a0a96",
+      "accountNumber": "7182",
+      "name": "Versées par les organismes internationaux",
+      "type": "REVENUE"
+    },
+    {
+      "id": "89925aa2-138b-44ce-bfb2-678a6071654b",
+      "accountNumber": "7183",
+      "name": "Versées par des tiers",
+      "type": "REVENUE"
+    },
+    {
+      "id": "1c20ce84-73c5-4368-b662-8a76637e5cd1",
+      "accountNumber": "72",
+      "name": "PRODUCTION IMMOBILISÉE",
+      "type": "REVENUE"
+    },
+    {
+      "id": "67377ac2-632f-4687-8819-75435098cc6a",
+      "accountNumber": "721",
+      "name": "IMMOBILISATIONS INCORPORELLES",
+      "type": "REVENUE"
+    },
+    {
+      "id": "2cffcf45-bc76-4fd2-ab60-be7edaa92faf",
+      "accountNumber": "722",
+      "name": "IMMOBILISATIONS CORPORELLES",
+      "type": "REVENUE"
+    },
+    {
+      "id": "e3250426-bdd0-435f-b325-badbc3224800",
+      "accountNumber": "7221",
+      "name": "immobilisations corporelles (hors actifs biologiques)",
+      "type": "REVENUE"
+    },
+    {
+      "id": "c7e51bc1-0fde-4c84-8684-53754407c468",
+      "accountNumber": "7222",
+      "name": "immobilisations corporelles (actifs biologiques)",
+      "type": "REVENUE"
+    },
+    {
+      "id": "0af7c2df-6ac5-4e8f-a761-696761a9a0c9",
+      "accountNumber": "724",
+      "name": "PRODUCTION AUTO-CONSOMMEE",
+      "type": "REVENUE"
+    },
+    {
+      "id": "e4dd341b-b5ac-4094-8088-9c4f8c4fb630",
+      "accountNumber": "726",
+      "name": "IMMOBILISATIONS FINANCIÈRES",
+      "type": "REVENUE"
+    },
+    {
+      "id": "6649d551-5ea2-48c7-be33-bf04d5826971",
+      "accountNumber": "73",
+      "name": "VARIATIONS DES STOCKS DE BIENS ET DE SERVICES PRODUITS",
+      "type": "REVENUE"
+    },
+    {
+      "id": "96edbd17-71b6-44e9-a397-2e3d7e7ead27",
+      "accountNumber": "734",
+      "name": "VARIATIONS DES STOCKS DE PRODUITS EN COURS",
+      "type": "REVENUE"
+    },
+    {
+      "id": "25207640-553e-48ca-97c6-98d99f91485b",
+      "accountNumber": "7341",
+      "name": "Produits en cours",
+      "type": "REVENUE"
+    },
+    {
+      "id": "5a625c79-9528-46f6-a1fd-3e8b91511f50",
+      "accountNumber": "7342",
+      "name": "Travaux en cours",
+      "type": "REVENUE"
+    },
+    {
+      "id": "b4ba3ffb-b126-4f0d-b0bf-44b9c1ca2cce",
+      "accountNumber": "735",
+      "name": "VARIATIONS DES EN-COURS DE SERVICES",
+      "type": "REVENUE"
+    },
+    {
+      "id": "67ea36b8-10ae-443b-8a54-0b3baac5013b",
+      "accountNumber": "7351",
+      "name": "Études en cours",
+      "type": "REVENUE"
+    },
+    {
+      "id": "7d25566f-b53a-4982-860a-e4695993c4f3",
+      "accountNumber": "7352",
+      "name": "Prestations de services en cours",
+      "type": "REVENUE"
+    },
+    {
+      "id": "a1abfd46-fc7d-4653-94c8-f42b38a38cf6",
+      "accountNumber": "736",
+      "name": "VARIATIONS DES STOCKS DE PRODUITS FINIS",
+      "type": "REVENUE"
+    },
+    {
+      "id": "37905c68-bb81-45bd-8ad8-bb4d3c5dec7f",
+      "accountNumber": "737",
+      "name": "VARIATIONS DES STOCKS DE PRODUITS INTERMÉDIAIRES ET RÉSIDUELS",
+      "type": "REVENUE"
+    },
+    {
+      "id": "8303d86c-03a7-450f-9755-5af9692ccf4f",
+      "accountNumber": "7371",
+      "name": "Produits intermédiaires",
+      "type": "REVENUE"
+    },
+    {
+      "id": "b1afcdd2-45c6-412b-abef-943e4df4a26f",
+      "accountNumber": "7372",
+      "name": "Produits résiduels",
+      "type": "REVENUE"
+    },
+    {
+      "id": "90088087-692c-4672-a411-b4d56630590d",
+      "accountNumber": "77",
+      "name": "REVENUS FINANCIERS ET PRODUITS ASSIMILES",
+      "type": "REVENUE"
+    },
+    {
+      "id": "2f711ee7-3300-4b3d-bc8f-6f0f423e3cf2",
+      "accountNumber": "771",
+      "name": "REVENUS FINANCIERS (partiel)",
+      "type": "REVENUE"
+    },
+    {
+      "id": "162eb164-a10a-4e7d-8ebb-be22c52de61c",
+      "accountNumber": "772",
+      "name": "REVENUS FINANCIERS (partiel)",
+      "type": "REVENUE"
+    },
+    {
+      "id": "19394b16-be68-4572-828e-720e7ebc0375",
+      "accountNumber": "773",
+      "name": "ESCOMPTES OBTENUS",
+      "type": "REVENUE"
+    },
+    {
+      "id": "c509bec6-94ab-4524-bdfc-018978363e2e",
+      "accountNumber": "774",
+      "name": "REVENUS DE PLACEMENT",
+      "type": "REVENUE"
+    },
+    {
+      "id": "e8d85384-0c08-45f7-b517-8d286f1fadf6",
+      "accountNumber": "7745",
+      "name": "Revenus des obligations",
+      "type": "REVENUE"
+    },
+    {
+      "id": "c123b63d-2ca9-4b88-9fcb-d59bb361e0e3",
+      "accountNumber": "7746",
+      "name": "Revenus des titres de placement",
+      "type": "REVENUE"
+    },
+    {
+      "id": "5525a698-325f-4cf1-a717-aa6320f63114",
+      "accountNumber": "775",
+      "name": "INTERETS DANS LOYERS DE LOCATION ACQUISITION",
+      "type": "REVENUE"
+    },
+    {
+      "id": "cfb1e8d4-45f3-4189-8934-246337f25d55",
+      "accountNumber": "776",
+      "name": "GAINS DE CHANGE FINANCIERS",
+      "type": "REVENUE"
+    },
+    {
+      "id": "74dc8a7f-85b6-4d3d-a92a-34613aa9c0bb",
+      "accountNumber": "777",
+      "name": "GAINS SUR CESSIONS DE TITRES DE PLACEMENT",
+      "type": "REVENUE"
+    },
+    {
+      "id": "1e7ae02d-a743-4ed6-afda-cac3153a619c",
+      "accountNumber": "778",
+      "name": "GAINS SUR RISQUES FINANCIERS",
+      "type": "REVENUE"
+    },
+    {
+      "id": "d28c578e-bd54-41a8-9b69-a612aacf33d4",
+      "accountNumber": "7781",
+      "name": "sur rentes viagères",
+      "type": "REVENUE"
+    },
+    {
+      "id": "d7bf2e04-4c7b-470a-af3a-d75b10936469",
+      "accountNumber": "7782",
+      "name": "sur opérations financières",
+      "type": "REVENUE"
+    },
+    {
+      "id": "e63d34a2-d2a8-4747-946a-c9375ecff620",
+      "accountNumber": "7784",
+      "name": "sur instruments de trésorerie",
+      "type": "REVENUE"
+    },
+    {
+      "id": "55ff16f0-eb38-4780-889f-1140207ce96c",
+      "accountNumber": "779",
+      "name": "REPRISES DE CHARGES POUR DEPRECIATIONS ET PROVISIONS A COURT TERME FINANCIERES",
+      "type": "REVENUE"
+    },
+    {
+      "id": "e7416d0f-fcbb-4484-b3f0-95ade8920ec2",
+      "accountNumber": "7791",
+      "name": "sur risques financiers",
+      "type": "REVENUE"
+    },
+    {
+      "id": "eb329c12-5ece-42c5-ae99-7f2d492d613f",
+      "accountNumber": "7795",
+      "name": "sur titres de placement",
+      "type": "REVENUE"
+    },
+    {
+      "id": "06c3987c-16fb-4e38-83de-66debfe4bea7",
+      "accountNumber": "7798",
+      "name": "sur autres charges pour dépréciations et provisions pour risques à court terme financiers",
+      "type": "REVENUE"
+    },
+    {
+      "id": "e1b7b1a8-2352-48d3-a6de-1357e0bee364",
+      "accountNumber": "78",
+      "name": "TRANSFERTS DE CHARGES",
+      "type": "REVENUE"
+    },
+    {
+      "id": "d67b5f27-a507-4816-b147-c4bdb6173854",
+      "accountNumber": "781",
+      "name": "TRANSFERTS DE CHARGES D'EXPLOITATION",
+      "type": "REVENUE"
+    },
+    {
+      "id": "c9fff14b-410b-4a76-928f-9a3763c4dd47",
+      "accountNumber": "787",
+      "name": "TRANSFERTS DE CHARGES FINANCIERES",
+      "type": "REVENUE"
+    },
+    {
+      "id": "20380216-1460-400d-9879-06b28d80e054",
+      "accountNumber": "79",
+      "name": "REPRISES DE PROVISIONS, DE DEPRECIATIONS ET AUTRES",
+      "type": "REVENUE"
+    },
+    {
+      "id": "c2501c18-91ba-4149-93cb-75d9ce957f87",
+      "accountNumber": "791",
+      "name": "REPRISES DE PROVISIONS ET DEPRECIATIONS D'EXPLOITATION",
+      "type": "REVENUE"
+    },
+    {
+      "id": "7eb9db9f-e355-419c-b5fb-12e2eb61f8f5",
+      "accountNumber": "7911",
+      "name": "pour risques et charges",
+      "type": "REVENUE"
+    },
+    {
+      "id": "e35cd928-96bc-47c4-a838-685f167d2ba0",
+      "accountNumber": "7913",
+      "name": "des immobilisations incorporelles",
+      "type": "REVENUE"
+    },
+    {
+      "id": "9c43aba5-9a78-49f1-877b-919365791e9f",
+      "accountNumber": "7914",
+      "name": "des immobilisations corporelles",
+      "type": "REVENUE"
+    },
+    {
+      "id": "bdb3f70b-05f6-4d52-9712-92838b20db9d",
+      "accountNumber": "797",
+      "name": "REPRISES DE PROVISIONS ET DEPRECIATIONS FINANCIERES",
+      "type": "REVENUE"
+    },
+    {
+      "id": "a984181e-9a7f-4334-859b-2a5803bfcacf",
+      "accountNumber": "7971",
+      "name": "pour risques et charges",
+      "type": "REVENUE"
+    },
+    {
+      "id": "521dd6c8-085b-4584-9bb1-738d26178f46",
+      "accountNumber": "7972",
+      "name": "des immobilisations financières",
+      "type": "REVENUE"
+    },
+    {
+      "id": "0bed8de5-8afc-496b-9e46-21dc119a0d2c",
+      "accountNumber": "798",
+      "name": "REPRISES D'AMORTISSEMENTS",
+      "type": "REVENUE"
+    },
+    {
+      "id": "272fd4bc-c37a-4804-97c2-ab2fdbceba91",
+      "accountNumber": "799",
+      "name": "REPRISES DE SUBVENTIONS D'INVESTISSEMENT",
+      "type": "REVENUE"
+    },
+    {
+      "id": "1b0e4b14-732b-43e9-af45-f8bf991f2134",
+      "accountNumber": "81",
+      "name": "VALEURS COMPTABLES DES CESSIONS D'IMMOBILISATIONS",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "ee6e3b9d-ec4a-4376-9ae2-e8115835c4b8",
+      "accountNumber": "811",
+      "name": "IMMOBILISATIONS INCORPORELLES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "3502ed8b-dba5-4ee0-bc5a-9a6de32e4853",
+      "accountNumber": "812",
+      "name": "IMMOBILISATIONS CORPORELLES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "ce261e20-2626-4713-8417-6299421a8a00",
+      "accountNumber": "816",
+      "name": "IMMOBILISATIONS FINANCIÈRES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "74dfef12-3793-410c-a545-da355d87d26f",
+      "accountNumber": "82",
+      "name": "PRODUITS DES CESSIONS D'IMMOBILISATIONS",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "d2d31611-188e-47a5-aa3d-77586977eb35",
+      "accountNumber": "821",
+      "name": "IMMOBILISATIONS INCORPORELLES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "4bd0ae46-5909-4caa-a6c4-3fed8c8807d5",
+      "accountNumber": "822",
+      "name": "IMMOBILISATIONS CORPORELLES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "5cf0e8b5-96ac-4ee8-92aa-fa2f2d7819a0",
+      "accountNumber": "826",
+      "name": "IMMOBILISATIONS FINANCIÈRES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "c204b4fa-c9be-43b8-8435-67905b378a21",
+      "accountNumber": "83",
+      "name": "CHARGES HORS ACTIVITÉS ORDINAIRES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "680de40b-cc36-455e-8f2c-81a0ed3f9bdc",
+      "accountNumber": "831",
+      "name": "CHARGES H.A.O. CONSTATÉES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "7660c2c2-50eb-44b5-8b25-7d6cd8a9d223",
+      "accountNumber": "833",
+      "name": "CHARGES LIEES AUX OPERATIONS DE RESTRUCTURATION",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "144e171d-7eba-4cde-96f9-2a50fb61e3a0",
+      "accountNumber": "834",
+      "name": "PERTES SUR CRÉANCES H.A.O.",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "1473d220-a2be-4fab-b812-039f18c4e685",
+      "accountNumber": "835",
+      "name": "DONS ET LIBÉRALITÉS ACCORDÉS",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "7f4023d6-25e7-4434-9def-e7d3b21f0e23",
+      "accountNumber": "836",
+      "name": "ABANDONS DE CRÉANCES CONSENTIS",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "07ced57c-0005-46cd-a360-87e3213983b7",
+      "accountNumber": "837",
+      "name": "CHARGES LIEES AUX OPERATIONS DE LIQUIDATION",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "53cf8c06-527b-48e6-a952-6bb4c7bcc868",
+      "accountNumber": "839",
+      "name": "CHARGES POUR DEPRECIATIONS ET PROVISIONS POUR RISQUES A COURT TERME H.A.O",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "4cb45a55-aa2d-492c-8740-55819f04e5a5",
+      "accountNumber": "84",
+      "name": "PRODUITS HORS ACTIVITÉS ORDINAIRES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "3856a10d-0587-4f52-a263-2d87c65913f9",
+      "accountNumber": "841",
+      "name": "PRODUITS H.A.O CONSTATÉS",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "9c741608-b2c9-45c4-9c02-6983f045b8d4",
+      "accountNumber": "843",
+      "name": "PRODUITS LIES AUX OPERATIONS DE RESTRUCTURATION",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "4bd99601-43d0-4009-a908-3be13ef7912d",
+      "accountNumber": "844",
+      "name": "INDEMNITES ET SUBVENTIONS H.A.O (entité agricole)",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "a0d5a6cc-6508-411a-9dba-ce616b9c69e5",
+      "accountNumber": "845",
+      "name": "DONS ET LIBÉRALITÉS OBTENUS",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "ed40a6d6-af97-4312-83dd-d0843d6a6044",
+      "accountNumber": "846",
+      "name": "ABANDONS DE CRÉANCES OBTENUS",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "d78e1cab-a3a7-4f8b-a45c-a4a86ce174d1",
+      "accountNumber": "847",
+      "name": "PRODUITS LIES AUX OPERATIONS DE LIQUIDATION",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "4175cddb-9a4b-48a0-bab9-2993d29cdddc",
+      "accountNumber": "848",
+      "name": "TRANSFERTS DE CHARGES H.A.O",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "11f4d0e1-c538-42fa-a2f7-4203704846c6",
+      "accountNumber": "849",
+      "name": "REPRISES DE CHARGES POUR DEPRECIATIONS ET PROVISIONS POUR RISQUES A COURT TERME H.A.O",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "6882a0b5-e2d2-4fc9-b173-80ebcc1bf9e5",
+      "accountNumber": "85",
+      "name": "DOTATIONS HORS ACTIVITÉS ORDINAIRES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "8d7be9b0-db16-4ae0-9e93-3eb41d40f305",
+      "accountNumber": "851",
+      "name": "DOTATIONS AUX PROVISIONS RÉGLEMENTÉES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "bc067c20-0542-4657-95e4-8ae745e82fe1",
+      "accountNumber": "852",
+      "name": "DOTATIONS AUX AMORTISSEMENTS H.A.O.",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "e00d7bed-b68f-4faa-996b-7d6f227323dc",
+      "accountNumber": "853",
+      "name": "DOTATIONS AUX DÉPRÉCIATIONS H.A.O.",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "47f09732-9684-45ef-91d5-21565439c8cd",
+      "accountNumber": "854",
+      "name": "DOTATIONS AUX PROVISIONS POUR RISQUES ET CHARGES H.A.O.",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "1bcb7ec3-f816-4f9b-90b3-7fb8e1438373",
+      "accountNumber": "858",
+      "name": "AUTRES DOTATIONS H.A.O.",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "485b985a-be7b-415b-ba01-87614a5e8152",
+      "accountNumber": "86",
+      "name": "REPRISES HORS ACTIVITES ORDINAIRES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "bfe872f9-1903-49dc-9170-be5eae4c2fab",
+      "accountNumber": "861",
+      "name": "REPRISES DE PROVISIONS RÉGLEMENTÉES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "f7836fa7-a39f-4c64-b62b-196b6e60136d",
+      "accountNumber": "862",
+      "name": "REPRISES D'AMORTISSEMENTS HAO",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "fbd81e83-4c2e-4b98-b975-832a457068fe",
+      "accountNumber": "863",
+      "name": "REPRISES DE DÉPRÉCIATIONS H.A.O.",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "d512fea4-c0e5-4947-9405-6e0659b6aad1",
+      "accountNumber": "864",
+      "name": "REPRISES DE PROVISIONS POUR RISQUES ET CHARGES H.A.O.",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "974405f8-fcfc-4054-9fce-878a2d60cb75",
+      "accountNumber": "868",
+      "name": "AUTRES REPRISES H.A.O.",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "e1302fdd-6ad5-4b4f-a8c1-03df98789203",
+      "accountNumber": "87",
+      "name": "PARTICIPATION DES TRAVAILLEURS",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "50b8fc1a-6e2a-4aa2-ba9a-62ed4dca9840",
+      "accountNumber": "871",
+      "name": "PARTICIPATION LÉGALE AUX BÉNÉFICES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "f71059d8-2688-467f-a75f-7ab6defef529",
+      "accountNumber": "874",
+      "name": "PARTICIPATION CONTRACTUELLE AUX BÉNÉFICES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "3c809e21-fd62-43a0-a5dd-7d12aab79f8d",
+      "accountNumber": "878",
+      "name": "AUTRES PARTICIPATIONS",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "e1b02640-201a-4b39-843b-b9387790fdb9",
+      "accountNumber": "88",
+      "name": "SUBVENTIONS D'ÉQUILIBRE",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "cdbc758c-d697-43e7-a595-303448558695",
+      "accountNumber": "881",
+      "name": "ÉTAT",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "b35ebd85-9748-48b7-ba12-31cb9993253a",
+      "accountNumber": "884",
+      "name": "COLLECTIVITÉS PUBLIQUES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "3d9dcdee-e9ba-4e4d-843a-27b8b694a630",
+      "accountNumber": "886",
+      "name": "GROUPE",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "e2fd00a2-c843-4d38-a5b2-f515f500a9f7",
+      "accountNumber": "888",
+      "name": "AUTRES",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "3cfc9d2f-3922-4948-b83a-0500b23e9674",
+      "accountNumber": "89",
+      "name": "IMPÔTS SUR LE RÉSULTAT",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "d8f05ce8-abc5-4f27-9a4f-362e824f9e5f",
+      "accountNumber": "891",
+      "name": "IMPÔTS SUR LES BÉNÉFICES DE L'EXERCICE",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "7c36f906-9bca-486a-b4c7-e60150709029",
+      "accountNumber": "8911",
+      "name": "Activités exercées dans l'État",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "4e1b51ec-b436-41ad-99c9-286f824438fa",
+      "accountNumber": "8912",
+      "name": "Activités exercées dans les autres États de la Région",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "f48c73b5-2dc3-4a59-89aa-c36bd27d8579",
+      "accountNumber": "8913",
+      "name": "Activités exercées hors Région",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "87bb8a76-e1bb-46d9-823e-348406c1e739",
+      "accountNumber": "892",
+      "name": "RAPPEL D'IMPÔTS SUR RÉSULTATS ANTÉRIEURS",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "6b114bc0-982b-4cbf-b61c-e176dc919521",
+      "accountNumber": "895",
+      "name": "IMPÔT MINIMUM FORFAITAIRE (I.M.F.)",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "3f3ffb67-71e4-48d0-ab18-0f43b0ab271f",
+      "accountNumber": "899",
+      "name": "DÉGRÈVEMENTS ET ANNULATIONS D'IMPÔTS SUR RÉSULTATS ANTÉRIEURS",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "3824e05e-644d-4d92-878c-0fb1ad26af11",
+      "accountNumber": "8991",
+      "name": "Dégrèvements",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "5ce4a55a-03e4-4406-8547-1947df915c73",
+      "accountNumber": "8994",
+      "name": "Annulations pour pertes rétroactives",
+      "type": "CONTINGENT"
+    },
+    {
+      "id": "89d6cdd9-e591-4ba7-81ec-b35aa646e9a8",
+      "accountNumber": "90",
+      "name": "ENGAGEMENTS HORS BILAN",
+      "type": "ASSET"
+    },
+    {
+      "id": "e1bb6bd5-3731-4c8d-8305-e319346c0983",
+      "accountNumber": "901",
+      "name": "ENGAGEMENTS DE FINANCEMENT OBTENUS",
+      "type": "ASSET"
+    },
+    {
+      "id": "a4080324-90d5-40fb-a88f-f90adcd53823",
+      "accountNumber": "9011",
+      "name": "Crédits confirmés obtenus",
+      "type": "ASSET"
+    },
+    {
+      "id": "27e04d79-f56a-43cd-ba19-23a030fc9cf0",
+      "accountNumber": "9012",
+      "name": "Emprunts restant à encaisser",
+      "type": "ASSET"
+    },
+    {
+      "id": "eb6cc78d-3669-4742-a54c-922d45cf2e3f",
+      "accountNumber": "9013",
+      "name": "Facilités de financement renouvelables",
+      "type": "ASSET"
+    },
+    {
+      "id": "81dfe1a1-63f2-482a-9aad-4b9e065be953",
+      "accountNumber": "9014",
+      "name": "Facilités d'émission",
+      "type": "ASSET"
+    },
+    {
+      "id": "fb176eb4-a635-4b79-8620-c637b667d101",
+      "accountNumber": "9018",
+      "name": "Autres engagements de financement obtenus",
+      "type": "ASSET"
+    },
+    {
+      "id": "fb24ec6b-f615-4f4c-9c89-562c1af307ef",
+      "accountNumber": "902",
+      "name": "ENGAGEMENTS DE GARANTIE OBTENUS",
+      "type": "ASSET"
+    },
+    {
+      "id": "ca4fc7ec-5ba6-4288-a2a3-14cd39ed373c",
+      "accountNumber": "9021",
+      "name": "Avals obtenus",
+      "type": "ASSET"
+    },
+    {
+      "id": "6bedbe62-c371-4289-a1d2-8df80543643c",
+      "accountNumber": "9022",
+      "name": "Cautions, garanties obtenues",
+      "type": "ASSET"
+    },
+    {
+      "id": "f3283a0a-66b2-4e89-8a1a-f79242a1432e",
+      "accountNumber": "9023",
+      "name": "Hypothèques obtenues",
+      "type": "ASSET"
+    },
+    {
+      "id": "274651dc-6262-4c0d-9a76-aba77c531de4",
+      "accountNumber": "9024",
+      "name": "Effets endossés par des tiers",
+      "type": "ASSET"
+    },
+    {
+      "id": "55cc5123-38f5-425c-b560-0f5afe3e391a",
+      "accountNumber": "9028",
+      "name": "Autres garanties obtenues",
+      "type": "ASSET"
+    },
+    {
+      "id": "cba20e4b-4061-4404-9b29-85b993018587",
+      "accountNumber": "903",
+      "name": "ENGAGEMENTS RÉCIPROQUES",
+      "type": "ASSET"
+    },
+    {
+      "id": "d4aed938-b032-4beb-9129-a2d59866ee90",
+      "accountNumber": "9031",
+      "name": "Achats de marchandises à terme",
+      "type": "ASSET"
+    },
+    {
+      "id": "d185fa40-7a3f-4bee-bcb4-655b2f49a543",
+      "accountNumber": "9032",
+      "name": "Achats à terme de devises",
+      "type": "ASSET"
+    },
+    {
+      "id": "00d35661-3005-406d-a99a-d5d5196e1f67",
+      "accountNumber": "9033",
+      "name": "Commandes fermes des clients",
+      "type": "ASSET"
+    },
+    {
+      "id": "d4c841be-aacc-403b-a254-cad6e6687aef",
+      "accountNumber": "9038",
+      "name": "Autres engagements réciproques",
+      "type": "ASSET"
+    },
+    {
+      "id": "afdc2821-8bb7-4e56-9363-fa7e00808b61",
+      "accountNumber": "904",
+      "name": "AUTRES ENGAGEMENTS OBTENUS",
+      "type": "ASSET"
+    },
+    {
+      "id": "d4e90c2f-dac0-457a-be84-5e266634eb39",
+      "accountNumber": "9041",
+      "name": "Abandons de créances conditionnels",
+      "type": "ASSET"
+    },
+    {
+      "id": "97816771-0827-473b-889a-f1a5104f7400",
+      "accountNumber": "9043",
+      "name": "Ventes avec clause de réserve de propriété",
+      "type": "ASSET"
+    },
+    {
+      "id": "93e330f3-9fa8-4f67-ac2e-e73e2d14cc87",
+      "accountNumber": "9048",
+      "name": "Divers engagements obtenus",
+      "type": "ASSET"
+    },
+    {
+      "id": "538535d5-342e-47cc-aeb5-56b3fe3d6abe",
+      "accountNumber": "905",
+      "name": "ENGAGEMENTS DE FINANCEMENT ACCORDÉS",
+      "type": "ASSET"
+    },
+    {
+      "id": "a4e3429b-2a0c-4008-8d07-069d900aceae",
+      "accountNumber": "9051",
+      "name": "Crédits accordés non décaissés",
+      "type": "ASSET"
+    },
+    {
+      "id": "2c2c7dc9-35ce-4d09-ae30-d81a9b94beb3",
+      "accountNumber": "9058",
+      "name": "Autres engagements de financement accordés",
+      "type": "ASSET"
+    },
+    {
+      "id": "7065dfe3-908a-4795-a86c-69a264ad147c",
+      "accountNumber": "906",
+      "name": "ENGAGEMENTS DE GARANTIE ACCORDÉS",
+      "type": "ASSET"
+    },
+    {
+      "id": "2f537290-7aa2-401e-b7b9-c381a6e23ea4",
+      "accountNumber": "9061",
+      "name": "Avals accordés",
+      "type": "ASSET"
+    },
+    {
+      "id": "dd7a37ef-b62a-49f4-beed-13cec25b3b46",
+      "accountNumber": "9062",
+      "name": "Cautions, garanties accordées",
+      "type": "ASSET"
+    },
+    {
+      "id": "fea3004a-d880-4a9e-9589-87de610f8026",
+      "accountNumber": "9063",
+      "name": "Hypothèques accordées",
+      "type": "ASSET"
+    },
+    {
+      "id": "f29c438c-ca3c-47a4-a798-3df081c0935a",
+      "accountNumber": "9064",
+      "name": "Effets endossés par l'entité",
+      "type": "ASSET"
+    },
+    {
+      "id": "6ab60b29-caff-4c37-88d6-8dd0bb5d7821",
+      "accountNumber": "9068",
+      "name": "Autres garanties accordées",
+      "type": "ASSET"
+    },
+    {
+      "id": "f46347e6-506d-4df2-9fd7-202c78ffe20d",
+      "accountNumber": "907",
+      "name": "ENGAGEMENTS RÉCIPROQUES",
+      "type": "ASSET"
+    },
+    {
+      "id": "d6a88562-b605-4a26-8259-08873e8e4884",
+      "accountNumber": "9071",
+      "name": "Ventes de marchandises à terme",
+      "type": "ASSET"
+    },
+    {
+      "id": "ad096c4f-f69e-4ee3-b01d-de8507bd5f88",
+      "accountNumber": "9072",
+      "name": "Ventes à terme de devises",
+      "type": "ASSET"
+    },
+    {
+      "id": "c3e06b3e-4fde-4ac5-bcf9-57c5abe2ae9c",
+      "accountNumber": "9073",
+      "name": "Commandes fermes aux fournisseurs",
+      "type": "ASSET"
+    },
+    {
+      "id": "1815c733-895a-4c13-aae7-8bde51d3a220",
+      "accountNumber": "9078",
+      "name": "Autres engagements réciproques",
+      "type": "ASSET"
+    },
+    {
+      "id": "0c0d4ff4-70ee-45df-a08c-db2683345200",
+      "accountNumber": "908",
+      "name": "AUTRES ENGAGEMENTS ACCORDÉS",
+      "type": "ASSET"
+    },
+    {
+      "id": "52568dc3-2b8f-40b2-8cd2-1eaddedf75f8",
+      "accountNumber": "9081",
+      "name": "Annulations conditionnelles de dettes",
+      "type": "ASSET"
+    },
+    {
+      "id": "76fec601-75f5-4731-bf8a-d68c2c3f2de5",
+      "accountNumber": "9082",
+      "name": "Engagements de retraite",
+      "type": "ASSET"
+    },
+    {
+      "id": "b0bd83e0-722e-4fbe-b194-43b3da0436d8",
+      "accountNumber": "9083",
+      "name": "Achats avec clause de réserve de propriété",
+      "type": "ASSET"
+    },
+    {
+      "id": "dcf41e78-dd59-4676-b702-8a04c72a720f",
+      "accountNumber": "9088",
+      "name": "Divers engagements accordés",
+      "type": "ASSET"
+    },
+    {
+      "id": "98dd524b-bc36-4fa2-8dff-7f7718570b27",
+      "accountNumber": "91",
+      "name": "CONTREPARTIES DES ENGAGEMENTS",
+      "type": "ASSET"
+    },
+    {
+      "id": "771f0239-c511-438c-aa3e-4f47860cc886",
+      "accountNumber": "911",
+      "name": "à 914 CONTREPARTIE DES ENGAGEMENTS OBTENUS (901 à 904)",
+      "type": "ASSET"
+    },
+    {
+      "id": "a184e720-031c-4f86-849e-67fe4a2170ff",
+      "accountNumber": "915",
+      "name": "à 918 CONTREPARTIE DES ENGAGEMENTS ACCORDÉS (905 à 908)",
+      "type": "ASSET"
+    }
+  ]
+}

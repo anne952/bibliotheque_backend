@@ -1,0 +1,114 @@
+{
+  "metadata": {
+    "total": 5,
+    "timestamp": "2026-02-24T02:42:34.857Z",
+    "description": "Écritures comptables de test en masse"
+  },
+  "entries": [
+    {
+      "entry": "Test-1",
+      "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+      "date": "2026-02-24",
+      "journalType": "GENERAL",
+      "description": "Écriture test 1",
+      "lines": [
+        {
+          "account": "1ce2615e-5097-4f4d-b7a1-4babb4452d57",
+          "debit": 1000,
+          "credit": 0,
+          "description": "101 - Caisse"
+        },
+        {
+          "account": "4467693c-e9bc-45e9-ac45-861444606c31",
+          "debit": 0,
+          "credit": 1000,
+          "description": "70 - VENTES"
+        }
+      ]
+    },
+    {
+      "entry": "Test-2",
+      "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+      "date": "2026-02-24",
+      "journalType": "GENERAL",
+      "description": "Écriture test 2",
+      "lines": [
+        {
+          "account": "af771f95-7f18-4d28-be6e-bfb2ce3178e2",
+          "debit": 2000,
+          "credit": 0,
+          "description": "102 - Banque"
+        },
+        {
+          "account": "85307468-040f-4e5f-818a-e216c028873a",
+          "debit": 0,
+          "credit": 2000,
+          "description": "701 - Ventes de livres"
+        }
+      ]
+    },
+    {
+      "entry": "Test-3",
+      "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+      "date": "2026-02-24",
+      "journalType": "GENERAL",
+      "description": "Écriture test 3",
+      "lines": [
+        {
+          "account": "1d59f685-781a-49ca-9973-38c344e55547",
+          "debit": 3000,
+          "credit": 0,
+          "description": "103 - Stock de livres"
+        },
+        {
+          "account": "cb9dd087-0942-40ac-a92f-b06ff504fd2a",
+          "debit": 0,
+          "credit": 3000,
+          "description": "7011 - dans la Région"
+        }
+      ]
+    },
+    {
+      "entry": "Test-4",
+      "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+      "date": "2026-02-24",
+      "journalType": "GENERAL",
+      "description": "Écriture test 4",
+      "lines": [
+        {
+          "account": "fa218f41-645a-41fc-a4c8-fbda2bef6910",
+          "debit": 4000,
+          "credit": 0,
+          "description": "104 - Mobilier"
+        },
+        {
+          "account": "20ffada0-c591-43de-adb6-356cd0ef7309",
+          "debit": 0,
+          "credit": 4000,
+          "description": "7012 - hors Région"
+        }
+      ]
+    },
+    {
+      "entry": "Test-5",
+      "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+      "date": "2026-02-24",
+      "journalType": "GENERAL",
+      "description": "Écriture test 5",
+      "lines": [
+        {
+          "account": "ed712593-dc99-4091-9bb2-a86fc977942d",
+          "debit": 5000,
+          "credit": 0,
+          "description": "20 - IMMOBILISATIONS INCORPORELLES (début de la classe 2, implicite)"
+        },
+        {
+          "account": "52ac448b-351d-430a-9786-129353704ce1",
+          "debit": 0,
+          "credit": 5000,
+          "description": "7013 - aux entités du groupe dans la Région"
+        }
+      ]
+    }
+  ]
+}

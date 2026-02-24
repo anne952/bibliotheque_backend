@@ -1,0 +1,10 @@
+{
+  "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+  "date": "2026-02-24",
+  "journalType": "GENERAL",
+  "description": "Test mass 2 - Purchases",
+  "lines": [
+    { "account": "102", "debit": 3000, "credit": 0 },
+    { "account": "601", "debit": 0, "credit": 3000 }
+  ]
+}
