@@ -204,7 +204,7 @@ accountingRoutes.put(
       description?: string;
       sourceType?: SourceType;
       sourceId?: string;
-      lines?: Array<{ accountId?: string; debit?: number; credit?: number; description?: string }>;
+      lines?: Array<{ accountId?: string; accountNumber?: string; debit?: number; credit?: number; description?: string }>;
     };
 
     const updated = await prisma.$transaction(async (tx) => {
@@ -244,14 +244,36 @@ accountingRoutes.put(
 
       if (body.lines) {
         validateLines(body.lines);
+        
+        // Résoudre accountNumber en accountId si nécessaire
+        const resolvedLines = await Promise.all(
+          body.lines.map(async (line) => {
+            let accountId = line.accountId;
+            
+            // Si accountNumber est fourni au lieu de accountId, le résoudre
+            if (!accountId && line.accountNumber) {
+              const account = await tx.account.findFirst({
+                where: { accountNumber: line.accountNumber, isActive: true },
+                select: { id: true },
+              });
+              if (!account) {
+                throw new AppError(`Compte comptable introuvable: ${line.accountNumber}`, 400);
+              }
+              accountId = account.id;
+            }
+
+            return {
+              accountId: accountId as string,
+              debit: new Prisma.Decimal(typeof line.debit === "number" ? line.debit : 0),
+              credit: new Prisma.Decimal(typeof line.credit === "number" ? line.credit : 0),
+              description: line.description,
+            };
+          }),
+        );
+        
         data.lines = {
           deleteMany: {},
-          create: body.lines.map((line) => ({
-            accountId: line.accountId as string,
-            debit: new Prisma.Decimal(typeof line.debit === "number" ? line.debit : 0),
-            credit: new Prisma.Decimal(typeof line.credit === "number" ? line.credit : 0),
-            description: line.description,
-          })),
+          create: resolvedLines,
         };
       }
 
@@ -380,6 +402,25 @@ accountingRoutes.get(
 
     const journal = await AccountingService.getCashJournal(fiscalYearId);
     res.status(200).json(journal);
+  }),
+);
+
+accountingRoutes.get(
+  "/accounts/resolve",
+  asyncHandler(async (req, res) => {
+    const accountNumber = String(req.query.accountNumber ?? "");
+    if (!accountNumber) throw new AppError("accountNumber obligatoire", 400);
+
+    const account = await prisma.account.findFirst({
+      where: { accountNumber, isActive: true },
+      select: { id: true, accountNumber: true, name: true, type: true },
+    });
+
+    if (!account) {
+      throw new AppError(`Compte introuvable pour le numero ${accountNumber}`, 404);
+    }
+
+    res.status(200).json(account);
   }),
 );
 

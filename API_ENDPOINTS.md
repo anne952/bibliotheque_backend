@@ -317,6 +317,7 @@
 ### Update Journal Entry
 - **PUT** `/accounting/entries/:id`
 - Body: Any updatable fields from create payload (`fiscalYearId`, `date`, `journalType`, `description`, `pieceNumber`, `sourceType`, `sourceId`, `lines`)
+- **Note**: Les lignes peuvent utiliser `accountId` (UUID) ou `accountNumber` (ex: "57", "521")
 - Validation: Cannot update validated entries; if `lines` are provided, debit total must equal credit total and min 2 lines
 - Response: Updated journal entry
 
@@ -342,6 +343,12 @@
 ### Get General Ledger (for an account)
 - **GET** `/accounting/general-ledger?accountId=<id>&fiscalYearId=<id>`
 - Response: Account detail with running balance for each transaction
+
+### Resolve Account by Number
+- **GET** `/accounting/accounts/resolve?accountNumber=<number>`
+- Converts account number (e.g., "57", "521") to account UUID with details
+- Response: `{ id, accountNumber, name, type }`
+- Example: `/accounting/accounts/resolve?accountNumber=57`
 
 ### Get Balance Sheet
 - **GET** `/accounting/balance-sheet?fiscalYearId=<id>`
