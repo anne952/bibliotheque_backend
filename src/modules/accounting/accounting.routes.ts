@@ -63,6 +63,7 @@ function isUUID(value: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
 }
 
+// Resolve account ID from multiple possible input formats
 async function resolveAccountId(
   tx: Prisma.TransactionClient,
   line: { 
