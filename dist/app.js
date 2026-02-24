@@ -44,6 +44,17 @@ exports.app.use((req, res, next) => {
 });
 exports.app.use(express_1.default.json());
 exports.app.use((0, morgan_1.default)(":method :url :status :response-time ms - :res[content-length] - :remote-addr"));
+exports.app.get("/", (_req, res) => {
+    res.status(200).json({
+        message: "Bibliothèque VGR API",
+        status: "running",
+        version: "1.0.0",
+        endpoints: {
+            health: "/health",
+            api: "/api",
+        },
+    });
+});
 exports.app.get("/health", (_req, res) => {
     res.status(200).json({ status: "ok" });
 });
