@@ -294,22 +294,38 @@
 
 ### Create Journal Entry
 - **POST** `/accounting/entries`
-- Body: `{ fiscalYearId, date, journalType, description, pieceNumber?, sourceType?, sourceId?, lines: [{ accountId OR accountNumber, debit?, credit?, description? }] }`
-- **Note**: Vous pouvez utiliser soit `accountId` (UUID) soit `accountNumber` (ex: "57", "521") dans les lignes
+- Body: `{ fiscalYearId, date, journalType, description, pieceNumber?, sourceType?, sourceId?, lines: [{ account, debit?, credit?, description? }] }`
+- **Champ unifié `account`**: Accepte automatiquement soit un UUID soit un numéro de compte (ex: "57", "521")
+  - Détection UUID: Si le format correspond à un UUID, recherche directe par ID
+  - Détection numéro: Sinon, recherche par numéro de compte
+  - Rétrocompatibilité: Les champs `accountId` et `accountNumber` restent supportés
 - **journalType** valeurs possibles: `GENERAL`, `CASH`, `PURCHASE`, `SALES`, `DONATION`, `BANK`
 - Validation: Debit total must equal credit total, min 2 lines
 - Response: Created journal entry
 
-**Exemple avec accountNumber:**
+**Exemples:**
 ```json
+// Avec numéros de compte
 {
   "fiscalYearId": "abc-123",
   "date": "2026-02-23",
   "journalType": "PURCHASE",
   "description": "Achat de fournitures",
   "lines": [
-    { "accountNumber": "601", "debit": 5000, "credit": 0, "description": "Achats de marchandises" },
-    { "accountNumber": "521", "debit": 0, "credit": 5000, "description": "Banque" }
+    { "account": "601", "debit": 5000, "credit": 0, "description": "Achats de marchandises" },
+    { "account": "521", "debit": 0, "credit": 5000, "description": "Banque" }
+  ]
+}
+
+// Avec UUIDs
+{
+  "fiscalYearId": "abc-123",
+  "date": "2026-02-23",
+  "journalType": "GENERAL",
+  "description": "Écriture mixte",
+  "lines": [
+    { "account": "5775c8f1-5a89-41bc-9e30-43ebdef32fb5", "debit": 10000, "credit": 0 },
+    { "account": "701", "debit": 0, "credit": 10000 }
   ]
 }
 ```
@@ -317,7 +333,7 @@
 ### Update Journal Entry
 - **PUT** `/accounting/entries/:id`
 - Body: Any updatable fields from create payload (`fiscalYearId`, `date`, `journalType`, `description`, `pieceNumber`, `sourceType`, `sourceId`, `lines`)
-- **Note**: Les lignes peuvent utiliser `accountId` (UUID) ou `accountNumber` (ex: "57", "521")
+- **Note**: Les lignes utilisent le champ unifié `account` (UUID ou numéro) - rétrocompatible avec `accountId` et `accountNumber`
 - Validation: Cannot update validated entries; if `lines` are provided, debit total must equal credit total and min 2 lines
 - Response: Updated journal entry
 
