@@ -1,4 +1,4 @@
-﻿import express from "express";
+import express from "express";
 import morgan from "morgan";
 import { apiRoutes } from "./routes";
 import { errorHandler } from "./common/http";
@@ -54,6 +54,18 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(morgan(":method :url :status :response-time ms - :res[content-length] - :remote-addr"));
+
+app.get("/", (_req, res) => {
+  res.status(200).json({
+    message: "Bibliothèque VGR API",
+    status: "running",
+    version: "1.0.0",
+    endpoints: {
+      health: "/health",
+      api: "/api",
+    },
+  });
+});
 
 app.get("/health", (_req, res) => {
   res.status(200).json({ status: "ok" });
