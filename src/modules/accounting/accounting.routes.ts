@@ -126,8 +126,14 @@ function validateLines(lines: Array<{
   debit?: number; 
   credit?: number;
 }>): void {
-  if (!Array.isArray(lines) || lines.length < 2) {
-    throw new AppError("Une ecriture doit contenir au moins 2 lignes", 400);
+  const received = Array.isArray(lines) ? lines.length : 0;
+  if (received < 2) {
+    throw new AppError(
+      received === 0
+        ? "Une ecriture doit contenir au moins 2 lignes (partie double). Aucune ligne recue."
+        : "Une ecriture doit contenir au moins 2 lignes (partie double). Une seule ligne a ete envoyee.",
+      400,
+    );
   }
 
   let debitTotal = new Prisma.Decimal(0);
@@ -143,7 +149,7 @@ function validateLines(lines: Array<{
 
     if (debit < 0 || credit < 0) throw new AppError("debit/credit ne peuvent pas etre negatifs", 400);
     if ((debit === 0 && credit === 0) || (debit > 0 && credit > 0)) {
-      throw new AppError("Chaque ligne doit etre soit au debit, soit au credit", 400);
+      throw new AppError("Chaque ligne doit etre soit au debit, soit au credit (l'autre doit etre 0)", 400);
     }
 
     debitTotal = debitTotal.add(debit);
@@ -153,6 +159,13 @@ function validateLines(lines: Array<{
   if (!debitTotal.equals(creditTotal)) {
     throw new AppError("Ecriture non equilibree: total debit different du total credit", 400);
   }
+}
+
+/** Pour une ligne valide: si debit > 0 on met credit à 0, si credit > 0 on met debit à 0 (persistance claire). */
+function normalizeDebitCredit(debit: number, credit: number): { debit: number; credit: number } {
+  if (debit > 0) return { debit, credit: 0 };
+  if (credit > 0) return { debit: 0, credit };
+  return { debit: 0, credit: 0 };
 }
 
 // Get all fiscal years
@@ -244,11 +257,14 @@ accountingRoutes.post(
       const resolvedLines = await Promise.all(
         lines.map(async (line) => {
           const accountId = await resolveAccountId(tx, line);
+          const d = typeof line.debit === "number" ? line.debit : 0;
+          const c = typeof line.credit === "number" ? line.credit : 0;
+          const { debit, credit } = normalizeDebitCredit(d, c);
 
           return {
             accountId,
-            debit: new Prisma.Decimal(typeof line.debit === "number" ? line.debit : 0),
-            credit: new Prisma.Decimal(typeof line.credit === "number" ? line.credit : 0),
+            debit: new Prisma.Decimal(debit),
+            credit: new Prisma.Decimal(credit),
             description: line.description,
           };
         }),
@@ -343,11 +359,14 @@ accountingRoutes.put(
         const resolvedLines = await Promise.all(
           body.lines.map(async (line) => {
             const accountId = await resolveAccountId(tx, line);
+            const d = typeof line.debit === "number" ? line.debit : 0;
+            const c = typeof line.credit === "number" ? line.credit : 0;
+            const { debit, credit } = normalizeDebitCredit(d, c);
 
             return {
               accountId,
-              debit: new Prisma.Decimal(typeof line.debit === "number" ? line.debit : 0),
-              credit: new Prisma.Decimal(typeof line.credit === "number" ? line.credit : 0),
+              debit: new Prisma.Decimal(debit),
+              credit: new Prisma.Decimal(credit),
               description: line.description,
             };
           }),
