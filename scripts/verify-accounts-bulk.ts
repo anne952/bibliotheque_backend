@@ -52,7 +52,7 @@ async function main() {
     allAccounts.find((a) => a.type === "ASSET"),
     allAccounts.find((a) => a.type === "REVENUE"),
     allAccounts.find((a) => a.type === "EXPENSE"),
-  ].filter(Boolean);
+  ].filter((a): a is typeof allAccounts[number] => a !== undefined);
 
   if (accounts.length < 2) {
     console.log("❌ Pas assez de comptes");
