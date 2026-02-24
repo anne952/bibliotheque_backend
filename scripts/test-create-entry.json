@@ -1,0 +1,20 @@
+{
+  "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+  "date": "2026-02-24",
+  "journalType": "GENERAL",
+  "description": "Test API avec accountNumber",
+  "lines": [
+    {
+      "accountNumber": "57",
+      "debit": 8000,
+      "credit": 0,
+      "description": "Entrée caisse"
+    },
+    {
+      "accountNumber": "701",
+      "debit": 0,
+      "credit": 8000,
+      "description": "Vente de livres"
+    }
+  ]
+}

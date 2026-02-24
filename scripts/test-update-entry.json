@@ -1,0 +1,17 @@
+{
+  "description": "Test API MODIFIÉ avec accountNumber",
+  "lines": [
+    {
+      "accountNumber": "57",
+      "debit": 12000,
+      "credit": 0,
+      "description": "Caisse (modifié)"
+    },
+    {
+      "accountNumber": "702",
+      "debit": 0,
+      "credit": 12000,
+      "description": "Dons financiers (nouveau compte)"
+    }
+  ]
+}
