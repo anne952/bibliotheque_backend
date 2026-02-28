@@ -84,17 +84,17 @@ export declare class PersonService {
                 deletedAt: Date | null;
                 type: import("../../generated/prisma/enums").MaterialType;
                 reference: string | null;
-                serialNumber: string | null;
                 category: string | null;
                 language: string | null;
                 volume: string | null;
+                location: string | null;
+                description: string | null;
+                serialNumber: string | null;
                 status: import("../../generated/prisma/enums").MaterialStatus;
                 currentStock: number;
                 minStockAlert: number;
                 unitPrice: import("@prisma/client-runtime-utils").Decimal | null;
                 sellingPrice: import("@prisma/client-runtime-utils").Decimal | null;
-                location: string | null;
-                description: string | null;
             };
         } & {
             id: string;
@@ -150,17 +150,17 @@ export declare class PersonService {
                 deletedAt: Date | null;
                 type: import("../../generated/prisma/enums").MaterialType;
                 reference: string | null;
-                serialNumber: string | null;
                 category: string | null;
                 language: string | null;
                 volume: string | null;
+                location: string | null;
+                description: string | null;
+                serialNumber: string | null;
                 status: import("../../generated/prisma/enums").MaterialStatus;
                 currentStock: number;
                 minStockAlert: number;
                 unitPrice: import("@prisma/client-runtime-utils").Decimal | null;
                 sellingPrice: import("@prisma/client-runtime-utils").Decimal | null;
-                location: string | null;
-                description: string | null;
             };
         } & {
             id: string;

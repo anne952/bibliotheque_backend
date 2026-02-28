@@ -63,6 +63,202 @@ function isUUID(value: string): boolean {
   return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(value);
 }
 
+type ImportedPasteRow = {
+  date: Date;
+  description: string;
+  pieceNumber?: string;
+  journalType: JournalType;
+  debitAccount: string;
+  creditAccount: string;
+  amount: number;
+  sourceType?: SourceType;
+  sourceId?: string;
+};
+
+const journalTypeValues = new Set<JournalType>(Object.values(JournalType));
+const sourceTypeValues = new Set<SourceType>(Object.values(SourceType));
+
+function normalizeHeader(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "");
+}
+
+function parseFlexibleAmount(value: unknown): number {
+  if (typeof value === "number") return value;
+  if (typeof value !== "string") return NaN;
+
+  const trimmed = value.trim();
+  if (!trimmed) return NaN;
+
+  const noSpaces = trimmed.replace(/\s+/g, "");
+  const hasComma = noSpaces.includes(",");
+  const hasDot = noSpaces.includes(".");
+
+  let normalized = noSpaces;
+  if (hasComma && hasDot) {
+    normalized = noSpaces.replace(/\./g, "").replace(/,/g, ".");
+  } else if (hasComma) {
+    normalized = noSpaces.replace(/,/g, ".");
+  }
+
+  const parsed = Number(normalized);
+  return Number.isFinite(parsed) ? parsed : NaN;
+}
+
+function parseFlexibleDate(value: unknown): Date | null {
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return value;
+  }
+
+  if (typeof value !== "string") {
+    return null;
+  }
+
+  const raw = value.trim();
+  if (!raw) return null;
+
+  if (/^\d{2}\/\d{2}\/\d{4}$/.test(raw)) {
+    const [day, month, year] = raw.split("/");
+    const iso = `${year}-${month}-${day}T00:00:00.000Z`;
+    const date = new Date(iso);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+    const date = new Date(`${raw}T00:00:00.000Z`);
+    return Number.isNaN(date.getTime()) ? null : date;
+  }
+
+  const date = new Date(raw);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+
+function parseExcelPasteToJson(pastedData: string): Array<Record<string, string>> {
+  const lines = pastedData
+    .split(/\r?\n/)
+    .map((line) => line.trimEnd())
+    .filter((line) => line.trim().length > 0);
+
+  if (lines.length < 2) {
+    throw new AppError("Le tableau colle doit contenir un en-tete et au moins une ligne", 400);
+  }
+
+  const delimiter = lines[0].includes("\t") ? "\t" : ";";
+  const headers = lines[0].split(delimiter).map((header) => header.trim());
+  if (headers.length < 2) {
+    throw new AppError("Format de tableau invalide: colonnes insuffisantes", 400);
+  }
+
+  const rows: Array<Record<string, string>> = [];
+  for (let index = 1; index < lines.length; index += 1) {
+    const cells = lines[index].split(delimiter);
+    const row: Record<string, string> = {};
+
+    headers.forEach((header, cellIndex) => {
+      row[header] = (cells[cellIndex] ?? "").trim();
+    });
+
+    const hasValue = Object.values(row).some((value) => value.length > 0);
+    if (hasValue) rows.push(row);
+  }
+
+  return rows;
+}
+
+function mapRawRowToImportedRow(
+  rawRow: Record<string, unknown>,
+  rowNumber: number,
+  defaultJournalType?: JournalType,
+  defaultSourceType?: SourceType,
+): ImportedPasteRow {
+  const normalized = new Map<string, unknown>();
+  for (const [key, value] of Object.entries(rawRow)) {
+    normalized.set(normalizeHeader(key), value);
+  }
+
+  const pick = (...aliases: string[]): unknown => {
+    for (const alias of aliases) {
+      const value = normalized.get(normalizeHeader(alias));
+      if (value !== undefined && value !== null && String(value).trim() !== "") {
+        return value;
+      }
+    }
+    return undefined;
+  };
+
+  const dateValue = pick("date", "jour", "dateoperation", "dateecriture");
+  const descriptionValue = pick("description", "libelle", "motif", "designation");
+  const pieceValue = pick("piecenumber", "piece", "numeropiece", "reference", "ref");
+  const journalValue = pick("journaltype", "journal", "typejournal");
+  const debitAccountValue = pick("debitaccount", "comptedebit", "compte_debit", "debitcompte");
+  const creditAccountValue = pick("creditaccount", "comptecredit", "compte_credit", "creditcompte");
+  const amountValue = pick("amount", "montant", "valeur", "somme");
+  const sourceTypeValue = pick("sourcetype", "source_type", "source");
+  const sourceIdValue = pick("sourceid", "source_id");
+
+  const date = parseFlexibleDate(dateValue);
+  if (!date) {
+    throw new AppError(`Ligne ${rowNumber}: date invalide ou absente`, 400);
+  }
+
+  const description = String(descriptionValue ?? "").trim();
+  if (!description) {
+    throw new AppError(`Ligne ${rowNumber}: description/libelle obligatoire`, 400);
+  }
+
+  const debitAccount = String(debitAccountValue ?? "").trim();
+  if (!debitAccount) {
+    throw new AppError(`Ligne ${rowNumber}: compte debit obligatoire`, 400);
+  }
+
+  const creditAccount = String(creditAccountValue ?? "").trim();
+  if (!creditAccount) {
+    throw new AppError(`Ligne ${rowNumber}: compte credit obligatoire`, 400);
+  }
+
+  const amount = parseFlexibleAmount(amountValue);
+  if (!Number.isFinite(amount) || amount <= 0) {
+    throw new AppError(`Ligne ${rowNumber}: montant invalide`, 400);
+  }
+
+  let journalType = defaultJournalType ?? JournalType.GENERAL;
+  if (journalValue !== undefined) {
+    const normalizedJournal = String(journalValue).trim().toUpperCase() as JournalType;
+    if (!journalTypeValues.has(normalizedJournal)) {
+      throw new AppError(`Ligne ${rowNumber}: journalType invalide`, 400);
+    }
+    journalType = normalizedJournal;
+  }
+
+  let sourceType = defaultSourceType;
+  if (sourceTypeValue !== undefined) {
+    const normalizedSource = String(sourceTypeValue).trim().toUpperCase() as SourceType;
+    if (!sourceTypeValues.has(normalizedSource)) {
+      throw new AppError(`Ligne ${rowNumber}: sourceType invalide`, 400);
+    }
+    sourceType = normalizedSource;
+  }
+
+  const pieceNumber = pieceValue !== undefined ? String(pieceValue).trim() || undefined : undefined;
+  const sourceId = sourceIdValue !== undefined ? String(sourceIdValue).trim() || undefined : undefined;
+
+  return {
+    date,
+    description,
+    pieceNumber,
+    journalType,
+    debitAccount,
+    creditAccount,
+    amount,
+    sourceType,
+    sourceId,
+  };
+}
+
 // Resolve account ID from multiple possible input formats
 async function resolveAccountId(
   tx: Prisma.TransactionClient,
@@ -291,6 +487,115 @@ accountingRoutes.post(
     });
 
     res.status(201).json(entry);
+  }),
+);
+
+accountingRoutes.post(
+  "/entries/import-paste",
+  asyncHandler(async (req, res) => {
+    const body = req.body as {
+      fiscalYearId?: string;
+      pastedData?: string;
+      rows?: Array<Record<string, unknown>>;
+      defaultJournalType?: JournalType;
+      defaultSourceType?: SourceType;
+    };
+
+    if (!body.fiscalYearId) {
+      throw new AppError("fiscalYearId obligatoire", 400);
+    }
+
+    if (!body.pastedData && !Array.isArray(body.rows)) {
+      throw new AppError("Vous devez fournir pastedData ou rows", 400);
+    }
+
+    if (body.defaultJournalType && !journalTypeValues.has(body.defaultJournalType)) {
+      throw new AppError("defaultJournalType invalide", 400);
+    }
+
+    if (body.defaultSourceType && !sourceTypeValues.has(body.defaultSourceType)) {
+      throw new AppError("defaultSourceType invalide", 400);
+    }
+
+    const rawRows: Array<Record<string, unknown>> = Array.isArray(body.rows)
+      ? body.rows
+      : parseExcelPasteToJson(String(body.pastedData ?? ""));
+
+    if (rawRows.length === 0) {
+      throw new AppError("Aucune ligne exploitable a importer", 400);
+    }
+
+    const parsedRows = rawRows.map((row, index) =>
+      mapRawRowToImportedRow(row, index + 1, body.defaultJournalType, body.defaultSourceType),
+    );
+
+    const createdEntries = await prisma.$transaction(async (tx) => {
+      const fiscalYear = await tx.fiscalYear.findUnique({ where: { id: body.fiscalYearId as string } });
+      if (!fiscalYear) {
+        throw new AppError("Exercice comptable introuvable", 404);
+      }
+      if (fiscalYear.isClosed) {
+        throw new AppError("Exercice comptable ferme", 400);
+      }
+
+      let currentCount = await tx.journalEntry.count({ where: { fiscalYearId: fiscalYear.id } });
+      const created: Array<{ id: string; entryNumber: string; rowNumber: number }> = [];
+
+      for (let index = 0; index < parsedRows.length; index += 1) {
+        const row = parsedRows[index];
+        const rowNumber = index + 1;
+
+        const debitAccountId = await resolveAccountId(tx, { account: row.debitAccount });
+        const creditAccountId = await resolveAccountId(tx, { account: row.creditAccount });
+
+        currentCount += 1;
+        const entryNumber = `${fiscalYear.name}-${String(currentCount).padStart(5, "0")}`;
+        const amount = new Prisma.Decimal(row.amount);
+
+        const entry = await tx.journalEntry.create({
+          data: {
+            entryNumber,
+            fiscalYearId: fiscalYear.id,
+            date: row.date,
+            journalType: row.journalType,
+            pieceNumber: row.pieceNumber,
+            description: row.description,
+            sourceType: row.sourceType,
+            sourceId: row.sourceId,
+            lines: {
+              create: [
+                {
+                  accountId: debitAccountId,
+                  debit: amount,
+                  credit: new Prisma.Decimal(0),
+                },
+                {
+                  accountId: creditAccountId,
+                  debit: new Prisma.Decimal(0),
+                  credit: amount,
+                },
+              ],
+            },
+          },
+          select: { id: true, entryNumber: true },
+        });
+
+        created.push({
+          id: entry.id,
+          entryNumber: entry.entryNumber,
+          rowNumber,
+        });
+      }
+
+      return created;
+    });
+
+    res.status(201).json({
+      receivedRows: rawRows.length,
+      jsonRows: rawRows,
+      createdCount: createdEntries.length,
+      createdEntries,
+    });
   }),
 );
 

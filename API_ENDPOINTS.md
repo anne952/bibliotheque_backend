@@ -140,6 +140,35 @@
 - Body: `{ type, name, reference?, serialNumber?, category?, language?, volume?, minStockAlert?, unitPrice?, sellingPrice?, location?, description? }`
 - Response: Created material object
 
+### Import Materials from Excel Paste (1 ligne = 1 materiel)
+- **POST** `/materials/import-paste`
+- Objectif: recevoir un tableau colle depuis Excel, le transformer en JSON, puis creer un materiel par ligne.
+- Body:
+```json
+{
+  "pastedData": "Type\tNom\tReference\tPrix Achat\tPrix Vente\nBOOK\tLe Petit Prince\tBK-001\t3500\t5000",
+  "defaultType": "BOOK"
+}
+```
+- Alternative: envoyer directement `rows` (JSON) au lieu de `pastedData`.
+- Colonnes supportees (insensibles aux accents/casse):
+  - Type: `type`, `materialType`, `type materiel` (optionnel si `defaultType` fourni)
+  - Nom: `name`, `nom`, `designation`
+  - Reference: `reference`, `ref`
+  - Numero serie: `serialNumber`, `numero serie`
+  - Categorie: `category`, `categorie`
+  - Langue: `language`, `langue`
+  - Volume: `volume`, `tome`
+  - Stock min: `minStockAlert`, `stock minimum`
+  - Prix achat: `unitPrice`, `prix achat`, `prix unitaire`
+  - Prix vente: `sellingPrice`, `prix vente`
+  - Emplacement: `location`, `emplacement`
+  - Description: `description`, `details`
+- Regles:
+  - Chaque ligne doit contenir au moins `name` et un `type` valide (`BOOK`, `SD_CARD`, `TABLET`, `PHOTOCOPIER`, `PRINTER`, `CHAIR`, `OTHER`) ou utiliser `defaultType`.
+  - Le backend cree un enregistrement material en base pour chaque ligne.
+- Response: `{ receivedRows, jsonRows, createdCount, createdMaterials }`
+
 ### Update Material
 - **PUT** `/materials/:id`
 - Body: Any updatable fields
@@ -155,6 +184,7 @@
 - **GET** `/bibliotheque/:id`
 - **GET** `/bibliotheque/:id/transactions`
 - **POST** `/bibliotheque`
+- **POST** `/bibliotheque/import-paste`
 - **PUT** `/bibliotheque/:id`
 - **DELETE** `/bibliotheque/:id`
 - Notes: cet alias pointe sur la meme logique que `/materials` et couvre bien les actions modifier/supprimer.
@@ -165,6 +195,7 @@
 - **GET** `/materiel/:id`
 - **GET** `/materiel/:id/transactions`
 - **POST** `/materiel`
+- **POST** `/materiel/import-paste`
 - **PUT** `/materiel/:id`
 - **DELETE** `/materiel/:id`
 - Notes: cet alias pointe sur la meme logique que `/materials`.
@@ -388,6 +419,56 @@
 1. `GET /accounting/fiscal-years` → Récupérer le `fiscalYearId`
 2. `GET /accounting/accounts` → (Optionnel) Lister les comptes disponibles
 3. `POST /accounting/entries` → Créer une écriture avec numéros de compte ou UUID
+
+### Import Excel Paste (1 ligne = 1 ecriture)
+- **POST** `/accounting/entries/import-paste`
+- Objectif: recevoir un tableau colle depuis Excel, le transformer en JSON, puis creer une ecriture par ligne.
+- Body:
+```json
+{
+  "fiscalYearId": "f21982f8-d776-43c0-a2b2-c4a8a2fda8d2",
+  "pastedData": "Date\tLibelle\tCompte Debit\tCompte Credit\tMontant\n2026-02-28\tVente comptoir\t57\t701\t25000",
+  "defaultJournalType": "GENERAL",
+  "defaultSourceType": "OTHER"
+}
+```
+- Alternative: envoyer directement `rows` (JSON) au lieu de `pastedData`.
+- Colonnes supportees (insensibles aux accents/casse):
+  - Date: `date`, `jour`, `date operation`
+  - Libelle: `description`, `libelle`, `motif`
+  - Piece: `pieceNumber`, `piece`, `numero piece` (optionnel)
+  - Journal: `journalType`, `journal` (optionnel, sinon `defaultJournalType` ou `GENERAL`)
+  - Compte debit: `debitAccount`, `compte debit`
+  - Compte credit: `creditAccount`, `compte credit`
+  - Montant: `amount`, `montant`, `valeur`
+  - Source (optionnel): `sourceType`, `sourceId`
+- Regles:
+  - Chaque ligne doit contenir une date, un libelle, un compte debit, un compte credit, un montant > 0.
+  - Le backend cree automatiquement 2 lignes comptables par ligne importee (debit/credit, meme montant).
+  - `fiscalYearId` doit exister et ne pas etre ferme.
+- Response:
+```json
+{
+  "receivedRows": 1,
+  "jsonRows": [
+    {
+      "Date": "2026-02-28",
+      "Libelle": "Vente comptoir",
+      "Compte Debit": "57",
+      "Compte Credit": "701",
+      "Montant": "25000"
+    }
+  ],
+  "createdCount": 1,
+  "createdEntries": [
+    {
+      "id": "uuid",
+      "entryNumber": "FY 2026-00032",
+      "rowNumber": 1
+    }
+  ]
+}
+```
 
 ### Update Journal Entry
 - **PUT** `/accounting/entries/:id`

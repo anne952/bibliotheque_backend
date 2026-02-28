@@ -18,8 +18,8 @@ exports.authRoutes.post("/register", (0, http_1.asyncHandler)(async (req, res) =
         throw new http_1.AppError("email obligatoire", 400);
     if (!body.password)
         throw new http_1.AppError("password obligatoire", 400);
-    if (body.password.length < 6) {
-        throw new http_1.AppError("password doit contenir au moins 6 caracteres", 400);
+    if (body.password.length < 8) {
+        throw new http_1.AppError("password doit contenir au moins 8  caracteres", 400);
     }
     const user = await auth_service_1.AuthService.register({
         email: body.email,
