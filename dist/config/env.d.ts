@@ -4,5 +4,6 @@ export declare const env: {
     databaseUrl: string;
     corsAllowedOrigins: string[];
     corsAllowNullOrigin: boolean;
+    syncChangesMaxLimit: number;
 };
 //# sourceMappingURL=env.d.ts.map

@@ -331,6 +331,17 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
     get deletedItem(): Prisma.DeletedItemDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
+    /**
+     * `prisma.syncTask`: Exposes CRUD operations for the **SyncTask** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more SyncTasks
+      * const syncTasks = await prisma.syncTask.findMany()
+      * ```
+      */
+    get syncTask(): Prisma.SyncTaskDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
 }
 export declare function getPrismaClientClass(): PrismaClientConstructor;
 //# sourceMappingURL=class.d.ts.map

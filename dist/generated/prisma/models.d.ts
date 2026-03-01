@@ -18,5 +18,6 @@ export type * from './models/Account';
 export type * from './models/JournalEntry';
 export type * from './models/JournalLine';
 export type * from './models/DeletedItem';
+export type * from './models/SyncTask';
 export type * from './commonInputTypes';
 //# sourceMappingURL=models.d.ts.map

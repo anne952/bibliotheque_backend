@@ -337,6 +337,21 @@ model DeletedItem {
   @@index([originalTable, originalId])
 }
 
+model SyncTask {
+  id              String   @id @default(uuid())
+  clientId        String   @unique
+  title           String
+  payload         Json
+  version         Int      @default(1)
+  clientUpdatedAt DateTime
+  serverUpdatedAt DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  deletedAt       DateTime?
+
+  @@index([serverUpdatedAt])
+  @@index([deletedAt])
+}
+
 enum UserRole {
   ADMIN
   MANAGER

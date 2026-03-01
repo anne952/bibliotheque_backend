@@ -22,11 +22,17 @@ const corsAllowedOrigins = (corsAllowedOriginsRaw
     ? corsAllowedOriginsRaw.split(",")
     : defaultCorsAllowedOrigins).map((origin) => origin.trim()).filter(Boolean);
 const corsAllowNullOrigin = (process.env.CORS_ALLOW_NULL_ORIGIN ?? "false").toLowerCase() === "true";
+const syncChangesMaxLimitRaw = process.env.SYNC_CHANGES_MAX_LIMIT ?? "500";
+const syncChangesMaxLimit = Number(syncChangesMaxLimitRaw);
+if (!Number.isInteger(syncChangesMaxLimit) || syncChangesMaxLimit <= 0) {
+    throw new Error(`SYNC_CHANGES_MAX_LIMIT invalide: ${syncChangesMaxLimitRaw}`);
+}
 exports.env = {
     nodeEnv: process.env.NODE_ENV ?? "development",
     port,
     databaseUrl: process.env.DATABASE_URL,
     corsAllowedOrigins,
     corsAllowNullOrigin,
+    syncChangesMaxLimit,
 };
 //# sourceMappingURL=env.js.map

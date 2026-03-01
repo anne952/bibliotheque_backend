@@ -46,6 +46,7 @@ export declare const ModelName: {
     readonly JournalEntry: "JournalEntry";
     readonly JournalLine: "JournalLine";
     readonly DeletedItem: "DeletedItem";
+    readonly SyncTask: "SyncTask";
 };
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
 export declare const TransactionIsolationLevel: {
@@ -301,6 +302,18 @@ export declare const DeletedItemScalarFieldEnum: {
     readonly restoredById: "restoredById";
 };
 export type DeletedItemScalarFieldEnum = (typeof DeletedItemScalarFieldEnum)[keyof typeof DeletedItemScalarFieldEnum];
+export declare const SyncTaskScalarFieldEnum: {
+    readonly id: "id";
+    readonly clientId: "clientId";
+    readonly title: "title";
+    readonly payload: "payload";
+    readonly version: "version";
+    readonly clientUpdatedAt: "clientUpdatedAt";
+    readonly serverUpdatedAt: "serverUpdatedAt";
+    readonly createdAt: "createdAt";
+    readonly deletedAt: "deletedAt";
+};
+export type SyncTaskScalarFieldEnum = (typeof SyncTaskScalarFieldEnum)[keyof typeof SyncTaskScalarFieldEnum];
 export declare const SortOrder: {
     readonly asc: "asc";
     readonly desc: "desc";

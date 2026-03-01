@@ -251,6 +251,7 @@ export declare const ModelName: {
     readonly JournalEntry: "JournalEntry";
     readonly JournalLine: "JournalLine";
     readonly DeletedItem: "DeletedItem";
+    readonly SyncTask: "SyncTask";
 };
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
 export interface TypeMapCb<GlobalOmitOptions = {}> extends runtime.Types.Utils.Fn<{
@@ -263,7 +264,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         omit: GlobalOmitOptions;
     };
     meta: {
-        modelProps: "user" | "session" | "companyProfile" | "person" | "visitorLog" | "material" | "stockMovement" | "loan" | "loanItem" | "sale" | "saleItem" | "purchase" | "purchaseItem" | "donation" | "donationItem" | "fiscalYear" | "account" | "journalEntry" | "journalLine" | "deletedItem";
+        modelProps: "user" | "session" | "companyProfile" | "person" | "visitorLog" | "material" | "stockMovement" | "loan" | "loanItem" | "sale" | "saleItem" | "purchase" | "purchaseItem" | "donation" | "donationItem" | "fiscalYear" | "account" | "journalEntry" | "journalLine" | "deletedItem" | "syncTask";
         txIsolationLevel: TransactionIsolationLevel;
     };
     model: {
@@ -1747,6 +1748,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
                 };
             };
         };
+        SyncTask: {
+            payload: Prisma.$SyncTaskPayload<ExtArgs>;
+            fields: Prisma.SyncTaskFieldRefs;
+            operations: {
+                findUnique: {
+                    args: Prisma.SyncTaskFindUniqueArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncTaskPayload> | null;
+                };
+                findUniqueOrThrow: {
+                    args: Prisma.SyncTaskFindUniqueOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncTaskPayload>;
+                };
+                findFirst: {
+                    args: Prisma.SyncTaskFindFirstArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncTaskPayload> | null;
+                };
+                findFirstOrThrow: {
+                    args: Prisma.SyncTaskFindFirstOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncTaskPayload>;
+                };
+                findMany: {
+                    args: Prisma.SyncTaskFindManyArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncTaskPayload>[];
+                };
+                create: {
+                    args: Prisma.SyncTaskCreateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncTaskPayload>;
+                };
+                createMany: {
+                    args: Prisma.SyncTaskCreateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                createManyAndReturn: {
+                    args: Prisma.SyncTaskCreateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncTaskPayload>[];
+                };
+                delete: {
+                    args: Prisma.SyncTaskDeleteArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncTaskPayload>;
+                };
+                update: {
+                    args: Prisma.SyncTaskUpdateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncTaskPayload>;
+                };
+                deleteMany: {
+                    args: Prisma.SyncTaskDeleteManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateMany: {
+                    args: Prisma.SyncTaskUpdateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateManyAndReturn: {
+                    args: Prisma.SyncTaskUpdateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncTaskPayload>[];
+                };
+                upsert: {
+                    args: Prisma.SyncTaskUpsertArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$SyncTaskPayload>;
+                };
+                aggregate: {
+                    args: Prisma.SyncTaskAggregateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.AggregateSyncTask>;
+                };
+                groupBy: {
+                    args: Prisma.SyncTaskGroupByArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.SyncTaskGroupByOutputType>[];
+                };
+                count: {
+                    args: Prisma.SyncTaskCountArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.SyncTaskCountAggregateOutputType> | number;
+                };
+            };
+        };
     };
 } & {
     other: {
@@ -2027,6 +2102,18 @@ export declare const DeletedItemScalarFieldEnum: {
     readonly restoredById: "restoredById";
 };
 export type DeletedItemScalarFieldEnum = (typeof DeletedItemScalarFieldEnum)[keyof typeof DeletedItemScalarFieldEnum];
+export declare const SyncTaskScalarFieldEnum: {
+    readonly id: "id";
+    readonly clientId: "clientId";
+    readonly title: "title";
+    readonly payload: "payload";
+    readonly version: "version";
+    readonly clientUpdatedAt: "clientUpdatedAt";
+    readonly serverUpdatedAt: "serverUpdatedAt";
+    readonly createdAt: "createdAt";
+    readonly deletedAt: "deletedAt";
+};
+export type SyncTaskScalarFieldEnum = (typeof SyncTaskScalarFieldEnum)[keyof typeof SyncTaskScalarFieldEnum];
 export declare const SortOrder: {
     readonly asc: "asc";
     readonly desc: "desc";
@@ -2317,6 +2404,7 @@ export type GlobalOmitConfig = {
     journalEntry?: Prisma.JournalEntryOmit;
     journalLine?: Prisma.JournalLineOmit;
     deletedItem?: Prisma.DeletedItemOmit;
+    syncTask?: Prisma.SyncTaskOmit;
 };
 export type LogLevel = 'info' | 'query' | 'warn' | 'error';
 export type LogDefinition = {

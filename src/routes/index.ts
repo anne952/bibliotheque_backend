@@ -7,6 +7,7 @@ import { accountingRoutes } from "../modules/accounting/accounting.routes";
 import { reportsRoutes } from "../modules/reports/reports.routes";
 import { initRoutes } from "../modules/init/init.routes";
 import { deletedItemsRoutes } from "../modules/deleted-items/deleted-items.routes";
+import { offlineSyncRoutes } from "../modules/offline-sync/offline-sync.routes";
 
 export const apiRoutes = Router();
 
@@ -23,3 +24,4 @@ apiRoutes.use("/reports", reportsRoutes);
 apiRoutes.use("/rapport", reportsRoutes);
 apiRoutes.use("/deleted-items", deletedItemsRoutes);
 apiRoutes.use("/corbeille", deletedItemsRoutes);
+apiRoutes.use("/offline-sync", offlineSyncRoutes);

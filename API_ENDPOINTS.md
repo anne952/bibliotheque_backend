@@ -827,6 +827,49 @@ The refresh token is obtained from login/register endpoints.
 
 ---
 
+## Sync API (Server-side)
+
+Base path: `/offline-sync`
+
+### Synchroniser un lot client -> serveur
+- **POST** `/offline-sync/sync`
+- Body:
+```json
+{
+  "items": [
+    {
+      "clientId": "task-mobile-001",
+      "title": "Ma tache",
+      "payload": { "x": 1 },
+      "clientUpdatedAt": "2026-03-01T12:00:00.000Z",
+      "baseVersion": 1,
+      "deleted": false
+    }
+  ]
+}
+```
+- Validation serveur: version + timestamp
+- Détection conflit: retour `409` avec `serverTask`
+- Sauvegarde: base distante (PostgreSQL via Prisma)
+- Réponse: version serveur à jour par item
+
+### Synchroniser un item client -> serveur
+- **POST** `/offline-sync/task/sync`
+- Même contrat que le batch, pour un seul enregistrement
+
+### Récupérer l'état serveur actuel d'un item
+- **GET** `/offline-sync/task/:clientId`
+
+### Récupérer les changements depuis `last_sync`
+- **GET** `/offline-sync/changes?since=<ISO_TIMESTAMP>&limit=500`
+- Retourne uniquement les éléments modifiés côté serveur depuis `since`
+- Le champ `serverNow` sert de nouveau `last_sync` côté client
+
+### Variables d'environnement
+- `SYNC_CHANGES_MAX_LIMIT` (défaut `500`)
+
+---
+
 ## Key Business Rules
 
 1. **Loans**: Max 3 books per loan, only BOOK type materials

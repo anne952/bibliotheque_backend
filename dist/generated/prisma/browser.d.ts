@@ -102,4 +102,9 @@ export type JournalLine = Prisma.JournalLineModel;
  *
  */
 export type DeletedItem = Prisma.DeletedItemModel;
+/**
+ * Model SyncTask
+ *
+ */
+export type SyncTask = Prisma.SyncTaskModel;
 //# sourceMappingURL=browser.d.ts.map
