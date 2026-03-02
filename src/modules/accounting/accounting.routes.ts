@@ -539,53 +539,121 @@ accountingRoutes.post(
       }
 
       let currentCount = await tx.journalEntry.count({ where: { fiscalYearId: fiscalYear.id } });
-      const created: Array<{ id: string; entryNumber: string; rowNumber: number }> = [];
 
-      for (let index = 0; index < parsedRows.length; index += 1) {
-        const row = parsedRows[index];
+      const distinctAccountValues = Array.from(
+        new Set(
+          parsedRows.flatMap((row) => [row.debitAccount.trim(), row.creditAccount.trim()]),
+        ),
+      );
+
+      const accountIds = distinctAccountValues.filter((value) => isUUID(value));
+      const accountNumbers = distinctAccountValues.filter((value) => !isUUID(value));
+
+      const [accountsById, accountsByNumber] = await Promise.all([
+        accountIds.length > 0
+          ? tx.account.findMany({
+              where: { id: { in: accountIds } },
+              select: { id: true },
+            })
+          : Promise.resolve([]),
+        accountNumbers.length > 0
+          ? tx.account.findMany({
+              where: {
+                accountNumber: { in: accountNumbers },
+                isActive: true,
+              },
+              select: { id: true, accountNumber: true },
+            })
+          : Promise.resolve([]),
+      ]);
+
+      const validAccountIdSet = new Set(accountsById.map((account) => account.id));
+      const accountNumberToId = new Map(accountsByNumber.map((account) => [account.accountNumber, account.id]));
+
+      const resolveImportedAccountId = (accountValue: string, rowNumber: number, side: "debit" | "credit"): string => {
+        if (isUUID(accountValue)) {
+          if (!validAccountIdSet.has(accountValue)) {
+            throw new AppError(`Ligne ${rowNumber}: compte ${side} introuvable (ID: ${accountValue})`, 400);
+          }
+          return accountValue;
+        }
+
+        const resolvedId = accountNumberToId.get(accountValue);
+        if (!resolvedId) {
+          throw new AppError(`Ligne ${rowNumber}: compte ${side} introuvable (numero: ${accountValue})`, 400);
+        }
+        return resolvedId;
+      };
+
+      const preparedEntries = parsedRows.map((row, index) => {
         const rowNumber = index + 1;
-
-        const debitAccountId = await resolveAccountId(tx, { account: row.debitAccount });
-        const creditAccountId = await resolveAccountId(tx, { account: row.creditAccount });
+        const debitAccountId = resolveImportedAccountId(row.debitAccount, rowNumber, "debit");
+        const creditAccountId = resolveImportedAccountId(row.creditAccount, rowNumber, "credit");
 
         currentCount += 1;
         const entryNumber = `${fiscalYear.name}-${String(currentCount).padStart(5, "0")}`;
-        const amount = new Prisma.Decimal(row.amount);
 
-        const entry = await tx.journalEntry.create({
-          data: {
-            entryNumber,
-            fiscalYearId: fiscalYear.id,
-            date: row.date,
-            journalType: row.journalType,
-            pieceNumber: row.pieceNumber,
-            description: row.description,
-            sourceType: row.sourceType,
-            sourceId: row.sourceId,
-            lines: {
-              create: [
-                {
-                  accountId: debitAccountId,
-                  debit: amount,
-                  credit: new Prisma.Decimal(0),
-                },
-                {
-                  accountId: creditAccountId,
-                  debit: new Prisma.Decimal(0),
-                  credit: amount,
-                },
-              ],
-            },
-          },
-          select: { id: true, entryNumber: true },
+        return {
+          rowNumber,
+          entryNumber,
+          date: row.date,
+          journalType: row.journalType,
+          pieceNumber: row.pieceNumber,
+          description: row.description,
+          sourceType: row.sourceType,
+          sourceId: row.sourceId,
+          debitAccountId,
+          creditAccountId,
+          amount: new Prisma.Decimal(row.amount),
+        };
+      });
+
+      const insertedEntries = await tx.journalEntry.createManyAndReturn({
+        data: preparedEntries.map((entry) => ({
+          entryNumber: entry.entryNumber,
+          fiscalYearId: fiscalYear.id,
+          date: entry.date,
+          journalType: entry.journalType,
+          pieceNumber: entry.pieceNumber,
+          description: entry.description,
+          sourceType: entry.sourceType,
+          sourceId: entry.sourceId,
+        })),
+        select: { id: true, entryNumber: true },
+      });
+
+      const entryNumberToId = new Map(insertedEntries.map((entry) => [entry.entryNumber, entry.id]));
+
+      const linesData: Prisma.JournalLineCreateManyInput[] = [];
+      const created: Array<{ id: string; entryNumber: string; rowNumber: number }> = [];
+
+      for (const entry of preparedEntries) {
+        const entryId = entryNumberToId.get(entry.entryNumber);
+        if (!entryId) {
+          throw new AppError(`Echec de creation pour l'ecriture ${entry.entryNumber}`, 500);
+        }
+
+        linesData.push({
+          entryId,
+          accountId: entry.debitAccountId,
+          debit: entry.amount,
+          credit: new Prisma.Decimal(0),
+        });
+        linesData.push({
+          entryId,
+          accountId: entry.creditAccountId,
+          debit: new Prisma.Decimal(0),
+          credit: entry.amount,
         });
 
         created.push({
-          id: entry.id,
+          id: entryId,
           entryNumber: entry.entryNumber,
-          rowNumber,
+          rowNumber: entry.rowNumber,
         });
       }
+
+      await tx.journalLine.createMany({ data: linesData });
 
       return created;
     });

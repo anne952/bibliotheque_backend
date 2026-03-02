@@ -306,34 +306,31 @@ materialsRoutes.post(
       mapRawRowToMaterial(row, index + 1, body.defaultType),
     );
 
-    const createdMaterials = await prisma.$transaction(async (tx) => {
-      const created: Array<{ id: string; name: string; rowNumber: number }> = [];
+    const createData: Prisma.MaterialCreateManyInput[] = parsedRows.map((row) => ({
+      type: row.type,
+      name: row.name,
+      reference: row.reference ?? null,
+      serialNumber: row.serialNumber ?? null,
+      category: row.category ?? null,
+      language: row.language ?? null,
+      volume: row.volume ?? null,
+      minStockAlert: row.minStockAlert ?? 0,
+      unitPrice: row.unitPrice !== undefined ? new Prisma.Decimal(row.unitPrice) : null,
+      sellingPrice: row.sellingPrice !== undefined ? new Prisma.Decimal(row.sellingPrice) : null,
+      location: row.location ?? null,
+      description: row.description ?? null,
+    }));
 
-      for (let index = 0; index < parsedRows.length; index += 1) {
-        const row = parsedRows[index];
-        const material = await tx.material.create({
-          data: {
-            type: row.type,
-            name: row.name,
-            reference: row.reference ?? null,
-            serialNumber: row.serialNumber ?? null,
-            category: row.category ?? null,
-            language: row.language ?? null,
-            volume: row.volume ?? null,
-            minStockAlert: row.minStockAlert ?? 0,
-            unitPrice: row.unitPrice !== undefined ? new Prisma.Decimal(row.unitPrice) : null,
-            sellingPrice: row.sellingPrice !== undefined ? new Prisma.Decimal(row.sellingPrice) : null,
-            location: row.location ?? null,
-            description: row.description ?? null,
-          },
-          select: { id: true, name: true },
-        });
-
-        created.push({ id: material.id, name: material.name, rowNumber: index + 1 });
-      }
-
-      return created;
+    const insertedMaterials = await prisma.material.createManyAndReturn({
+      data: createData,
+      select: { id: true, name: true },
     });
+
+    const createdMaterials = insertedMaterials.map((material, index) => ({
+      id: material.id,
+      name: material.name,
+      rowNumber: index + 1,
+    }));
 
     res.status(201).json({
       receivedRows: rawRows.length,

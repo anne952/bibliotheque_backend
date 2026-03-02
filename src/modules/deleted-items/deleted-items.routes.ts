@@ -172,6 +172,42 @@ deletedItemsRoutes.delete(
 );
 
 deletedItemsRoutes.delete(
+  "/purge-recent",
+  asyncHandler(async (req, res) => {
+    const daysRaw = req.query.days ? Number(req.query.days) : 7;
+    const days = Number.isFinite(daysRaw) ? Math.max(1, Math.min(365, Math.trunc(daysRaw))) : 7;
+    const table = req.query.table ? String(req.query.table) : undefined;
+    const onlyNotRestored = String(req.query.onlyNotRestored ?? "true") === "true";
+
+    const now = new Date();
+    const cutoff = new Date(now.getTime() - days * 24 * 60 * 60 * 1000);
+
+    const where: Prisma.DeletedItemWhereInput = {
+      deletedAt: {
+        gte: cutoff,
+        lte: now,
+      },
+    };
+
+    if (table) where.originalTable = table;
+    if (onlyNotRestored) where.restoredAt = null;
+
+    const result = await prisma.deletedItem.deleteMany({ where });
+
+    res.status(200).json({
+      deletedCount: result.count,
+      days,
+      table: table ?? null,
+      onlyNotRestored,
+      range: {
+        from: cutoff,
+        to: now,
+      },
+    });
+  }),
+);
+
+deletedItemsRoutes.delete(
   "/:id",
   asyncHandler(async (req, res) => {
     const id = String(req.params.id);
