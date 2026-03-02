@@ -65,6 +65,12 @@ export declare class AccountingService {
         entries: {
             date: Date;
             description: string;
+            businessLabel: string;
+            syncIdentifier: string | null;
+            sync: {
+                sourceType: import("../../generated/prisma/enums").SourceType | null;
+                identifier: string | null;
+            };
             debit: number;
             credit: number;
             balance: number;
@@ -73,7 +79,12 @@ export declare class AccountingService {
     /**
      * Get cash journal entries
      */
-    static getCashJournal(fiscalYearId?: string): Promise<({
+    static getCashJournal(fiscalYearId?: string): Promise<{
+        businessLabel: string;
+        sync: {
+            sourceType: import("../../generated/prisma/enums").SourceType | null;
+            identifier: string | null;
+        };
         lines: ({
             account: {
                 id: string;
@@ -96,7 +107,6 @@ export declare class AccountingService {
             accountId: string;
             entryId: string;
         })[];
-    } & {
         id: string;
         createdAt: Date;
         updatedAt: Date;
@@ -111,7 +121,7 @@ export declare class AccountingService {
         isValidated: boolean;
         validatedAt: Date | null;
         validatedById: string | null;
-    })[]>;
+    }[]>;
     /**
      * Calculate account from previous period (for N-1 comparison)
      */

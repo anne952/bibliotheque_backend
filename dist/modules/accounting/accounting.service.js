@@ -179,6 +179,12 @@ class AccountingService {
             return {
                 date: line.entry.date,
                 description: line.entry.description,
+                businessLabel: line.entry.description,
+                syncIdentifier: line.entry.sourceId,
+                sync: {
+                    sourceType: line.entry.sourceType,
+                    identifier: line.entry.sourceId,
+                },
                 debit: line.debit.toNumber(),
                 credit: line.credit.toNumber(),
                 balance: runningBalance.toNumber(),
@@ -213,7 +219,14 @@ class AccountingService {
             },
             orderBy: [{ date: "asc" }, { createdAt: "asc" }],
         });
-        return entries;
+        return entries.map((entry) => ({
+            ...entry,
+            businessLabel: entry.description,
+            sync: {
+                sourceType: entry.sourceType,
+                identifier: entry.sourceId,
+            },
+        }));
     }
     /**
      * Calculate account from previous period (for N-1 comparison)

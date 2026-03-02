@@ -75,8 +75,72 @@ type ImportedPasteRow = {
   sourceId?: string;
 };
 
+type SyncInput = {
+  sourceType?: SourceType;
+  identifier?: string;
+  syncIdentifier?: string;
+  sourceId?: string;
+};
+
+type EntryPayloadMetadata = {
+  businessLabel?: string;
+  description?: string;
+  sourceType?: SourceType;
+  sourceId?: string;
+  sync?: SyncInput;
+};
+
 const journalTypeValues = new Set<JournalType>(Object.values(JournalType));
 const sourceTypeValues = new Set<SourceType>(Object.values(SourceType));
+const IMPORT_BATCH_SIZE = 50;
+
+type ImportLineError = {
+  rowNumber: number;
+  message: string;
+  row: Record<string, unknown>;
+};
+
+function normalizeEntryMetadata(payload: EntryPayloadMetadata): {
+  businessLabel?: string;
+  sourceType?: SourceType;
+  syncIdentifier?: string;
+} {
+  const businessLabelRaw = payload.businessLabel ?? payload.description;
+  const syncBlock = payload.sync;
+
+  const sourceType = syncBlock?.sourceType ?? payload.sourceType;
+  const syncIdentifierRaw =
+    syncBlock?.identifier ??
+    syncBlock?.syncIdentifier ??
+    syncBlock?.sourceId ??
+    payload.sourceId;
+
+  const businessLabel =
+    businessLabelRaw !== undefined ? String(businessLabelRaw).trim() || undefined : undefined;
+  const syncIdentifier =
+    syncIdentifierRaw !== undefined ? String(syncIdentifierRaw).trim() || undefined : undefined;
+
+  return {
+    businessLabel,
+    sourceType,
+    syncIdentifier,
+  };
+}
+
+function toEntryResponse<T extends { description: string; sourceType: SourceType | null; sourceId: string | null }>(entry: T) {
+  return {
+    ...entry,
+    businessLabel: entry.description,
+    sync: {
+      sourceType: entry.sourceType,
+      identifier: entry.sourceId,
+    },
+  };
+}
+
+function toEntriesResponse<T extends { description: string; sourceType: SourceType | null; sourceId: string | null }>(entries: T[]) {
+  return entries.map((entry) => toEntryResponse(entry));
+}
 
 function normalizeHeader(value: string): string {
   return value
@@ -138,6 +202,15 @@ function parseFlexibleDate(value: unknown): Date | null {
 }
 
 function parseExcelPasteToJson(pastedData: string): Array<Record<string, string>> {
+  const detectDelimiter = (headerLine: string): string => {
+    const candidates = ["\t", ";", ","];
+    const best = candidates
+      .map((delimiter) => ({ delimiter, columns: headerLine.split(delimiter).length }))
+      .sort((a, b) => b.columns - a.columns)[0];
+
+    return best && best.columns > 1 ? best.delimiter : ";";
+  };
+
   const lines = pastedData
     .split(/\r?\n/)
     .map((line) => line.trimEnd())
@@ -147,7 +220,7 @@ function parseExcelPasteToJson(pastedData: string): Array<Record<string, string>
     throw new AppError("Le tableau colle doit contenir un en-tete et au moins une ligne", 400);
   }
 
-  const delimiter = lines[0].includes("\t") ? "\t" : ";";
+  const delimiter = detectDelimiter(lines[0]);
   const headers = lines[0].split(delimiter).map((header) => header.trim());
   if (headers.length < 2) {
     throw new AppError("Format de tableau invalide: colonnes insuffisantes", 400);
@@ -191,14 +264,14 @@ function mapRawRowToImportedRow(
   };
 
   const dateValue = pick("date", "jour", "dateoperation", "dateecriture");
-  const descriptionValue = pick("description", "libelle", "motif", "designation");
+  const descriptionValue = pick("description", "businesslabel", "libellemetier", "libelle", "motif", "designation");
   const pieceValue = pick("piecenumber", "piece", "numeropiece", "reference", "ref");
   const journalValue = pick("journaltype", "journal", "typejournal");
   const debitAccountValue = pick("debitaccount", "comptedebit", "compte_debit", "debitcompte");
   const creditAccountValue = pick("creditaccount", "comptecredit", "compte_credit", "creditcompte");
   const amountValue = pick("amount", "montant", "valeur", "somme");
   const sourceTypeValue = pick("sourcetype", "source_type", "source");
-  const sourceIdValue = pick("sourceid", "source_id");
+  const sourceIdValue = pick("sourceid", "source_id", "syncidentifier", "syncid", "identifiantsync");
 
   const date = parseFlexibleDate(dateValue);
   if (!date) {
@@ -396,7 +469,7 @@ accountingRoutes.get(
       orderBy: [{ date: "desc" }, { createdAt: "desc" }],
     });
 
-    res.status(200).json(entries);
+    res.status(200).json(toEntriesResponse(entries));
   }),
 );
 
@@ -406,7 +479,7 @@ accountingRoutes.get(
     const id = String(req.params.id);
     const entry = await prisma.journalEntry.findUnique({ where: { id }, include: { lines: true } });
     if (!entry) throw new AppError("Ecriture introuvable", 404);
-    res.status(200).json(entry);
+    res.status(200).json(toEntryResponse(entry));
   }),
 );
 
@@ -418,9 +491,11 @@ accountingRoutes.post(
       date?: string;
       journalType?: JournalType;
       pieceNumber?: string;
+      businessLabel?: string;
       description?: string;
       sourceType?: SourceType;
       sourceId?: string;
+      sync?: SyncInput;
       lines?: Array<{ 
         account?: string;
         accountId?: string; 
@@ -434,12 +509,18 @@ accountingRoutes.post(
     if (!body.fiscalYearId) throw new AppError("fiscalYearId obligatoire", 400);
     if (!body.date) throw new AppError("date obligatoire", 400);
     if (!body.journalType) throw new AppError("journalType obligatoire", 400);
-    if (!body.description?.trim()) throw new AppError("description obligatoire", 400);
+
+    const metadata = normalizeEntryMetadata(body);
+    if (!metadata.businessLabel) throw new AppError("businessLabel (ou description) obligatoire", 400);
+
+    if (metadata.sourceType && !sourceTypeValues.has(metadata.sourceType)) {
+      throw new AppError("sourceType invalide", 400);
+    }
 
     const fiscalYearId = body.fiscalYearId;
     const entryDate = new Date(body.date);
     const journalType = body.journalType;
-    const description = body.description.trim();
+    const description = metadata.businessLabel;
     const lines = body.lines ?? [];
 
     validateLines(lines);
@@ -476,8 +557,8 @@ accountingRoutes.post(
           journalType,
           pieceNumber: body.pieceNumber,
           description,
-          sourceType: body.sourceType,
-          sourceId: body.sourceId,
+          sourceType: metadata.sourceType,
+          sourceId: metadata.syncIdentifier,
           lines: {
             create: resolvedLines,
           },
@@ -486,7 +567,7 @@ accountingRoutes.post(
       });
     });
 
-    res.status(201).json(entry);
+    res.status(201).json(toEntryResponse(entry));
   }),
 );
 
@@ -505,8 +586,14 @@ accountingRoutes.post(
       throw new AppError("fiscalYearId obligatoire", 400);
     }
 
-    if (!body.pastedData && !Array.isArray(body.rows)) {
+    const hasRowsField = Object.prototype.hasOwnProperty.call(body, "rows");
+
+    if (!hasRowsField && !body.pastedData) {
       throw new AppError("Vous devez fournir pastedData ou rows", 400);
+    }
+
+    if (hasRowsField && !Array.isArray(body.rows)) {
+      throw new AppError("rows doit etre un tableau JSON", 400);
     }
 
     if (body.defaultJournalType && !journalTypeValues.has(body.defaultJournalType)) {
@@ -517,368 +604,335 @@ accountingRoutes.post(
       throw new AppError("defaultSourceType invalide", 400);
     }
 
-    const rawRows: Array<Record<string, unknown>> = Array.isArray(body.rows)
-      ? body.rows
+    const rawRows: Array<Record<string, unknown>> = hasRowsField
+      ? (body.rows as Array<Record<string, unknown>>)
       : parseExcelPasteToJson(String(body.pastedData ?? ""));
 
     if (rawRows.length === 0) {
       throw new AppError("Aucune ligne exploitable a importer", 400);
     }
 
-    const parsedRows = rawRows.map((row, index) =>
-      mapRawRowToImportedRow(row, index + 1, body.defaultJournalType, body.defaultSourceType),
+    const startedAt = Date.now();
+    const lineErrors: ImportLineError[] = [];
+    const errors: string[] = [];
+    const parsedRows: Array<{ rowNumber: number; row: ImportedPasteRow }> = [];
+
+    for (let index = 0; index < rawRows.length; index += 1) {
+      const rowNumber = index + 1;
+      const rawRow = rawRows[index];
+
+      try {
+        parsedRows.push({
+          rowNumber,
+          row: mapRawRowToImportedRow(rawRow, rowNumber, body.defaultJournalType, body.defaultSourceType),
+        });
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Erreur inconnue";
+        lineErrors.push({ rowNumber, message, row: rawRow });
+      }
+    }
+
+    const fiscalYear = await prisma.fiscalYear.findUnique({ where: { id: body.fiscalYearId } });
+    if (!fiscalYear) {
+      throw new AppError("Exercice comptable introuvable", 404);
+    }
+    if (fiscalYear.isClosed) {
+      throw new AppError("Exercice comptable ferme", 400);
+    }
+
+    const distinctAccountValues = Array.from(
+      new Set(parsedRows.flatMap((item) => [item.row.debitAccount.trim(), item.row.creditAccount.trim()])),
     );
 
-    const upsertedEntries = await prisma.$transaction(async (tx) => {
-      const fiscalYear = await tx.fiscalYear.findUnique({ where: { id: body.fiscalYearId as string } });
-      if (!fiscalYear) {
-        throw new AppError("Exercice comptable introuvable", 404);
-      }
-      if (fiscalYear.isClosed) {
-        throw new AppError("Exercice comptable ferme", 400);
-      }
+    const accountIds = distinctAccountValues.filter((value) => isUUID(value));
+    const accountNumbers = distinctAccountValues.filter((value) => !isUUID(value));
 
-      let currentCount = await tx.journalEntry.count({ where: { fiscalYearId: fiscalYear.id } });
-
-      const distinctAccountValues = Array.from(
-        new Set(
-          parsedRows.flatMap((row) => [row.debitAccount.trim(), row.creditAccount.trim()]),
-        ),
-      );
-
-      const accountIds = distinctAccountValues.filter((value) => isUUID(value));
-      const accountNumbers = distinctAccountValues.filter((value) => !isUUID(value));
-
-      const [accountsById, accountsByNumber] = await Promise.all([
-        accountIds.length > 0
-          ? tx.account.findMany({
-              where: { id: { in: accountIds } },
-              select: { id: true },
-            })
-          : Promise.resolve([]),
-        accountNumbers.length > 0
-          ? tx.account.findMany({
-              where: {
-                accountNumber: { in: accountNumbers },
-                isActive: true,
-              },
-              select: { id: true, accountNumber: true },
-            })
-          : Promise.resolve([]),
-      ]);
-
-      const validAccountIdSet = new Set(accountsById.map((account) => account.id));
-      const accountNumberToId = new Map(accountsByNumber.map((account) => [account.accountNumber, account.id]));
-
-      const resolveImportedAccountId = (accountValue: string, rowNumber: number, side: "debit" | "credit"): string => {
-        if (isUUID(accountValue)) {
-          if (!validAccountIdSet.has(accountValue)) {
-            throw new AppError(`Ligne ${rowNumber}: compte ${side} introuvable (ID: ${accountValue})`, 400);
-          }
-          return accountValue;
-        }
-
-        const resolvedId = accountNumberToId.get(accountValue);
-        if (!resolvedId) {
-          throw new AppError(`Ligne ${rowNumber}: compte ${side} introuvable (numero: ${accountValue})`, 400);
-        }
-        return resolvedId;
-      };
-
-      const preparedEntries = parsedRows.map((row, index) => {
-        const rowNumber = index + 1;
-        const debitAccountId = resolveImportedAccountId(row.debitAccount, rowNumber, "debit");
-        const creditAccountId = resolveImportedAccountId(row.creditAccount, rowNumber, "credit");
-
-        currentCount += 1;
-        const entryNumber = `${fiscalYear.name}-${String(currentCount).padStart(5, "0")}`;
-
-        return {
-          rowNumber,
-          entryNumber,
-          date: row.date,
-          journalType: row.journalType,
-          pieceNumber: row.pieceNumber,
-          description: row.description,
-          sourceType: row.sourceType,
-          sourceId: row.sourceId,
-          debitAccountId,
-          creditAccountId,
-          amount: new Prisma.Decimal(row.amount),
-        };
-      });
-
-      const candidateFilters = preparedEntries.map((entry) => ({
-        fiscalYearId: fiscalYear.id,
-        date: entry.date,
-        journalType: entry.journalType,
-        pieceNumber: entry.pieceNumber ?? null,
-        description: entry.description,
-        sourceType: entry.sourceType ?? null,
-        sourceId: entry.sourceId ?? null,
-      }));
-
-      const candidateEntries = await tx.journalEntry.findMany({
-        where: {
-          fiscalYearId: fiscalYear.id,
-          OR: candidateFilters,
-        },
-        select: {
-          id: true,
-          entryNumber: true,
-          isValidated: true,
-          fiscalYearId: true,
-          date: true,
-          journalType: true,
-          pieceNumber: true,
-          description: true,
-          sourceType: true,
-          sourceId: true,
-          lines: {
-            select: {
-              accountId: true,
-              debit: true,
-              credit: true,
+    const [accountsById, accountsByNumber] = await Promise.all([
+      accountIds.length > 0
+        ? prisma.account.findMany({
+            where: { id: { in: accountIds } },
+            select: { id: true },
+          })
+        : Promise.resolve([]),
+      accountNumbers.length > 0
+        ? prisma.account.findMany({
+            where: {
+              accountNumber: { in: accountNumbers },
+              isActive: true,
             },
-          },
-        },
-      });
+            select: { id: true, accountNumber: true },
+          })
+        : Promise.resolve([]),
+    ]);
 
-      const buildPreparedKey = (entry: {
-        fiscalYearId: string;
-        date: Date;
-        journalType: JournalType;
-        pieceNumber?: string;
-        description: string;
-        sourceType?: SourceType;
-        sourceId?: string;
-        debitAccountId: string;
-        creditAccountId: string;
-        amount: Prisma.Decimal;
-      }): string => {
-        return [
-          entry.fiscalYearId,
-          entry.date.toISOString(),
-          entry.journalType,
-          entry.pieceNumber ?? "",
-          entry.description,
-          entry.sourceType ?? "",
-          entry.sourceId ?? "",
-          entry.debitAccountId,
-          entry.creditAccountId,
-          entry.amount.toString(),
-        ].join("|");
-      };
+    const validAccountIdSet = new Set(accountsById.map((account) => account.id));
+    const accountNumberToId = new Map(accountsByNumber.map((account) => [account.accountNumber, account.id]));
 
-      const buildCandidateKey = (entry: {
-        fiscalYearId: string;
-        date: Date;
-        journalType: JournalType;
-        pieceNumber: string | null;
-        description: string;
-        sourceType: SourceType | null;
-        sourceId: string | null;
-        lines: Array<{ accountId: string; debit: Prisma.Decimal; credit: Prisma.Decimal }>;
-      }): string | null => {
-        if (entry.lines.length !== 2) {
-          return null;
+    const resolveImportedAccountId = (accountValue: string, rowNumber: number, side: "debit" | "credit"): string => {
+      if (isUUID(accountValue)) {
+        if (!validAccountIdSet.has(accountValue)) {
+          throw new AppError(`Ligne ${rowNumber}: compte ${side} introuvable (ID: ${accountValue})`, 400);
         }
+        return accountValue;
+      }
 
-        const debitLine = entry.lines.find((line) => line.debit.greaterThan(0) && line.credit.equals(0));
-        const creditLine = entry.lines.find((line) => line.credit.greaterThan(0) && line.debit.equals(0));
+      const resolvedId = accountNumberToId.get(accountValue);
+      if (!resolvedId) {
+        throw new AppError(`Ligne ${rowNumber}: compte ${side} introuvable (numero: ${accountValue})`, 400);
+      }
+      return resolvedId;
+    };
 
-        if (!debitLine || !creditLine) {
-          return null;
-        }
+    const buildPreparedKey = (entry: {
+      fiscalYearId: string;
+      date: Date;
+      journalType: JournalType;
+      pieceNumber?: string;
+      description: string;
+      sourceType?: SourceType;
+      sourceId?: string;
+      debitAccountId: string;
+      creditAccountId: string;
+      amount: Prisma.Decimal;
+    }): string => {
+      return [
+        entry.fiscalYearId,
+        entry.date.toISOString(),
+        entry.journalType,
+        entry.pieceNumber ?? "",
+        entry.description,
+        entry.sourceType ?? "",
+        entry.sourceId ?? "",
+        entry.debitAccountId,
+        entry.creditAccountId,
+        entry.amount.toString(),
+      ].join("|");
+    };
 
-        if (!debitLine.debit.equals(creditLine.credit)) {
-          return null;
-        }
+    const buildCandidateKey = (entry: {
+      fiscalYearId: string;
+      date: Date;
+      journalType: JournalType;
+      pieceNumber: string | null;
+      description: string;
+      sourceType: SourceType | null;
+      sourceId: string | null;
+      lines: Array<{ accountId: string; debit: Prisma.Decimal; credit: Prisma.Decimal }>;
+    }): string | null => {
+      if (entry.lines.length !== 2) {
+        return null;
+      }
 
-        return [
-          entry.fiscalYearId,
-          entry.date.toISOString(),
-          entry.journalType,
-          entry.pieceNumber ?? "",
-          entry.description,
-          entry.sourceType ?? "",
-          entry.sourceId ?? "",
-          debitLine.accountId,
-          creditLine.accountId,
-          debitLine.debit.toString(),
-        ].join("|");
-      };
+      const debitLine = entry.lines.find((line) => line.debit.greaterThan(0) && line.credit.equals(0));
+      const creditLine = entry.lines.find((line) => line.credit.greaterThan(0) && line.debit.equals(0));
 
-      const existingEntryByKey = new Map<string, { id: string; entryNumber: string; isValidated: boolean }>();
-      for (const candidate of candidateEntries) {
-        const key = buildCandidateKey(candidate);
-        if (!key) {
-          continue;
-        }
-        if (!existingEntryByKey.has(key)) {
-          existingEntryByKey.set(key, {
-            id: candidate.id,
-            entryNumber: candidate.entryNumber,
-            isValidated: candidate.isValidated,
+      if (!debitLine || !creditLine) {
+        return null;
+      }
+
+      if (!debitLine.debit.equals(creditLine.credit)) {
+        return null;
+      }
+
+      return [
+        entry.fiscalYearId,
+        entry.date.toISOString(),
+        entry.journalType,
+        entry.pieceNumber ?? "",
+        entry.description,
+        entry.sourceType ?? "",
+        entry.sourceId ?? "",
+        debitLine.accountId,
+        creditLine.accountId,
+        debitLine.debit.toString(),
+      ].join("|");
+    };
+
+    let currentCount = await prisma.journalEntry.count({ where: { fiscalYearId: fiscalYear.id } });
+    const upsertedEntries: Array<{ id: string; entryNumber: string; rowNumber: number; operation: "created" | "updated" }> = [];
+
+    for (let start = 0; start < parsedRows.length; start += IMPORT_BATCH_SIZE) {
+      const batch = parsedRows.slice(start, start + IMPORT_BATCH_SIZE);
+
+      for (const item of batch) {
+        const rowNumber = item.rowNumber;
+        const row = item.row;
+
+        try {
+          const debitAccountId = resolveImportedAccountId(row.debitAccount.trim(), rowNumber, "debit");
+          const creditAccountId = resolveImportedAccountId(row.creditAccount.trim(), rowNumber, "credit");
+          const amount = new Prisma.Decimal(row.amount);
+
+          const desiredKey = buildPreparedKey({
+            fiscalYearId: fiscalYear.id,
+            date: row.date,
+            journalType: row.journalType,
+            pieceNumber: row.pieceNumber,
+            description: row.description,
+            sourceType: row.sourceType,
+            sourceId: row.sourceId,
+            debitAccountId,
+            creditAccountId,
+            amount,
+          });
+
+          const candidates = await prisma.journalEntry.findMany({
+            where: {
+              fiscalYearId: fiscalYear.id,
+              date: row.date,
+              journalType: row.journalType,
+              pieceNumber: row.pieceNumber ?? null,
+              description: row.description,
+              sourceType: row.sourceType ?? null,
+              sourceId: row.sourceId ?? null,
+            },
+            select: {
+              id: true,
+              entryNumber: true,
+              isValidated: true,
+              fiscalYearId: true,
+              date: true,
+              journalType: true,
+              pieceNumber: true,
+              description: true,
+              sourceType: true,
+              sourceId: true,
+              lines: {
+                select: {
+                  accountId: true,
+                  debit: true,
+                  credit: true,
+                },
+              },
+            },
+          });
+
+          const existing = candidates.find((candidate) => buildCandidateKey(candidate) === desiredKey);
+
+          if (existing && existing.isValidated) {
+            throw new AppError(
+              `Ligne ${rowNumber}: doublon detecte sur une ecriture validee (${existing.entryNumber}), ligne ignoree`,
+              400,
+            );
+          }
+
+          if (existing) {
+            const updated = await prisma.journalEntry.update({
+              where: { id: existing.id },
+              data: {
+                date: row.date,
+                journalType: row.journalType,
+                pieceNumber: row.pieceNumber,
+                description: row.description,
+                sourceType: row.sourceType,
+                sourceId: row.sourceId,
+                lines: {
+                  deleteMany: {},
+                  create: [
+                    {
+                      accountId: debitAccountId,
+                      debit: amount,
+                      credit: new Prisma.Decimal(0),
+                    },
+                    {
+                      accountId: creditAccountId,
+                      debit: new Prisma.Decimal(0),
+                      credit: amount,
+                    },
+                  ],
+                },
+              },
+              select: { id: true, entryNumber: true },
+            });
+
+            upsertedEntries.push({
+              id: updated.id,
+              entryNumber: updated.entryNumber,
+              rowNumber,
+              operation: "updated",
+            });
+            continue;
+          }
+
+          currentCount += 1;
+          const entryNumber = `${fiscalYear.name}-${String(currentCount).padStart(5, "0")}`;
+
+          const created = await prisma.journalEntry.create({
+            data: {
+              entryNumber,
+              fiscalYearId: fiscalYear.id,
+              date: row.date,
+              journalType: row.journalType,
+              pieceNumber: row.pieceNumber,
+              description: row.description,
+              sourceType: row.sourceType,
+              sourceId: row.sourceId,
+              lines: {
+                create: [
+                  {
+                    accountId: debitAccountId,
+                    debit: amount,
+                    credit: new Prisma.Decimal(0),
+                  },
+                  {
+                    accountId: creditAccountId,
+                    debit: new Prisma.Decimal(0),
+                    credit: amount,
+                  },
+                ],
+              },
+            },
+            select: { id: true, entryNumber: true },
+          });
+
+          upsertedEntries.push({
+            id: created.id,
+            entryNumber: created.entryNumber,
+            rowNumber,
+            operation: "created",
+          });
+        } catch (error) {
+          const message = error instanceof Error ? error.message : "Erreur inconnue";
+          lineErrors.push({
+            rowNumber,
+            message,
+            row: rawRows[rowNumber - 1],
           });
         }
       }
+    }
 
-      const entriesToCreate: Array<(typeof preparedEntries)[number]> = [];
-      const entriesToUpdate: Array<{
-        id: string;
-        entryNumber: string;
-        rowNumber: number;
-        date: Date;
-        journalType: JournalType;
-        pieceNumber?: string;
-        description: string;
-        sourceType?: SourceType;
-        sourceId?: string;
-        debitAccountId: string;
-        creditAccountId: string;
-        amount: Prisma.Decimal;
-      }> = [];
-
-      for (const entry of preparedEntries) {
-        const key = buildPreparedKey({
-          fiscalYearId: fiscalYear.id,
-          date: entry.date,
-          journalType: entry.journalType,
-          pieceNumber: entry.pieceNumber,
-          description: entry.description,
-          sourceType: entry.sourceType,
-          sourceId: entry.sourceId,
-          debitAccountId: entry.debitAccountId,
-          creditAccountId: entry.creditAccountId,
-          amount: entry.amount,
-        });
-
-        const existing = existingEntryByKey.get(key);
-        if (!existing) {
-          entriesToCreate.push(entry);
-          continue;
-        }
-
-        if (existing.isValidated) {
-          throw new AppError(`Ligne ${entry.rowNumber}: doublon detecte sur une ecriture validee (${existing.entryNumber})`, 400);
-        }
-
-        entriesToUpdate.push({
-          id: existing.id,
-          entryNumber: existing.entryNumber,
-          rowNumber: entry.rowNumber,
-          date: entry.date,
-          journalType: entry.journalType,
-          pieceNumber: entry.pieceNumber,
-          description: entry.description,
-          sourceType: entry.sourceType,
-          sourceId: entry.sourceId,
-          debitAccountId: entry.debitAccountId,
-          creditAccountId: entry.creditAccountId,
-          amount: entry.amount,
-        });
-      }
-
-      for (const entry of entriesToUpdate) {
-        await tx.journalEntry.update({
-          where: { id: entry.id },
-          data: {
-            date: entry.date,
-            journalType: entry.journalType,
-            pieceNumber: entry.pieceNumber,
-            description: entry.description,
-            sourceType: entry.sourceType,
-            sourceId: entry.sourceId,
-            lines: {
-              deleteMany: {},
-              create: [
-                {
-                  accountId: entry.debitAccountId,
-                  debit: entry.amount,
-                  credit: new Prisma.Decimal(0),
-                },
-                {
-                  accountId: entry.creditAccountId,
-                  debit: new Prisma.Decimal(0),
-                  credit: entry.amount,
-                },
-              ],
-            },
-          },
-        });
-      }
-
-      const insertedEntries = await tx.journalEntry.createManyAndReturn({
-        data: entriesToCreate.map((entry) => ({
-          entryNumber: entry.entryNumber,
-          fiscalYearId: fiscalYear.id,
-          date: entry.date,
-          journalType: entry.journalType,
-          pieceNumber: entry.pieceNumber,
-          description: entry.description,
-          sourceType: entry.sourceType,
-          sourceId: entry.sourceId,
-        })),
-        select: { id: true, entryNumber: true },
-      });
-
-      const entryNumberToId = new Map(insertedEntries.map((entry) => [entry.entryNumber, entry.id]));
-
-      const linesData: Prisma.JournalLineCreateManyInput[] = [];
-      const created: Array<{ id: string; entryNumber: string; rowNumber: number; operation: "created" | "updated" }> = [];
-
-      for (const entry of entriesToCreate) {
-        const entryId = entryNumberToId.get(entry.entryNumber);
-        if (!entryId) {
-          throw new AppError(`Echec de creation pour l'ecriture ${entry.entryNumber}`, 500);
-        }
-
-        linesData.push({
-          entryId,
-          accountId: entry.debitAccountId,
-          debit: entry.amount,
-          credit: new Prisma.Decimal(0),
-        });
-        linesData.push({
-          entryId,
-          accountId: entry.creditAccountId,
-          debit: new Prisma.Decimal(0),
-          credit: entry.amount,
-        });
-
-        created.push({
-          id: entryId,
-          entryNumber: entry.entryNumber,
-          rowNumber: entry.rowNumber,
-          operation: "created",
-        });
-      }
-
-      for (const entry of entriesToUpdate) {
-        created.push({
-          id: entry.id,
-          entryNumber: entry.entryNumber,
-          rowNumber: entry.rowNumber,
-          operation: "updated",
-        });
-      }
-
-      if (linesData.length > 0) {
-        await tx.journalLine.createMany({ data: linesData });
-      }
-
-      return created;
-    });
+    upsertedEntries.sort((a, b) => a.rowNumber - b.rowNumber);
 
     const createdCount = upsertedEntries.filter((entry) => entry.operation === "created").length;
     const updatedCount = upsertedEntries.filter((entry) => entry.operation === "updated").length;
+    const failedCount = lineErrors.length;
+
+    if (upsertedEntries.length === 0) {
+      errors.push("Aucune ligne n'a pu etre importee");
+    }
+
+    const durationMs = Date.now() - startedAt;
+    console.info("[accounting/entries/import-paste] completed", {
+      durationMs,
+      fiscalYearId: fiscalYear.id,
+      receivedRows: rawRows.length,
+      processedCount: upsertedEntries.length,
+      createdCount,
+      updatedCount,
+      failedCount,
+      usedRowsPayload: hasRowsField,
+      batchSize: IMPORT_BATCH_SIZE,
+    });
 
     res.status(201).json({
       receivedRows: rawRows.length,
       jsonRows: rawRows,
       createdCount,
       updatedCount,
+      failedCount,
+      errors,
+      lineErrors,
       processedCount: upsertedEntries.length,
       createdEntries: upsertedEntries,
     });
@@ -894,9 +948,11 @@ accountingRoutes.put(
       date?: string;
       journalType?: JournalType;
       pieceNumber?: string;
+      businessLabel?: string;
       description?: string;
       sourceType?: SourceType;
       sourceId?: string;
+      sync?: SyncInput;
       lines?: Array<{ 
         account?: string;
         accountId?: string; 
@@ -932,15 +988,24 @@ accountingRoutes.put(
         data.date = date;
       }
 
+      const metadata = normalizeEntryMetadata(body);
+
+      if (metadata.sourceType && !sourceTypeValues.has(metadata.sourceType)) {
+        throw new AppError("sourceType invalide", 400);
+      }
+
       if (body.journalType) data.journalType = body.journalType;
       if (body.pieceNumber !== undefined) data.pieceNumber = body.pieceNumber;
-      if (body.description !== undefined) {
-        const description = body.description.trim();
-        if (!description) throw new AppError("description obligatoire", 400);
-        data.description = description;
+      if (body.description !== undefined || body.businessLabel !== undefined) {
+        if (!metadata.businessLabel) throw new AppError("businessLabel (ou description) obligatoire", 400);
+        data.description = metadata.businessLabel;
       }
-      if (body.sourceType !== undefined) data.sourceType = body.sourceType;
-      if (body.sourceId !== undefined) data.sourceId = body.sourceId;
+      if (body.sourceType !== undefined || body.sync?.sourceType !== undefined) {
+        data.sourceType = metadata.sourceType;
+      }
+      if (body.sourceId !== undefined || body.sync !== undefined) {
+        data.sourceId = metadata.syncIdentifier;
+      }
 
       if (body.lines) {
         validateLines(body.lines);
@@ -974,7 +1039,7 @@ accountingRoutes.put(
       });
     });
 
-    res.status(200).json(updated);
+    res.status(200).json(toEntryResponse(updated));
   }),
 );
 
@@ -988,7 +1053,7 @@ accountingRoutes.put(
       include: { lines: true },
     });
 
-    res.status(200).json(updated);
+    res.status(200).json(toEntryResponse(updated));
   }),
 );
 

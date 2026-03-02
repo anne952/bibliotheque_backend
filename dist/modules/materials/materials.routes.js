@@ -7,6 +7,7 @@ const http_1 = require("../../common/http");
 const prisma_1 = require("../../config/prisma");
 exports.materialsRoutes = (0, express_1.Router)();
 const materialTypeValues = new Set(Object.values(client_1.MaterialType));
+const IMPORT_BATCH_SIZE = 50;
 function normalizeHeader(value) {
     return value
         .normalize("NFD")
@@ -37,6 +38,13 @@ function parseFlexibleAmount(value) {
     return Number.isFinite(parsed) ? parsed : NaN;
 }
 function parseExcelPasteToJson(pastedData) {
+    const detectDelimiter = (headerLine) => {
+        const candidates = ["\t", ";", ","];
+        const best = candidates
+            .map((delimiter) => ({ delimiter, columns: headerLine.split(delimiter).length }))
+            .sort((a, b) => b.columns - a.columns)[0];
+        return best && best.columns > 1 ? best.delimiter : ";";
+    };
     const lines = pastedData
         .split(/\r?\n/)
         .map((line) => line.trimEnd())
@@ -44,7 +52,7 @@ function parseExcelPasteToJson(pastedData) {
     if (lines.length < 2) {
         throw new http_1.AppError("Le tableau colle doit contenir un en-tete et au moins une ligne", 400);
     }
-    const delimiter = lines[0].includes("\t") ? "\t" : ";";
+    const delimiter = detectDelimiter(lines[0]);
     const headers = lines[0].split(delimiter).map((header) => header.trim());
     if (headers.length < 2) {
         throw new http_1.AppError("Format de tableau invalide: colonnes insuffisantes", 400);
@@ -77,7 +85,7 @@ function mapRawRowToMaterial(rawRow, rowNumber, defaultType) {
         return undefined;
     };
     const typeValue = pick("type", "materialtype", "typemateriel", "materieltype");
-    const nameValue = pick("name", "nom", "designation", "libelle");
+    const nameValue = pick("name", "nom", "designation", "libelle", "titre");
     const referenceValue = pick("reference", "ref");
     const serialNumberValue = pick("serialnumber", "numero serie", "numeroserie");
     const categoryValue = pick("category", "categorie");
@@ -201,164 +209,169 @@ exports.materialsRoutes.post("/", (0, http_1.asyncHandler)(async (req, res) => {
 }));
 exports.materialsRoutes.post("/import-paste", (0, http_1.asyncHandler)(async (req, res) => {
     const body = req.body;
-    if (!body.pastedData && !Array.isArray(body.rows)) {
+    const hasRowsField = Object.prototype.hasOwnProperty.call(body, "rows");
+    if (!hasRowsField && !body.pastedData) {
         throw new http_1.AppError("Vous devez fournir pastedData ou rows", 400);
+    }
+    if (hasRowsField && !Array.isArray(body.rows)) {
+        throw new http_1.AppError("rows doit etre un tableau JSON", 400);
     }
     if (body.defaultType && !materialTypeValues.has(body.defaultType)) {
         throw new http_1.AppError("defaultType invalide", 400);
     }
-    const rawRows = Array.isArray(body.rows)
+    const rawRows = hasRowsField
         ? body.rows
         : parseExcelPasteToJson(String(body.pastedData ?? ""));
     if (rawRows.length === 0) {
         throw new http_1.AppError("Aucune ligne exploitable a importer", 400);
     }
-    const parsedRows = rawRows.map((row, index) => mapRawRowToMaterial(row, index + 1, body.defaultType));
-    const upsertedMaterials = await prisma_1.prisma.$transaction(async (tx) => {
-        const references = Array.from(new Set(parsedRows
-            .map((row) => row.reference?.trim())
-            .filter((reference) => Boolean(reference))));
-        const serialNumbers = Array.from(new Set(parsedRows
-            .map((row) => row.serialNumber?.trim())
-            .filter((serialNumber) => Boolean(serialNumber))));
-        const materialWhereOr = [];
-        if (references.length > 0) {
-            materialWhereOr.push({ reference: { in: references } });
-        }
-        if (serialNumbers.length > 0) {
-            materialWhereOr.push({ serialNumber: { in: serialNumbers } });
-        }
-        const existingMaterials = materialWhereOr.length > 0
-            ? await tx.material.findMany({
-                where: {
-                    OR: materialWhereOr,
-                },
-                select: {
-                    id: true,
-                    reference: true,
-                    serialNumber: true,
-                },
+    const startedAt = Date.now();
+    const upsertedMaterials = [];
+    const lineErrors = [];
+    const errors = [];
+    const upsertSingleMaterial = async (row, rowNumber) => {
+        const reference = row.reference?.trim() || null;
+        const serialNumber = row.serialNumber?.trim() || null;
+        const matchCandidates = [];
+        if (reference)
+            matchCandidates.push({ reference });
+        if (serialNumber)
+            matchCandidates.push({ serialNumber });
+        const matches = matchCandidates.length > 0
+            ? await prisma_1.prisma.material.findMany({
+                where: { OR: matchCandidates },
+                select: { id: true, reference: true, serialNumber: true },
+                take: 3,
             })
             : [];
-        const materialIdByReference = new Map(existingMaterials
-            .filter((material) => material.reference)
-            .map((material) => [material.reference, material.id]));
-        const materialIdBySerialNumber = new Map(existingMaterials
-            .filter((material) => material.serialNumber)
-            .map((material) => [material.serialNumber, material.id]));
-        const upsertResults = [];
-        for (let index = 0; index < parsedRows.length; index += 1) {
-            const row = parsedRows[index];
-            const rowNumber = index + 1;
-            const reference = row.reference?.trim() || null;
-            const serialNumber = row.serialNumber?.trim() || null;
-            const materialIdFromReference = reference ? materialIdByReference.get(reference) : undefined;
-            const materialIdFromSerial = serialNumber ? materialIdBySerialNumber.get(serialNumber) : undefined;
-            if (materialIdFromReference &&
-                materialIdFromSerial &&
-                materialIdFromReference !== materialIdFromSerial) {
-                throw new http_1.AppError(`Ligne ${rowNumber}: reference et numero de serie pointent vers deux materiels differents`, 400);
-            }
-            const resolvedMaterialId = materialIdFromReference ?? materialIdFromSerial;
-            const baseData = {
-                type: row.type,
-                name: row.name,
-                reference,
-                serialNumber,
-                category: row.category ?? null,
-                language: row.language ?? null,
-                volume: row.volume ?? null,
-                minStockAlert: row.minStockAlert ?? 0,
-                unitPrice: row.unitPrice !== undefined ? new client_1.Prisma.Decimal(row.unitPrice) : null,
-                sellingPrice: row.sellingPrice !== undefined ? new client_1.Prisma.Decimal(row.sellingPrice) : null,
-                location: row.location ?? null,
-                description: row.description ?? null,
+        const uniqueMatchIds = Array.from(new Set(matches.map((material) => material.id)));
+        if (uniqueMatchIds.length > 1) {
+            throw new http_1.AppError(`Ligne ${rowNumber}: doublon ambigu reference/numero de serie detecte, ligne ignoree`, 400);
+        }
+        const baseData = {
+            type: row.type,
+            name: row.name,
+            reference,
+            serialNumber,
+            category: row.category ?? null,
+            language: row.language ?? null,
+            volume: row.volume ?? null,
+            minStockAlert: row.minStockAlert ?? 0,
+            unitPrice: row.unitPrice !== undefined ? new client_1.Prisma.Decimal(row.unitPrice) : null,
+            sellingPrice: row.sellingPrice !== undefined ? new client_1.Prisma.Decimal(row.sellingPrice) : null,
+            location: row.location ?? null,
+            description: row.description ?? null,
+        };
+        const resolvedMaterialId = uniqueMatchIds[0];
+        if (resolvedMaterialId) {
+            const updated = await prisma_1.prisma.material.update({
+                where: { id: resolvedMaterialId },
+                data: {
+                    ...baseData,
+                    deletedAt: null,
+                },
+                select: { id: true, name: true },
+            });
+            return {
+                id: updated.id,
+                name: updated.name,
+                rowNumber,
+                operation: "updated",
             };
-            if (resolvedMaterialId) {
-                const updated = await tx.material.update({
-                    where: { id: resolvedMaterialId },
-                    data: {
-                        ...baseData,
-                        deletedAt: null,
-                    },
-                    select: { id: true, name: true },
-                });
-                if (reference)
-                    materialIdByReference.set(reference, updated.id);
-                if (serialNumber)
-                    materialIdBySerialNumber.set(serialNumber, updated.id);
-                upsertResults.push({
-                    id: updated.id,
-                    name: updated.name,
-                    rowNumber,
-                    operation: "updated",
-                });
-                continue;
+        }
+        try {
+            const created = await prisma_1.prisma.material.create({
+                data: baseData,
+                select: { id: true, name: true },
+            });
+            return {
+                id: created.id,
+                name: created.name,
+                rowNumber,
+                operation: "created",
+            };
+        }
+        catch (error) {
+            if (!(error instanceof client_1.Prisma.PrismaClientKnownRequestError) || error.code !== "P2002") {
+                throw error;
             }
+            const conflictCandidates = [];
+            if (reference)
+                conflictCandidates.push({ reference });
+            if (serialNumber)
+                conflictCandidates.push({ serialNumber });
+            if (conflictCandidates.length === 0) {
+                throw error;
+            }
+            const conflictedMaterial = await prisma_1.prisma.material.findFirst({
+                where: { OR: conflictCandidates },
+                select: { id: true },
+            });
+            if (!conflictedMaterial) {
+                throw error;
+            }
+            const updated = await prisma_1.prisma.material.update({
+                where: { id: conflictedMaterial.id },
+                data: {
+                    ...baseData,
+                    deletedAt: null,
+                },
+                select: { id: true, name: true },
+            });
+            return {
+                id: updated.id,
+                name: updated.name,
+                rowNumber,
+                operation: "updated",
+            };
+        }
+    };
+    for (let start = 0; start < rawRows.length; start += IMPORT_BATCH_SIZE) {
+        const batch = rawRows.slice(start, start + IMPORT_BATCH_SIZE);
+        for (let offset = 0; offset < batch.length; offset += 1) {
+            const rowNumber = start + offset + 1;
+            const rawRow = batch[offset];
             try {
-                const created = await tx.material.create({
-                    data: baseData,
-                    select: { id: true, name: true },
-                });
-                if (reference)
-                    materialIdByReference.set(reference, created.id);
-                if (serialNumber)
-                    materialIdBySerialNumber.set(serialNumber, created.id);
-                upsertResults.push({
-                    id: created.id,
-                    name: created.name,
-                    rowNumber,
-                    operation: "created",
-                });
+                const parsed = mapRawRowToMaterial(rawRow, rowNumber, body.defaultType);
+                const result = await upsertSingleMaterial(parsed, rowNumber);
+                upsertedMaterials.push(result);
             }
             catch (error) {
-                if (!(error instanceof client_1.Prisma.PrismaClientKnownRequestError) || error.code !== "P2002") {
-                    throw error;
-                }
-                const conflictCandidates = [];
-                if (reference)
-                    conflictCandidates.push({ reference });
-                if (serialNumber)
-                    conflictCandidates.push({ serialNumber });
-                if (conflictCandidates.length === 0) {
-                    throw error;
-                }
-                const conflictedMaterial = await tx.material.findFirst({
-                    where: { OR: conflictCandidates },
-                    select: { id: true },
-                });
-                if (!conflictedMaterial) {
-                    throw error;
-                }
-                const updated = await tx.material.update({
-                    where: { id: conflictedMaterial.id },
-                    data: {
-                        ...baseData,
-                        deletedAt: null,
-                    },
-                    select: { id: true, name: true },
-                });
-                if (reference)
-                    materialIdByReference.set(reference, updated.id);
-                if (serialNumber)
-                    materialIdBySerialNumber.set(serialNumber, updated.id);
-                upsertResults.push({
-                    id: updated.id,
-                    name: updated.name,
+                const message = error instanceof Error ? error.message : "Erreur inconnue";
+                lineErrors.push({
                     rowNumber,
-                    operation: "updated",
+                    message,
+                    row: rawRow,
                 });
             }
         }
-        return upsertResults.sort((a, b) => a.rowNumber - b.rowNumber);
-    });
+    }
+    if (upsertedMaterials.length === 0) {
+        errors.push("Aucune ligne n'a pu etre importee");
+    }
+    upsertedMaterials.sort((a, b) => a.rowNumber - b.rowNumber);
     const createdCount = upsertedMaterials.filter((material) => material.operation === "created").length;
     const updatedCount = upsertedMaterials.filter((material) => material.operation === "updated").length;
+    const failedCount = lineErrors.length;
+    const durationMs = Date.now() - startedAt;
+    console.info("[materials/import-paste] completed", {
+        durationMs,
+        receivedRows: rawRows.length,
+        processedCount: upsertedMaterials.length,
+        createdCount,
+        updatedCount,
+        failedCount,
+        usedRowsPayload: hasRowsField,
+        batchSize: IMPORT_BATCH_SIZE,
+    });
     res.status(201).json({
         receivedRows: rawRows.length,
         jsonRows: rawRows,
         createdCount,
         updatedCount,
+        failedCount,
+        errors,
+        lineErrors,
         processedCount: upsertedMaterials.length,
         createdMaterials: upsertedMaterials,
     });

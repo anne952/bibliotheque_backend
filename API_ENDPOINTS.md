@@ -166,9 +166,13 @@
   - Description: `description`, `details`
 - Regles:
   - Chaque ligne doit contenir au moins `name` et un `type` valide (`BOOK`, `SD_CARD`, `TABLET`, `PHOTOCOPIER`, `PRINTER`, `CHAIR`, `OTHER`) ou utiliser `defaultType`.
+  - Delimiteurs supportes pour `pastedData`: tabulation, `;`, `,`.
+  - Priorite payload: si `rows` est present, le backend ignore `pastedData`.
   - Doublons pris en charge en mode upsert/update: si `reference` ou `serialNumber` existe deja, le materiel existant est mis a jour au lieu de provoquer une erreur.
+  - En cas de conflit ambigu (`reference` et `serialNumber` pointant vers 2 materiels differents), la ligne est ignoree et retournee dans `lineErrors`.
   - Si un materiel est soft-delete et matche par `reference`/`serialNumber`, il est reactive (`deletedAt=null`).
-- Response: `{ receivedRows, jsonRows, createdCount, updatedCount, processedCount, createdMaterials }`
+- Traitement: par lots (batch) avec succes partiel (pas de rollback global).
+- Response: `{ receivedRows, jsonRows, createdCount, updatedCount, failedCount, errors, lineErrors, processedCount, createdMaterials }`
 
 ### Update Material
 - **PUT** `/materials/:id`
@@ -363,7 +367,11 @@
 
 ### Create Journal Entry
 - **POST** `/accounting/entries`
-- Body: `{ fiscalYearId, date, journalType, description, pieceNumber?, sourceType?, sourceId?, lines: [{ account, debit?, credit?, description? }] }`
+- Body: `{ fiscalYearId, date, journalType, businessLabel|description, pieceNumber?, sync?: { sourceType?, identifier? }, sourceType?, sourceId?, lines: [{ account, debit?, credit?, description? }] }`
+- Separation claire des donnees:
+  - `businessLabel` (ou `description`) = libelle metier de l'ecriture
+  - `sync.identifier` (ou `sourceId`) = identifiant technique de synchronisation
+  - `sync.sourceType` (ou `sourceType`) = type de source technique
 - **Status**: ✅ **Production Ready** (Testé Render: Entry FY 2026-00031 créée avec succès)
 - **Champ unifié `account`**: Accepte automatiquement soit un UUID soit un numéro de compte (ex: "57", "521")
   - Détection UUID: Si le format correspond à un UUID, recherche directe par ID
@@ -445,10 +453,13 @@
   - Source (optionnel): `sourceType`, `sourceId`
 - Regles:
   - Chaque ligne doit contenir une date, un libelle, un compte debit, un compte credit, un montant > 0.
+  - Delimiteurs supportes pour `pastedData`: tabulation, `;`, `,`.
+  - Priorite payload: si `rows` est present, le backend ignore `pastedData`.
   - Le backend cree automatiquement 2 lignes comptables par ligne importee (debit/credit, meme montant).
   - Doublons pris en charge en mode upsert/update: si une ecriture equivalente existe deja (meme date, journal, piece, description, source, comptes debit/credit et montant), elle est mise a jour.
-  - Une ecriture equivalente deja validee n'est pas modifiable: la ligne est refusee.
+  - Une ecriture equivalente deja validee n'est pas modifiable: la ligne est refusee et remontee dans `lineErrors`.
   - `fiscalYearId` doit exister et ne pas etre ferme.
+  - Traitement: par lots (batch) avec succes partiel (pas de rollback global).
 - Response:
 ```json
 {
@@ -464,6 +475,9 @@
   ],
   "createdCount": 1,
   "updatedCount": 0,
+  "failedCount": 0,
+  "errors": [],
+  "lineErrors": [],
   "processedCount": 1,
   "createdEntries": [
     {
@@ -478,11 +492,17 @@
 
 ### Update Journal Entry
 - **PUT** `/accounting/entries/:id`
-- Body: Any updatable fields from create payload (`fiscalYearId`, `date`, `journalType`, `description`, `pieceNumber`, `sourceType`, `sourceId`, `lines`)
+- Body: Any updatable fields from create payload (`fiscalYearId`, `date`, `journalType`, `businessLabel|description`, `pieceNumber`, `sync`, `sourceType`, `sourceId`, `lines`)
 - **Note**: Les lignes utilisent le champ unifié `account` (UUID ou numéro) - rétrocompatible avec `accountId` et `accountNumber`
 - Validation: Cannot update validated entries; if `lines` are provided, debit total must equal credit total and min 2 lines
 - **Contrepartie automatique**: **NON** sur cet endpoint (mêmes règles strictes que la création).
 - Response: Updated journal entry
+
+### Structure de reponse comptable (entries)
+- Les endpoints `GET/POST/PUT /accounting/entries...` exposent maintenant en plus:
+  - `businessLabel` (miroir de `description`)
+  - `sync: { sourceType, identifier }` (miroir de `sourceType/sourceId`)
+- Compatibilite conservee: `description`, `sourceType`, `sourceId` restent presentes.
 
 ### Validate Journal Entry
 - **PUT** `/accounting/entries/:id/validate`
