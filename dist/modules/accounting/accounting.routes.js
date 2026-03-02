@@ -395,7 +395,7 @@ exports.accountingRoutes.post("/entries/import-paste", (0, http_1.asyncHandler)(
         throw new http_1.AppError("Aucune ligne exploitable a importer", 400);
     }
     const parsedRows = rawRows.map((row, index) => mapRawRowToImportedRow(row, index + 1, body.defaultJournalType, body.defaultSourceType));
-    const createdEntries = await prisma_1.prisma.$transaction(async (tx) => {
+    const upsertedEntries = await prisma_1.prisma.$transaction(async (tx) => {
         const fiscalYear = await tx.fiscalYear.findUnique({ where: { id: body.fiscalYearId } });
         if (!fiscalYear) {
             throw new http_1.AppError("Exercice comptable introuvable", 404);
@@ -404,55 +404,276 @@ exports.accountingRoutes.post("/entries/import-paste", (0, http_1.asyncHandler)(
             throw new http_1.AppError("Exercice comptable ferme", 400);
         }
         let currentCount = await tx.journalEntry.count({ where: { fiscalYearId: fiscalYear.id } });
-        const created = [];
-        for (let index = 0; index < parsedRows.length; index += 1) {
-            const row = parsedRows[index];
+        const distinctAccountValues = Array.from(new Set(parsedRows.flatMap((row) => [row.debitAccount.trim(), row.creditAccount.trim()])));
+        const accountIds = distinctAccountValues.filter((value) => isUUID(value));
+        const accountNumbers = distinctAccountValues.filter((value) => !isUUID(value));
+        const [accountsById, accountsByNumber] = await Promise.all([
+            accountIds.length > 0
+                ? tx.account.findMany({
+                    where: { id: { in: accountIds } },
+                    select: { id: true },
+                })
+                : Promise.resolve([]),
+            accountNumbers.length > 0
+                ? tx.account.findMany({
+                    where: {
+                        accountNumber: { in: accountNumbers },
+                        isActive: true,
+                    },
+                    select: { id: true, accountNumber: true },
+                })
+                : Promise.resolve([]),
+        ]);
+        const validAccountIdSet = new Set(accountsById.map((account) => account.id));
+        const accountNumberToId = new Map(accountsByNumber.map((account) => [account.accountNumber, account.id]));
+        const resolveImportedAccountId = (accountValue, rowNumber, side) => {
+            if (isUUID(accountValue)) {
+                if (!validAccountIdSet.has(accountValue)) {
+                    throw new http_1.AppError(`Ligne ${rowNumber}: compte ${side} introuvable (ID: ${accountValue})`, 400);
+                }
+                return accountValue;
+            }
+            const resolvedId = accountNumberToId.get(accountValue);
+            if (!resolvedId) {
+                throw new http_1.AppError(`Ligne ${rowNumber}: compte ${side} introuvable (numero: ${accountValue})`, 400);
+            }
+            return resolvedId;
+        };
+        const preparedEntries = parsedRows.map((row, index) => {
             const rowNumber = index + 1;
-            const debitAccountId = await resolveAccountId(tx, { account: row.debitAccount });
-            const creditAccountId = await resolveAccountId(tx, { account: row.creditAccount });
+            const debitAccountId = resolveImportedAccountId(row.debitAccount, rowNumber, "debit");
+            const creditAccountId = resolveImportedAccountId(row.creditAccount, rowNumber, "credit");
             currentCount += 1;
             const entryNumber = `${fiscalYear.name}-${String(currentCount).padStart(5, "0")}`;
-            const amount = new client_1.Prisma.Decimal(row.amount);
-            const entry = await tx.journalEntry.create({
+            return {
+                rowNumber,
+                entryNumber,
+                date: row.date,
+                journalType: row.journalType,
+                pieceNumber: row.pieceNumber,
+                description: row.description,
+                sourceType: row.sourceType,
+                sourceId: row.sourceId,
+                debitAccountId,
+                creditAccountId,
+                amount: new client_1.Prisma.Decimal(row.amount),
+            };
+        });
+        const candidateFilters = preparedEntries.map((entry) => ({
+            fiscalYearId: fiscalYear.id,
+            date: entry.date,
+            journalType: entry.journalType,
+            pieceNumber: entry.pieceNumber ?? null,
+            description: entry.description,
+            sourceType: entry.sourceType ?? null,
+            sourceId: entry.sourceId ?? null,
+        }));
+        const candidateEntries = await tx.journalEntry.findMany({
+            where: {
+                fiscalYearId: fiscalYear.id,
+                OR: candidateFilters,
+            },
+            select: {
+                id: true,
+                entryNumber: true,
+                isValidated: true,
+                fiscalYearId: true,
+                date: true,
+                journalType: true,
+                pieceNumber: true,
+                description: true,
+                sourceType: true,
+                sourceId: true,
+                lines: {
+                    select: {
+                        accountId: true,
+                        debit: true,
+                        credit: true,
+                    },
+                },
+            },
+        });
+        const buildPreparedKey = (entry) => {
+            return [
+                entry.fiscalYearId,
+                entry.date.toISOString(),
+                entry.journalType,
+                entry.pieceNumber ?? "",
+                entry.description,
+                entry.sourceType ?? "",
+                entry.sourceId ?? "",
+                entry.debitAccountId,
+                entry.creditAccountId,
+                entry.amount.toString(),
+            ].join("|");
+        };
+        const buildCandidateKey = (entry) => {
+            if (entry.lines.length !== 2) {
+                return null;
+            }
+            const debitLine = entry.lines.find((line) => line.debit.greaterThan(0) && line.credit.equals(0));
+            const creditLine = entry.lines.find((line) => line.credit.greaterThan(0) && line.debit.equals(0));
+            if (!debitLine || !creditLine) {
+                return null;
+            }
+            if (!debitLine.debit.equals(creditLine.credit)) {
+                return null;
+            }
+            return [
+                entry.fiscalYearId,
+                entry.date.toISOString(),
+                entry.journalType,
+                entry.pieceNumber ?? "",
+                entry.description,
+                entry.sourceType ?? "",
+                entry.sourceId ?? "",
+                debitLine.accountId,
+                creditLine.accountId,
+                debitLine.debit.toString(),
+            ].join("|");
+        };
+        const existingEntryByKey = new Map();
+        for (const candidate of candidateEntries) {
+            const key = buildCandidateKey(candidate);
+            if (!key) {
+                continue;
+            }
+            if (!existingEntryByKey.has(key)) {
+                existingEntryByKey.set(key, {
+                    id: candidate.id,
+                    entryNumber: candidate.entryNumber,
+                    isValidated: candidate.isValidated,
+                });
+            }
+        }
+        const entriesToCreate = [];
+        const entriesToUpdate = [];
+        for (const entry of preparedEntries) {
+            const key = buildPreparedKey({
+                fiscalYearId: fiscalYear.id,
+                date: entry.date,
+                journalType: entry.journalType,
+                pieceNumber: entry.pieceNumber,
+                description: entry.description,
+                sourceType: entry.sourceType,
+                sourceId: entry.sourceId,
+                debitAccountId: entry.debitAccountId,
+                creditAccountId: entry.creditAccountId,
+                amount: entry.amount,
+            });
+            const existing = existingEntryByKey.get(key);
+            if (!existing) {
+                entriesToCreate.push(entry);
+                continue;
+            }
+            if (existing.isValidated) {
+                throw new http_1.AppError(`Ligne ${entry.rowNumber}: doublon detecte sur une ecriture validee (${existing.entryNumber})`, 400);
+            }
+            entriesToUpdate.push({
+                id: existing.id,
+                entryNumber: existing.entryNumber,
+                rowNumber: entry.rowNumber,
+                date: entry.date,
+                journalType: entry.journalType,
+                pieceNumber: entry.pieceNumber,
+                description: entry.description,
+                sourceType: entry.sourceType,
+                sourceId: entry.sourceId,
+                debitAccountId: entry.debitAccountId,
+                creditAccountId: entry.creditAccountId,
+                amount: entry.amount,
+            });
+        }
+        for (const entry of entriesToUpdate) {
+            await tx.journalEntry.update({
+                where: { id: entry.id },
                 data: {
-                    entryNumber,
-                    fiscalYearId: fiscalYear.id,
-                    date: row.date,
-                    journalType: row.journalType,
-                    pieceNumber: row.pieceNumber,
-                    description: row.description,
-                    sourceType: row.sourceType,
-                    sourceId: row.sourceId,
+                    date: entry.date,
+                    journalType: entry.journalType,
+                    pieceNumber: entry.pieceNumber,
+                    description: entry.description,
+                    sourceType: entry.sourceType,
+                    sourceId: entry.sourceId,
                     lines: {
+                        deleteMany: {},
                         create: [
                             {
-                                accountId: debitAccountId,
-                                debit: amount,
+                                accountId: entry.debitAccountId,
+                                debit: entry.amount,
                                 credit: new client_1.Prisma.Decimal(0),
                             },
                             {
-                                accountId: creditAccountId,
+                                accountId: entry.creditAccountId,
                                 debit: new client_1.Prisma.Decimal(0),
-                                credit: amount,
+                                credit: entry.amount,
                             },
                         ],
                     },
                 },
-                select: { id: true, entryNumber: true },
             });
+        }
+        const insertedEntries = await tx.journalEntry.createManyAndReturn({
+            data: entriesToCreate.map((entry) => ({
+                entryNumber: entry.entryNumber,
+                fiscalYearId: fiscalYear.id,
+                date: entry.date,
+                journalType: entry.journalType,
+                pieceNumber: entry.pieceNumber,
+                description: entry.description,
+                sourceType: entry.sourceType,
+                sourceId: entry.sourceId,
+            })),
+            select: { id: true, entryNumber: true },
+        });
+        const entryNumberToId = new Map(insertedEntries.map((entry) => [entry.entryNumber, entry.id]));
+        const linesData = [];
+        const created = [];
+        for (const entry of entriesToCreate) {
+            const entryId = entryNumberToId.get(entry.entryNumber);
+            if (!entryId) {
+                throw new http_1.AppError(`Echec de creation pour l'ecriture ${entry.entryNumber}`, 500);
+            }
+            linesData.push({
+                entryId,
+                accountId: entry.debitAccountId,
+                debit: entry.amount,
+                credit: new client_1.Prisma.Decimal(0),
+            });
+            linesData.push({
+                entryId,
+                accountId: entry.creditAccountId,
+                debit: new client_1.Prisma.Decimal(0),
+                credit: entry.amount,
+            });
+            created.push({
+                id: entryId,
+                entryNumber: entry.entryNumber,
+                rowNumber: entry.rowNumber,
+                operation: "created",
+            });
+        }
+        for (const entry of entriesToUpdate) {
             created.push({
                 id: entry.id,
                 entryNumber: entry.entryNumber,
-                rowNumber,
+                rowNumber: entry.rowNumber,
+                operation: "updated",
             });
+        }
+        if (linesData.length > 0) {
+            await tx.journalLine.createMany({ data: linesData });
         }
         return created;
     });
+    const createdCount = upsertedEntries.filter((entry) => entry.operation === "created").length;
+    const updatedCount = upsertedEntries.filter((entry) => entry.operation === "updated").length;
     res.status(201).json({
         receivedRows: rawRows.length,
         jsonRows: rawRows,
-        createdCount: createdEntries.length,
-        createdEntries,
+        createdCount,
+        updatedCount,
+        processedCount: upsertedEntries.length,
+        createdEntries: upsertedEntries,
     });
 }));
 exports.accountingRoutes.put("/entries/:id", (0, http_1.asyncHandler)(async (req, res) => {

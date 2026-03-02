@@ -166,8 +166,9 @@
   - Description: `description`, `details`
 - Regles:
   - Chaque ligne doit contenir au moins `name` et un `type` valide (`BOOK`, `SD_CARD`, `TABLET`, `PHOTOCOPIER`, `PRINTER`, `CHAIR`, `OTHER`) ou utiliser `defaultType`.
-  - Le backend cree un enregistrement material en base pour chaque ligne.
-- Response: `{ receivedRows, jsonRows, createdCount, createdMaterials }`
+  - Doublons pris en charge en mode upsert/update: si `reference` ou `serialNumber` existe deja, le materiel existant est mis a jour au lieu de provoquer une erreur.
+  - Si un materiel est soft-delete et matche par `reference`/`serialNumber`, il est reactive (`deletedAt=null`).
+- Response: `{ receivedRows, jsonRows, createdCount, updatedCount, processedCount, createdMaterials }`
 
 ### Update Material
 - **PUT** `/materials/:id`
@@ -445,6 +446,8 @@
 - Regles:
   - Chaque ligne doit contenir une date, un libelle, un compte debit, un compte credit, un montant > 0.
   - Le backend cree automatiquement 2 lignes comptables par ligne importee (debit/credit, meme montant).
+  - Doublons pris en charge en mode upsert/update: si une ecriture equivalente existe deja (meme date, journal, piece, description, source, comptes debit/credit et montant), elle est mise a jour.
+  - Une ecriture equivalente deja validee n'est pas modifiable: la ligne est refusee.
   - `fiscalYearId` doit exister et ne pas etre ferme.
 - Response:
 ```json
@@ -460,11 +463,14 @@
     }
   ],
   "createdCount": 1,
+  "updatedCount": 0,
+  "processedCount": 1,
   "createdEntries": [
     {
       "id": "uuid",
       "entryNumber": "FY 2026-00032",
-      "rowNumber": 1
+      "rowNumber": 1,
+      "operation": "created"
     }
   ]
 }
@@ -785,11 +791,25 @@ Authorization: Bearer <refreshToken>
 - Removes all `DeletedItem` with `expiresAt <= now`
 - Response: `{ deletedCount }`
 
+### Purge Recent Deleted Items (bulk with where)
+- **DELETE** `/deleted-items/purge-recent`
+- Removes `DeletedItem` created recently using explicit `where` filters.
+- Query params:
+  - `days=<1..365>` (default: `7`) → window on `deletedAt`
+  - `table=<originalTable>` (optional)
+  - `onlyNotRestored=true|false` (default: `true`)
+- Where applied:
+  - `deletedAt: { gte: cutoff, lte: now }`
+  - `originalTable = table` (if provided)
+  - `restoredAt = null` (if `onlyNotRestored=true`)
+- Response: `{ deletedCount, days, table, onlyNotRestored, range: { from, to } }`
+
 ### Alias Module Corbeille (meme endpoints)
 - **GET** `/corbeille`
 - **POST** `/corbeille/:id/restore`
 - **DELETE** `/corbeille/:id`
 - **DELETE** `/corbeille/purge-expired`
+- **DELETE** `/corbeille/purge-recent`
 
 ---
 

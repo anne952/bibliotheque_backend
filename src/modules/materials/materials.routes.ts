@@ -306,37 +306,193 @@ materialsRoutes.post(
       mapRawRowToMaterial(row, index + 1, body.defaultType),
     );
 
-    const createData: Prisma.MaterialCreateManyInput[] = parsedRows.map((row) => ({
-      type: row.type,
-      name: row.name,
-      reference: row.reference ?? null,
-      serialNumber: row.serialNumber ?? null,
-      category: row.category ?? null,
-      language: row.language ?? null,
-      volume: row.volume ?? null,
-      minStockAlert: row.minStockAlert ?? 0,
-      unitPrice: row.unitPrice !== undefined ? new Prisma.Decimal(row.unitPrice) : null,
-      sellingPrice: row.sellingPrice !== undefined ? new Prisma.Decimal(row.sellingPrice) : null,
-      location: row.location ?? null,
-      description: row.description ?? null,
-    }));
+    const upsertedMaterials = await prisma.$transaction(async (tx) => {
+      const references = Array.from(
+        new Set(
+          parsedRows
+            .map((row) => row.reference?.trim())
+            .filter((reference): reference is string => Boolean(reference)),
+        ),
+      );
 
-    const insertedMaterials = await prisma.material.createManyAndReturn({
-      data: createData,
-      select: { id: true, name: true },
+      const serialNumbers = Array.from(
+        new Set(
+          parsedRows
+            .map((row) => row.serialNumber?.trim())
+            .filter((serialNumber): serialNumber is string => Boolean(serialNumber)),
+        ),
+      );
+
+      const materialWhereOr: Prisma.MaterialWhereInput[] = [];
+      if (references.length > 0) {
+        materialWhereOr.push({ reference: { in: references } });
+      }
+      if (serialNumbers.length > 0) {
+        materialWhereOr.push({ serialNumber: { in: serialNumbers } });
+      }
+
+      const existingMaterials =
+        materialWhereOr.length > 0
+          ? await tx.material.findMany({
+              where: {
+                OR: materialWhereOr,
+              },
+              select: {
+                id: true,
+                reference: true,
+                serialNumber: true,
+              },
+            })
+          : [];
+
+      const materialIdByReference = new Map(
+        existingMaterials
+          .filter((material) => material.reference)
+          .map((material) => [material.reference as string, material.id]),
+      );
+      const materialIdBySerialNumber = new Map(
+        existingMaterials
+          .filter((material) => material.serialNumber)
+          .map((material) => [material.serialNumber as string, material.id]),
+      );
+
+      const upsertResults: Array<{
+        id: string;
+        name: string;
+        rowNumber: number;
+        operation: "created" | "updated";
+      }> = [];
+
+      for (let index = 0; index < parsedRows.length; index += 1) {
+        const row = parsedRows[index];
+        const rowNumber = index + 1;
+        const reference = row.reference?.trim() || null;
+        const serialNumber = row.serialNumber?.trim() || null;
+
+        const materialIdFromReference = reference ? materialIdByReference.get(reference) : undefined;
+        const materialIdFromSerial = serialNumber ? materialIdBySerialNumber.get(serialNumber) : undefined;
+
+        if (
+          materialIdFromReference &&
+          materialIdFromSerial &&
+          materialIdFromReference !== materialIdFromSerial
+        ) {
+          throw new AppError(
+            `Ligne ${rowNumber}: reference et numero de serie pointent vers deux materiels differents`,
+            400,
+          );
+        }
+
+        const resolvedMaterialId = materialIdFromReference ?? materialIdFromSerial;
+
+        const baseData = {
+          type: row.type,
+          name: row.name,
+          reference,
+          serialNumber,
+          category: row.category ?? null,
+          language: row.language ?? null,
+          volume: row.volume ?? null,
+          minStockAlert: row.minStockAlert ?? 0,
+          unitPrice: row.unitPrice !== undefined ? new Prisma.Decimal(row.unitPrice) : null,
+          sellingPrice: row.sellingPrice !== undefined ? new Prisma.Decimal(row.sellingPrice) : null,
+          location: row.location ?? null,
+          description: row.description ?? null,
+        };
+
+        if (resolvedMaterialId) {
+          const updated = await tx.material.update({
+            where: { id: resolvedMaterialId },
+            data: {
+              ...baseData,
+              deletedAt: null,
+            },
+            select: { id: true, name: true },
+          });
+
+          if (reference) materialIdByReference.set(reference, updated.id);
+          if (serialNumber) materialIdBySerialNumber.set(serialNumber, updated.id);
+
+          upsertResults.push({
+            id: updated.id,
+            name: updated.name,
+            rowNumber,
+            operation: "updated",
+          });
+          continue;
+        }
+
+        try {
+          const created = await tx.material.create({
+            data: baseData,
+            select: { id: true, name: true },
+          });
+
+          if (reference) materialIdByReference.set(reference, created.id);
+          if (serialNumber) materialIdBySerialNumber.set(serialNumber, created.id);
+
+          upsertResults.push({
+            id: created.id,
+            name: created.name,
+            rowNumber,
+            operation: "created",
+          });
+        } catch (error) {
+          if (!(error instanceof Prisma.PrismaClientKnownRequestError) || error.code !== "P2002") {
+            throw error;
+          }
+
+          const conflictCandidates: Prisma.MaterialWhereInput[] = [];
+          if (reference) conflictCandidates.push({ reference });
+          if (serialNumber) conflictCandidates.push({ serialNumber });
+
+          if (conflictCandidates.length === 0) {
+            throw error;
+          }
+
+          const conflictedMaterial = await tx.material.findFirst({
+            where: { OR: conflictCandidates },
+            select: { id: true },
+          });
+
+          if (!conflictedMaterial) {
+            throw error;
+          }
+
+          const updated = await tx.material.update({
+            where: { id: conflictedMaterial.id },
+            data: {
+              ...baseData,
+              deletedAt: null,
+            },
+            select: { id: true, name: true },
+          });
+
+          if (reference) materialIdByReference.set(reference, updated.id);
+          if (serialNumber) materialIdBySerialNumber.set(serialNumber, updated.id);
+
+          upsertResults.push({
+            id: updated.id,
+            name: updated.name,
+            rowNumber,
+            operation: "updated",
+          });
+        }
+      }
+
+      return upsertResults.sort((a, b) => a.rowNumber - b.rowNumber);
     });
 
-    const createdMaterials = insertedMaterials.map((material, index) => ({
-      id: material.id,
-      name: material.name,
-      rowNumber: index + 1,
-    }));
+    const createdCount = upsertedMaterials.filter((material) => material.operation === "created").length;
+    const updatedCount = upsertedMaterials.filter((material) => material.operation === "updated").length;
 
     res.status(201).json({
       receivedRows: rawRows.length,
       jsonRows: rawRows,
-      createdCount: createdMaterials.length,
-      createdMaterials,
+      createdCount,
+      updatedCount,
+      processedCount: upsertedMaterials.length,
+      createdMaterials: upsertedMaterials,
     });
   }),
 );

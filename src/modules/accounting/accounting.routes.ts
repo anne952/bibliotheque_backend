@@ -529,7 +529,7 @@ accountingRoutes.post(
       mapRawRowToImportedRow(row, index + 1, body.defaultJournalType, body.defaultSourceType),
     );
 
-    const createdEntries = await prisma.$transaction(async (tx) => {
+    const upsertedEntries = await prisma.$transaction(async (tx) => {
       const fiscalYear = await tx.fiscalYear.findUnique({ where: { id: body.fiscalYearId as string } });
       if (!fiscalYear) {
         throw new AppError("Exercice comptable introuvable", 404);
@@ -608,8 +608,209 @@ accountingRoutes.post(
         };
       });
 
+      const candidateFilters = preparedEntries.map((entry) => ({
+        fiscalYearId: fiscalYear.id,
+        date: entry.date,
+        journalType: entry.journalType,
+        pieceNumber: entry.pieceNumber ?? null,
+        description: entry.description,
+        sourceType: entry.sourceType ?? null,
+        sourceId: entry.sourceId ?? null,
+      }));
+
+      const candidateEntries = await tx.journalEntry.findMany({
+        where: {
+          fiscalYearId: fiscalYear.id,
+          OR: candidateFilters,
+        },
+        select: {
+          id: true,
+          entryNumber: true,
+          isValidated: true,
+          fiscalYearId: true,
+          date: true,
+          journalType: true,
+          pieceNumber: true,
+          description: true,
+          sourceType: true,
+          sourceId: true,
+          lines: {
+            select: {
+              accountId: true,
+              debit: true,
+              credit: true,
+            },
+          },
+        },
+      });
+
+      const buildPreparedKey = (entry: {
+        fiscalYearId: string;
+        date: Date;
+        journalType: JournalType;
+        pieceNumber?: string;
+        description: string;
+        sourceType?: SourceType;
+        sourceId?: string;
+        debitAccountId: string;
+        creditAccountId: string;
+        amount: Prisma.Decimal;
+      }): string => {
+        return [
+          entry.fiscalYearId,
+          entry.date.toISOString(),
+          entry.journalType,
+          entry.pieceNumber ?? "",
+          entry.description,
+          entry.sourceType ?? "",
+          entry.sourceId ?? "",
+          entry.debitAccountId,
+          entry.creditAccountId,
+          entry.amount.toString(),
+        ].join("|");
+      };
+
+      const buildCandidateKey = (entry: {
+        fiscalYearId: string;
+        date: Date;
+        journalType: JournalType;
+        pieceNumber: string | null;
+        description: string;
+        sourceType: SourceType | null;
+        sourceId: string | null;
+        lines: Array<{ accountId: string; debit: Prisma.Decimal; credit: Prisma.Decimal }>;
+      }): string | null => {
+        if (entry.lines.length !== 2) {
+          return null;
+        }
+
+        const debitLine = entry.lines.find((line) => line.debit.greaterThan(0) && line.credit.equals(0));
+        const creditLine = entry.lines.find((line) => line.credit.greaterThan(0) && line.debit.equals(0));
+
+        if (!debitLine || !creditLine) {
+          return null;
+        }
+
+        if (!debitLine.debit.equals(creditLine.credit)) {
+          return null;
+        }
+
+        return [
+          entry.fiscalYearId,
+          entry.date.toISOString(),
+          entry.journalType,
+          entry.pieceNumber ?? "",
+          entry.description,
+          entry.sourceType ?? "",
+          entry.sourceId ?? "",
+          debitLine.accountId,
+          creditLine.accountId,
+          debitLine.debit.toString(),
+        ].join("|");
+      };
+
+      const existingEntryByKey = new Map<string, { id: string; entryNumber: string; isValidated: boolean }>();
+      for (const candidate of candidateEntries) {
+        const key = buildCandidateKey(candidate);
+        if (!key) {
+          continue;
+        }
+        if (!existingEntryByKey.has(key)) {
+          existingEntryByKey.set(key, {
+            id: candidate.id,
+            entryNumber: candidate.entryNumber,
+            isValidated: candidate.isValidated,
+          });
+        }
+      }
+
+      const entriesToCreate: Array<(typeof preparedEntries)[number]> = [];
+      const entriesToUpdate: Array<{
+        id: string;
+        entryNumber: string;
+        rowNumber: number;
+        date: Date;
+        journalType: JournalType;
+        pieceNumber?: string;
+        description: string;
+        sourceType?: SourceType;
+        sourceId?: string;
+        debitAccountId: string;
+        creditAccountId: string;
+        amount: Prisma.Decimal;
+      }> = [];
+
+      for (const entry of preparedEntries) {
+        const key = buildPreparedKey({
+          fiscalYearId: fiscalYear.id,
+          date: entry.date,
+          journalType: entry.journalType,
+          pieceNumber: entry.pieceNumber,
+          description: entry.description,
+          sourceType: entry.sourceType,
+          sourceId: entry.sourceId,
+          debitAccountId: entry.debitAccountId,
+          creditAccountId: entry.creditAccountId,
+          amount: entry.amount,
+        });
+
+        const existing = existingEntryByKey.get(key);
+        if (!existing) {
+          entriesToCreate.push(entry);
+          continue;
+        }
+
+        if (existing.isValidated) {
+          throw new AppError(`Ligne ${entry.rowNumber}: doublon detecte sur une ecriture validee (${existing.entryNumber})`, 400);
+        }
+
+        entriesToUpdate.push({
+          id: existing.id,
+          entryNumber: existing.entryNumber,
+          rowNumber: entry.rowNumber,
+          date: entry.date,
+          journalType: entry.journalType,
+          pieceNumber: entry.pieceNumber,
+          description: entry.description,
+          sourceType: entry.sourceType,
+          sourceId: entry.sourceId,
+          debitAccountId: entry.debitAccountId,
+          creditAccountId: entry.creditAccountId,
+          amount: entry.amount,
+        });
+      }
+
+      for (const entry of entriesToUpdate) {
+        await tx.journalEntry.update({
+          where: { id: entry.id },
+          data: {
+            date: entry.date,
+            journalType: entry.journalType,
+            pieceNumber: entry.pieceNumber,
+            description: entry.description,
+            sourceType: entry.sourceType,
+            sourceId: entry.sourceId,
+            lines: {
+              deleteMany: {},
+              create: [
+                {
+                  accountId: entry.debitAccountId,
+                  debit: entry.amount,
+                  credit: new Prisma.Decimal(0),
+                },
+                {
+                  accountId: entry.creditAccountId,
+                  debit: new Prisma.Decimal(0),
+                  credit: entry.amount,
+                },
+              ],
+            },
+          },
+        });
+      }
+
       const insertedEntries = await tx.journalEntry.createManyAndReturn({
-        data: preparedEntries.map((entry) => ({
+        data: entriesToCreate.map((entry) => ({
           entryNumber: entry.entryNumber,
           fiscalYearId: fiscalYear.id,
           date: entry.date,
@@ -625,9 +826,9 @@ accountingRoutes.post(
       const entryNumberToId = new Map(insertedEntries.map((entry) => [entry.entryNumber, entry.id]));
 
       const linesData: Prisma.JournalLineCreateManyInput[] = [];
-      const created: Array<{ id: string; entryNumber: string; rowNumber: number }> = [];
+      const created: Array<{ id: string; entryNumber: string; rowNumber: number; operation: "created" | "updated" }> = [];
 
-      for (const entry of preparedEntries) {
+      for (const entry of entriesToCreate) {
         const entryId = entryNumberToId.get(entry.entryNumber);
         if (!entryId) {
           throw new AppError(`Echec de creation pour l'ecriture ${entry.entryNumber}`, 500);
@@ -650,19 +851,36 @@ accountingRoutes.post(
           id: entryId,
           entryNumber: entry.entryNumber,
           rowNumber: entry.rowNumber,
+          operation: "created",
         });
       }
 
-      await tx.journalLine.createMany({ data: linesData });
+      for (const entry of entriesToUpdate) {
+        created.push({
+          id: entry.id,
+          entryNumber: entry.entryNumber,
+          rowNumber: entry.rowNumber,
+          operation: "updated",
+        });
+      }
+
+      if (linesData.length > 0) {
+        await tx.journalLine.createMany({ data: linesData });
+      }
 
       return created;
     });
 
+    const createdCount = upsertedEntries.filter((entry) => entry.operation === "created").length;
+    const updatedCount = upsertedEntries.filter((entry) => entry.operation === "updated").length;
+
     res.status(201).json({
       receivedRows: rawRows.length,
       jsonRows: rawRows,
-      createdCount: createdEntries.length,
-      createdEntries,
+      createdCount,
+      updatedCount,
+      processedCount: upsertedEntries.length,
+      createdEntries: upsertedEntries,
     });
   }),
 );
