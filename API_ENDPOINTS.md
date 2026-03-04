@@ -219,9 +219,22 @@
 
 ### Create Purchase
 - **POST** `/transactions/purchase`
-- Body: `{ quantity, unitPrice, paymentMethod?, paymentStatus?, supplierId?, invoiceNumber?, notes?, reference? }`
+- Body: `{ quantity, unitPrice, itemName?, paymentMethod?, paymentStatus?, supplierId?, invoiceNumber?, notes?, reference? }`
+- `itemName` (optionnel): libelle metier pour la comptabilite (ex: `livre`, `meuble`)
 - Creates Purchase record + synchronized accounting journal entry (source `PURCHASE`)
 - Response: Created purchase object
+- Exemple:
+```json
+{
+  "quantity": 12,
+  "unitPrice": 2500,
+  "itemName": "livre",
+  "paymentMethod": "CASH",
+  "paymentStatus": "PAID",
+  "invoiceNumber": "ACH-2026-001",
+  "notes": "Achat de stock lecture"
+}
+```
 
 ### Update Purchase
 - **PUT** `/transactions/purchase/:id`
@@ -236,9 +249,23 @@
 
 ### Create Sale
 - **POST** `/transactions/sale`
-- Body: `{ materialId, quantity, unitPrice, personId?, paymentMethod?, paymentStatus?, invoiceNumber?, notes?, reference? }`
-- Creates Sale record + StockMovement (SALE_OUT) + updates Material stock + synchronized accounting journal entry (source `SALE`)
+- Body: `{ materialId?, itemName?, quantity, unitPrice, personId?, paymentMethod?, paymentStatus?, invoiceNumber?, notes?, reference? }`
+- Rule: provide at least one of `materialId` or `itemName`
+- If `materialId` is provided: creates Sale + StockMovement (SALE_OUT) + updates Material stock + synchronized accounting journal entry (source `SALE`)
+- If `itemName` is provided without `materialId`: creates Sale (vente libre) with synchronized accounting journal entry, without stock movement
 - Response: Created sale object
+- Exemple vente libre (`itemName` sans `materialId`):
+```json
+{
+  "itemName": "meuble TV",
+  "quantity": 1,
+  "unitPrice": 75000,
+  "paymentMethod": "CASH",
+  "paymentStatus": "PAID",
+  "invoiceNumber": "VNT-2026-015",
+  "notes": "Vente directe exposition"
+}
+```
 
 ### Update Sale
 - **PUT** `/transactions/sale/:id`

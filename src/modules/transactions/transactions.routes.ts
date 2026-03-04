@@ -408,6 +408,7 @@ transactionsRoutes.post(
   "/purchase",
   asyncHandler(async (req, res) => {
     const body = req.body as {
+      itemName?: string;
       quantity?: number;
       unitPrice?: number;
       paymentMethod?: PaymentMethod;
@@ -421,6 +422,10 @@ transactionsRoutes.post(
     const quantity = assertPositiveInt(body.quantity, "quantity");
     const unitPrice = body.unitPrice;
     if (typeof unitPrice !== "number" || unitPrice <= 0) throw new AppError("unitPrice doit etre positif", 400);
+    const purchaseItemLabel =
+      typeof body.itemName === "string" && body.itemName.trim().length > 0
+        ? body.itemName.trim()
+        : "article";
     const paymentMethod = parsePaymentMethod(body.paymentMethod) ?? PaymentMethod.CASH;
     const paymentStatus = parsePaymentStatus(body.paymentStatus) ?? PaymentStatus.PAID;
 
@@ -444,7 +449,7 @@ transactionsRoutes.post(
         await createAutoJournalEntry(tx, {
           date: purchase.purchaseDate,
           journalType: "PURCHASE",
-          description: `Achat ${purchase.invoiceNumber ?? purchase.id}`,
+          description: `Achat de ${purchaseItemLabel} ${purchase.invoiceNumber ?? purchase.id}`,
           sourceType: SourceType.PURCHASE,
           sourceId: purchase.id,
           debitAccountNumber: "601",
@@ -466,6 +471,7 @@ transactionsRoutes.post(
   asyncHandler(async (req, res) => {
     const body = req.body as {
       materialId?: string;
+      itemName?: string;
       quantity?: number;
       unitPrice?: number;
       personId?: string;
@@ -476,8 +482,12 @@ transactionsRoutes.post(
       reference?: string;
     };
 
-    if (!body.materialId) throw new AppError("materialId obligatoire", 400);
     const materialId = body.materialId;
+    const itemName = typeof body.itemName === "string" ? body.itemName.trim() : "";
+    if (!materialId && !itemName) {
+      throw new AppError("materialId ou itemName obligatoire", 400);
+    }
+
     const quantity = assertPositiveInt(body.quantity, "quantity");
     const unitPrice = body.unitPrice;
     if (typeof unitPrice !== "number" || unitPrice <= 0) throw new AppError("unitPrice doit etre positif", 400);
@@ -485,9 +495,34 @@ transactionsRoutes.post(
     const paymentStatus = parsePaymentStatus(body.paymentStatus) ?? PaymentStatus.PAID;
 
     const result = await prisma.$transaction(async (tx) => {
-      const material = await tx.material.findFirst({ where: { id: materialId, deletedAt: null } });
-      if (!material) throw new AppError("Materiel introuvable", 404);
-      if (material.currentStock < quantity) throw new AppError("Stock insuffisant pour la vente", 400);
+      let saleMaterialId: string;
+      let saleItemLabel: string;
+      let shouldTrackStock = false;
+
+      if (materialId) {
+        const material = await tx.material.findFirst({ where: { id: materialId, deletedAt: null } });
+        if (!material) throw new AppError("Materiel introuvable", 404);
+        if (material.currentStock < quantity) throw new AppError("Stock insuffisant pour la vente", 400);
+
+        saleMaterialId = material.id;
+        saleItemLabel = material.name;
+        shouldTrackStock = true;
+      } else {
+        // Keep SaleItem relation intact by attaching the sale to a hidden technical material.
+        const technicalMaterial = await tx.material.create({
+          data: {
+            type: MaterialType.OTHER,
+            name: itemName,
+            currentStock: 0,
+            minStockAlert: 0,
+            deletedAt: new Date(),
+            description: "Article libre pour vente",
+          },
+        });
+
+        saleMaterialId = technicalMaterial.id;
+        saleItemLabel = itemName;
+      }
 
       const totalAmount = new Prisma.Decimal(unitPrice).mul(quantity);
       const unitPriceDecimal = new Prisma.Decimal(unitPrice);
@@ -499,32 +534,46 @@ transactionsRoutes.post(
           paymentStatus,
           invoiceNumber: body.invoiceNumber,
           notes: body.notes,
-          items: { create: { materialId, quantity, unitPrice: unitPriceDecimal, totalAmount } },
+          items: { create: { materialId: saleMaterialId, quantity, unitPrice: unitPriceDecimal, totalAmount } },
         },
-        include: { items: true },
-      });
-
-      await tx.stockMovement.create({
-        data: {
-          materialId,
-          movementType: StockMovementType.SALE_OUT,
-          quantity,
-          unitPrice: unitPriceDecimal,
-          totalAmount,
-          reference: body.reference,
-          sourceType: "SALE",
-          sourceId: sale.id,
-          description: body.notes,
+        include: {
+          items: {
+            include: {
+              material: {
+                select: {
+                  id: true,
+                  name: true,
+                  type: true,
+                },
+              },
+            },
+          },
         },
       });
 
-      await tx.material.update({ where: { id: materialId }, data: { currentStock: { decrement: quantity } } });
+      if (shouldTrackStock) {
+        await tx.stockMovement.create({
+          data: {
+            materialId: saleMaterialId,
+            movementType: StockMovementType.SALE_OUT,
+            quantity,
+            unitPrice: unitPriceDecimal,
+            totalAmount,
+            reference: body.reference,
+            sourceType: "SALE",
+            sourceId: sale.id,
+            description: body.notes,
+          },
+        });
+
+        await tx.material.update({ where: { id: saleMaterialId }, data: { currentStock: { decrement: quantity } } });
+      }
 
       if (paymentStatus !== PaymentStatus.CANCELLED && paymentStatus !== PaymentStatus.REFUNDED) {
         await createAutoJournalEntry(tx, {
           date: sale.saleDate,
           journalType: "SALES",
-          description: `Vente ${sale.invoiceNumber ?? sale.id}`,
+          description: `Vente de ${saleItemLabel} ${sale.invoiceNumber ?? sale.id}`,
           sourceType: SourceType.SALE,
           sourceId: sale.id,
           debitAccountNumber: resolvePaymentMethodAccountNumber(paymentMethod),
@@ -1056,8 +1105,16 @@ transactionsRoutes.delete(
       const sale = await tx.sale.findUnique({ where: { id }, include: { items: true } });
       if (!sale) throw new AppError("Vente introuvable", 404);
 
-      for (const item of sale.items) {
-        await tx.material.update({ where: { id: item.materialId }, data: { currentStock: { increment: item.quantity } } });
+      const stockMovements = await tx.stockMovement.findMany({
+        where: { sourceType: SourceType.SALE, sourceId: id },
+        select: { materialId: true, quantity: true },
+      });
+
+      for (const movement of stockMovements) {
+        await tx.material.update({
+          where: { id: movement.materialId },
+          data: { currentStock: { increment: movement.quantity } },
+        });
       }
 
       await tx.stockMovement.deleteMany({ where: { sourceType: SourceType.SALE, sourceId: id } });
