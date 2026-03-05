@@ -219,8 +219,9 @@
 
 ### Create Purchase
 - **POST** `/transactions/purchase`
-- Body: `{ quantity, unitPrice, itemName?, paymentMethod?, paymentStatus?, supplierId?, invoiceNumber?, notes?, reference? }`
+- Body: `{ quantity, unitPrice, itemName?, paymentMethod?, paymentStatus?, supplierId?, invoiceNumber?, notes?, reference?, purchaseDate? }`
 - `itemName` (optionnel): libelle metier pour la comptabilite (ex: `livre`, `meuble`)
+- `purchaseDate` (optionnel): date explicite de l'achat (accepte une date anterieure si un exercice comptable ouvert couvre cette date)
 - Creates Purchase record + synchronized accounting journal entry (source `PURCHASE`)
 - Response: Created purchase object
 - Exemple:
@@ -240,6 +241,8 @@
 - **PUT** `/transactions/purchase/:id`
 - Body: `{ supplierId?, paymentMethod?, paymentStatus?, invoiceNumber?, notes?, purchaseDate?, unitPrice?/montant? }`
 - Updates purchase metadata and optional item pricing
+- Si `purchaseDate` est fourni et qu'une ecriture comptable auto existe (`source=PURCHASE`), la date comptable est resynchronisee automatiquement
+- Validation metier: la date cible doit appartenir a un exercice comptable ouvert pour conserver la synchronisation
 - Response: Updated purchase object
 
 ### Delete Purchase
@@ -249,8 +252,9 @@
 
 ### Create Sale
 - **POST** `/transactions/sale`
-- Body: `{ materialId?, itemName?, quantity, unitPrice, personId?, paymentMethod?, paymentStatus?, invoiceNumber?, notes?, reference? }`
+- Body: `{ materialId?, itemName?, quantity, unitPrice, personId?, paymentMethod?, paymentStatus?, invoiceNumber?, notes?, reference?, saleDate? }`
 - Rule: provide at least one of `materialId` or `itemName`
+- `saleDate` (optionnel): date explicite de la vente (accepte une date anterieure si un exercice comptable ouvert couvre cette date)
 - If `materialId` is provided: creates Sale + StockMovement (SALE_OUT) + updates Material stock + synchronized accounting journal entry (source `SALE`)
 - If `itemName` is provided without `materialId`: creates Sale (vente libre) with synchronized accounting journal entry, without stock movement
 - Response: Created sale object
@@ -271,6 +275,8 @@
 - **PUT** `/transactions/sale/:id`
 - Body: `{ personId?, paymentMethod?, paymentStatus?, invoiceNumber?, notes?, saleDate?, unitPrice?/montant? }`
 - Updates sale metadata and optional item pricing
+- Si `saleDate` est fourni: les `StockMovement` lies a la vente sont redates, et l'ecriture comptable auto (`source=SALE`) est resynchronisee si elle existe
+- Validation metier: la date cible doit appartenir a un exercice comptable ouvert pour conserver la synchronisation
 - Response: Updated sale object
 
 ### Delete Sale
@@ -317,10 +323,11 @@
 
 ### Create Donation
 - **POST** `/transactions/donation`
-- Body: `{ donorId?, donorName?, donorType?, donationKind, direction?, amount?, paymentMethod?, description?, institution?, items? }`
+- Body: `{ donorId?, donorName?, donorType?, donationKind, direction?, amount?, paymentMethod?, description?, institution?, items?, donationDate? }`
 - For material donations: requires items array
 - For material donations: direction is always forced to `OUT`
 - For financial donations: requires amount
+- `donationDate` (optionnel): date explicite du don (accepte une date anterieure si un exercice comptable ouvert couvre cette date pour les dons financiers entrants)
 - Financial donations (direction `IN`) create synchronized accounting journal entries (source `DONATION_FINANCIAL`, `journalType=DONATION`)
 - Response: Created donation object
 
@@ -328,6 +335,8 @@
 - **PUT** `/transactions/donation/:id`
 - Body: `{ donorId?, donorName?, donorType?, paymentMethod?, donationDate?, description?, institution?, amount? }`
 - Updates donation metadata
+- Si `donationDate` est fourni: les mouvements matieres lies au don sont redates; pour un don financier entrant, l'ecriture comptable auto (`source=DONATION_FINANCIAL`) est resynchronisee
+- Validation metier: la date cible doit appartenir a un exercice comptable ouvert quand une synchronisation comptable est attendue
 - Response: Updated donation object
 
 ### Audit Donation Sync

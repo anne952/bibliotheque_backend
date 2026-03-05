@@ -54,6 +54,27 @@ async function getAccountIdByNumber(tx: Prisma.TransactionClient, accountNumber:
 async function createAutoJournalEntry(
   tx: Prisma.TransactionClient,
   params: {
+    async function syncAutoJournalEntryDate(
+      tx: Prisma.TransactionClient,
+      params: { sourceType: SourceType; sourceId: string; date: Date },
+    ): Promise<void> {
+      const entry = await tx.journalEntry.findFirst({
+        where: { sourceType: params.sourceType, sourceId: params.sourceId },
+        select: { id: true },
+        orderBy: { createdAt: "desc" },
+      });
+
+      if (!entry) return;
+
+      const fiscalYear = await getOpenFiscalYearForDate(tx, params.date);
+      await tx.journalEntry.update({
+        where: { id: entry.id },
+        data: {
+          date: params.date,
+          fiscalYearId: fiscalYear.id,
+        },
+      });
+    }
     date: Date;
     journalType: "PURCHASE" | "SALES" | "CASH" | "DONATION";
     description: string;
@@ -417,6 +438,7 @@ transactionsRoutes.post(
       invoiceNumber?: string;
       notes?: string;
       reference?: string;
+      purchaseDate?: string;
     };
 
     const quantity = assertPositiveInt(body.quantity, "quantity");
@@ -428,6 +450,7 @@ transactionsRoutes.post(
         : "article";
     const paymentMethod = parsePaymentMethod(body.paymentMethod) ?? PaymentMethod.CASH;
     const paymentStatus = parsePaymentStatus(body.paymentStatus) ?? PaymentStatus.PAID;
+    const purchaseDate = parseDate(body.purchaseDate, "purchaseDate");
 
     const result = await prisma.$transaction(async (tx) => {
       const totalAmount = new Prisma.Decimal(unitPrice).mul(quantity);
@@ -440,9 +463,27 @@ transactionsRoutes.post(
           paymentStatus,
           invoiceNumber: body.invoiceNumber,
           notes: body.notes,
+          purchaseDate,
           items: { create: { quantity, unitPrice: unitPriceDecimal, totalAmount } },
         },
         include: { items: true },
+            if (donationDate) {
+              await tx.stockMovement.updateMany({
+                where: {
+                  sourceType: SourceType.DONATION_MATERIAL,
+                  sourceId: id,
+                },
+                data: { movementDate: donationDate },
+              });
+
+              if (updated.donationKind === DonationKind.FINANCIAL && updated.direction === DonationDirection.IN) {
+                await syncAutoJournalEntryDate(tx, {
+                  sourceType: SourceType.DONATION_FINANCIAL,
+                  sourceId: id,
+                  date: donationDate,
+                });
+              }
+            }
       });
 
       if (paymentStatus !== PaymentStatus.CANCELLED && paymentStatus !== PaymentStatus.REFUNDED) {
@@ -480,6 +521,7 @@ transactionsRoutes.post(
       invoiceNumber?: string;
       notes?: string;
       reference?: string;
+      saleDate?: string;
     };
 
     const materialId = body.materialId;
@@ -493,6 +535,7 @@ transactionsRoutes.post(
     if (typeof unitPrice !== "number" || unitPrice <= 0) throw new AppError("unitPrice doit etre positif", 400);
     const paymentMethod = parsePaymentMethod(body.paymentMethod) ?? PaymentMethod.CASH;
     const paymentStatus = parsePaymentStatus(body.paymentStatus) ?? PaymentStatus.PAID;
+    const saleDate = parseDate(body.saleDate, "saleDate");
 
     const result = await prisma.$transaction(async (tx) => {
       let saleMaterialId: string;
@@ -534,6 +577,7 @@ transactionsRoutes.post(
           paymentStatus,
           invoiceNumber: body.invoiceNumber,
           notes: body.notes,
+          saleDate,
           items: { create: { materialId: saleMaterialId, quantity, unitPrice: unitPriceDecimal, totalAmount } },
         },
         include: {
@@ -557,6 +601,7 @@ transactionsRoutes.post(
             materialId: saleMaterialId,
             movementType: StockMovementType.SALE_OUT,
             quantity,
+            movementDate: sale.saleDate,
             unitPrice: unitPriceDecimal,
             totalAmount,
             reference: body.reference,
@@ -768,6 +813,7 @@ transactionsRoutes.post(
       description?: string;
       institution?: string;
       items?: Array<{ materialId?: string; quantity?: number }>;
+      donationDate?: string;
     };
 
     if (!body.donationKind) throw new AppError("donationKind obligatoire", 400);
@@ -776,6 +822,7 @@ transactionsRoutes.post(
     const parsedDirection = parseDonationDirection(body.direction) ?? DonationDirection.IN;
     const direction = donationKind === DonationKind.MATERIAL ? DonationDirection.OUT : parsedDirection;
     const paymentMethod = parsePaymentMethod(body.paymentMethod);
+    const donationDate = parseDate(body.donationDate, "donationDate");
 
     const result = await prisma.$transaction(async (tx) => {
       if (body.donorId) {
@@ -793,6 +840,7 @@ transactionsRoutes.post(
           donorType: parseDonorType(body.donorType),
           donationKind,
           direction,
+          donationDate,
           amount: typeof body.amount === "number" ? new Prisma.Decimal(body.amount) : null,
           paymentMethod,
           description: body.description,
@@ -822,6 +870,7 @@ transactionsRoutes.post(
               materialId,
               movementType: direction === DonationDirection.IN ? StockMovementType.DONATION_IN : StockMovementType.DONATION_OUT,
               quantity,
+              movementDate: donation.donationDate,
               sourceType: "DONATION_MATERIAL",
               sourceId: donation.id,
               description: body.description,
@@ -986,6 +1035,13 @@ transactionsRoutes.put(
       }
 
       const updated = await tx.purchase.update({
+              if (purchaseDate) {
+                await syncAutoJournalEntryDate(tx, {
+                  sourceType: SourceType.PURCHASE,
+                  sourceId: id,
+                  date: purchaseDate,
+                });
+              }
         where: { id },
         data: {
           supplierId: body.supplierId,
@@ -1064,6 +1120,18 @@ transactionsRoutes.put(
       }
 
       const updated = await tx.sale.update({
+              if (saleDate) {
+                await tx.stockMovement.updateMany({
+                  where: { sourceType: SourceType.SALE, sourceId: id },
+                  data: { movementDate: saleDate },
+                });
+
+                await syncAutoJournalEntryDate(tx, {
+                  sourceType: SourceType.SALE,
+                  sourceId: id,
+                  date: saleDate,
+                });
+              }
         where: { id },
         data: {
           personId: body.personId,
