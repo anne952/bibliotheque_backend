@@ -105,8 +105,8 @@ async function createAutoJournalEntry(
       description: params.description,
       sourceType: params.sourceType,
       sourceId: params.sourceId,
-      isValidated: true,
-      validatedAt: new Date(),
+      isValidated: false,
+      validatedAt: null,
       lines: {
         create: [
           {
@@ -999,6 +999,13 @@ transactionsRoutes.delete(
         },
       });
 
+      await tx.journalEntry.deleteMany({
+        where: {
+          sourceId: id,
+          sourceType: { in: [SourceType.DONATION_FINANCIAL, SourceType.DONATION_MATERIAL] },
+        },
+      });
+
       await tx.donation.delete({ where: { id } });
     });
 
@@ -1083,6 +1090,7 @@ transactionsRoutes.delete(
       const purchase = await tx.purchase.findUnique({ where: { id }, include: { items: true } });
       if (!purchase) throw new AppError("Achat introuvable", 404);
 
+      await tx.journalEntry.deleteMany({ where: { sourceType: SourceType.PURCHASE, sourceId: id } });
       await tx.stockMovement.deleteMany({ where: { sourceType: SourceType.PURCHASE, sourceId: id } });
       await tx.purchase.delete({ where: { id } });
     });
@@ -1185,6 +1193,7 @@ transactionsRoutes.delete(
         });
       }
 
+      await tx.journalEntry.deleteMany({ where: { sourceType: SourceType.SALE, sourceId: id } });
       await tx.stockMovement.deleteMany({ where: { sourceType: SourceType.SALE, sourceId: id } });
       await tx.sale.delete({ where: { id } });
     });

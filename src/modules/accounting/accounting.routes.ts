@@ -1063,7 +1063,16 @@ accountingRoutes.delete(
     const id = String(req.params.id);
     const entry = await prisma.journalEntry.findUnique({ where: { id }, include: { lines: true } });
     if (!entry) throw new AppError("Ecriture introuvable", 404);
-    if (entry.isValidated) throw new AppError("Suppression interdite: ecriture deja validee", 400);
+    const autoSyncedSourceTypes: SourceType[] = [
+      SourceType.PURCHASE,
+      SourceType.SALE,
+      SourceType.DONATION_FINANCIAL,
+      SourceType.DONATION_MATERIAL,
+    ];
+    const isAutoSyncedEntry = entry.sourceType ? autoSyncedSourceTypes.includes(entry.sourceType) : false;
+    if (entry.isValidated && !isAutoSyncedEntry) {
+      throw new AppError("Suppression interdite: ecriture deja validee", 400);
+    }
 
     await prisma.$transaction(async (tx) => {
       await tx.deletedItem.create({
