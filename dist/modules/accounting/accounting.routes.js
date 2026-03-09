@@ -333,6 +333,54 @@ exports.accountingRoutes.get("/fiscal-years", (0, http_1.asyncHandler)(async (_r
     });
     res.status(200).json(fiscalYears);
 }));
+// Create fiscal year
+exports.accountingRoutes.post("/fiscal-years", (0, http_1.asyncHandler)(async (req, res) => {
+    const body = req.body;
+    const name = typeof body.name === "string" ? body.name.trim() : "";
+    if (!name)
+        throw new http_1.AppError("name obligatoire", 400);
+    if (!body.startDate)
+        throw new http_1.AppError("startDate obligatoire", 400);
+    if (!body.endDate)
+        throw new http_1.AppError("endDate obligatoire", 400);
+    const startDate = new Date(body.startDate);
+    const endDate = new Date(body.endDate);
+    if (Number.isNaN(startDate.getTime()))
+        throw new http_1.AppError("startDate invalide", 400);
+    if (Number.isNaN(endDate.getTime()))
+        throw new http_1.AppError("endDate invalide", 400);
+    if (startDate > endDate) {
+        throw new http_1.AppError("startDate doit etre inferieure ou egale a endDate", 400);
+    }
+    const overlap = await prisma_1.prisma.fiscalYear.findFirst({
+        where: {
+            startDate: { lte: endDate },
+            endDate: { gte: startDate },
+        },
+        select: { id: true, name: true, startDate: true, endDate: true },
+    });
+    if (overlap) {
+        throw new http_1.AppError(`Periode en conflit avec l'exercice ${overlap.name} (${formatDate(overlap.startDate)} au ${formatDate(overlap.endDate)})`, 409);
+    }
+    try {
+        const created = await prisma_1.prisma.fiscalYear.create({
+            data: {
+                name,
+                startDate,
+                endDate,
+                isClosed: false,
+            },
+        });
+        res.status(201).json(created);
+    }
+    catch (error) {
+        if (error instanceof client_1.Prisma.PrismaClientKnownRequestError &&
+            error.code === "P2002") {
+            throw new http_1.AppError("Un exercice avec ce nom existe deja", 409);
+        }
+        throw error;
+    }
+}));
 // Get all accounts with UUID mapping
 exports.accountingRoutes.get("/accounts", (0, http_1.asyncHandler)(async (_req, res) => {
     const accounts = await prisma_1.prisma.account.findMany({
@@ -794,8 +842,16 @@ exports.accountingRoutes.delete("/entries/:id", (0, http_1.asyncHandler)(async (
     const entry = await prisma_1.prisma.journalEntry.findUnique({ where: { id }, include: { lines: true } });
     if (!entry)
         throw new http_1.AppError("Ecriture introuvable", 404);
-    if (entry.isValidated)
+    const autoSyncedSourceTypes = [
+        client_1.SourceType.PURCHASE,
+        client_1.SourceType.SALE,
+        client_1.SourceType.DONATION_FINANCIAL,
+        client_1.SourceType.DONATION_MATERIAL,
+    ];
+    const isAutoSyncedEntry = entry.sourceType ? autoSyncedSourceTypes.includes(entry.sourceType) : false;
+    if (entry.isValidated && !isAutoSyncedEntry) {
         throw new http_1.AppError("Suppression interdite: ecriture deja validee", 400);
+    }
     await prisma_1.prisma.$transaction(async (tx) => {
         await tx.deletedItem.create({
             data: {

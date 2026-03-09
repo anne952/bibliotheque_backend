@@ -222,6 +222,7 @@
 - Body: `{ quantity, unitPrice, itemName?, paymentMethod?, paymentStatus?, supplierId?, invoiceNumber?, notes?, reference?, purchaseDate? }`
 - `itemName` (optionnel): libelle metier pour la comptabilite (ex: `livre`, `meuble`)
 - `purchaseDate` (optionnel): date explicite de l'achat (accepte une date anterieure si un exercice comptable ouvert couvre cette date)
+- Contrat de date: si `purchaseDate` est fourni et valide, cette meme valeur est persistée dans `Purchase.purchaseDate` et renvoyee dans la reponse
 - Creates Purchase record + synchronized accounting journal entry (source `PURCHASE`)
 - Si une ecriture comptable doit etre creee et qu'aucun exercice comptable ouvert ne couvre `purchaseDate`, l'operation est rejetee (`400`) 
 - Note: l'ecriture auto synchronisee est creee en etat non valide (`isValidated=false`)
@@ -243,6 +244,7 @@
 - **PUT** `/transactions/purchase/:id`
 - Body: `{ supplierId?, paymentMethod?, paymentStatus?, invoiceNumber?, notes?, purchaseDate?, unitPrice?/montant? }`
 - Updates purchase metadata and optional item pricing
+- Contrat de date: si `purchaseDate` est fourni et valide, la nouvelle valeur est persistée et renvoyee dans la reponse
 - Si `purchaseDate` est fourni et qu'une ecriture comptable auto existe (`source=PURCHASE`), la date comptable est resynchronisee automatiquement
 - Validation metier: la date cible doit appartenir a un exercice comptable ouvert pour conserver la synchronisation
 - Response: Updated purchase object
@@ -258,6 +260,7 @@
 - Body: `{ materialId?, itemName?, quantity, unitPrice, personId?, paymentMethod?, paymentStatus?, invoiceNumber?, notes?, reference?, saleDate? }`
 - Rule: provide at least one of `materialId` or `itemName`
 - `saleDate` (optionnel): date explicite de la vente (accepte une date anterieure si un exercice comptable ouvert couvre cette date)
+- Contrat de date: si `saleDate` est fourni et valide, cette meme valeur est persistée dans `Sale.saleDate` et renvoyee dans la reponse
 - If `materialId` is provided: creates Sale + StockMovement (SALE_OUT) + updates Material stock + synchronized accounting journal entry (source `SALE`)
 - If `itemName` is provided without `materialId`: creates Sale (vente libre) with synchronized accounting journal entry, without stock movement
 - Si une ecriture comptable doit etre creee et qu'aucun exercice comptable ouvert ne couvre `saleDate`, l'operation est rejetee (`400`)
@@ -280,6 +283,7 @@
 - **PUT** `/transactions/sale/:id`
 - Body: `{ personId?, paymentMethod?, paymentStatus?, invoiceNumber?, notes?, saleDate?, unitPrice?/montant? }`
 - Updates sale metadata and optional item pricing
+- Contrat de date: si `saleDate` est fourni et valide, la nouvelle valeur est persistée et renvoyee dans la reponse
 - Si `saleDate` est fourni: les `StockMovement` lies a la vente sont redates, et l'ecriture comptable auto (`source=SALE`) est resynchronisee si elle existe
 - Validation metier: la date cible doit appartenir a un exercice comptable ouvert pour conserver la synchronisation
 - Response: Updated sale object

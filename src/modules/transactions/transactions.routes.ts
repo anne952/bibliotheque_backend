@@ -54,27 +54,6 @@ async function getAccountIdByNumber(tx: Prisma.TransactionClient, accountNumber:
 async function createAutoJournalEntry(
   tx: Prisma.TransactionClient,
   params: {
-    async function syncAutoJournalEntryDate(
-      tx: Prisma.TransactionClient,
-      params: { sourceType: SourceType; sourceId: string; date: Date },
-    ): Promise<void> {
-      const entry = await tx.journalEntry.findFirst({
-        where: { sourceType: params.sourceType, sourceId: params.sourceId },
-        select: { id: true },
-        orderBy: { createdAt: "desc" },
-      });
-
-      if (!entry) return;
-
-      const fiscalYear = await getOpenFiscalYearForDate(tx, params.date);
-      await tx.journalEntry.update({
-        where: { id: entry.id },
-        data: {
-          date: params.date,
-          fiscalYearId: fiscalYear.id,
-        },
-      });
-    }
     date: Date;
     journalType: "PURCHASE" | "SALES" | "CASH" | "DONATION";
     description: string;
@@ -123,6 +102,28 @@ async function createAutoJournalEntry(
           },
         ],
       },
+    },
+  });
+}
+
+async function syncAutoJournalEntryDate(
+  tx: Prisma.TransactionClient,
+  params: { sourceType: SourceType; sourceId: string; date: Date },
+): Promise<void> {
+  const entry = await tx.journalEntry.findFirst({
+    where: { sourceType: params.sourceType, sourceId: params.sourceId },
+    select: { id: true },
+    orderBy: { createdAt: "desc" },
+  });
+
+  if (!entry) return;
+
+  const fiscalYear = await getOpenFiscalYearForDate(tx, params.date);
+  await tx.journalEntry.update({
+    where: { id: entry.id },
+    data: {
+      date: params.date,
+      fiscalYearId: fiscalYear.id,
     },
   });
 }
@@ -467,23 +468,6 @@ transactionsRoutes.post(
           items: { create: { quantity, unitPrice: unitPriceDecimal, totalAmount } },
         },
         include: { items: true },
-            if (donationDate) {
-              await tx.stockMovement.updateMany({
-                where: {
-                  sourceType: SourceType.DONATION_MATERIAL,
-                  sourceId: id,
-                },
-                data: { movementDate: donationDate },
-              });
-
-              if (updated.donationKind === DonationKind.FINANCIAL && updated.direction === DonationDirection.IN) {
-                await syncAutoJournalEntryDate(tx, {
-                  sourceType: SourceType.DONATION_FINANCIAL,
-                  sourceId: id,
-                  date: donationDate,
-                });
-              }
-            }
       });
 
       if (paymentStatus !== PaymentStatus.CANCELLED && paymentStatus !== PaymentStatus.REFUNDED) {
@@ -1045,13 +1029,6 @@ transactionsRoutes.put(
       }
 
       const updated = await tx.purchase.update({
-              if (purchaseDate) {
-                await syncAutoJournalEntryDate(tx, {
-                  sourceType: SourceType.PURCHASE,
-                  sourceId: id,
-                  date: purchaseDate,
-                });
-              }
         where: { id },
         data: {
           supplierId: body.supplierId,
@@ -1063,6 +1040,14 @@ transactionsRoutes.put(
         },
         include: { items: true },
       });
+
+      if (purchaseDate) {
+        await syncAutoJournalEntryDate(tx, {
+          sourceType: SourceType.PURCHASE,
+          sourceId: id,
+          date: purchaseDate,
+        });
+      }
 
       if (unitPrice !== undefined) {
         const unitPriceDecimal = new Prisma.Decimal(unitPrice);
@@ -1131,18 +1116,6 @@ transactionsRoutes.put(
       }
 
       const updated = await tx.sale.update({
-              if (saleDate) {
-                await tx.stockMovement.updateMany({
-                  where: { sourceType: SourceType.SALE, sourceId: id },
-                  data: { movementDate: saleDate },
-                });
-
-                await syncAutoJournalEntryDate(tx, {
-                  sourceType: SourceType.SALE,
-                  sourceId: id,
-                  date: saleDate,
-                });
-              }
         where: { id },
         data: {
           personId: body.personId,
@@ -1154,6 +1127,19 @@ transactionsRoutes.put(
         },
         include: { items: true },
       });
+
+      if (saleDate) {
+        await tx.stockMovement.updateMany({
+          where: { sourceType: SourceType.SALE, sourceId: id },
+          data: { movementDate: saleDate },
+        });
+
+        await syncAutoJournalEntryDate(tx, {
+          sourceType: SourceType.SALE,
+          sourceId: id,
+          date: saleDate,
+        });
+      }
 
       if (unitPrice !== undefined) {
         const unitPriceDecimal = new Prisma.Decimal(unitPrice);

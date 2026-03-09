@@ -63,8 +63,8 @@ async function createAutoJournalEntry(tx, params) {
             description: params.description,
             sourceType: params.sourceType,
             sourceId: params.sourceId,
-            isValidated: true,
-            validatedAt: new Date(),
+            isValidated: false,
+            validatedAt: null,
             lines: {
                 create: [
                     {
@@ -81,6 +81,23 @@ async function createAutoJournalEntry(tx, params) {
                     },
                 ],
             },
+        },
+    });
+}
+async function syncAutoJournalEntryDate(tx, params) {
+    const entry = await tx.journalEntry.findFirst({
+        where: { sourceType: params.sourceType, sourceId: params.sourceId },
+        select: { id: true },
+        orderBy: { createdAt: "desc" },
+    });
+    if (!entry)
+        return;
+    const fiscalYear = await getOpenFiscalYearForDate(tx, params.date);
+    await tx.journalEntry.update({
+        where: { id: entry.id },
+        data: {
+            date: params.date,
+            fiscalYearId: fiscalYear.id,
         },
     });
 }
@@ -360,8 +377,12 @@ exports.transactionsRoutes.post("/purchase", (0, http_1.asyncHandler)(async (req
     const unitPrice = body.unitPrice;
     if (typeof unitPrice !== "number" || unitPrice <= 0)
         throw new http_1.AppError("unitPrice doit etre positif", 400);
+    const purchaseItemLabel = typeof body.itemName === "string" && body.itemName.trim().length > 0
+        ? body.itemName.trim()
+        : "article";
     const paymentMethod = parsePaymentMethod(body.paymentMethod) ?? client_1.PaymentMethod.CASH;
     const paymentStatus = parsePaymentStatus(body.paymentStatus) ?? client_1.PaymentStatus.PAID;
+    const purchaseDate = parseDate(body.purchaseDate, "purchaseDate");
     const result = await prisma_1.prisma.$transaction(async (tx) => {
         const totalAmount = new client_1.Prisma.Decimal(unitPrice).mul(quantity);
         const unitPriceDecimal = new client_1.Prisma.Decimal(unitPrice);
@@ -372,6 +393,7 @@ exports.transactionsRoutes.post("/purchase", (0, http_1.asyncHandler)(async (req
                 paymentStatus,
                 invoiceNumber: body.invoiceNumber,
                 notes: body.notes,
+                purchaseDate,
                 items: { create: { quantity, unitPrice: unitPriceDecimal, totalAmount } },
             },
             include: { items: true },
@@ -380,7 +402,7 @@ exports.transactionsRoutes.post("/purchase", (0, http_1.asyncHandler)(async (req
             await createAutoJournalEntry(tx, {
                 date: purchase.purchaseDate,
                 journalType: "PURCHASE",
-                description: `Achat ${purchase.invoiceNumber ?? purchase.id}`,
+                description: `Achat de ${purchaseItemLabel} ${purchase.invoiceNumber ?? purchase.id}`,
                 sourceType: client_1.SourceType.PURCHASE,
                 sourceId: purchase.id,
                 debitAccountNumber: "601",
@@ -395,21 +417,47 @@ exports.transactionsRoutes.post("/purchase", (0, http_1.asyncHandler)(async (req
 }));
 exports.transactionsRoutes.post("/sale", (0, http_1.asyncHandler)(async (req, res) => {
     const body = req.body;
-    if (!body.materialId)
-        throw new http_1.AppError("materialId obligatoire", 400);
     const materialId = body.materialId;
+    const itemName = typeof body.itemName === "string" ? body.itemName.trim() : "";
+    if (!materialId && !itemName) {
+        throw new http_1.AppError("materialId ou itemName obligatoire", 400);
+    }
     const quantity = assertPositiveInt(body.quantity, "quantity");
     const unitPrice = body.unitPrice;
     if (typeof unitPrice !== "number" || unitPrice <= 0)
         throw new http_1.AppError("unitPrice doit etre positif", 400);
     const paymentMethod = parsePaymentMethod(body.paymentMethod) ?? client_1.PaymentMethod.CASH;
     const paymentStatus = parsePaymentStatus(body.paymentStatus) ?? client_1.PaymentStatus.PAID;
+    const saleDate = parseDate(body.saleDate, "saleDate");
     const result = await prisma_1.prisma.$transaction(async (tx) => {
-        const material = await tx.material.findFirst({ where: { id: materialId, deletedAt: null } });
-        if (!material)
-            throw new http_1.AppError("Materiel introuvable", 404);
-        if (material.currentStock < quantity)
-            throw new http_1.AppError("Stock insuffisant pour la vente", 400);
+        let saleMaterialId;
+        let saleItemLabel;
+        let shouldTrackStock = false;
+        if (materialId) {
+            const material = await tx.material.findFirst({ where: { id: materialId, deletedAt: null } });
+            if (!material)
+                throw new http_1.AppError("Materiel introuvable", 404);
+            if (material.currentStock < quantity)
+                throw new http_1.AppError("Stock insuffisant pour la vente", 400);
+            saleMaterialId = material.id;
+            saleItemLabel = material.name;
+            shouldTrackStock = true;
+        }
+        else {
+            // Keep SaleItem relation intact by attaching the sale to a hidden technical material.
+            const technicalMaterial = await tx.material.create({
+                data: {
+                    type: client_1.MaterialType.OTHER,
+                    name: itemName,
+                    currentStock: 0,
+                    minStockAlert: 0,
+                    deletedAt: new Date(),
+                    description: "Article libre pour vente",
+                },
+            });
+            saleMaterialId = technicalMaterial.id;
+            saleItemLabel = itemName;
+        }
         const totalAmount = new client_1.Prisma.Decimal(unitPrice).mul(quantity);
         const unitPriceDecimal = new client_1.Prisma.Decimal(unitPrice);
         const sale = await tx.sale.create({
@@ -419,29 +467,45 @@ exports.transactionsRoutes.post("/sale", (0, http_1.asyncHandler)(async (req, re
                 paymentStatus,
                 invoiceNumber: body.invoiceNumber,
                 notes: body.notes,
-                items: { create: { materialId, quantity, unitPrice: unitPriceDecimal, totalAmount } },
+                saleDate,
+                items: { create: { materialId: saleMaterialId, quantity, unitPrice: unitPriceDecimal, totalAmount } },
             },
-            include: { items: true },
-        });
-        await tx.stockMovement.create({
-            data: {
-                materialId,
-                movementType: client_1.StockMovementType.SALE_OUT,
-                quantity,
-                unitPrice: unitPriceDecimal,
-                totalAmount,
-                reference: body.reference,
-                sourceType: "SALE",
-                sourceId: sale.id,
-                description: body.notes,
+            include: {
+                items: {
+                    include: {
+                        material: {
+                            select: {
+                                id: true,
+                                name: true,
+                                type: true,
+                            },
+                        },
+                    },
+                },
             },
         });
-        await tx.material.update({ where: { id: materialId }, data: { currentStock: { decrement: quantity } } });
+        if (shouldTrackStock) {
+            await tx.stockMovement.create({
+                data: {
+                    materialId: saleMaterialId,
+                    movementType: client_1.StockMovementType.SALE_OUT,
+                    quantity,
+                    movementDate: sale.saleDate,
+                    unitPrice: unitPriceDecimal,
+                    totalAmount,
+                    reference: body.reference,
+                    sourceType: "SALE",
+                    sourceId: sale.id,
+                    description: body.notes,
+                },
+            });
+            await tx.material.update({ where: { id: saleMaterialId }, data: { currentStock: { decrement: quantity } } });
+        }
         if (paymentStatus !== client_1.PaymentStatus.CANCELLED && paymentStatus !== client_1.PaymentStatus.REFUNDED) {
             await createAutoJournalEntry(tx, {
                 date: sale.saleDate,
                 journalType: "SALES",
-                description: `Vente ${sale.invoiceNumber ?? sale.id}`,
+                description: `Vente de ${saleItemLabel} ${sale.invoiceNumber ?? sale.id}`,
                 sourceType: client_1.SourceType.SALE,
                 sourceId: sale.id,
                 debitAccountNumber: resolvePaymentMethodAccountNumber(paymentMethod),
@@ -465,6 +529,7 @@ exports.transactionsRoutes.post("/loan", (0, http_1.asyncHandler)(async (req, re
     if (body.items.length > 3)
         throw new http_1.AppError("Un emprunt ne peut pas contenir plus de 3 titres", 400);
     const personId = body.personId;
+    const borrowedAt = parseDate(body.borrowedAt, "borrowedAt");
     const expectedReturnAt = new Date(body.expectedReturnAt);
     const result = await prisma_1.prisma.$transaction(async (tx) => {
         const person = await tx.person.findFirst({ where: { id: personId, deletedAt: null } });
@@ -473,6 +538,7 @@ exports.transactionsRoutes.post("/loan", (0, http_1.asyncHandler)(async (req, re
         const loan = await tx.loan.create({
             data: {
                 personId,
+                borrowedAt,
                 expectedReturnAt,
                 notes: body.notes,
             },
@@ -595,6 +661,7 @@ exports.transactionsRoutes.post("/donation", (0, http_1.asyncHandler)(async (req
     const parsedDirection = parseDonationDirection(body.direction) ?? client_1.DonationDirection.IN;
     const direction = donationKind === client_1.DonationKind.MATERIAL ? client_1.DonationDirection.OUT : parsedDirection;
     const paymentMethod = parsePaymentMethod(body.paymentMethod);
+    const donationDate = parseDate(body.donationDate, "donationDate");
     const result = await prisma_1.prisma.$transaction(async (tx) => {
         if (body.donorId) {
             const donor = await tx.person.findFirst({ where: { id: body.donorId, deletedAt: null } });
@@ -611,6 +678,7 @@ exports.transactionsRoutes.post("/donation", (0, http_1.asyncHandler)(async (req
                 donorType: parseDonorType(body.donorType),
                 donationKind,
                 direction,
+                donationDate,
                 amount: typeof body.amount === "number" ? new client_1.Prisma.Decimal(body.amount) : null,
                 paymentMethod,
                 description: body.description,
@@ -638,6 +706,7 @@ exports.transactionsRoutes.post("/donation", (0, http_1.asyncHandler)(async (req
                         materialId,
                         movementType: direction === client_1.DonationDirection.IN ? client_1.StockMovementType.DONATION_IN : client_1.StockMovementType.DONATION_OUT,
                         quantity,
+                        movementDate: donation.donationDate,
                         sourceType: "DONATION_MATERIAL",
                         sourceId: donation.id,
                         description: body.description,
@@ -739,6 +808,12 @@ exports.transactionsRoutes.delete("/donation/:id", (0, http_1.asyncHandler)(asyn
                 sourceType: { in: [client_1.SourceType.DONATION_FINANCIAL, client_1.SourceType.DONATION_MATERIAL] },
             },
         });
+        await tx.journalEntry.deleteMany({
+            where: {
+                sourceId: id,
+                sourceType: { in: [client_1.SourceType.DONATION_FINANCIAL, client_1.SourceType.DONATION_MATERIAL] },
+            },
+        });
         await tx.donation.delete({ where: { id } });
     });
     res.status(204).send();
@@ -771,6 +846,13 @@ exports.transactionsRoutes.put("/purchase/:id", (0, http_1.asyncHandler)(async (
             },
             include: { items: true },
         });
+        if (purchaseDate) {
+            await syncAutoJournalEntryDate(tx, {
+                sourceType: client_1.SourceType.PURCHASE,
+                sourceId: id,
+                date: purchaseDate,
+            });
+        }
         if (unitPrice !== undefined) {
             const unitPriceDecimal = new client_1.Prisma.Decimal(unitPrice);
             for (const item of updated.items) {
@@ -793,6 +875,7 @@ exports.transactionsRoutes.delete("/purchase/:id", (0, http_1.asyncHandler)(asyn
         const purchase = await tx.purchase.findUnique({ where: { id }, include: { items: true } });
         if (!purchase)
             throw new http_1.AppError("Achat introuvable", 404);
+        await tx.journalEntry.deleteMany({ where: { sourceType: client_1.SourceType.PURCHASE, sourceId: id } });
         await tx.stockMovement.deleteMany({ where: { sourceType: client_1.SourceType.PURCHASE, sourceId: id } });
         await tx.purchase.delete({ where: { id } });
     });
@@ -826,6 +909,17 @@ exports.transactionsRoutes.put("/sale/:id", (0, http_1.asyncHandler)(async (req,
             },
             include: { items: true },
         });
+        if (saleDate) {
+            await tx.stockMovement.updateMany({
+                where: { sourceType: client_1.SourceType.SALE, sourceId: id },
+                data: { movementDate: saleDate },
+            });
+            await syncAutoJournalEntryDate(tx, {
+                sourceType: client_1.SourceType.SALE,
+                sourceId: id,
+                date: saleDate,
+            });
+        }
         if (unitPrice !== undefined) {
             const unitPriceDecimal = new client_1.Prisma.Decimal(unitPrice);
             for (const item of updated.items) {
@@ -848,9 +942,17 @@ exports.transactionsRoutes.delete("/sale/:id", (0, http_1.asyncHandler)(async (r
         const sale = await tx.sale.findUnique({ where: { id }, include: { items: true } });
         if (!sale)
             throw new http_1.AppError("Vente introuvable", 404);
-        for (const item of sale.items) {
-            await tx.material.update({ where: { id: item.materialId }, data: { currentStock: { increment: item.quantity } } });
+        const stockMovements = await tx.stockMovement.findMany({
+            where: { sourceType: client_1.SourceType.SALE, sourceId: id },
+            select: { materialId: true, quantity: true },
+        });
+        for (const movement of stockMovements) {
+            await tx.material.update({
+                where: { id: movement.materialId },
+                data: { currentStock: { increment: movement.quantity } },
+            });
         }
+        await tx.journalEntry.deleteMany({ where: { sourceType: client_1.SourceType.SALE, sourceId: id } });
         await tx.stockMovement.deleteMany({ where: { sourceType: client_1.SourceType.SALE, sourceId: id } });
         await tx.sale.delete({ where: { id } });
     });
