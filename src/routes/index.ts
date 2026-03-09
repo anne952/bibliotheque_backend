@@ -8,6 +8,7 @@ import { reportsRoutes } from "../modules/reports/reports.routes";
 import { initRoutes } from "../modules/init/init.routes";
 import { deletedItemsRoutes } from "../modules/deleted-items/deleted-items.routes";
 import { offlineSyncRoutes } from "../modules/offline-sync/offline-sync.routes";
+import { visitorsRoutes } from "../modules/visitors/visitors.routes";
 
 export const apiRoutes = Router();
 
@@ -18,6 +19,7 @@ apiRoutes.use("/bibliotheque", materialsRoutes);
 apiRoutes.use("/materiel", materialsRoutes);
 apiRoutes.use("/transactions", transactionsRoutes);
 apiRoutes.use("/persons", personsRoutes);
+apiRoutes.use("/visitors", visitorsRoutes);
 apiRoutes.use("/accounting", accountingRoutes);
 apiRoutes.use("/comptabilite", accountingRoutes);
 apiRoutes.use("/reports", reportsRoutes);

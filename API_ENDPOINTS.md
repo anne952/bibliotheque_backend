@@ -223,6 +223,7 @@
 - `itemName` (optionnel): libelle metier pour la comptabilite (ex: `livre`, `meuble`)
 - `purchaseDate` (optionnel): date explicite de l'achat (accepte une date anterieure si un exercice comptable ouvert couvre cette date)
 - Creates Purchase record + synchronized accounting journal entry (source `PURCHASE`)
+- Si une ecriture comptable doit etre creee et qu'aucun exercice comptable ouvert ne couvre `purchaseDate`, l'operation est rejetee (`400`) 
 - Note: l'ecriture auto synchronisee est creee en etat non valide (`isValidated=false`)
 - Response: Created purchase object
 - Exemple:
@@ -259,6 +260,7 @@
 - `saleDate` (optionnel): date explicite de la vente (accepte une date anterieure si un exercice comptable ouvert couvre cette date)
 - If `materialId` is provided: creates Sale + StockMovement (SALE_OUT) + updates Material stock + synchronized accounting journal entry (source `SALE`)
 - If `itemName` is provided without `materialId`: creates Sale (vente libre) with synchronized accounting journal entry, without stock movement
+- Si une ecriture comptable doit etre creee et qu'aucun exercice comptable ouvert ne couvre `saleDate`, l'operation est rejetee (`400`)
 - Note: l'ecriture auto synchronisee est creee en etat non valide (`isValidated=false`)
 - Response: Created sale object
 - Exemple vente libre (`itemName` sans `materialId`):
@@ -290,8 +292,9 @@
 
 ### Create Loan
 - **POST** `/transactions/loan`
-- Body: `{ personId, expectedReturnAt, notes?, items: [{ materialId, quantity }] }`
+- Body: `{ personId, borrowedAt?, expectedReturnAt, notes?, items: [{ materialId, quantity }] }`
 - Constraint: Max 3 books per loan, only BOOK type materials
+- `borrowedAt` (optionnel): permet d'enregistrer un emprunt avec date anterieure
 - Creates Loan record + LoanItems + StockMovements (LOAN_OUT) + updates Material stock
 - Response: Created loan object with items
 
@@ -311,6 +314,23 @@
 - Body: `{ loanId, notes? }`
 - Updates Loan status to RETURNED + creates StockMovements (RETURN_IN) + restores Material stock
 - Response: Updated loan object
+
+### Visitors Log
+- **GET** `/visitors`
+- Query params: `?limit=50&offset=0`
+- Response: liste des visites (inclut `person` si liee)
+
+### Get Visitor Log by ID
+- **GET** `/visitors/:id`
+- Response: visite detaillee
+
+### Create Visitor Log
+- **POST** `/visitors`
+- Body: `{ personId?, fullName?, phone?, email?, address?, church?, visitDate?, notes? }`
+- Regle: fournir au moins `personId` ou `fullName`
+- `visitDate` (optionnel): accepte une date anterieure
+- Si `personId` est fourni, la personne est marquee `isVisitor=true` automatiquement
+- Response: visite creee
 
 ### Get All Donations
 - **GET** `/transactions/donations`
@@ -333,6 +353,7 @@
 - For financial donations: requires amount
 - `donationDate` (optionnel): date explicite du don (accepte une date anterieure si un exercice comptable ouvert couvre cette date pour les dons financiers entrants)
 - Financial donations (direction `IN`) create synchronized accounting journal entries (source `DONATION_FINANCIAL`, `journalType=DONATION`)
+- Si un don financier entrant doit generer une ecriture et qu'aucun exercice comptable ouvert ne couvre `donationDate`, l'operation est rejetee (`400`)
 - Note: l'ecriture auto synchronisee est creee en etat non valide (`isValidated=false`)
 - Response: Created donation object
 
@@ -340,8 +361,7 @@
 - **PUT** `/transactions/donation/:id`
 - Body: `{ donorId?, donorName?, donorType?, paymentMethod?, donationDate?, description?, institution?, amount? }`
 - Updates donation metadata
-- Si `donationDate` est fourni: les mouvements matieres lies au don sont redates; pour un don financier entrant, l'ecriture comptable auto (`source=DONATION_FINANCIAL`) est resynchronisee
-- Validation metier: la date cible doit appartenir a un exercice comptable ouvert quand une synchronisation comptable est attendue
+- Comportement actuel: si `donationDate` est modifie, seule la date du don est mise a jour; les mouvements de stock et ecritures comptables existants ne sont pas redates automatiquement
 - Response: Updated donation object
 
 ### Audit Donation Sync
@@ -384,6 +404,26 @@
   "endDate": "2026-12-31T00:00:00.000Z",
   "isClosed": false
 }]
+```
+
+### Create Fiscal Year
+- **POST** `/accounting/fiscal-years`
+- Body: `{ name, startDate, endDate }`
+- Regles:
+  - `name` obligatoire et unique
+  - `startDate <= endDate`
+  - la periode ne doit pas chevaucher un exercice existant
+  - exercice cree avec `isClosed=false`
+- Reponses:
+  - `201` exercice cree
+  - `409` conflit de nom ou de periode
+- Exemple:
+```json
+{
+  "name": "FY 2025",
+  "startDate": "2025-01-01T00:00:00.000Z",
+  "endDate": "2025-12-31T00:00:00.000Z"
+}
 ```
 
 ### Get All Accounts
@@ -467,9 +507,19 @@
 ```
 
 **Workflow complet:**
-1. `GET /accounting/fiscal-years` → Récupérer le `fiscalYearId`
-2. `GET /accounting/accounts` → (Optionnel) Lister les comptes disponibles
-3. `POST /accounting/entries` → Créer une écriture avec numéros de compte ou UUID
+1. `GET /accounting/fiscal-years` → verifier qu'un exercice couvre la periode de travail
+2. `POST /accounting/fiscal-years` → creer l'exercice s'il n'existe pas encore (ex: operation sur date anterieure)
+3. `GET /accounting/accounts` → (optionnel) lister les comptes disponibles
+4. `POST /accounting/entries` → creer les ecritures du journal comptable
+5. `GET /accounting/cash-journal?fiscalYearId=<id>` → journal de caisse
+6. `GET /accounting/trial-balance?fiscalYearId=<id>` → balance
+7. `GET /accounting/general-ledger?accountId=<id>&fiscalYearId=<id>` → grand livre
+8. `GET /accounting/income-statement?fiscalYearId=<id>` → compte de resultat
+9. `GET /accounting/balance-sheet?fiscalYearId=<id>` → bilan
+
+Notes pratiques:
+- Les flux `purchase`, `sale`, `donation` (financier entrant) synchronisent la comptabilite automatiquement dans l'exercice couvrant la date de l'operation.
+- Sans exercice couvrant la date, ces synchronisations sont rejetees en `400`.
 
 ### Import Excel Paste (1 ligne = 1 ecriture)
 - **POST** `/accounting/entries/import-paste`

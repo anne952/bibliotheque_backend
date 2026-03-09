@@ -640,6 +640,7 @@ transactionsRoutes.post(
   asyncHandler(async (req, res) => {
     const body = req.body as {
       personId?: string;
+      borrowedAt?: string;
       expectedReturnAt?: string;
       notes?: string;
       items?: Array<{ materialId?: string; quantity?: number }>;
@@ -651,6 +652,7 @@ transactionsRoutes.post(
     if (body.items.length > 3) throw new AppError("Un emprunt ne peut pas contenir plus de 3 titres", 400);
 
     const personId = body.personId;
+    const borrowedAt = parseDate(body.borrowedAt, "borrowedAt");
     const expectedReturnAt = new Date(body.expectedReturnAt);
 
     const result = await prisma.$transaction(async (tx) => {
@@ -660,6 +662,7 @@ transactionsRoutes.post(
       const loan = await tx.loan.create({
         data: {
           personId,
+          borrowedAt,
           expectedReturnAt,
           notes: body.notes,
         },

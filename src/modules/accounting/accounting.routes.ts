@@ -448,6 +448,69 @@ accountingRoutes.get(
   }),
 );
 
+// Create fiscal year
+accountingRoutes.post(
+  "/fiscal-years",
+  asyncHandler(async (req, res) => {
+    const body = req.body as {
+      name?: string;
+      startDate?: string;
+      endDate?: string;
+    };
+
+    const name = typeof body.name === "string" ? body.name.trim() : "";
+    if (!name) throw new AppError("name obligatoire", 400);
+    if (!body.startDate) throw new AppError("startDate obligatoire", 400);
+    if (!body.endDate) throw new AppError("endDate obligatoire", 400);
+
+    const startDate = new Date(body.startDate);
+    const endDate = new Date(body.endDate);
+
+    if (Number.isNaN(startDate.getTime())) throw new AppError("startDate invalide", 400);
+    if (Number.isNaN(endDate.getTime())) throw new AppError("endDate invalide", 400);
+    if (startDate > endDate) {
+      throw new AppError("startDate doit etre inferieure ou egale a endDate", 400);
+    }
+
+    const overlap = await prisma.fiscalYear.findFirst({
+      where: {
+        startDate: { lte: endDate },
+        endDate: { gte: startDate },
+      },
+      select: { id: true, name: true, startDate: true, endDate: true },
+    });
+
+    if (overlap) {
+      throw new AppError(
+        `Periode en conflit avec l'exercice ${overlap.name} (${formatDate(overlap.startDate)} au ${formatDate(overlap.endDate)})`,
+        409,
+      );
+    }
+
+    try {
+      const created = await prisma.fiscalYear.create({
+        data: {
+          name,
+          startDate,
+          endDate,
+          isClosed: false,
+        },
+      });
+
+      res.status(201).json(created);
+    } catch (error) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === "P2002"
+      ) {
+        throw new AppError("Un exercice avec ce nom existe deja", 409);
+      }
+
+      throw error;
+    }
+  }),
+);
+
 // Get all accounts with UUID mapping
 accountingRoutes.get(
   "/accounts",
