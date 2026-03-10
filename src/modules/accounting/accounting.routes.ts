@@ -3,6 +3,7 @@ import { Router } from "express";
 import { AppError, asyncHandler } from "../../common/http";
 import { prisma } from "../../config/prisma";
 import { AccountingService } from "./accounting.service";
+import { FinancialStatementsService } from "./financial-statements.service";
 import { ReportsService } from "../reports/reports.service";
 import ExcelJS from "exceljs";
 
@@ -1160,7 +1161,7 @@ accountingRoutes.get(
     const fiscalYearId = String(req.query.fiscalYearId ?? "");
     if (!fiscalYearId) throw new AppError("fiscalYearId obligatoire", 400);
 
-    const balanceSheet = await AccountingService.getBalanceSheet(
+    const balanceSheet = await FinancialStatementsService.getBalanceSheetV2(
       fiscalYearId,
     );
     res.status(200).json(balanceSheet);
@@ -1173,10 +1174,23 @@ accountingRoutes.get(
     const fiscalYearId = String(req.query.fiscalYearId ?? "");
     if (!fiscalYearId) throw new AppError("fiscalYearId obligatoire", 400);
 
-    const incomeStatement = await AccountingService.getIncomeStatement(
+    const incomeStatement = await FinancialStatementsService.getIncomeStatementV2(
       fiscalYearId,
     );
     res.status(200).json(incomeStatement);
+  }),
+);
+
+accountingRoutes.get(
+  "/financial-statements",
+  asyncHandler(async (req, res) => {
+    const fiscalYearId = String(req.query.fiscalYearId ?? "");
+    if (!fiscalYearId) throw new AppError("fiscalYearId obligatoire", 400);
+
+    const payload = await FinancialStatementsService.getFinancialStatementsPackage(
+      fiscalYearId,
+    );
+    res.status(200).json(payload);
   }),
 );
 
@@ -1472,41 +1486,37 @@ accountingRoutes.get(
     }
 
     if (section === "all" || section === "balance-sheet") {
-      const balanceSheet = await AccountingService.getBalanceSheet(fiscalYearId as string);
+      const balanceSheet = await FinancialStatementsService.getBalanceSheetV2(
+        fiscalYearId as string,
+      );
 
       addWorksheetFromRows(
         workbook,
         "Bilan",
-        ["Section", "Compte", "Libelle", "Debit", "Credit", "Solde"],
         [
-          ...balanceSheet.assets.map((line) => [
-            "Actif",
-            line.accountNumber,
-            line.accountName,
-            line.debit,
-            line.credit,
-            line.balance,
-          ]),
-          ...balanceSheet.liabilities.map((line) => [
-            "Passif",
-            line.accountNumber,
-            line.accountName,
-            line.debit,
-            line.credit,
-            line.balance,
-          ]),
-          ...balanceSheet.equity.map((line) => [
-            "Capitaux",
-            line.accountNumber,
-            line.accountName,
-            line.debit,
-            line.credit,
-            line.balance,
-          ]),
-          ["TOTAL", "", "Actif", "", "", balanceSheet.totals.assets],
-          ["TOTAL", "", "Passif", "", "", balanceSheet.totals.liabilities],
-          ["TOTAL", "", "Capitaux", "", "", balanceSheet.totals.equity],
+          "REF Actif",
+          "Actif",
+          "Note Actif",
+          "Exercice N Actif",
+          "Exercice N-1 Actif",
+          "REF Passif",
+          "Passif",
+          "Note Passif",
+          "Exercice N Passif",
+          "Exercice N-1 Passif",
         ],
+        balanceSheet.structure.map((line) => [
+          line.actif.ref,
+          line.actif.libelle,
+          line.actif.note,
+          line.actif.exercice.n,
+          line.actif.exercice.n1,
+          line.passif?.ref,
+          line.passif?.libelle,
+          line.passif?.note,
+          line.passif?.exercice.n,
+          line.passif?.exercice.n1,
+        ]),
       );
     }
 
@@ -1526,32 +1536,21 @@ accountingRoutes.get(
     }
 
     if (section === "all" || section === "income-statement") {
-      const incomeStatement = await AccountingService.getIncomeStatement(fiscalYearId as string);
+      const incomeStatement = await FinancialStatementsService.getIncomeStatementV2(
+        fiscalYearId as string,
+      );
       addWorksheetFromRows(
         workbook,
         "Compte Resultat",
-        ["Section", "Compte", "Libelle", "Debit", "Credit", "Solde"],
-        [
-          ...incomeStatement.revenues.map((line) => [
-            "Produits",
-            line.accountNumber,
-            line.accountName,
-            line.debit,
-            line.credit,
-            line.balance,
-          ]),
-          ...incomeStatement.expenses.map((line) => [
-            "Charges",
-            line.accountNumber,
-            line.accountName,
-            line.debit,
-            line.credit,
-            line.balance,
-          ]),
-          ["TOTAL", "", "Produits", "", "", incomeStatement.totals.revenues],
-          ["TOTAL", "", "Charges", "", "", incomeStatement.totals.expenses],
-          ["RESULTAT", "", "Net", "", "", incomeStatement.totals.netIncome],
-        ],
+        ["REF", "Libelle", "Signe", "Note", "Exercice N", "Exercice N-1"],
+        incomeStatement.structure.map((line) => [
+          line.ref,
+          line.libelle,
+          line.signe,
+          line.note,
+          line.exercice.n,
+          line.exercice.n1,
+        ]),
       );
     }
 

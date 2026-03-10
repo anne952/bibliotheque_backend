@@ -47,6 +47,7 @@ export declare const ModelName: {
     readonly JournalLine: "JournalLine";
     readonly DeletedItem: "DeletedItem";
     readonly SyncTask: "SyncTask";
+    readonly FinancialStatementTemplateLine: "FinancialStatementTemplateLine";
 };
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
 export declare const TransactionIsolationLevel: {
@@ -314,6 +315,22 @@ export declare const SyncTaskScalarFieldEnum: {
     readonly deletedAt: "deletedAt";
 };
 export type SyncTaskScalarFieldEnum = (typeof SyncTaskScalarFieldEnum)[keyof typeof SyncTaskScalarFieldEnum];
+export declare const FinancialStatementTemplateLineScalarFieldEnum: {
+    readonly id: "id";
+    readonly statementType: "statementType";
+    readonly statementSide: "statementSide";
+    readonly rowOrder: "rowOrder";
+    readonly ref: "ref";
+    readonly label: "label";
+    readonly note: "note";
+    readonly sign: "sign";
+    readonly accountPrefixes: "accountPrefixes";
+    readonly formula: "formula";
+    readonly isTitle: "isTitle";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type FinancialStatementTemplateLineScalarFieldEnum = (typeof FinancialStatementTemplateLineScalarFieldEnum)[keyof typeof FinancialStatementTemplateLineScalarFieldEnum];
 export declare const SortOrder: {
     readonly asc: "asc";
     readonly desc: "desc";
@@ -323,6 +340,11 @@ export declare const JsonNullValueInput: {
     readonly JsonNull: import("@prisma/client-runtime-utils").JsonNullClass;
 };
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput];
+export declare const NullableJsonNullValueInput: {
+    readonly DbNull: import("@prisma/client-runtime-utils").DbNullClass;
+    readonly JsonNull: import("@prisma/client-runtime-utils").JsonNullClass;
+};
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
 export declare const QueryMode: {
     readonly default: "default";
     readonly insensitive: "insensitive";

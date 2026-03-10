@@ -48,7 +48,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.JsonNullValueFilter = exports.NullsOrder = exports.QueryMode = exports.JsonNullValueInput = exports.SortOrder = exports.SyncTaskScalarFieldEnum = exports.DeletedItemScalarFieldEnum = exports.JournalLineScalarFieldEnum = exports.JournalEntryScalarFieldEnum = exports.AccountScalarFieldEnum = exports.FiscalYearScalarFieldEnum = exports.DonationItemScalarFieldEnum = exports.DonationScalarFieldEnum = exports.PurchaseItemScalarFieldEnum = exports.PurchaseScalarFieldEnum = exports.SaleItemScalarFieldEnum = exports.SaleScalarFieldEnum = exports.LoanItemScalarFieldEnum = exports.LoanScalarFieldEnum = exports.StockMovementScalarFieldEnum = exports.MaterialScalarFieldEnum = exports.VisitorLogScalarFieldEnum = exports.PersonScalarFieldEnum = exports.CompanyProfileScalarFieldEnum = exports.SessionScalarFieldEnum = exports.UserScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
+exports.JsonNullValueFilter = exports.NullsOrder = exports.QueryMode = exports.NullableJsonNullValueInput = exports.JsonNullValueInput = exports.SortOrder = exports.FinancialStatementTemplateLineScalarFieldEnum = exports.SyncTaskScalarFieldEnum = exports.DeletedItemScalarFieldEnum = exports.JournalLineScalarFieldEnum = exports.JournalEntryScalarFieldEnum = exports.AccountScalarFieldEnum = exports.FiscalYearScalarFieldEnum = exports.DonationItemScalarFieldEnum = exports.DonationScalarFieldEnum = exports.PurchaseItemScalarFieldEnum = exports.PurchaseScalarFieldEnum = exports.SaleItemScalarFieldEnum = exports.SaleScalarFieldEnum = exports.LoanItemScalarFieldEnum = exports.LoanScalarFieldEnum = exports.StockMovementScalarFieldEnum = exports.MaterialScalarFieldEnum = exports.VisitorLogScalarFieldEnum = exports.PersonScalarFieldEnum = exports.CompanyProfileScalarFieldEnum = exports.SessionScalarFieldEnum = exports.UserScalarFieldEnum = exports.TransactionIsolationLevel = exports.ModelName = exports.AnyNull = exports.JsonNull = exports.DbNull = exports.NullTypes = exports.Decimal = void 0;
 const runtime = __importStar(require("@prisma/client/runtime/index-browser"));
 exports.Decimal = runtime.Decimal;
 exports.NullTypes = {
@@ -95,7 +95,8 @@ exports.ModelName = {
     JournalEntry: 'JournalEntry',
     JournalLine: 'JournalLine',
     DeletedItem: 'DeletedItem',
-    SyncTask: 'SyncTask'
+    SyncTask: 'SyncTask',
+    FinancialStatementTemplateLine: 'FinancialStatementTemplateLine'
 };
 /*
  * Enums
@@ -343,11 +344,30 @@ exports.SyncTaskScalarFieldEnum = {
     createdAt: 'createdAt',
     deletedAt: 'deletedAt'
 };
+exports.FinancialStatementTemplateLineScalarFieldEnum = {
+    id: 'id',
+    statementType: 'statementType',
+    statementSide: 'statementSide',
+    rowOrder: 'rowOrder',
+    ref: 'ref',
+    label: 'label',
+    note: 'note',
+    sign: 'sign',
+    accountPrefixes: 'accountPrefixes',
+    formula: 'formula',
+    isTitle: 'isTitle',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+};
 exports.SortOrder = {
     asc: 'asc',
     desc: 'desc'
 };
 exports.JsonNullValueInput = {
+    JsonNull: exports.JsonNull
+};
+exports.NullableJsonNullValueInput = {
+    DbNull: exports.DbNull,
     JsonNull: exports.JsonNull
 };
 exports.QueryMode = {

@@ -352,6 +352,26 @@ model SyncTask {
   @@index([deletedAt])
 }
 
+model FinancialStatementTemplateLine {
+  id              String   @id
+  statementType   String
+  statementSide   String
+  rowOrder        Int
+  ref             String?
+  label           String
+  note            String?
+  sign            String?
+  accountPrefixes Json?
+  formula         String?
+  isTitle         Boolean  @default(false)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([statementType, statementSide, rowOrder])
+  @@index([statementType, statementSide, rowOrder])
+  @@map("financial_statement_template_lines")
+}
+
 enum UserRole {
   ADMIN
   MANAGER

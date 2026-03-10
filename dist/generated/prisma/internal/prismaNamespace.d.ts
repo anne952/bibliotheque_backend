@@ -252,6 +252,7 @@ export declare const ModelName: {
     readonly JournalLine: "JournalLine";
     readonly DeletedItem: "DeletedItem";
     readonly SyncTask: "SyncTask";
+    readonly FinancialStatementTemplateLine: "FinancialStatementTemplateLine";
 };
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
 export interface TypeMapCb<GlobalOmitOptions = {}> extends runtime.Types.Utils.Fn<{
@@ -264,7 +265,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         omit: GlobalOmitOptions;
     };
     meta: {
-        modelProps: "user" | "session" | "companyProfile" | "person" | "visitorLog" | "material" | "stockMovement" | "loan" | "loanItem" | "sale" | "saleItem" | "purchase" | "purchaseItem" | "donation" | "donationItem" | "fiscalYear" | "account" | "journalEntry" | "journalLine" | "deletedItem" | "syncTask";
+        modelProps: "user" | "session" | "companyProfile" | "person" | "visitorLog" | "material" | "stockMovement" | "loan" | "loanItem" | "sale" | "saleItem" | "purchase" | "purchaseItem" | "donation" | "donationItem" | "fiscalYear" | "account" | "journalEntry" | "journalLine" | "deletedItem" | "syncTask" | "financialStatementTemplateLine";
         txIsolationLevel: TransactionIsolationLevel;
     };
     model: {
@@ -1822,6 +1823,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
                 };
             };
         };
+        FinancialStatementTemplateLine: {
+            payload: Prisma.$FinancialStatementTemplateLinePayload<ExtArgs>;
+            fields: Prisma.FinancialStatementTemplateLineFieldRefs;
+            operations: {
+                findUnique: {
+                    args: Prisma.FinancialStatementTemplateLineFindUniqueArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$FinancialStatementTemplateLinePayload> | null;
+                };
+                findUniqueOrThrow: {
+                    args: Prisma.FinancialStatementTemplateLineFindUniqueOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$FinancialStatementTemplateLinePayload>;
+                };
+                findFirst: {
+                    args: Prisma.FinancialStatementTemplateLineFindFirstArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$FinancialStatementTemplateLinePayload> | null;
+                };
+                findFirstOrThrow: {
+                    args: Prisma.FinancialStatementTemplateLineFindFirstOrThrowArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$FinancialStatementTemplateLinePayload>;
+                };
+                findMany: {
+                    args: Prisma.FinancialStatementTemplateLineFindManyArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$FinancialStatementTemplateLinePayload>[];
+                };
+                create: {
+                    args: Prisma.FinancialStatementTemplateLineCreateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$FinancialStatementTemplateLinePayload>;
+                };
+                createMany: {
+                    args: Prisma.FinancialStatementTemplateLineCreateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                createManyAndReturn: {
+                    args: Prisma.FinancialStatementTemplateLineCreateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$FinancialStatementTemplateLinePayload>[];
+                };
+                delete: {
+                    args: Prisma.FinancialStatementTemplateLineDeleteArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$FinancialStatementTemplateLinePayload>;
+                };
+                update: {
+                    args: Prisma.FinancialStatementTemplateLineUpdateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$FinancialStatementTemplateLinePayload>;
+                };
+                deleteMany: {
+                    args: Prisma.FinancialStatementTemplateLineDeleteManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateMany: {
+                    args: Prisma.FinancialStatementTemplateLineUpdateManyArgs<ExtArgs>;
+                    result: BatchPayload;
+                };
+                updateManyAndReturn: {
+                    args: Prisma.FinancialStatementTemplateLineUpdateManyAndReturnArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$FinancialStatementTemplateLinePayload>[];
+                };
+                upsert: {
+                    args: Prisma.FinancialStatementTemplateLineUpsertArgs<ExtArgs>;
+                    result: runtime.Types.Utils.PayloadToResult<Prisma.$FinancialStatementTemplateLinePayload>;
+                };
+                aggregate: {
+                    args: Prisma.FinancialStatementTemplateLineAggregateArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.AggregateFinancialStatementTemplateLine>;
+                };
+                groupBy: {
+                    args: Prisma.FinancialStatementTemplateLineGroupByArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.FinancialStatementTemplateLineGroupByOutputType>[];
+                };
+                count: {
+                    args: Prisma.FinancialStatementTemplateLineCountArgs<ExtArgs>;
+                    result: runtime.Types.Utils.Optional<Prisma.FinancialStatementTemplateLineCountAggregateOutputType> | number;
+                };
+            };
+        };
     };
 } & {
     other: {
@@ -2114,6 +2189,22 @@ export declare const SyncTaskScalarFieldEnum: {
     readonly deletedAt: "deletedAt";
 };
 export type SyncTaskScalarFieldEnum = (typeof SyncTaskScalarFieldEnum)[keyof typeof SyncTaskScalarFieldEnum];
+export declare const FinancialStatementTemplateLineScalarFieldEnum: {
+    readonly id: "id";
+    readonly statementType: "statementType";
+    readonly statementSide: "statementSide";
+    readonly rowOrder: "rowOrder";
+    readonly ref: "ref";
+    readonly label: "label";
+    readonly note: "note";
+    readonly sign: "sign";
+    readonly accountPrefixes: "accountPrefixes";
+    readonly formula: "formula";
+    readonly isTitle: "isTitle";
+    readonly createdAt: "createdAt";
+    readonly updatedAt: "updatedAt";
+};
+export type FinancialStatementTemplateLineScalarFieldEnum = (typeof FinancialStatementTemplateLineScalarFieldEnum)[keyof typeof FinancialStatementTemplateLineScalarFieldEnum];
 export declare const SortOrder: {
     readonly asc: "asc";
     readonly desc: "desc";
@@ -2123,6 +2214,11 @@ export declare const JsonNullValueInput: {
     readonly JsonNull: runtime.JsonNullClass;
 };
 export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput];
+export declare const NullableJsonNullValueInput: {
+    readonly DbNull: runtime.DbNullClass;
+    readonly JsonNull: runtime.JsonNullClass;
+};
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput];
 export declare const QueryMode: {
     readonly default: "default";
     readonly insensitive: "insensitive";
@@ -2405,6 +2501,7 @@ export type GlobalOmitConfig = {
     journalLine?: Prisma.JournalLineOmit;
     deletedItem?: Prisma.DeletedItemOmit;
     syncTask?: Prisma.SyncTaskOmit;
+    financialStatementTemplateLine?: Prisma.FinancialStatementTemplateLineOmit;
 };
 export type LogLevel = 'info' | 'query' | 'warn' | 'error';
 export type LogDefinition = {

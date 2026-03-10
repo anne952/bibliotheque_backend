@@ -107,4 +107,9 @@ export type DeletedItem = Prisma.DeletedItemModel;
  *
  */
 export type SyncTask = Prisma.SyncTaskModel;
+/**
+ * Model FinancialStatementTemplateLine
+ *
+ */
+export type FinancialStatementTemplateLine = Prisma.FinancialStatementTemplateLineModel;
 //# sourceMappingURL=browser.d.ts.map

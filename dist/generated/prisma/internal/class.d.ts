@@ -342,6 +342,17 @@ export interface PrismaClient<in LogOpts extends Prisma.LogLevel = never, in out
     get syncTask(): Prisma.SyncTaskDelegate<ExtArgs, {
         omit: OmitOpts;
     }>;
+    /**
+     * `prisma.financialStatementTemplateLine`: Exposes CRUD operations for the **FinancialStatementTemplateLine** model.
+      * Example usage:
+      * ```ts
+      * // Fetch zero or more FinancialStatementTemplateLines
+      * const financialStatementTemplateLines = await prisma.financialStatementTemplateLine.findMany()
+      * ```
+      */
+    get financialStatementTemplateLine(): Prisma.FinancialStatementTemplateLineDelegate<ExtArgs, {
+        omit: OmitOpts;
+    }>;
 }
 export declare function getPrismaClientClass(): PrismaClientConstructor;
 //# sourceMappingURL=class.d.ts.map

@@ -1,0 +1,130 @@
+export type TemplateStatementType = "INCOME_STATEMENT" | "BALANCE_SHEET";
+export type TemplateStatementSide = "MAIN" | "ACTIF" | "PASSIF";
+
+export type FinancialTemplateSeedLine = {
+  statementType: TemplateStatementType;
+  statementSide: TemplateStatementSide;
+  rowOrder: number;
+  ref: string | null;
+  label: string;
+  note: string | null;
+  sign: string | null;
+  accountPrefixes: string[];
+  formula: string | null;
+  isTitle: boolean;
+};
+
+const incomeLines: FinancialTemplateSeedLine[] = [
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 4, ref: "REF", label: "LIBELLES", note: "NOTE", sign: null, accountPrefixes: [], formula: null, isTitle: true },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 5, ref: "TA", label: "Ventes de marchandises A", note: "21", sign: "+", accountPrefixes: ["701"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 6, ref: "RA", label: "Achats de marchandises", note: "22", sign: "-", accountPrefixes: ["601"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 7, ref: "RB", label: "Variation de stocks de marchandises", note: "6", sign: "+/-", accountPrefixes: ["6031"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 8, ref: "XA", label: "MARGE COMMERCIALE (TA a RB)", note: null, sign: null, accountPrefixes: [], formula: "TA-RA+RB", isTitle: true },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 9, ref: "TB", label: "Ventes de produits fabriques", note: "21", sign: "+", accountPrefixes: ["702"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 10, ref: "TC", label: "Travaux, services vendus", note: "21", sign: "+", accountPrefixes: ["703"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 11, ref: "TD", label: "Produits accessoires", note: "21", sign: "+", accountPrefixes: ["704"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 12, ref: "XB", label: "CHIFFRE D'AFFAIRES (A + B + C + D)", note: null, sign: null, accountPrefixes: [], formula: "TA+TB+TC+TD", isTitle: true },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 13, ref: "TE", label: "Production stockee (ou destockage)", note: "6", sign: "-/+", accountPrefixes: ["73"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 14, ref: "TF", label: "Production immobilisee", note: "21", sign: null, accountPrefixes: ["72"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 15, ref: "TG", label: "Subventions d'exploitation", note: "21", sign: null, accountPrefixes: ["74"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 16, ref: "TH", label: "Autres produits", note: "21", sign: "+", accountPrefixes: ["75"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 17, ref: "TI", label: "Transferts de charges d'exploitation", note: "12", sign: "+", accountPrefixes: ["79", "781"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 18, ref: "RC", label: "Achats de matieres premieres et fournitures liees", note: "22", sign: "-", accountPrefixes: ["602"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 19, ref: "RD", label: "Variation de stocks de matieres premieres et fournitures liees", note: "6", sign: "-/+", accountPrefixes: ["6032"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 20, ref: "RE", label: "Autres achats", note: "22", sign: "-", accountPrefixes: ["604", "605", "608"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 21, ref: "RF", label: "Variation de stocks d'autres approvisionnements", note: "6", sign: "-/+", accountPrefixes: ["6033"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 22, ref: "RG", label: "Transports", note: "23", sign: "-", accountPrefixes: ["61"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 23, ref: "RH", label: "Services exterieurs", note: "24", sign: "-", accountPrefixes: ["62"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 24, ref: "RI", label: "Impots et taxes", note: "25", sign: "-", accountPrefixes: ["63"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 25, ref: "RJ", label: "Autres charges", note: "26", sign: "-", accountPrefixes: ["65"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 26, ref: "XC", label: "VALEUR AJOUTEE (XB + TE a RJ)", note: null, sign: null, accountPrefixes: [], formula: "XB+TE+TF+TG+TH+TI-RC+RD-RE+RF-RG-RH-RI-RJ", isTitle: true },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 27, ref: "RK", label: "Charges de personnel", note: "27", sign: "-", accountPrefixes: ["64"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 28, ref: "XD", label: "EXCEDENT BRUT D'EXPLOITATION (XC + RK)", note: null, sign: null, accountPrefixes: [], formula: "XC-RK", isTitle: true },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 29, ref: "TJ", label: "Reprises d'amortissements, provisions et depreciations", note: "28", sign: "+", accountPrefixes: ["781", "791"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 30, ref: "RL", label: "Dotations aux amortissements, aux provisions et depreciations", note: "3C & 28", sign: "-", accountPrefixes: ["681", "691"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 31, ref: "XE", label: "RESULTAT D'EXPLOITATION (XD + TJ + RL)", note: null, sign: null, accountPrefixes: [], formula: "XD+TJ-RL", isTitle: true },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 32, ref: "TK", label: "Revenus financiers et assimiles", note: "29", sign: "+", accountPrefixes: ["77"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 33, ref: "TL", label: "Reprises de provisions et depreciations financieres", note: "30", sign: null, accountPrefixes: ["786"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 34, ref: "TM", label: "Transferts de charges financieres", note: "30", sign: null, accountPrefixes: ["796"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 35, ref: "RM", label: "Frais financiers et charges assimilees", note: "30", sign: "-", accountPrefixes: ["67"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 36, ref: "RN", label: "Dotations aux provisions et aux depreciations financieres", note: "30", sign: "-", accountPrefixes: ["686"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 37, ref: "XF", label: "RESULTAT FINANCIER (TK a RN)", note: null, sign: null, accountPrefixes: [], formula: "TK+TL+TM-RM-RN", isTitle: true },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 38, ref: "XG", label: "RESULTAT DES ACTIVITES ORDINAIRES (XE + XF)", note: null, sign: null, accountPrefixes: [], formula: "XE+XF", isTitle: true },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 39, ref: "TN", label: "Produits des cessions d'immobilisations", note: "3D", sign: "+", accountPrefixes: ["82"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 40, ref: "TO", label: "Autres Produits HAO", note: "30", sign: null, accountPrefixes: ["84"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 41, ref: "RO", label: "Valeurs comptables des cessions d'immobilisations", note: "3D", sign: "-", accountPrefixes: ["81"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 42, ref: "RP", label: "Autres Charges HAO", note: "30", sign: "-", accountPrefixes: ["83"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 43, ref: "XR", label: "RESULTAT HORS ACTIVITES ORDINAIRES (TN a RP)", note: null, sign: null, accountPrefixes: [], formula: "TN+TO-RO-RP", isTitle: true },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 44, ref: "RQ", label: "Participation des travailleurs", note: "30", sign: "-", accountPrefixes: ["87"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 45, ref: "RS", label: "Impots sur le resultat", note: null, sign: "-", accountPrefixes: ["89"], formula: null, isTitle: false },
+  { statementType: "INCOME_STATEMENT", statementSide: "MAIN", rowOrder: 46, ref: "XI", label: "RESULTAT NET (XG + XR + RQ + RS)", note: null, sign: null, accountPrefixes: [], formula: "XG+XR-RQ-RS", isTitle: true },
+];
+
+const balanceActifLines: FinancialTemplateSeedLine[] = [
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 4, ref: "AD", label: "IMMOBILISATIONS INCORPORELLES", note: "3", sign: null, accountPrefixes: [], formula: null, isTitle: true },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 5, ref: "AE", label: "Frais de developpement et de prospection", note: null, sign: null, accountPrefixes: ["211"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 6, ref: "AF", label: "Brevets, licences, logiciels et droits similaires", note: null, sign: null, accountPrefixes: ["212"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 7, ref: "AG", label: "Fonds commercial et droit au bail", note: null, sign: null, accountPrefixes: ["213"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 8, ref: "AH", label: "Autres immobilisations incorporelles", note: null, sign: null, accountPrefixes: ["214", "219"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 9, ref: "AI", label: "IMMOBILISATIONS CORPORELLES", note: "3", sign: null, accountPrefixes: [], formula: null, isTitle: true },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 10, ref: "AJ", label: "Terrains (1)", note: null, sign: null, accountPrefixes: ["221", "222"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 11, ref: "AK", label: "Batiments (1)", note: null, sign: null, accountPrefixes: ["23"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 12, ref: "AL", label: "Amenagements, agencements et installations", note: null, sign: null, accountPrefixes: ["24"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 13, ref: "AM", label: "Materiel, mobilier et actifs biologiques", note: null, sign: null, accountPrefixes: ["245", "246", "247", "248"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 14, ref: "AN", label: "Materiel de transport", note: null, sign: null, accountPrefixes: ["244"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 15, ref: "AP", label: "Avances et acomptes verses sur immobilisations", note: "3", sign: null, accountPrefixes: ["238"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 16, ref: "AQ", label: "IMMOBILISATIONS FINANCIERES", note: "4", sign: null, accountPrefixes: [], formula: null, isTitle: true },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 17, ref: "AR", label: "Titres de participation", note: null, sign: null, accountPrefixes: ["261", "271"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 18, ref: "AS", label: "Autres immobilisations financieres", note: null, sign: null, accountPrefixes: ["262", "272", "273", "274", "275", "276", "277"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 19, ref: "AZ", label: "TOTAL ACTIF IMMOBILISE", note: null, sign: null, accountPrefixes: [], formula: "AE+AF+AG+AH+AJ+AK+AL+AM+AN+AP+AR+AS", isTitle: true },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 20, ref: "BA", label: "ACTIF CIRCULANT HAO", note: "5", sign: null, accountPrefixes: ["485"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 21, ref: "BB", label: "STOCKS ET ENCOURS", note: "6", sign: null, accountPrefixes: ["31", "32", "33", "34", "35", "36", "37", "38"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 22, ref: "BC", label: "CREANCES ET EMPLOIS ASSIMILES", note: null, sign: null, accountPrefixes: [], formula: null, isTitle: true },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 23, ref: "BH", label: "Fournisseurs avances versees", note: "17", sign: null, accountPrefixes: ["4091"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 24, ref: "BI", label: "Clients", note: "7", sign: null, accountPrefixes: ["41"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 25, ref: "BJ", label: "Autres creances", note: "8", sign: null, accountPrefixes: ["42", "43"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 26, ref: "BK", label: "TOTAL ACTIF CIRCULANT", note: null, sign: null, accountPrefixes: [], formula: "BA+BB+BH+BI+BJ", isTitle: true },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 27, ref: "BO", label: "Titres de placement", note: "9", sign: null, accountPrefixes: ["50"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 28, ref: "BR", label: "Valeurs a encaisser", note: "10", sign: null, accountPrefixes: ["51"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 29, ref: "BS", label: "Banques, cheques postaux, caisse et assimiles", note: "11", sign: null, accountPrefixes: ["52", "53", "54", "57"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 30, ref: "BT", label: "TOTAL TRESORERIE - ACTIF", note: null, sign: null, accountPrefixes: [], formula: "BO+BR+BS", isTitle: true },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 31, ref: "BU", label: "Ecart de conversion - Actif", note: "12", sign: null, accountPrefixes: ["478"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "ACTIF", rowOrder: 32, ref: "BZ", label: "TOTAL GENERAL", note: null, sign: null, accountPrefixes: [], formula: "AZ+BK+BT+BU", isTitle: true },
+];
+
+const balancePassifLines: FinancialTemplateSeedLine[] = [
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 4, ref: "CA", label: "Capital", note: "13", sign: null, accountPrefixes: ["10"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 5, ref: "CB", label: "Apporteurs capital non appele (-)", note: "13", sign: null, accountPrefixes: ["109"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 6, ref: "CD", label: "Primes liees au capital social", note: "14", sign: null, accountPrefixes: ["105"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 7, ref: "CE", label: "Ecarts de reevaluation", note: "3E", sign: null, accountPrefixes: ["106"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 8, ref: "CF", label: "Reserves indisponibles", note: "14", sign: null, accountPrefixes: ["111", "112"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 9, ref: "CG", label: "Reserves libres", note: "14", sign: null, accountPrefixes: ["113"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 10, ref: "CH", label: "Report a nouveau (+ ou -)", note: "14", sign: null, accountPrefixes: ["12"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 11, ref: "CJ", label: "Resultat net de l'exercice", note: null, sign: null, accountPrefixes: ["13"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 12, ref: "CL", label: "Subventions d'investissement", note: "15", sign: null, accountPrefixes: ["14"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 13, ref: "CM", label: "Provisions reglementees", note: "15", sign: null, accountPrefixes: ["15"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 14, ref: "CP", label: "TOTAL CAPITAUX PROPRES", note: null, sign: null, accountPrefixes: [], formula: "CA-CB+CD+CE+CF+CG+CH+CJ+CL+CM", isTitle: true },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 15, ref: "DA", label: "Emprunts et dettes financieres diverses", note: "16", sign: null, accountPrefixes: ["16"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 16, ref: "DB", label: "Dettes de location acquisition", note: "16", sign: null, accountPrefixes: ["17"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 17, ref: "DC", label: "Provisions pour risques et charges", note: "16", sign: null, accountPrefixes: ["19"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 18, ref: "DD", label: "TOTAL DETTES FINANCIERES", note: null, sign: null, accountPrefixes: [], formula: "DA+DB+DC", isTitle: true },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 19, ref: "DF", label: "TOTAL RESSOURCES STABLES", note: null, sign: null, accountPrefixes: [], formula: "CP+DD", isTitle: true },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 20, ref: "DH", label: "Dettes circulantes HAO", note: "5", sign: null, accountPrefixes: ["48"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 21, ref: "DI", label: "Clients, avances recues", note: "7", sign: null, accountPrefixes: ["4191"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 22, ref: "DJ", label: "Fournisseurs d'exploitation", note: "17", sign: null, accountPrefixes: ["40"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 23, ref: "DK", label: "Dettes fiscales et sociales", note: "18", sign: null, accountPrefixes: ["43", "44"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 24, ref: "DM", label: "Autres dettes", note: "19", sign: null, accountPrefixes: ["42", "47"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 25, ref: "DN", label: "Provisions pour risques a court terme", note: "19", sign: null, accountPrefixes: ["49"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 26, ref: "DP", label: "TOTAL PASSIF CIRCULANT", note: null, sign: null, accountPrefixes: [], formula: "DH+DI+DJ+DK+DM+DN", isTitle: true },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 28, ref: "DQ", label: "Banques, credits d'escompte", note: "20", sign: null, accountPrefixes: ["565"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 29, ref: "DR", label: "Banques, etablissements financiers et credits de tresorerie", note: "20", sign: null, accountPrefixes: ["52", "53", "54", "56"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 30, ref: "DT", label: "TOTAL TRESORERIE - PASSIF", note: null, sign: null, accountPrefixes: [], formula: "DQ+DR", isTitle: true },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 31, ref: "DV", label: "Ecart de conversion - Passif", note: "12", sign: null, accountPrefixes: ["479"], formula: null, isTitle: false },
+  { statementType: "BALANCE_SHEET", statementSide: "PASSIF", rowOrder: 32, ref: null, label: "TOTAL GENERAL", note: null, sign: null, accountPrefixes: [], formula: "DF+DP+DT+DV", isTitle: true },
+];
+
+export const FINANCIAL_TEMPLATE_SEED_LINES: FinancialTemplateSeedLine[] = [
+  ...incomeLines,
+  ...balanceActifLines,
+  ...balancePassifLines,
+];

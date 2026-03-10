@@ -9,6 +9,7 @@ const express_1 = require("express");
 const http_1 = require("../../common/http");
 const prisma_1 = require("../../config/prisma");
 const accounting_service_1 = require("./accounting.service");
+const financial_statements_service_1 = require("./financial-statements.service");
 const reports_service_1 = require("../reports/reports.service");
 const exceljs_1 = __importDefault(require("exceljs"));
 exports.accountingRoutes = (0, express_1.Router)();
@@ -869,15 +870,22 @@ exports.accountingRoutes.get("/balance-sheet", (0, http_1.asyncHandler)(async (r
     const fiscalYearId = String(req.query.fiscalYearId ?? "");
     if (!fiscalYearId)
         throw new http_1.AppError("fiscalYearId obligatoire", 400);
-    const balanceSheet = await accounting_service_1.AccountingService.getBalanceSheet(fiscalYearId);
+    const balanceSheet = await financial_statements_service_1.FinancialStatementsService.getBalanceSheetV2(fiscalYearId);
     res.status(200).json(balanceSheet);
 }));
 exports.accountingRoutes.get("/income-statement", (0, http_1.asyncHandler)(async (req, res) => {
     const fiscalYearId = String(req.query.fiscalYearId ?? "");
     if (!fiscalYearId)
         throw new http_1.AppError("fiscalYearId obligatoire", 400);
-    const incomeStatement = await accounting_service_1.AccountingService.getIncomeStatement(fiscalYearId);
+    const incomeStatement = await financial_statements_service_1.FinancialStatementsService.getIncomeStatementV2(fiscalYearId);
     res.status(200).json(incomeStatement);
+}));
+exports.accountingRoutes.get("/financial-statements", (0, http_1.asyncHandler)(async (req, res) => {
+    const fiscalYearId = String(req.query.fiscalYearId ?? "");
+    if (!fiscalYearId)
+        throw new http_1.AppError("fiscalYearId obligatoire", 400);
+    const payload = await financial_statements_service_1.FinancialStatementsService.getFinancialStatementsPackage(fiscalYearId);
+    res.status(200).json(payload);
 }));
 exports.accountingRoutes.get("/trial-balance", (0, http_1.asyncHandler)(async (req, res) => {
     const fiscalYearId = String(req.query.fiscalYearId ?? "");
@@ -1099,36 +1107,30 @@ exports.accountingRoutes.get("/export/excel", (0, http_1.asyncHandler)(async (re
         }
     }
     if (section === "all" || section === "balance-sheet") {
-        const balanceSheet = await accounting_service_1.AccountingService.getBalanceSheet(fiscalYearId);
-        addWorksheetFromRows(workbook, "Bilan", ["Section", "Compte", "Libelle", "Debit", "Credit", "Solde"], [
-            ...balanceSheet.assets.map((line) => [
-                "Actif",
-                line.accountNumber,
-                line.accountName,
-                line.debit,
-                line.credit,
-                line.balance,
-            ]),
-            ...balanceSheet.liabilities.map((line) => [
-                "Passif",
-                line.accountNumber,
-                line.accountName,
-                line.debit,
-                line.credit,
-                line.balance,
-            ]),
-            ...balanceSheet.equity.map((line) => [
-                "Capitaux",
-                line.accountNumber,
-                line.accountName,
-                line.debit,
-                line.credit,
-                line.balance,
-            ]),
-            ["TOTAL", "", "Actif", "", "", balanceSheet.totals.assets],
-            ["TOTAL", "", "Passif", "", "", balanceSheet.totals.liabilities],
-            ["TOTAL", "", "Capitaux", "", "", balanceSheet.totals.equity],
-        ]);
+        const balanceSheet = await financial_statements_service_1.FinancialStatementsService.getBalanceSheetV2(fiscalYearId);
+        addWorksheetFromRows(workbook, "Bilan", [
+            "REF Actif",
+            "Actif",
+            "Note Actif",
+            "Exercice N Actif",
+            "Exercice N-1 Actif",
+            "REF Passif",
+            "Passif",
+            "Note Passif",
+            "Exercice N Passif",
+            "Exercice N-1 Passif",
+        ], balanceSheet.structure.map((line) => [
+            line.actif.ref,
+            line.actif.libelle,
+            line.actif.note,
+            line.actif.exercice.n,
+            line.actif.exercice.n1,
+            line.passif?.ref,
+            line.passif?.libelle,
+            line.passif?.note,
+            line.passif?.exercice.n,
+            line.passif?.exercice.n1,
+        ]));
     }
     if (section === "all" || section === "trial-balance") {
         const trialBalance = await accounting_service_1.AccountingService.getTrialBalance(fiscalYearId);
@@ -1140,28 +1142,15 @@ exports.accountingRoutes.get("/export/excel", (0, http_1.asyncHandler)(async (re
         ]));
     }
     if (section === "all" || section === "income-statement") {
-        const incomeStatement = await accounting_service_1.AccountingService.getIncomeStatement(fiscalYearId);
-        addWorksheetFromRows(workbook, "Compte Resultat", ["Section", "Compte", "Libelle", "Debit", "Credit", "Solde"], [
-            ...incomeStatement.revenues.map((line) => [
-                "Produits",
-                line.accountNumber,
-                line.accountName,
-                line.debit,
-                line.credit,
-                line.balance,
-            ]),
-            ...incomeStatement.expenses.map((line) => [
-                "Charges",
-                line.accountNumber,
-                line.accountName,
-                line.debit,
-                line.credit,
-                line.balance,
-            ]),
-            ["TOTAL", "", "Produits", "", "", incomeStatement.totals.revenues],
-            ["TOTAL", "", "Charges", "", "", incomeStatement.totals.expenses],
-            ["RESULTAT", "", "Net", "", "", incomeStatement.totals.netIncome],
-        ]);
+        const incomeStatement = await financial_statements_service_1.FinancialStatementsService.getIncomeStatementV2(fiscalYearId);
+        addWorksheetFromRows(workbook, "Compte Resultat", ["REF", "Libelle", "Signe", "Note", "Exercice N", "Exercice N-1"], incomeStatement.structure.map((line) => [
+            line.ref,
+            line.libelle,
+            line.signe,
+            line.note,
+            line.exercice.n,
+            line.exercice.n1,
+        ]));
     }
     const fileLabel = section === "all" ? "comptable-complet" : section;
     const fileName = `export-${fileLabel}-${new Date().toISOString().slice(0, 10)}.xlsx`;
