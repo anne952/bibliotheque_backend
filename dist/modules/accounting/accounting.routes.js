@@ -178,6 +178,33 @@ function parseExcelPasteToJson(pastedData) {
     }
     return rows;
 }
+async function resolveFiscalYearIdOrDefault(rawFiscalYearId) {
+    const fiscalYearId = (rawFiscalYearId ?? "").trim();
+    if (fiscalYearId) {
+        const existing = await prisma_1.prisma.fiscalYear.findUnique({
+            where: { id: fiscalYearId },
+            select: { id: true },
+        });
+        if (!existing) {
+            throw new http_1.AppError("Exercice comptable non trouve", 404);
+        }
+        return existing.id;
+    }
+    const opened = await prisma_1.prisma.fiscalYear.findFirst({
+        where: { isClosed: false },
+        orderBy: [{ endDate: "desc" }, { startDate: "desc" }],
+        select: { id: true },
+    });
+    if (opened)
+        return opened.id;
+    const latest = await prisma_1.prisma.fiscalYear.findFirst({
+        orderBy: [{ endDate: "desc" }, { startDate: "desc" }],
+        select: { id: true },
+    });
+    if (latest)
+        return latest.id;
+    throw new http_1.AppError("Aucun exercice comptable disponible", 404);
+}
 function mapRawRowToImportedRow(rawRow, rowNumber, defaultJournalType, defaultSourceType) {
     const normalized = new Map();
     for (const [key, value] of Object.entries(rawRow)) {
@@ -867,23 +894,17 @@ exports.accountingRoutes.delete("/entries/:id", (0, http_1.asyncHandler)(async (
     res.status(204).send();
 }));
 exports.accountingRoutes.get("/balance-sheet", (0, http_1.asyncHandler)(async (req, res) => {
-    const fiscalYearId = String(req.query.fiscalYearId ?? "");
-    if (!fiscalYearId)
-        throw new http_1.AppError("fiscalYearId obligatoire", 400);
+    const fiscalYearId = await resolveFiscalYearIdOrDefault(req.query.fiscalYearId ? String(req.query.fiscalYearId) : undefined);
     const balanceSheet = await financial_statements_service_1.FinancialStatementsService.getBalanceSheetV2(fiscalYearId);
     res.status(200).json(balanceSheet);
 }));
 exports.accountingRoutes.get("/income-statement", (0, http_1.asyncHandler)(async (req, res) => {
-    const fiscalYearId = String(req.query.fiscalYearId ?? "");
-    if (!fiscalYearId)
-        throw new http_1.AppError("fiscalYearId obligatoire", 400);
+    const fiscalYearId = await resolveFiscalYearIdOrDefault(req.query.fiscalYearId ? String(req.query.fiscalYearId) : undefined);
     const incomeStatement = await financial_statements_service_1.FinancialStatementsService.getIncomeStatementV2(fiscalYearId);
     res.status(200).json(incomeStatement);
 }));
 exports.accountingRoutes.get("/financial-statements", (0, http_1.asyncHandler)(async (req, res) => {
-    const fiscalYearId = String(req.query.fiscalYearId ?? "");
-    if (!fiscalYearId)
-        throw new http_1.AppError("fiscalYearId obligatoire", 400);
+    const fiscalYearId = await resolveFiscalYearIdOrDefault(req.query.fiscalYearId ? String(req.query.fiscalYearId) : undefined);
     const payload = await financial_statements_service_1.FinancialStatementsService.getFinancialStatementsPackage(fiscalYearId);
     res.status(200).json(payload);
 }));

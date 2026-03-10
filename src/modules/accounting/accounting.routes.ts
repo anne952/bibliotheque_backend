@@ -243,6 +243,35 @@ function parseExcelPasteToJson(pastedData: string): Array<Record<string, string>
   return rows;
 }
 
+async function resolveFiscalYearIdOrDefault(rawFiscalYearId?: string): Promise<string> {
+  const fiscalYearId = (rawFiscalYearId ?? "").trim();
+  if (fiscalYearId) {
+    const existing = await prisma.fiscalYear.findUnique({
+      where: { id: fiscalYearId },
+      select: { id: true },
+    });
+    if (!existing) {
+      throw new AppError("Exercice comptable non trouve", 404);
+    }
+    return existing.id;
+  }
+
+  const opened = await prisma.fiscalYear.findFirst({
+    where: { isClosed: false },
+    orderBy: [{ endDate: "desc" }, { startDate: "desc" }],
+    select: { id: true },
+  });
+  if (opened) return opened.id;
+
+  const latest = await prisma.fiscalYear.findFirst({
+    orderBy: [{ endDate: "desc" }, { startDate: "desc" }],
+    select: { id: true },
+  });
+  if (latest) return latest.id;
+
+  throw new AppError("Aucun exercice comptable disponible", 404);
+}
+
 function mapRawRowToImportedRow(
   rawRow: Record<string, unknown>,
   rowNumber: number,
@@ -1158,8 +1187,9 @@ accountingRoutes.delete(
 accountingRoutes.get(
   "/balance-sheet",
   asyncHandler(async (req, res) => {
-    const fiscalYearId = String(req.query.fiscalYearId ?? "");
-    if (!fiscalYearId) throw new AppError("fiscalYearId obligatoire", 400);
+    const fiscalYearId = await resolveFiscalYearIdOrDefault(
+      req.query.fiscalYearId ? String(req.query.fiscalYearId) : undefined,
+    );
 
     const balanceSheet = await FinancialStatementsService.getBalanceSheetV2(
       fiscalYearId,
@@ -1171,8 +1201,9 @@ accountingRoutes.get(
 accountingRoutes.get(
   "/income-statement",
   asyncHandler(async (req, res) => {
-    const fiscalYearId = String(req.query.fiscalYearId ?? "");
-    if (!fiscalYearId) throw new AppError("fiscalYearId obligatoire", 400);
+    const fiscalYearId = await resolveFiscalYearIdOrDefault(
+      req.query.fiscalYearId ? String(req.query.fiscalYearId) : undefined,
+    );
 
     const incomeStatement = await FinancialStatementsService.getIncomeStatementV2(
       fiscalYearId,
@@ -1184,8 +1215,9 @@ accountingRoutes.get(
 accountingRoutes.get(
   "/financial-statements",
   asyncHandler(async (req, res) => {
-    const fiscalYearId = String(req.query.fiscalYearId ?? "");
-    if (!fiscalYearId) throw new AppError("fiscalYearId obligatoire", 400);
+    const fiscalYearId = await resolveFiscalYearIdOrDefault(
+      req.query.fiscalYearId ? String(req.query.fiscalYearId) : undefined,
+    );
 
     const payload = await FinancialStatementsService.getFinancialStatementsPackage(
       fiscalYearId,
